@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:shimmer/shimmer.dart';
+import 'selectAvatar.dart';
+import 'dart:async';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Hide notification bar
+    SystemChrome.setEnabledSystemUIOverlays([]);
     // Set landscape orientation
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -52,16 +58,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SelectAvatar(),
+        ),
+      );
     });
   }
 
@@ -73,6 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    var textStyle = TextStyle(
+                    fontFamily: 'NunitoBold',
+                    color: Colors.grey,
+                    fontSize: 50,
+                  );
     return Scaffold(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -94,12 +105,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('WiseKids',
-                style: TextStyle(
-                  fontFamily: 'NunitoBold',
-                  color: Colors.grey,
-                  fontSize: 50,
-                )),
+            Shimmer.fromColors(
+              baseColor: Color.fromRGBO(180, 180, 180, 1.0),
+              highlightColor: Color.fromRGBO(200, 200, 200, 1.0),
+              child: Text('WiseKids',
+                  style: textStyle),
+            )
           ],
         ),
       ),
