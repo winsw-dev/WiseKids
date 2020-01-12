@@ -53,7 +53,16 @@ class SelectAvatar extends StatelessWidget {
                 child: Container(width: 187, height: 215, child: Text('data')),
               ),
             ],
-          )
+          ),
+/*
+          Row(
+            children: [
+              Card(
+                child: Container(color: Colors.grey, width: 138,height: 55,),)],
+          ),
+
+*/
+
         ],
       ),
     );
