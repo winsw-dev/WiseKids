@@ -187,9 +187,9 @@ packages:
   slide_popup_dialog:
     dependency: "direct main"
     description:
-      name: slide_popup_dialog
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "slide_popup_dialog-0.0.2"
+      relative: true
+    source: path
     version: "0.0.2"
   source_span:
     dependency: transitive

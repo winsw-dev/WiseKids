@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'selectAvatar.dart';
 import 'home.dart';
 
@@ -45,12 +46,24 @@ class _KidsInfoState extends State<KidsInfo>
   var goToHomeVisibility = false;
   var cogratMargin = [51.0, 353.0];
   var boyPicPath = '';
+  var congratAnimation = 'idle';
+  var avatar = '';
+
   checkPickedChar() {
     if (widget.pickedCharacter == 'Boy') {
+      setState(() {
+        avatar = 'Boy';
+      });
       return 'assets/images/kidsInfoBoy.png';
     } else if (widget.pickedCharacter == 'Girl') {
+      setState(() {
+        avatar = 'Girl';
+      });
       return 'assets/images/kidsInfoGirl.png';
     } else if (widget.pickedCharacter == 'Cat') {
+      setState(() {
+        avatar = 'Cat';
+      });
       return 'assets/images/kidsInfoCat.png';
     }
   }
@@ -136,6 +149,14 @@ class _KidsInfoState extends State<KidsInfo>
                         ),
                       ),
                     ),
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.only(left: 143),
+                    height: 362,
+                    width: 229,
+                    child: FlareActor("assets/animation/Firework.flr",
+                        animation: congratAnimation),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 143),
@@ -347,6 +368,7 @@ class _KidsInfoState extends State<KidsInfo>
                                       congratVisibility = true;
                                       goToHomeVisibility = true;
                                       cogratMargin = [71.0, 353.0];
+                                      congratAnimation = 'Firework';
                                       bgGradientColor = [
                                         188,
                                         53,
@@ -408,8 +430,7 @@ class _KidsInfoState extends State<KidsInfo>
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 250),
                         curve: Curves.easeOut,
-                        margin: EdgeInsets.only(
-                            top: cogratMargin[0], left: cogratMargin[1]),
+                        margin: EdgeInsets.only(top: 71, left: cogratMargin[1]),
                         child: Stack(
                           children: <Widget>[
                             Material(
@@ -459,7 +480,7 @@ class _KidsInfoState extends State<KidsInfo>
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Home(),
+                                  builder: (context) => Home(avatar),
                                 ),
                               );
                               print('go to home');

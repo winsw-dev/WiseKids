@@ -1,13 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wisekids_app/main.dart';
 
 class Home extends StatefulWidget {
+
+  //recieve data from select avatar page
+  final String avatar;
+  Home(this.avatar);
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   String _value;
+
+  void _showDialog() {
+    slideDialog.showSlideDialog(
+      context: context,
+      child: Text("Hello World"),
+    );
+  }
+
+   checkAvatar() {
+    if (widget.avatar == 'Boy') {
+      
+      return 'assets/images/avatar_boy.png';
+    } else if (widget.avatar == 'Girl') {
+      
+      return 'assets/images/avatar_girl.png';
+    } else if (widget.avatar == 'Cat') {
+      
+      return 'assets/images/avatar_cat.png';
+    }
+  }
+
+  var bookShelf = [
+    "assets/images/Book1.png",
+    "assets/images/Book2.png",
+    "assets/images/Book3.png",
+    "assets/images/Book4.png",
+    "assets/images/Book5.png",
+    "assets/images/Book6.png",
+    "assets/images/Book7.png",
+    "assets/images/Book8.png",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +60,8 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   ////////////////////////////////////////////////////////////////  BG
                   Container(
-                    child: Image.asset(
-                      'assets/icon/bgPattern.png',
+                    child: SvgPicture.asset(
+                      'assets/images/bgPattern.svg',
                     ),
                     height: MediaQuery.of(context).size.height,
                     width: MediaQuery.of(context).size.width,
@@ -72,7 +112,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   /////////////////////////////////////////////////////////////////////////////// end of BG
-
+                  ///
+                  ///////////////////////////////////////////////////////////////////////////////  Begin of Avatar, Vocab, Category, login dropdown
                   Container(
                     margin: EdgeInsets.only(top: 15, left: 15),
                     decoration: new BoxDecoration(
@@ -95,7 +136,7 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
                         child: Image.asset(
-                          'assets/images/avatar_boy.png',
+                          checkAvatar().toString(),
                         ),
                         height: 97,
                         width: 97,
@@ -118,24 +159,20 @@ class _HomeState extends State<Home> {
                     ),
                   ),
 
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 32,
+                          left: MediaQuery.of(context).size.width * 0.8025,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/icon/Button_Yl.svg',
+                        ),
+                      ),
+                    ],
+                  ),
                   Container(
-                    decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                          blurRadius:
-                              15.0, // has the effect of softening the shadow
-                          spreadRadius:
-                              -3, // has the effect of extending the shadow
-                          offset: Offset(
-                            0.0, // horizontal, move right 10
-                            0.0, // vertical, move down 10
-                          ),
-                        )
-                      ],
-                      color: Color.fromRGBO(248, 226, 55, 1.00),
-                    ),
                     margin: EdgeInsets.only(
                       top: 32,
                       left: MediaQuery.of(context).size.width * 0.8025,
@@ -143,13 +180,12 @@ class _HomeState extends State<Home> {
                     height: 45,
                     width: 148,
                     child: Container(
-                      margin: EdgeInsets.only(left: 20,right: 20),
+                      margin: EdgeInsets.only(left: 20, right: 20),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          
                           icon: SvgPicture.asset(
-                      'assets/icon/arrowDown.svg',
-                    ),
+                            'assets/icon/arrowDown.svg',
+                          ),
                           onChanged: (String value) {
                             setState(() {
                               _value = value;
@@ -179,7 +215,59 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  ///////////////////////////////////////////////////////////////////////////////  Begin of Avatar, Vocab, Category, login dropdown
+                  Container(
+                    margin: EdgeInsets.only(top: 155),
+                    height: 230,
+                    width: MediaQuery.of(context).size.width,
+                    child: new Swiper(
+                      
+                      
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          
+                            
+                           decoration: new BoxDecoration(
+                             borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(69, 223, 224, 0.5),
+                                    blurRadius:
+                                        10.0, // has the effect of softening the shadow
+                                    spreadRadius:
+                                        -1, // has the effect of extending the shadow
+                                    offset: Offset(
+                                      0.0, // horizontal, move right 10
+                                      2.0, // vertical, move down 10
+                                    ),
+                                  ),
+                                ],
+                              ),
+                          margin: EdgeInsets.only(left: 12, right: 12,bottom: 10,top: 10),
+                          //padding: EdgeInsets.only(bottom: 20),
+                          child: 
+                          
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Container(
+                             
+                              child: new Image.asset(
+                                bookShelf[index],
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: 8,
+                      //itemHeight: 206,
+                      //itemWidth: 147,
+
+                      viewportFraction: 0.22,
+                      scale: 1.0,
+                    ),
+                  ),
                 ],
               ),
             ],

@@ -165,7 +165,7 @@
     },
     {
       "name": "slide_popup_dialog",
-      "rootUri": "file:///D:/flutter/.pub-cache/hosted/pub.dartlang.org/slide_popup_dialog-0.0.2",
+      "rootUri": "../slide_popup_dialog-0.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -236,7 +236,7 @@
       "languageVersion": "2.1"
     }
   ],
-  "generated": "2020-01-22T04:10:15.205974Z",
+  "generated": "2020-01-22T04:36:39.458970Z",
   "generator": "pub",
   "generatorVersion": "2.7.0"
 }
