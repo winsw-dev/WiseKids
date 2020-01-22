@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
                   /////////////////////////////////////////////////////////////////////////////// end of BG
 
                   Container(
-                    margin: EdgeInsets.only(top: 20, left: 15),
+                    margin: EdgeInsets.only(top: 15, left: 15),
                     decoration: new BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       boxShadow: [
@@ -104,14 +104,14 @@ class _HomeState extends State<Home> {
                   ),
 
                   Container(
-                    margin: EdgeInsets.only(top: 29, left: 148),
+                    margin: EdgeInsets.only(top: 18, left: 135),
                     height: 69,
                     child: SvgPicture.asset(
                       'assets/icon/Vocabuary.svg',
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 29, left: 233),
+                    margin: EdgeInsets.only(top: 18, left: 220),
                     height: 69,
                     child: SvgPicture.asset(
                       'assets/icon/Category.svg',
