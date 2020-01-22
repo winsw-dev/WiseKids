@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:shimmer/shimmer.dart';
+//import 'package:wisekids_app/TestFont.dart';
 import 'selectAvatar.dart';
+
 import 'dart:async';
 
 void main() => runApp(MyApp());
@@ -37,6 +39,20 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
+}
+
+class MyColor {
+  static var turquoise = Color(0xFF4BDBCD);
+  static var limeGreen = Color(0xFF86CF4B);
+  static var aqua = Color(0xFF47DBE0);
+  static var violet = Color(0xFFB839EA);
+  static var magenta = Color(0xFFFB64A6);
+  static var yellow = Color(0xFFF8E237);
+  static var salmon = Color(0xFFFF5F4A);
+  static var pinkBg = Color(0xFFE44590);
+  static var yellowBg = Color(0xFFF0D322);
+  static var babyBlueBG = Color(0xFFC7D8FF);
+  static var babyBlueBg2 = Color(0xFF82A8FF);
 }
 
 class MyHomePage extends StatefulWidget {
@@ -80,10 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     var textStyle = TextStyle(
-                    fontFamily: 'NunitoBold',
-                    color: Colors.grey,
-                    fontSize: 50,
-                  );
+      fontFamily: 'NunitoBold',
+      color: Colors.grey,
+      fontSize: 50,
+    );
     return Scaffold(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -108,8 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Shimmer.fromColors(
               baseColor: Color.fromRGBO(180, 180, 180, 1.0),
               highlightColor: Color.fromRGBO(200, 200, 200, 1.0),
-              child: Text('WiseKids',
-                  style: textStyle),
+              child: Text('WiseKids', style: textStyle),
             )
           ],
         ),
