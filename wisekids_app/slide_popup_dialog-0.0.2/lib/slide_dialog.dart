@@ -28,7 +28,7 @@ class _SlideDialogState extends State<SlideDialog> {
 
     return AnimatedPadding(
       padding: MediaQuery.of(context).viewInsets +
-          EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition),
+          EdgeInsets.only(top: deviceHeight / 5 + _currentPosition),
       duration: Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: MediaQuery.removeViewInsets(
@@ -39,29 +39,58 @@ class _SlideDialogState extends State<SlideDialog> {
         context: context,
         child: Center(
           child: Container(
-            width: deviceWidth,
-            height: deviceHeight / 1.5,
-            child: Material(
-              color: widget.backgroundColor ??
-                  Theme.of(context).dialogBackgroundColor,
-              elevation: 24.0,
-              type: MaterialType.card,
-              child: Column(
+            width: 400,
+            height: MediaQuery.of(context).size.height,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
+                ),
+                // Box decoration takes a gradient
+                gradient: LinearGradient(
+                  // Where the linear gradient begins and ends
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  // Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [0.1, 0.32, 1.0],
+                  colors: [
+                    Color.fromRGBO(
+                      69,
+                      223,
+                      224,
+                      1.00,
+                    ),
+                    Color.fromRGBO(
+                      105,
+                      214,
+                      142,
+                      1.00,
+                    ),
+                    Color.fromRGBO(135, 207, 74, 1.00),
+                  ],
+                ),
+              ),
+              child: Stack(
                 children: <Widget>[
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  /*
                   PillGesture(
                     pillColor: widget.pillColor,
                     onVerticalDragStart: _onVerticalDragStart,
                     onVerticalDragEnd: _onVerticalDragEnd,
                     onVerticalDragUpdate: _onVerticalDragUpdate,
-                  ),
+                  ),*/
                   widget.child,
                 ],
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
               ),
             ),
           ),
