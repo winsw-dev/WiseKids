@@ -15,6 +15,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    checkAvatar();
+    super.initState();
+  }
+
   String _value;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,6 +51,7 @@ class _HomeState extends State<Home> {
     MyColor.babyBlueBg2
   ];
   var themeColor6Offset = [0.1, 0.5, 0.51, 1.0];
+  var avatarSwipeController = new SwiperController();
 
   /////////////////////////////////////////////////////////////////////////////////
 
@@ -81,6 +88,21 @@ class _HomeState extends State<Home> {
             height: 126,
             margin: EdgeInsets.only(top: 40),
             child: new Swiper(
+              controller: avatarSwipeController,
+              onTap: (int index) {
+                if (index == 0) {
+                  avatarSwipeController.move(0, animation: true);
+                } else if (index == 1) {
+                  avatarSwipeController.move(1, animation: true);
+                } else if (index == 2) {
+                  avatarSwipeController.move(2, animation: true);
+                }
+              },
+              onIndexChanged: (int index) {
+                setState(() {
+                  avtarIndex = index;
+                });
+              },
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   decoration: new BoxDecoration(
@@ -111,7 +133,7 @@ class _HomeState extends State<Home> {
               },
               itemCount: 3,
               viewportFraction: 0.31,
-              scale: 0.5,
+              scale: 0.2,
             ),
           ),
           Positioned.fill(
@@ -173,13 +195,15 @@ class _HomeState extends State<Home> {
   }
 
   checkAvatar() {
-    if (widget.avatar == 'Boy') {
-      return 'assets/images/avatar_boy.png';
-    } else if (widget.avatar == 'Girl') {
-      return 'assets/images/avatar_girl.png';
-    } else if (widget.avatar == 'Cat') {
-      return 'assets/images/avatar_cat.png';
-    }
+    setState(() {
+      if (widget.avatar == 'Boy') {
+        avtarIndex = 0;
+      } else if (widget.avatar == 'Girl') {
+        avtarIndex = 1;
+      } else if (widget.avatar == 'Cat') {
+        avtarIndex = 2;
+      }
+    });
   }
 
   var bookShelf = [
@@ -192,6 +216,8 @@ class _HomeState extends State<Home> {
     "assets/images/Book7.png",
     "assets/images/Book8.png",
   ];
+
+  int avtarIndex;
 
   var avatar = [
     "assets/images/avatar_boy.png",
@@ -289,7 +315,7 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(100),
                         child: Container(
                           child: Image.asset(
-                            checkAvatar().toString(),
+                            avatar[avtarIndex],
                           ),
                           height: 97,
                           width: 97,
