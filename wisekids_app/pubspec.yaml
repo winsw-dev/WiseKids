@@ -74,6 +74,7 @@ flutter:
     - assets/animation/Firework.flr
     - assets/icon/iconClose.svg
     - assets/icon/selectYourTheme.svg
+    - assets/icon/IconChecked.svg
 
   fonts:
     - family: NunitoRegular

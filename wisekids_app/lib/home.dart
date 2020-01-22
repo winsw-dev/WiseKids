@@ -88,6 +88,7 @@ class _HomeState extends State<Home> {
             height: 126,
             margin: EdgeInsets.only(top: 40),
             child: new Swiper(
+              loop: false,
               controller: avatarSwipeController,
               onTap: (int index) {
                 if (index == 0) {
@@ -163,26 +164,32 @@ class _HomeState extends State<Home> {
                     ColorThemeWidget(
                       gradientColor: themeColor1,
                       gradientOffset: themeColor1Offset,
+                      checkedVisibility: true,
                     ),
                     ColorThemeWidget(
                       gradientColor: themeColor2,
                       gradientOffset: themeColor2Offset,
+                      checkedVisibility: false,
                     ),
                     ColorThemeWidget(
                       gradientColor: themeColor3,
                       gradientOffset: themeColor3Offset,
+                      checkedVisibility: false,
                     ),
                     ColorThemeWidget(
                       gradientColor: themeColor4,
                       gradientOffset: themeColor4Offset,
+                      checkedVisibility: false,
                     ),
                     ColorThemeWidget(
                       gradientColor: themeColor5,
                       gradientOffset: themeColor5Offset,
+                      checkedVisibility: false,
                     ),
                     ColorThemeWidget(
                       gradientColor: themeColor6,
                       gradientOffset: themeColor6Offset,
+                      checkedVisibility: false,
                     ),
                   ],
                 ),
