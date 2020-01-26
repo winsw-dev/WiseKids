@@ -75,6 +75,13 @@ flutter:
     - assets/icon/iconClose.svg
     - assets/icon/selectYourTheme.svg
     - assets/icon/IconChecked.svg
+    - assets/icon/arrowRight.svg
+    - assets/icon/wiseKidsLogoLogin.svg
+    - assets/icon/Sign_in_to_set_up_multiple_profiles.svg
+    - assets/icon/Facebook.svg
+    - assets/icon/Google.svg
+    - assets/images/loginPropBoyGirl.png
+    - assets/images/loginPropCat.png
 
   fonts:
     - family: NunitoRegular

@@ -6,11 +6,19 @@ class SlideDialog extends StatefulWidget {
   final Widget child;
   final Color backgroundColor;
   final Color pillColor;
+  final Color containerColor;
+  final List<Color> bgGradient;
+  final List<double> gradientStop;
+  final bool propVisibility;
 
   SlideDialog({
     @required this.child,
     @required this.pillColor,
     @required this.backgroundColor,
+    @required this.containerColor,
+    @required this.bgGradient,
+    @required this.gradientStop,
+    @required this.propVisibility,
   });
 
   @override
@@ -37,63 +45,84 @@ class _SlideDialogState extends State<SlideDialog> {
         removeRight: true,
         removeBottom: true,
         context: context,
-        child: Center(
-          child: Container(
-            width: 400,
-            height: MediaQuery.of(context).size.height,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-                // Box decoration takes a gradient
-                gradient: LinearGradient(
-                  // Where the linear gradient begins and ends
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  // Add one stop for each color. Stops should increase from 0 to 1
-                  stops: [0.1, 0.32, 1.0],
-                  colors: [
-                    Color.fromRGBO(
-                      69,
-                      223,
-                      224,
-                      1.00,
-                    ),
-                    Color.fromRGBO(
-                      105,
-                      214,
-                      142,
-                      1.00,
-                    ),
-                    Color.fromRGBO(135, 207, 74, 1.00),
-                  ],
-                ),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        color: Colors.white,
-                      ),
+        child: Stack(
+          children: <Widget>[
+            Visibility(
+              visible: widget.propVisibility,
+              child: Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      return;
+                    },
+                    child: Container(
+                      width: 851,
+                      child: Image.asset('assets/images/loginPropBoyGirl.png'),
                     ),
                   ),
-                  /*
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                width: 400,
+                height: MediaQuery.of(context).size.height,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
+                    ),
+                    // Box decoration takes a gradient
+                    gradient: LinearGradient(
+                      // Where the linear gradient begins and ends
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      // Add one stop for each color. Stops should increase from 0 to 1
+                      stops: widget.gradientStop,
+                      colors: widget.bgGradient,
+                    ),
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 2,
+                            color: widget.containerColor,
+                          ),
+                        ),
+                      ),
+                      /*
                   PillGesture(
                     pillColor: widget.pillColor,
                     onVerticalDragStart: _onVerticalDragStart,
                     onVerticalDragEnd: _onVerticalDragEnd,
                     onVerticalDragUpdate: _onVerticalDragUpdate,
                   ),*/
-                  widget.child,
-                ],
+                      widget.child,
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
+            Visibility(
+              visible: widget.propVisibility,
+              child: Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 155),
+                    width: 100,
+                    child: Image.asset('assets/images/loginPropCat.png'),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

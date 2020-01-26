@@ -23,6 +23,10 @@ Future<T> showSlideDialog<T>({
   Duration transitionDuration = const Duration(milliseconds: 300),
   Color pillColor,
   Color backgroundColor,
+  Color containerColor,
+  List<Color> bgGradient,
+  List<double> gradientStop,
+  bool propVisibility,
 }) {
   assert(context != null);
   assert(child != null);
@@ -41,9 +45,13 @@ Future<T> showSlideDialog<T>({
         child: Opacity(
           opacity: animation1.value,
           child: SlideDialog(
+            propVisibility: propVisibility,
+            containerColor: containerColor,
             child: child,
             pillColor: pillColor ?? Colors.blueGrey[200],
             backgroundColor: backgroundColor ?? Theme.of(context).canvasColor,
+            bgGradient: bgGradient,
+            gradientStop: gradientStop,
           ),
         ),
       );
