@@ -4,6 +4,7 @@ import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wisekids_app/main.dart';
 import 'package:wisekids_app/colorThemeWidget.dart';
+import 'package:slide_popup_dialog/vocabuaryPopup.dart' as vocabuaryPopup;
 
 class Home extends StatefulWidget {
   //recieve data from select avatar page
@@ -196,7 +197,22 @@ class _HomeState extends State<Home> {
 
   ///////////////////////////////////////////////////////////////////////////////// function
 
-  
+  void _showVocabuaryDialog() {
+    vocabuaryPopup.showVocabuaryDialog(
+      context: context,
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          width: 835,
+          height: 355,
+          
+          child: SvgPicture.asset(
+                    'assets/icon/vocabuaryPopup.svg',
+                  ),
+        ),
+      ),
+    );
+  }
 
   void _showLoginDialog() {
     slideDialog.showSlideDialog(
@@ -308,7 +324,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             ////////////////////////////////////////////////////////////////// google btn
-          Positioned.fill(
+            Positioned.fill(
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Container(
@@ -676,11 +692,14 @@ class _HomeState extends State<Home> {
                     ),
                   ),
 
-                  Container(
-                    margin: EdgeInsets.only(top: 18, left: 135),
-                    height: 69,
-                    child: SvgPicture.asset(
-                      'assets/icon/Vocabuary.svg',
+                  GestureDetector(
+                    onTap: _showVocabuaryDialog,
+                                      child: Container(
+                      margin: EdgeInsets.only(top: 18, left: 135),
+                      height: 69,
+                      child: SvgPicture.asset(
+                        'assets/icon/Vocabuary.svg',
+                      ),
                     ),
                   ),
                   Container(

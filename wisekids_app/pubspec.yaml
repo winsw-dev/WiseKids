@@ -82,6 +82,7 @@ flutter:
     - assets/icon/Google.svg
     - assets/images/loginPropBoyGirl.png
     - assets/images/loginPropCat.png
+    - assets/icon/vocabuaryPopup.svg
 
   fonts:
     - family: NunitoRegular
