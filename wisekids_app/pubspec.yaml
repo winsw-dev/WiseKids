@@ -83,6 +83,16 @@ flutter:
     - assets/images/loginPropBoyGirl.png
     - assets/images/loginPropCat.png
     - assets/icon/vocabuaryPopup.svg
+    - assets/icon/bookshelf.svg
+    - assets/icon/readAgain.svg
+    - assets/icon/favourite.svg
+    - assets/icon/new.svg
+    - assets/icon/treasure-map.svg
+    - assets/icon/learning.svg
+    - assets/icon/animal.svg
+    - assets/icon/holiday.svg
+    - assets/icon/sport.svg
+    - assets/icon/science.svg
 
   fonts:
     - family: NunitoRegular

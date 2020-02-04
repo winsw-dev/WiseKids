@@ -197,18 +197,172 @@ class _HomeState extends State<Home> {
 
   ///////////////////////////////////////////////////////////////////////////////// function
 
+  void _showCategoryDialog() {
+    vocabuaryPopup.showVocabuaryDialog(
+      context: context,
+      child: Material(
+        color: Colors.transparent,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.all(12),
+              width: 811,
+              height: 353,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.1, 1.0],
+                  colors: popupLoginGradient,
+                ),
+              ),
+              child: Image.asset(
+                'assets/icon/bgPattern.png',
+              ),
+            ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    return;
+                  },
+                  child: Container(
+                    width: 29,
+                    height: 29,
+                    margin: EdgeInsets.only(right: 24, top: 24),
+                    child: SvgPicture.asset(
+                      'assets/icon/iconClose.svg',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Container(
+                width: 672,
+                height: 258,
+                child: Wrap(
+                  spacing: 18,
+                  runSpacing: 18,
+                  children: <Widget>[
+                    ///////////////////////////////////////////////////// bookshelf
+                    CatagoryBtn(
+                      iconHeight: 60,
+                      iconWidth: 78,
+                      iconImage: 'assets/icon/bookshelf.svg',
+                      title: 'All',
+                      iconMarginTop: 20,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 85,
+                      iconWidth: 95,
+                      iconImage: 'assets/icon/readAgain.svg',
+                      title: 'Read agian',
+                      iconMarginTop: 3,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 60,
+                      iconWidth: 59,
+                      iconImage: 'assets/icon/favourite.svg',
+                      title: 'Favourite',
+                      iconMarginTop: 21,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 59,
+                      iconWidth: 72,
+                      iconImage: 'assets/icon/new.svg',
+                      title: 'New',
+                      iconMarginTop: 21,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 59,
+                      iconWidth: 64,
+                      iconImage: 'assets/icon/treasure-map.svg',
+                      title: 'Adventure',
+                      iconMarginTop: 23,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 78,
+                      iconWidth: 68,
+                      iconImage: 'assets/icon/learning.svg',
+                      title: 'Learning',
+                      iconMarginTop: 5,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 57,
+                      iconWidth: 61,
+                      iconImage: 'assets/icon/animal.svg',
+                      title: 'Animal',
+                      iconMarginTop: 21,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 70,
+                      iconWidth: 92,
+                      iconImage: 'assets/icon/holiday.svg',
+                      title: 'Holiday',
+                      iconMarginTop: 18,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 65,
+                      iconWidth: 63,
+                      iconImage: 'assets/icon/sport.svg',
+                      title: 'Sport',
+                      iconMarginTop: 16,
+                    ),
+                    CatagoryBtn(
+                      iconHeight: 68,
+                      iconWidth: 45,
+                      iconImage: 'assets/icon/science.svg',
+                      title: 'Science',
+                      iconMarginTop: 15,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _showVocabuaryDialog() {
     vocabuaryPopup.showVocabuaryDialog(
       context: context,
       child: Material(
         color: Colors.transparent,
-        child: Container(
-          width: 835,
-          height: 355,
-          
-          child: SvgPicture.asset(
-                    'assets/icon/vocabuaryPopup.svg',
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: 835,
+              height: 355,
+              child: SvgPicture.asset(
+                'assets/icon/vocabuaryPopup.svg',
+              ),
+            ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    return;
+                  },
+                  child: Container(
+                    width: 29,
+                    height: 29,
+                    margin: EdgeInsets.only(right: 14, top: 6),
+                    child: SvgPicture.asset(
+                      'assets/icon/iconClose.svg',
+                    ),
                   ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -242,8 +396,13 @@ class _HomeState extends State<Home> {
                 alignment: Alignment.topCenter,
                 child: Container(
                   margin: EdgeInsets.only(top: 120),
-                  child: SvgPicture.asset(
-                    'assets/icon/Sign_in_to_set_up_multiple_profiles.svg',
+                  child: Text(
+                    'Sign in to set up multiple profiles.',
+                    style: TextStyle(
+                      fontFamily: 'NunitoRegular',
+                      fontSize: 9,
+                      color: Color.fromRGBO(255, 255, 255, 1.00),
+                    ),
                   ),
                 ),
               ),
@@ -272,7 +431,7 @@ class _HomeState extends State<Home> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  margin: EdgeInsets.only(top: 169),
+                  margin: EdgeInsets.only(top: 159),
                   decoration: new BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     boxShadow: [
@@ -328,7 +487,7 @@ class _HomeState extends State<Home> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  margin: EdgeInsets.only(top: 230),
+                  margin: EdgeInsets.only(top: 220),
                   decoration: new BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     boxShadow: [
@@ -379,6 +538,23 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
+            ////////////////////////////////// use as guest
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 18),
+                  child: Text(
+                    'Use as Guest',
+                    style: TextStyle(
+                      fontFamily: 'NunitoRegular',
+                      fontSize: 10,
+                      color: Color.fromRGBO(255, 255, 255, 1.00),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -422,7 +598,7 @@ class _HomeState extends State<Home> {
             height: 126,
             margin: EdgeInsets.only(top: 40),
             child: new Swiper(
-              index: avtarIndex,
+              index: 1,
               loop: false,
               controller: avatarSwipeController,
               onTap: (int index) {
@@ -435,6 +611,7 @@ class _HomeState extends State<Home> {
                 }
               },
               onIndexChanged: (int index) {
+                print(index);
                 setState(() {
                   avtarIndex = index;
                 });
@@ -694,7 +871,7 @@ class _HomeState extends State<Home> {
 
                   GestureDetector(
                     onTap: _showVocabuaryDialog,
-                                      child: Container(
+                    child: Container(
                       margin: EdgeInsets.only(top: 18, left: 135),
                       height: 69,
                       child: SvgPicture.asset(
@@ -702,11 +879,14 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 18, left: 220),
-                    height: 69,
-                    child: SvgPicture.asset(
-                      'assets/icon/Category.svg',
+                  GestureDetector(
+                    onTap: _showCategoryDialog,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 18, left: 220),
+                      height: 69,
+                      child: SvgPicture.asset(
+                        'assets/icon/Category.svg',
+                      ),
                     ),
                   ),
 
@@ -858,6 +1038,68 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CatagoryBtn extends StatelessWidget {
+  final double iconWidth;
+  final double iconHeight;
+  final String iconImage;
+  final String title;
+  final double iconMarginTop;
+
+  const CatagoryBtn({
+    this.iconMarginTop,
+    this.iconHeight,
+    this.iconWidth,
+    this.iconImage,
+    this.title,
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: Colors.white,
+      ),
+      width: 120,
+      height: 120,
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                margin: EdgeInsets.only(top: iconMarginTop),
+                width: iconWidth,
+                height: iconHeight,
+                child: SvgPicture.asset(
+                  iconImage,
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 11),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: 'NunitoBlack',
+                    fontSize: 12,
+                    color: MyColor.aqua,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
