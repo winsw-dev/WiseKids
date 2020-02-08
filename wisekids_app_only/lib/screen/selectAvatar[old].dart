@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'kidsInfo.dart';
+import 'kidsInfo[old].dart';
 //import 'package:flutter/services.dart';
 
 class SelectAvatar extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wisekids_app/main.dart';
-import 'package:wisekids_app/colorThemeWidget.dart';
+import '../widget/colorThemeWidget.dart';
 import 'package:slide_popup_dialog/vocabuaryPopup.dart' as vocabuaryPopup;
 import 'with_arkit_screen.dart';
 

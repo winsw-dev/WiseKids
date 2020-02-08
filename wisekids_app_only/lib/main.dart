@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:ui' as ui;
-
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-//import 'package:wisekids_app/TestFont.dart';
-import 'selectAvatar.dart';
+import './screen/selectAvatar.dart';
 //import 'with_arkit_screen.dart';
-
 import 'dart:async';
 
-void main() {
-  return runApp(MyApp());
-}
+
+import './provider/dataProvider.dart';
+
+
+void main() => runApp(ChangeNotifierProvider(
+      create: (context) => DataProvider(),
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
