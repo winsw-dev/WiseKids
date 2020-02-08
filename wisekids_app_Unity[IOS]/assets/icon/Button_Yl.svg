@@ -1,0 +1,31 @@
+<<<<<<< HEAD
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="148" height="48" viewBox="0 0 148 48">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f1f868"/>
+      <stop offset="0.263" stop-color="#f6e845"/>
+      <stop offset="1" stop-color="#f8e237"/>
+    </linearGradient>
+  </defs>
+  <g id="Button_Yl" transform="translate(-683 -30)">
+    <rect id="Rectangle_134" data-name="Rectangle 134" width="148" height="45" rx="15" transform="translate(683 33)" fill="#f8bc25"/>
+    <rect id="Rectangle_135" data-name="Rectangle 135" width="148" height="45" rx="15" transform="translate(683 30)" fill="url(#linear-gradient)"/>
+    <path id="Path_131" data-name="Path 131" d="M7,0c3.866,0,7,2.239,7,5s-3.134,5-7,5S0,7.761,0,5,3.134,0,7,0Z" transform="matrix(0.914, -0.407, 0.407, 0.914, 686.571, 37.279)" fill="#fff" opacity="0.7"/>
+  </g>
+</svg>
+=======
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="148" height="48" viewBox="0 0 148 48">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f1f868"/>
+      <stop offset="0.263" stop-color="#f6e845"/>
+      <stop offset="1" stop-color="#f8e237"/>
+    </linearGradient>
+  </defs>
+  <g id="Button_Yl" transform="translate(-683 -30)">
+    <rect id="Rectangle_134" data-name="Rectangle 134" width="148" height="45" rx="15" transform="translate(683 33)" fill="#f8bc25"/>
+    <rect id="Rectangle_135" data-name="Rectangle 135" width="148" height="45" rx="15" transform="translate(683 30)" fill="url(#linear-gradient)"/>
+    <path id="Path_131" data-name="Path 131" d="M7,0c3.866,0,7,2.239,7,5s-3.134,5-7,5S0,7.761,0,5,3.134,0,7,0Z" transform="matrix(0.914, -0.407, 0.407, 0.914, 686.571, 37.279)" fill="#fff" opacity="0.7"/>
+  </g>
+</svg>
+>>>>>>> 7bfdda0a3c8ea7faa13ccbb6c2a0b7e9a11ef939
