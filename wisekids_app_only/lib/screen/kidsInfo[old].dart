@@ -480,7 +480,7 @@ class _KidsInfoState extends State<KidsInfo>
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Home(avatar),
+                                  builder: (context) => Home(),
                                 ),
                               );
                               print('go to home');

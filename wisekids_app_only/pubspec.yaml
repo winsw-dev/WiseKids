@@ -51,8 +51,7 @@ flutter:
     - assets/icon/back_button_OR_cir.svg    
     - assets/images/speechBubble.svg
     - assets/images/whiteCloudBG.svg    
-    - assets/icon/Category.svg
-    - assets/icon/Vocabuary.svg
+    - assets/icon/Category.svg    
     - assets/icon/arrowDown.svg    
     - assets/images/bgPattern.svg
     - assets/icon/Button_Bl.svg
@@ -122,8 +121,33 @@ flutter:
     - assets/images/kidsInfo/girlSpotlight.png
     - assets/images/kidsInfo/catSpotlight.png
     - assets/images/kidsInfo/windowCutted.png
-    - assets/images/kidsInfo/bubbleSpeech.png
+    - assets/images/kidsInfo/bubbleSpeech.svg
     - assets/images/kidsInfo/plantFlipped.png
+    - assets/images/kidsInfo/decorationShelf.png
+    - assets/images/kidsInfo/boySpotlightSmall.png
+    - assets/images/kidsInfo/girlSpotlightSmall.png
+    - assets/images/kidsInfo/catSpotlightSmall.png
+
+
+    ######### finishSelectAvatar screen
+    - assets/images/finishSelectAvatar/congratGradientOverlay.svg
+    - assets/images/finishSelectAvatar/congratSign.png
+    - assets/images/finishSelectAvatar/pattern.png
+    - assets/images/finishSelectAvatar/boyAvatarCongrat.png
+    - assets/images/finishSelectAvatar/girlAvatarCongrat.png
+    - assets/images/finishSelectAvatar/catAvatarCongrat.png
+
+
+    ######### theme 1
+    - assets/icon/starScore.svg
+    - assets/images/theme1/blackBoard.png
+    - assets/images/theme1/desk.png
+    - assets/images/theme1/login_button.svg
+    - assets/images/theme1/pattern.png
+    - assets/images/theme1/plant.png
+    - assets/images/theme1/profileStarSign.svg
+    - assets/images/theme1/starScore.png
+    - assets/icon/vocabulary.svg
 
     ##################################  Animation
     - assets/animation/Firework.flr
