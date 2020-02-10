@@ -105,7 +105,7 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
                 margin: EdgeInsets.only(
                   top: deviceHeight > 500
                       ? deviceHeight * 0.11
-                      : deviceHeight * 0.08,
+                      : deviceHeight * 0.06,
                 ),
                 width:
                     deviceHeight > 500 ? deviceWidth * 0.48 : deviceWidth * 0.4,

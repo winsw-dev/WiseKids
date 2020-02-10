@@ -216,8 +216,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                 style: TextStyle(
                                                     fontFamily: 'NunitoBlack',
                                                     fontSize: deviceHeight > 500
-                                                        ? 85
-                                                        : 40,
+                                                        ? 70
+                                                        : 45,
                                                     color: Colors.white),
                                               ),
                                             ),
@@ -235,8 +235,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                             'NunitoBold',
                                                         fontSize:
                                                             deviceHeight > 500
-                                                                ? 65
-                                                                : 30,
+                                                                ? 50
+                                                                : 35,
                                                         color: Colors.white),
                                                   ),
                                                 ),
@@ -294,7 +294,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                     //////////////////////////// Name input
                                                     Container(
                                                       width: deviceHeight > 500
-                                                          ? deviceWidth * 0.14
+                                                          ? deviceWidth * 0.12
                                                           : deviceWidth * 0.15,
                                                       margin: EdgeInsets.only(
                                                         left: deviceHeight > 500
@@ -340,8 +340,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                             fontSize:
                                                                 deviceHeight >
                                                                         500
-                                                                    ? 65
-                                                                    : 30,
+                                                                    ? 50
+                                                                    : 35,
                                                             color:
                                                                 Color.fromRGBO(
                                                                     248,
@@ -364,8 +364,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                       fontFamily: 'NunitoBold',
                                                       fontSize:
                                                           deviceHeight > 500
-                                                              ? 65
-                                                              : 30,
+                                                              ? 50
+                                                              : 35,
                                                       color: Colors.white),
                                                 ),
                                               ),
@@ -447,9 +447,9 @@ class _KidsInfoState extends State<KidsInfo> {
                                                             new RegExp('[0]')),
                                                       ], //blacklist & whitelist char
                                                       keyboardType:
-                                                          TextInputType.number,
+                                                          TextInputType.text,
                                                       textInputAction:
-                                                          TextInputAction.next,
+                                                          TextInputAction.done,
 
                                                       maxLines: 1,
                                                       maxLength: 2,
@@ -480,8 +480,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                               'NunitoBold',
                                                           fontSize:
                                                               deviceHeight > 500
-                                                                  ? 65
-                                                                  : 30,
+                                                                  ? 50
+                                                                  : 35,
                                                           color: Color.fromRGBO(
                                                               248,
                                                               226,
@@ -498,8 +498,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                       fontFamily: 'NunitoBold',
                                                       fontSize:
                                                           deviceHeight > 500
-                                                              ? 65
-                                                              : 30,
+                                                              ? 50
+                                                              : 35,
                                                       color: Colors.white),
                                                 ),
                                               ),
@@ -645,7 +645,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                             'NunitoExtraBold',
                                                         fontSize:
                                                             deviceHeight > 500
-                                                                ? 40
+                                                                ? 30
                                                                 : 17,
                                                         color: Color.fromRGBO(
                                                             255,

@@ -31,6 +31,8 @@ dependencies:
   flutter_swiper: ^1.1.6
   provider: ^4.0.3
 
+  keyboard_actions: "^3.1.2"
+
   flutter_device_type: ^0.2.0
   
   flare_flutter: ^1.8.3
@@ -57,7 +59,7 @@ flutter:
     - assets/icon/Button_Bl.svg
     - assets/icon/Button_Pp.svg
     - assets/icon/Button_Yl.svg    
-    - assets/icon/iconClose.svg
+    
     - assets/icon/selectYourTheme.svg
     - assets/icon/IconChecked.svg
     - assets/icon/arrowRight.svg
@@ -138,6 +140,16 @@ flutter:
     - assets/images/finishSelectAvatar/catAvatarCongrat.png
 
 
+    ######### theme non responsive
+    - assets/images/theme1/theme1FullBg.png
+    - assets/images/theme2/theme2FullBg.png
+    - assets/images/theme3/theme3FullBg.png
+    - assets/images/theme4/theme4FullBg.png
+    - assets/images/theme5/theme5FullBg.png
+
+
+
+
     ######### theme 1
     - assets/icon/starScore.svg
     - assets/images/theme1/blackBoard.png
@@ -148,6 +160,43 @@ flutter:
     - assets/images/theme1/profileStarSign.svg
     - assets/images/theme1/starScore.png
     - assets/icon/vocabulary.svg
+
+    ########## BookShelf Animation
+    - assets/animation/book1.flr
+    - assets/animation/book2.flr
+    - assets/animation/book3.flr
+    - assets/animation/book4.flr
+    - assets/animation/book5.flr
+    - assets/animation/book6.flr
+    - assets/animation/book7.flr
+
+
+    ########## Select Avatar & Theme Popup
+    - assets/images/themePopup/selectAvatarSign.png
+    - assets/images/themePopup/cloudPopup.png
+    - assets/images/themePopup/selectYourAvatarSpacer.svg
+    - assets/icon/iconClose.svg
+    - assets/images/themePopup/closePopup.svg
+
+    - assets/images/themePopup/theme1Bg.png
+    - assets/images/themePopup/theme2Bg.png
+    - assets/images/themePopup/theme3Bg.png
+    - assets/images/themePopup/theme4Bg.png
+    - assets/images/themePopup/theme5Bg.png
+
+    - assets/images/themePopup/theme1Preview.png
+    - assets/images/themePopup/theme2Preview.png
+    - assets/images/themePopup/theme3Preview.png
+    - assets/images/themePopup/theme4Preview.png
+    - assets/images/themePopup/theme5Preview.png
+
+    - assets/images/themePopup/theme1Choose.png
+    - assets/images/themePopup/theme2Choose.png
+    - assets/images/themePopup/theme3Choose.png
+    - assets/images/themePopup/theme4Choose.png
+    - assets/images/themePopup/theme5Choose.png
+
+
 
     ##################################  Animation
     - assets/animation/Firework.flr
