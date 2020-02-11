@@ -24,10 +24,34 @@ class _SlideDialogState extends State<SlideDialog> {
 
   var avatarSwipeController = new SwiperController();
 
+  List<String> themePopupBg = [
+    'assets/images/themePopup/theme1Bg.png',
+    'assets/images/themePopup/theme2Bg.png',
+    'assets/images/themePopup/theme3Bg.png',
+    'assets/images/themePopup/theme4Bg.png',
+    'assets/images/themePopup/theme5Bg.png',
+  ];
+
   List<String> avatar = [
     "assets/images/avatar_boy.png",
     "assets/images/avatar_girl.png",
     "assets/images/avatar_cat.png"
+  ];
+
+  List<Color> shadowColor = [
+    Color.fromRGBO(255, 96, 82, 0.36),
+    Color.fromRGBO(255, 96, 82, 0.36),
+    Color.fromRGBO(34, 55, 153, 0.5),
+    Color.fromRGBO(1, 180, 215, 0.5),
+    Color.fromRGBO(136, 205, 140, 0.5),
+  ];
+
+  List<String> selectYourThemeSvg = [
+    'assets/images/themePopup/selectSpacerTheme1.svg',
+    'assets/images/themePopup/selectSpacerTheme1.svg',
+    'assets/images/themePopup/selectSpacerTheme3.svg',
+    'assets/images/themePopup/selectSpacerTheme4.svg',
+    'assets/images/themePopup/selectSpacerTheme5.svg',
   ];
 
   @override
@@ -72,9 +96,19 @@ class _SlideDialogState extends State<SlideDialog> {
                         child: Stack(
                           children: <Widget>[
                             /////////////////////////////////////// Theme Bg
-                            Container(
-                              child: Image.asset(
-                                  'assets/images/themePopup/theme1Bg.png'),
+                            Consumer<DataProvider>(
+                              builder: (context, themeProvider, child) =>
+                                  Container(
+                                    decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      ///////////////////////////// round corner bottom left,right
+                                      Radius.circular(500),
+                                    ),
+                                  ),
+                                child: Image.asset(themePopupBg[
+                                    themeProvider.starScoreBgAndloginBtn]),
+                              ),
                             ),
                             /////////////////////////////////////// White Bg
                             Positioned.fill(
@@ -85,7 +119,7 @@ class _SlideDialogState extends State<SlideDialog> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.all(
                                       ///////////////////////////// round corner bottom left,right
-                                      Radius.circular(30.0),
+                                      Radius.circular(30),
                                     ),
                                   ),
                                   height: 271,
@@ -167,35 +201,38 @@ class _SlideDialogState extends State<SlideDialog> {
                                     },
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return Container(
-                                        decoration: new BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              ///////////////////////// Shadow color
-                                              color: Color.fromRGBO(
-                                                  255, 96, 82, 0.36),
-                                              blurRadius:
-                                                  15.0, // has the effect of softening the shadow
-                                              spreadRadius:
-                                                  -5, // has the effect of extending the shadow
-                                              offset: Offset(
-                                                0.0, // horizontal, move right 10
-                                                10.0, // vertical, move down 10
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        margin: EdgeInsets.only(
-                                            /* left: 8, right: 8, */ bottom:
-                                                20),
-                                        child: new ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          child: Image.asset(
-                                            avatar[index],
-                                            fit: BoxFit.fill,
+                                      return Consumer<DataProvider>(
+                                        builder: (context, theme, child) =>
+                                            Container(
+                                          decoration: new BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                ///////////////////////// Shadow color
+                                                color: shadowColor[theme
+                                                    .starScoreBgAndloginBtn],
+                                                blurRadius:
+                                                    15.0, // has the effect of softening the shadow
+                                                spreadRadius:
+                                                    -5, // has the effect of extending the shadow
+                                                offset: Offset(
+                                                  0.0, // horizontal, move right 10
+                                                  8.0, // vertical, move down 10
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          margin: EdgeInsets.only(
+                                              /* left: 8, right: 8, */ bottom:
+                                                  20),
+                                          child: new ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            child: Image.asset(
+                                              avatar[index],
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         ),
                                       );
@@ -206,13 +243,15 @@ class _SlideDialogState extends State<SlideDialog> {
                                   ),
                                 ),
                                 ///////////////////////////////// Select Your Avatar Spacer
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: deviceHeight > 500
-                                          ? deviceHeight * 0.035
-                                          : deviceHeight * 0.035),
-                                  child: SvgPicture.asset(
-                                      'assets/images/themePopup/selectYourAvatarSpacer.svg'),
+                                Consumer<DataProvider>(
+                                  builder: (context, theme, child) => Container(
+                                    margin: EdgeInsets.only(
+                                        top: deviceHeight > 500
+                                            ? deviceHeight * 0.035
+                                            : deviceHeight * 0.035),
+                                    child: SvgPicture.asset(selectYourThemeSvg[
+                                        theme.starScoreBgAndloginBtn]),
+                                  ),
                                 ),
                                 /////////////////////////////////////  Select Theme
                                 Container(
@@ -348,8 +387,8 @@ class _SlideDialogState extends State<SlideDialog> {
                     ],
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30.0),
+                    borderRadius: BorderRadius.only(
+                      topLeft:Radius.circular(31.5),topRight:Radius.circular(31.5),bottomLeft: Radius.circular(30),bottomRight:Radius.circular(30),
                     ),
                   ),
                 ),

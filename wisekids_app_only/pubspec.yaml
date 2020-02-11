@@ -31,6 +31,8 @@ dependencies:
   flutter_swiper: ^1.1.6
   provider: ^4.0.3
 
+  smooth_star_rating: ^1.0.4+2
+
   keyboard_actions: "^3.1.2"
 
   flutter_device_type: ^0.2.0
@@ -102,6 +104,7 @@ flutter:
     - assets/images/Book8.png
     - assets/images/loginPropBoyGirl.png
     - assets/images/loginPropCat.png
+    - assets/images/splashScreen.png
 
     ######### selectAvatar screen
     - assets/images/selectAvatarAssets/blackBoard.png
@@ -148,6 +151,10 @@ flutter:
     - assets/images/theme5/theme5FullBg.png
 
 
+    ######### vocab popup
+    - assets/images/vocabulary/vocab.png
+    - assets/images/vocabulary/closeBtn.svg
+
 
 
     ######### theme 1
@@ -161,6 +168,22 @@ flutter:
     - assets/images/theme1/starScore.png
     - assets/icon/vocabulary.svg
 
+    ######### theme 2
+    - assets/images/theme2/profileStarSign.svg
+    - assets/images/theme2/login_button.svg
+
+    ######### theme 3
+    - assets/images/theme3/profileStarSign.svg
+    - assets/images/theme3/login_button.svg
+
+    ######### theme 4
+    - assets/images/theme4/profileStarSign.svg
+    - assets/images/theme4/login_button.svg
+
+    ######### theme 5
+    - assets/images/theme5/profileStarSign.svg
+    - assets/images/theme5/login_button.svg
+
     ########## BookShelf Animation
     - assets/animation/book1.flr
     - assets/animation/book2.flr
@@ -170,11 +193,85 @@ flutter:
     - assets/animation/book6.flr
     - assets/animation/book7.flr
 
+    ########## Enter Book 
+    - assets/images/enterBook/homeBtn.png
+    - assets/images/enterBook/book1.png
+    - assets/images/enterBook/readBtn.svg
+    - assets/images/enterBook/playBtn.svg
+    - assets/images/enterBook/enterBookTheme1.png
+    - assets/images/enterBook/enterBookTheme2.png
+    - assets/images/enterBook/enterBookTheme3.png
+    - assets/images/enterBook/enterBookTheme4.png
+    - assets/images/enterBook/enterBookTheme5.png
+
+    - assets/animation/wink.flr
+
+    ########### read Dialog
+    - assets/images/readDialog/3star.png
+    - assets/images/readDialog/dialogBg.png
+    - assets/images/readDialog/closeBtn.svg
+    - assets/images/readDialog/starScoreSlot.png
+    - assets/images/readDialog/starScore.svg
+    - assets/animation/balloon.flr
+
+    ## 
+    - assets/images/readDialog/dialogBgFix.png
+
+
+    ########### Parental Consent
+    - assets/images/parentalConsent/backBtn.svg
+    - assets/images/parentalConsent/accept.svg
+    - assets/images/parentalConsent/logoParental.png
+    - assets/images/parentalConsent/consentDetail.png
+
+    ########### Parental Kids Center
+    - assets/images/parentalKidsCenter/homeBtn.svg
+    - assets/images/parentalKidsCenter/Signout.svg
+    - assets/images/parentalKidsCenter/leaveReview.svg
+    - assets/images/parentalKidsCenter/Todd.png
+    - assets/images/parentalKidsCenter/Gusjung.png
+    - assets/images/parentalKidsCenter/Mimi.png
+    - assets/images/parentalKidsCenter/addMore.png
+
+
+    ########### KidsProfile
+    - assets/images/kidsProfile/backToParentArea.svg
+
+
+
+
+
+    ########### Play
+    - assets/images/play/backBtn.png
+    - assets/images/play/playBg.png
+    - assets/images/play/cupCake.png
+    - assets/images/play/mirror.png
+    - assets/images/play/Toffy.png
+    - assets/images/play/toothBrush.png
+
+
+    
+    ########### KidsStatisticDialog
+    - assets/images/kidsStatisticDialog/mock1.png
+    - assets/images/kidsStatisticDialog/mock2.png
+    - assets/images/kidsStatisticDialog/mock3.png
+    - assets/images/kidsStatisticDialog/mock4.png
+    - assets/images/kidsStatisticDialog/mock5.png
+    - assets/images/kidsStatisticDialog/mock6.png
+
+    ########### Login Dialog
+    - assets/images/loginDialog/loginDialogBg.png
+    - assets/images/loginDialog/google.png
+    - assets/images/loginDialog/face.png
+    - assets/images/loginDialog/close.svg
 
     ########## Select Avatar & Theme Popup
     - assets/images/themePopup/selectAvatarSign.png
     - assets/images/themePopup/cloudPopup.png
-    - assets/images/themePopup/selectYourAvatarSpacer.svg
+    - assets/images/themePopup/selectSpacerTheme1.svg
+    - assets/images/themePopup/selectSpacerTheme3.svg
+    - assets/images/themePopup/selectSpacerTheme4.svg
+    - assets/images/themePopup/selectSpacerTheme5.svg    
     - assets/icon/iconClose.svg
     - assets/images/themePopup/closePopup.svg
 

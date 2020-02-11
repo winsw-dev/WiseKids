@@ -13,10 +13,15 @@ class DataProvider extends ChangeNotifier {
   bool _theme3Visibility = false;
   bool _theme4Visibility = false;
   bool _theme5Visibility = false;
+  Color _profileBorderColor = Color.fromRGBO(255, 96, 83, 1.00);
+  int _starScoreBgAndloginBtn = 0;
+
 
   ///////////////// An unmodifiable view
   String get avatar => _avatar;
   int get theme => _theme;
+  Color get profileBorderColor => _profileBorderColor;
+  int get starScoreBgAndloginBtn => _starScoreBgAndloginBtn;
 
   bool get theme1Visibility => _theme1Visibility;
   bool get theme2Visibility => _theme2Visibility;
@@ -66,7 +71,6 @@ class DataProvider extends ChangeNotifier {
     } else if (_theme == 5) {
       return 'assets/images/theme5/theme5FullBg.png';
     }
-    
   }
 
   chooseTheme(int selectedTheme) {
@@ -77,6 +81,8 @@ class DataProvider extends ChangeNotifier {
       _theme3Visibility = false;
       _theme4Visibility = false;
       _theme5Visibility = false;
+      _profileBorderColor = Color.fromRGBO(255, 96, 83, 1.00);
+      _starScoreBgAndloginBtn = 0;
     } else if (selectedTheme == 2) {
       _theme = 2;
       _theme1Visibility = false;
@@ -84,6 +90,8 @@ class DataProvider extends ChangeNotifier {
       _theme3Visibility = false;
       _theme4Visibility = false;
       _theme5Visibility = false;
+      _profileBorderColor = Color.fromRGBO(245, 98, 167, 1.00);
+      _starScoreBgAndloginBtn = 1;
     } else if (selectedTheme == 3) {
       _theme = 3;
       _theme1Visibility = false;
@@ -91,6 +99,8 @@ class DataProvider extends ChangeNotifier {
       _theme3Visibility = true;
       _theme4Visibility = false;
       _theme5Visibility = false;
+      _profileBorderColor = Color.fromRGBO(222, 41, 68, 1.00);
+      _starScoreBgAndloginBtn = 2;
     } else if (selectedTheme == 4) {
       _theme = 4;
       _theme1Visibility = false;
@@ -98,6 +108,8 @@ class DataProvider extends ChangeNotifier {
       _theme3Visibility = false;
       _theme4Visibility = true;
       _theme5Visibility = false;
+      _profileBorderColor = Color.fromRGBO(222, 41, 68, 1.00);
+      _starScoreBgAndloginBtn = 3;
     } else if (selectedTheme == 5) {
       _theme = 5;
       _theme1Visibility = false;
@@ -105,6 +117,8 @@ class DataProvider extends ChangeNotifier {
       _theme3Visibility = false;
       _theme4Visibility = false;
       _theme5Visibility = true;
+      _profileBorderColor = Color.fromRGBO(51, 73, 57, 1.00);
+      _starScoreBgAndloginBtn = 4;
     }
 
     notifyListeners();

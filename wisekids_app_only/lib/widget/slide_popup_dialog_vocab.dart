@@ -1,8 +1,8 @@
-library slide_popup_dialog;
+
 
 import 'package:flutter/material.dart';
 
-import './slide_dialog.dart';
+import './slide_dialog_vocab.dart';
 
 /// Display slide dialog.
 /// 
@@ -44,11 +44,11 @@ Future<T> showSlideDialog<T>({
         transform: Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
         child: Opacity(
           opacity: animation1.value,
-          child: SlideDialog(
+          child: SlideDialogVocab(
            
             child: child,
             
-            backgroundColor: backgroundColor ?? Theme.of(context).canvasColor,
+            
             
           ),
         ),

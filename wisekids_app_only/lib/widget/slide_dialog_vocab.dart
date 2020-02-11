@@ -1,42 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-//import './pill_gesture.dart';
-
-class SlideDialog extends StatefulWidget {
+class SlideDialogVocab extends StatefulWidget {
   final Widget child;
-  final Color backgroundColor;
-  final Color pillColor;
-  final Color containerColor;
-  final List<Color> bgGradient;
-  final List<double> gradientStop;
-  final bool propVisibility;
 
-  SlideDialog({
+  SlideDialogVocab({
     @required this.child,
-    @required this.pillColor,
-    @required this.backgroundColor,
-    @required this.containerColor,
-    @required this.bgGradient,
-    @required this.gradientStop,
-    @required this.propVisibility,
   });
 
   @override
-  _SlideDialogState createState() => _SlideDialogState();
+  _SlideDialogVocabState createState() => _SlideDialogVocabState();
 }
 
-class _SlideDialogState extends State<SlideDialog> {
+class _SlideDialogVocabState extends State<SlideDialogVocab> {
   //var _initialPosition = 0.0;
   var _currentPosition = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    //final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets +
-          EdgeInsets.only(top: deviceHeight / 5 + _currentPosition),
+      padding: MediaQuery.of(context).viewInsets + EdgeInsets.only(top: 0),
       duration: Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: MediaQuery.removeViewInsets(
@@ -47,78 +33,54 @@ class _SlideDialogState extends State<SlideDialog> {
         context: context,
         child: Stack(
           children: <Widget>[
-            Visibility(
-              visible: widget.propVisibility,
-              child: Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      return;
-                    },
-                    child: Container(
-                      width: 851,
-                      child: Image.asset('assets/images/loginPropBoyGirl.png'),
-                    ),
-                  ),
-                ),
+            Center(
+              //////////////////////////// vocab
+              child: Container(
+                width: deviceHeight > 500
+                    ? deviceWidth * 0.964
+                    : deviceWidth * 0.964,
+                //height: MediaQuery.of(context).size.height,
+                child: Image.asset('assets/images/vocabulary/vocab.png'),
               ),
             ),
-            Center(
-              child: Container(
-                width: 400,
-                height: MediaQuery.of(context).size.height,
+            //////////////////////////// close Btn
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.topRight,
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0),
-                    ),
-                    // Box decoration takes a gradient
-                    gradient: LinearGradient(
-                      // Where the linear gradient begins and ends
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      // Add one stop for each color. Stops should increase from 0 to 1
-                      stops: widget.gradientStop,
-                      colors: widget.bgGradient,
-                    ),
-                  ),
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 2,
-                            color: widget.containerColor,
-                          ),
+                  decoration: new BoxDecoration(
+                    borderRadius: BorderRadius.circular(500),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                        blurRadius:
+                            10.0, // has the effect of softening the shadow
+                        spreadRadius:
+                            -1, // has the effect of extending the shadow
+                        offset: Offset(
+                          0.0, // horizontal, move right 10
+                          0.0, // vertical, move down 10
                         ),
                       ),
-                      /*
-                  PillGesture(
-                    pillColor: widget.pillColor,
-                    onVerticalDragStart: _onVerticalDragStart,
-                    onVerticalDragEnd: _onVerticalDragEnd,
-                    onVerticalDragUpdate: _onVerticalDragUpdate,
-                  ),*/
-                      widget.child,
                     ],
                   ),
-                ),
-              ),
-            ),
-            Visibility(
-              visible: widget.propVisibility,
-              child: Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 155),
-                    width: 100,
-                    child: Image.asset('assets/images/loginPropCat.png'),
-                  ),
+                  margin: EdgeInsets.only(
+                      right: deviceHeight > 500
+                          ? deviceHeight * 0.05
+                          : deviceHeight * 0.05,
+                      top: deviceHeight > 500
+                          ? deviceHeight * 0.05
+                          : deviceHeight * 0.05),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        return;
+                      },
+                      child: Container(
+                        height: deviceHeight>500?deviceWidth*0.078:deviceWidth*0.078,
+                        child: SvgPicture.asset(
+                            'assets/images/vocabulary/closeBtn.svg'),
+                      )),
                 ),
               ),
             ),
@@ -128,7 +90,7 @@ class _SlideDialogState extends State<SlideDialog> {
     );
   }
 
- /*  void _onVerticalDragStart(DragStartDetails drag) {
+  /*  void _onVerticalDragStart(DragStartDetails drag) {
     setState(() {
       _initialPosition = drag.globalPosition.dy;
     });

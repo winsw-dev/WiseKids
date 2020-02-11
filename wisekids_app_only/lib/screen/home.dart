@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:flare_flutter/flare_actor.dart';
-import '../widget/slide_popup_dialog.dart' as slideDialog;
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-
-
-
+import '../widget/slide_popup_dialog.dart' as slideDialog;
+import '../widget/slide_popup_dialog_vocab.dart' as vocabDialog;
+import '../widget/slide_popup_dialog_login.dart' as loginDialog;
+import './enterBook.dart';
+import './parentalConsent.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
@@ -28,12 +28,44 @@ class _HomeState extends State<Home> {
     'assets/animation/book1.flr',
   ];
 
-  void _showLoginDialog() {
+  List<String> starScoreBg = [
+    'assets/images/theme1/profileStarSign.svg',
+    'assets/images/theme2/profileStarSign.svg',
+    'assets/images/theme3/profileStarSign.svg',
+    'assets/images/theme4/profileStarSign.svg',
+    'assets/images/theme5/profileStarSign.svg'
+  ];
+
+  List<String> loginBtnSvg = [
+    'assets/images/theme1/login_button.svg',
+    'assets/images/theme2/login_button.svg',
+    'assets/images/theme3/login_button.svg',
+    'assets/images/theme4/login_button.svg',
+    'assets/images/theme5/login_button.svg'
+  ];
+
+  void _showThemeDialog() {
     slideDialog.showSlideDialog(
       context: context,
       child: Container(
         color: Colors.white,
       ),
+    );
+  }
+
+  void _showLoginDialog() {
+    loginDialog.showSlideDialog(
+      context: context,
+      child: Container(
+        color: Colors.white,
+      ),
+    );
+  }
+
+  void _showVocabDialog() {
+    vocabDialog.showSlideDialog(
+      context: context,
+      child: Container(),
     );
   }
 
@@ -51,8 +83,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             ///////////////////////////////// Theme Mockup
             Consumer<DataProvider>(
-              builder: (context, themeProvider, child) =>
-                           Container(
+              builder: (context, themeProvider, child) => Container(
                 width: deviceWidth,
                 height: deviceHeight,
                 child: Image.asset(themeProvider.themeData()),
@@ -137,28 +168,30 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       /////////////////////////////////////////////////// Profile overall
                       GestureDetector(
-                        onTap: _showLoginDialog,
-                        child: Container(
-                          width: deviceWidth * 0.13,
-                          height: deviceWidth * 0.13,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(1000),
-                            border: Border.all(
-                                width: deviceHeight > 500 ? 6 : 3,
-                                color: Color.fromRGBO(255, 96, 83,
-                                    1.00) //                   <--- border width here
-                                ),
-                          ),
-                          child: Consumer<DataProvider>(
-                              builder: (context, avatar, child) {
-                            return ClipRRect(
+                        onTap: _showThemeDialog,
+                        child: Consumer<DataProvider>(
+                          builder: (context, theme, child) => Container(
+                            width: deviceWidth * 0.13,
+                            height: deviceWidth * 0.13,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(1000),
-                              child: Image.asset('assets/images/avatar_' +
-                                  avatar.avatar +
-                                  '.png'),
-                            );
-                          }),
+                              border: Border.all(
+                                  width: deviceHeight > 500 ? 6 : 3,
+                                  color: theme
+                                      .profileBorderColor //                   <--- border width here
+                                  ),
+                            ),
+                            child: Consumer<DataProvider>(
+                                builder: (context, avatar, child) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(1000),
+                                child: Image.asset('assets/images/avatar_' +
+                                    avatar.avatar +
+                                    '.png'),
+                              );
+                            }),
+                          ),
                         ),
                       ),
 
@@ -169,15 +202,17 @@ class _HomeState extends State<Home> {
                           child: Stack(
                             children: <Widget>[
                               /////////////////////////// Star Score bg
-                              Container(
-                                width: deviceHeight > 500
-                                    ? deviceWidth * 0.093
-                                    : deviceWidth * 0.1,
-                                height: deviceHeight > 500
-                                    ? deviceHeight * 0.04
-                                    : deviceHeight * 0.07,
-                                child: SvgPicture.asset(
-                                    'assets/images/theme1/profileStarSign.svg'),
+                              Consumer<DataProvider>(
+                                builder: (context, theme, child) => Container(
+                                  width: deviceHeight > 500
+                                      ? deviceWidth * 0.093
+                                      : deviceWidth * 0.1,
+                                  height: deviceHeight > 500
+                                      ? deviceHeight * 0.04
+                                      : deviceHeight * 0.07,
+                                  child: SvgPicture.asset(starScoreBg[
+                                      theme.starScoreBgAndloginBtn]),
+                                ),
                               ),
                               /////////////////////////// Star icon
                               Positioned.fill(
@@ -225,69 +260,78 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 //////////////////////////////////////// Vocabbulary
-                Container(
-                  margin: EdgeInsets.only(
-                      top: deviceHeight > 500
-                          ? deviceHeight * 0.052
-                          : deviceHeight * 0.082,
-                      left: deviceHeight > 500
-                          ? deviceHeight * 0.035
-                          : deviceHeight * 0.035),
-                  height: deviceHeight > 500
-                      ? deviceHeight * 0.123
-                      : deviceHeight * 0.193,
-                  width: deviceHeight > 500
-                      ? deviceHeight * 0.123
-                      : deviceHeight * 0.193,
-                  child: SvgPicture.asset('assets/icon/vocabulary.svg'),
+                GestureDetector(
+                  onTap: _showVocabDialog,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        top: deviceHeight > 500
+                            ? deviceHeight * 0.052
+                            : deviceHeight * 0.082,
+                        left: deviceHeight > 500
+                            ? deviceHeight * 0.035
+                            : deviceHeight * 0.035),
+                    height: deviceHeight > 500
+                        ? deviceHeight * 0.123
+                        : deviceHeight * 0.193,
+                    width: deviceHeight > 500
+                        ? deviceHeight * 0.123
+                        : deviceHeight * 0.193,
+                    child: SvgPicture.asset('assets/icon/vocabulary.svg'),
+                  ),
                 ),
                 //////////////////////////////////////// Login Btn
                 Spacer(),
-                Container(
-                  width: deviceHeight > 500
-                      ? deviceWidth * 0.173
-                      : deviceWidth * 0.173,
-                  margin: EdgeInsets.only(
-                      right: deviceHeight > 500
-                          ? deviceWidth * 0.03
-                          : deviceWidth * 0.03,
-                      top: deviceHeight > 500
-                          ? deviceWidth * 0.059
-                          : deviceWidth * 0.059),
-                  child: Stack(
-                    children: <Widget>[
-                      SvgPicture.asset('assets/images/theme1/login_button.svg'),
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: deviceHeight > 500
-                                    ? deviceWidth * 0.023
-                                    : deviceWidth * 0.023,
-                                right: deviceHeight > 500
-                                    ? deviceWidth * 0.023
-                                    : deviceWidth * 0.023),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  'Login',
-                                  style: TextStyle(
-                                      fontFamily: 'NunitoBlack',
-                                      fontSize: deviceHeight > 500 ? 20 : 16,
-                                      color: Colors.white),
-                                ),
-                                Spacer(),
-                                Container(
-                                  child: SvgPicture.asset(
-                                      'assets/icon/arrowRight.svg'),
-                                ),
-                              ],
+                GestureDetector(
+                  onTap: _showLoginDialog,
+                  child: Container(
+                    width: deviceHeight > 500
+                        ? deviceWidth * 0.173
+                        : deviceWidth * 0.173,
+                    margin: EdgeInsets.only(
+                        right: deviceHeight > 500
+                            ? deviceWidth * 0.03
+                            : deviceWidth * 0.03,
+                        top: deviceHeight > 500
+                            ? deviceWidth * 0.059
+                            : deviceWidth * 0.059),
+                    child: Stack(
+                      children: <Widget>[
+                        Consumer<DataProvider>(
+                            builder: (context, theme, child) =>
+                                SvgPicture.asset(
+                                    loginBtnSvg[theme.starScoreBgAndloginBtn])),
+                        Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: deviceHeight > 500
+                                      ? deviceWidth * 0.023
+                                      : deviceWidth * 0.023,
+                                  right: deviceHeight > 500
+                                      ? deviceWidth * 0.023
+                                      : deviceWidth * 0.023),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'Login',
+                                    style: TextStyle(
+                                        fontFamily: 'NunitoBlack',
+                                        fontSize: deviceHeight > 500 ? 20 : 16,
+                                        color: Colors.white),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    child: SvgPicture.asset(
+                                        'assets/icon/arrowRight.svg'),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -300,6 +344,7 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: new Swiper(
                 onTap: (index) {},
+
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     /* decoration: new BoxDecoration(
@@ -321,9 +366,21 @@ class _HomeState extends State<Home> {
                     /* margin: EdgeInsets.only(
                         left: 12, right: 12, bottom: 10, top: 10), */
                     //padding: EdgeInsets.only(bottom: 20),
-                    child: Container(
-                      child: FlareActor(bookShelf[index],
-                          animation: 'bookAnimation'),
+                    child: GestureDetector(
+                      onTap: index == 6
+                          ? () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EnterBook(),
+                                ),
+                              );
+                            }
+                          : () {},
+                      child: Container(
+                        child: FlareActor(bookShelf[index],
+                            animation: 'bookAnimation'),
+                      ),
                     ),
                   );
                 },
