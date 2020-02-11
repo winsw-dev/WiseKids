@@ -8,6 +8,7 @@ import './play.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'home.dart';
+import 'with_arkit_screen.dart';
 
 class EnterBook extends StatefulWidget {
   @override
@@ -83,7 +84,14 @@ class _EnterBookState extends State<EnterBook> {
                     children: <Widget>[
                       /////////////////// read Btn
                       GestureDetector(
-                        onTap: _showVocabDialog,
+                        onTap: (){
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WithARkitScreen(),
+                            ),
+                          );
+                        },
                         child: Container(
                           child: Stack(
                             children: <Widget>[

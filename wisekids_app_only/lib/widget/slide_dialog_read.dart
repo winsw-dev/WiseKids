@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
+import '../screen/home.dart';
+
 import 'package:provider/provider.dart';
 import '../screen/play.dart';
 import '../provider/dataProvider.dart';
@@ -298,8 +300,12 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                         alignment: Alignment.topRight,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
-                            return;
+                             Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Home(),
+                                    ),
+                                  );
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 75),

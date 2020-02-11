@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+
+import '../widget/slide_popup_dialog_read.dart' as readDialog;
+
+import 'home.dart';
 
 class WithARkitScreen extends StatefulWidget {
   @override
@@ -37,8 +41,15 @@ List<CustomPopupMenu> choices = <CustomPopupMenu>[
 class _WithARkitScreenState extends State<WithARkitScreen> {
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
-  //UnityWidgetController _unityWidgetController;
+  UnityWidgetController _unityWidgetController;
   double _sliderValue = 0.0;
+
+  void _showVocabDialog() {
+    readDialog.showSlideDialog(
+      context: context,
+      child: Container(),
+    );
+  }
 
   CustomPopupMenu _selectedChoices = choices[0];
 
@@ -49,11 +60,11 @@ class _WithARkitScreenState extends State<WithARkitScreen> {
 
     print('Selected');
 
-    /* _unityWidgetController.postMessage(
+    _unityWidgetController.postMessage(
       'GameManager',
       'LoadGameScene',
       choice.scene.toString(),
-    ); */
+    );
   }
 
   @override
@@ -65,52 +76,110 @@ class _WithARkitScreenState extends State<WithARkitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-          children: <Widget>[
-           /*  UnityWidget(
-              onUnityViewCreated: onUnityCreated,
-              isARScene: true,
-              onUnityMessage: onUnityMessage,
-            ), */
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  margin: EdgeInsets.only(top: 300),
-                  height: 50,
-                  width: 50,
-                  child: PopupMenuButton<CustomPopupMenu>(
-                    elevation: 3.2,
-                    color: Colors.white,
-                    initialValue: choices[1],
-                    onCanceled: () {
-                      print('You have not chossed anything');
-                    },
-                    tooltip: 'This is tooltip',
-                    onSelected: _select,
-                    itemBuilder: (BuildContext context) {
-                      return choices.map((CustomPopupMenu choice) {
-                        return PopupMenuItem<CustomPopupMenu>(
-                          value: choice,
-                          child: Text(choice.title),
-                        );
-                      }).toList();
-                    },
-                  ),
+        children: <Widget>[
+          UnityWidget(
+            onUnityViewCreated: onUnityCreated,
+            isARScene: true,
+            onUnityMessage: onUnityMessage,
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                margin: EdgeInsets.only(top: 300),
+                height: 50,
+                width: 50,
+                child: PopupMenuButton<CustomPopupMenu>(
+                  elevation: 3.2,
+                  color: Colors.white,
+                  initialValue: choices[0],
+                  onCanceled: () {
+                    print('You have not chossed anything');
+                  },
+                  tooltip: 'This is tooltip',
+                  onSelected: _select,
+                  itemBuilder: (BuildContext context) {
+                    return choices.map((CustomPopupMenu choice) {
+                      return PopupMenuItem<CustomPopupMenu>(
+                        value: choice,
+                        child: Text(choice.title),
+                      );
+                    }).toList();
+                  },
                 ),
               ),
             ),
-          ],
-        ),
-     
+          ),
+          /////////////////////// home Btn
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Home(),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 15, left: 15),
+                  width: 80,
+                  child: Image.asset('assets/images/arUI/home.png'),
+                ),
+              ),
+            ),
+          ),
+          //////////////////////// 3d Btn
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                margin: EdgeInsets.only(top: 15, right: 15),
+                width: 80,
+                child: Image.asset('assets/images/arUI/3dBtn.png'),
+              ),
+            ),
+          ),
+          //////////////////////// back Btn
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10),
+                width: 80,
+                child: Image.asset('assets/images/arUI/button_book_back.png'),
+              ),
+            ),
+          ),
+          //////////////////////// forward Btn
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: GestureDetector(
+                onTap: _showVocabDialog,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  width: 80,
+                  child:
+                      Image.asset('assets/images/arUI/button_book_forward.png'),
+                ),
+              ),
+            ),
+          ),
+          //////////////////////////
+        ],
+      ),
     );
   }
 
   void setRotationSpeed(String speed) {
-    /* _unityWidgetController.postMessage(
+    _unityWidgetController.postMessage(
       'Cube',
       'SetRotationSpeed',
       speed,
-    ); */
+    );
   }
 
   void onUnityMessage(controller, message) {

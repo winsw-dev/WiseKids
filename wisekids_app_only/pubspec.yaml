@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^0.15.0
-  #flutter_unity_widget: ^0.1.6+5
+  flutter_unity_widget: ^0.1.6+5
   shimmer: ^1.0.1
   slide_popup_dialog:
     path: ./slide_popup_dialog-0.0.2/
@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_swiper: ^1.1.6
   provider: ^4.0.3
+
+  flutter_launcher_icons: "^0.7.3"
 
   smooth_star_rating: ^1.0.4+2
 
@@ -45,6 +47,12 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/appIcon/wisekids.png"
+
 
 # The following section is specific to Flutter.
 flutter:
@@ -238,7 +246,11 @@ flutter:
     - assets/images/kidsProfile/backToParentArea.svg
 
 
-
+    ########### AR UI
+    - assets/images/arUI/home.png
+    - assets/images/arUI/button_book_back.png
+    - assets/images/arUI/button_book_forward.png
+    - assets/images/arUI/3dBtn.png
 
 
     ########### Play
