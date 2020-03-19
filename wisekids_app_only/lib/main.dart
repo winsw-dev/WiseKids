@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import './screen/selectAvatar.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 //import 'with_arkit_screen.dart';
 import 'dart:async';
 
@@ -16,6 +18,7 @@ void main() => runApp(ChangeNotifierProvider(
     ));
 
 class MyApp extends StatelessWidget {
+  
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -80,10 +83,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  AudioCache audioCache = AudioCache();
+  
+  
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 2), () {
+      audioCache.loop('sound/background.mp3');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

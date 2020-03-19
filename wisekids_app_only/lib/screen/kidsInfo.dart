@@ -16,6 +16,7 @@ class KidsInfo extends StatefulWidget {
 class _KidsInfoState extends State<KidsInfo> {
   bool _buttonSwitch = false;
 
+  final scrollController = ScrollController();
   final focus = FocusNode();
   final textControllerName = TextEditingController();
   final textControllerAge = TextEditingController();
@@ -35,6 +36,12 @@ class _KidsInfoState extends State<KidsInfo> {
       } else {
         // Text Field is NOT Empty.
         _buttonSwitch = true;
+        // scroll to bottom
+        /* scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: new Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        ); */
       }
     });
   }
@@ -52,6 +59,7 @@ class _KidsInfoState extends State<KidsInfo> {
         body: Stack(
           children: <Widget>[
             SingleChildScrollView(
+              controller: scrollController,
               child: Container(
                 width: deviceWidth,
                 height: deviceHeight,
@@ -295,7 +303,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                     Container(
                                                       width: deviceHeight > 500
                                                           ? deviceWidth * 0.12
-                                                          : deviceWidth * 0.15,
+                                                          : deviceWidth * 0.13,
                                                       margin: EdgeInsets.only(
                                                         left: deviceHeight > 500
                                                             ? deviceHeight *
@@ -433,7 +441,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                     child: TextFormField(
                                                       controller:
                                                           textControllerAge,
-                                                      onFieldSubmitted: (v) {
+                                                      onChanged: (v) {
                                                         checkTextField();
                                                         FocusScope.of(context)
                                                             .requestFocus(

@@ -85,6 +85,7 @@ class _EnterBookState extends State<EnterBook> {
                       /////////////////// read Btn
                       GestureDetector(
                         onTap: (){
+                          ////////////////////////////////////////////////// Navigate to AR
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

@@ -20,8 +20,12 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^0.15.0
-  flutter_unity_widget: ^0.1.6+5
+  #flutter_unity_widget: ^0.1.6+5
+  flutter_unity_widget: 
+    git:
+      url: https://github.com/sarawin008/flutter-unity-view-widget.git
   shimmer: ^1.0.1
+  audioplayers: ^0.14.0
   slide_popup_dialog:
     path: ./slide_popup_dialog-0.0.2/
 
@@ -56,7 +60,10 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
-  assets:    
+  assets:  
+    ############################# sound
+    - assets/sound/background.mp3
+
     ##############################################################  SVG
     - assets/icon/music-and-multimedia.svg    
     - assets/icon/Button_Or.svg
@@ -256,10 +263,23 @@ flutter:
     ########### Play
     - assets/images/play/backBtn.png
     - assets/images/play/playBg.png
-    - assets/images/play/cupCake.png
-    - assets/images/play/mirror.png
-    - assets/images/play/Toffy.png
+
     - assets/images/play/toothBrush.png
+    - assets/images/play/tooth.png
+    - assets/images/play/candyMonster.png
+    - assets/images/play/candy.png
+    - assets/images/play/mirror.png
+    - assets/images/play/toothBrush_W.png
+    - assets/images/play/tooth_W.png
+    - assets/images/play/mirror_W.png
+    - assets/images/play/candy_W.png
+    - assets/images/play/candyMonster_W.png
+
+    - assets/images/play/toothBrush_Grey.png
+    - assets/images/play/tooth_Grey.png
+    - assets/images/play/candyMonster_Grey.png
+    - assets/images/play/candy_Grey.png
+    - assets/images/play/mirror_Grey.png
 
 
     
@@ -309,6 +329,32 @@ flutter:
 
     ##################################  Animation
     - assets/animation/Firework.flr
+    - assets/animation/star.flr
+
+
+
+    ##################################  AR Interactive
+    - assets/images/arInteractive/mountBg.png
+    - assets/images/arInteractive/monster1.png
+    - assets/images/arInteractive/monster2.png
+    - assets/images/arInteractive/monster3.png
+    - assets/images/arInteractive/monster4.png
+    - assets/images/arInteractive/monster5.png
+    - assets/images/arInteractive/monster6.png
+    - assets/images/arInteractive/monster7.png
+    - assets/images/arInteractive/monster8.png
+    - assets/images/arInteractive/monster9.png
+    - assets/images/arInteractive/monster10.png
+    - assets/images/arInteractive/monster1_light.png
+    - assets/images/arInteractive/monster2_light.png
+    - assets/images/arInteractive/monster3_light.png
+    - assets/images/arInteractive/monster4_light.png
+    - assets/images/arInteractive/monster5_light.png
+    - assets/images/arInteractive/monster6_light.png
+    - assets/images/arInteractive/monster7_light.png
+    - assets/images/arInteractive/monster8_light.png
+    - assets/images/arInteractive/monster9_light.png
+    - assets/images/arInteractive/monster10_light.png
 
 
 

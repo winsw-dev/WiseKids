@@ -997,12 +997,12 @@ class _HomeState extends State<Home> {
                     width: MediaQuery.of(context).size.width,
                     child: new Swiper(
                       onTap: (index) {
-                        Navigator.pushReplacement(
+                        /* Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => WithARkitScreen(),
                           ),
-                        );
+                        ); */
                       },
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
