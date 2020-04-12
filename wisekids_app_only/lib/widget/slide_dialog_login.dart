@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../screen/parentalConsent.dart';
-
+ 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 

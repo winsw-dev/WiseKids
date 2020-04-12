@@ -20,8 +20,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^0.15.0
-  #flutter_unity_widget: ^0.1.6+5
-  flutter_unity_widget: 
+  #flutter_unity_widget: ^0.1.6+8
+  flutter_unity_widget:   
     git:
       url: https://github.com/sarawin008/flutter-unity-view-widget.git
   shimmer: ^1.0.1
@@ -34,6 +34,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_swiper: ^1.1.6
   provider: ^4.0.3
+
+  transparent_image: ^1.0.0
+
+  device_preview: ^0.4.0+1
 
   flutter_launcher_icons: "^0.7.3"
 
@@ -142,6 +146,7 @@ flutter:
     - assets/images/kidsInfo/catSpotlight.png
     - assets/images/kidsInfo/windowCutted.png
     - assets/images/kidsInfo/bubbleSpeech.svg
+    - assets/images/kidsInfo/bubbleSpeech.png
     - assets/images/kidsInfo/plantFlipped.png
     - assets/images/kidsInfo/decorationShelf.png
     - assets/images/kidsInfo/boySpotlightSmall.png
@@ -186,18 +191,52 @@ flutter:
     ######### theme 2
     - assets/images/theme2/profileStarSign.svg
     - assets/images/theme2/login_button.svg
+    - assets/images/theme2/controlPad.png
+    - assets/images/theme2/monitor.png
+    - assets/images/theme2/starLow.png
+    - assets/images/theme2/starTop.png
+    - assets/images/theme2/theme2Bg.png
+    - assets/images/theme2/starnHeart.png
+    - assets/images/theme2/monitorBtn.png
+    - assets/images/theme2/keep.png
 
     ######### theme 3
     - assets/images/theme3/profileStarSign.svg
     - assets/images/theme3/login_button.svg
+    - assets/images/theme3/cloudLeft.png
+    - assets/images/theme3/cloudRight.png
+    - assets/images/theme3/moon.png
+    - assets/images/theme3/rocket.png
+    - assets/images/theme3/star.png
+    - assets/images/theme3/star3.png
+    - assets/images/theme3/ufo.png
+    - assets/images/theme3/bg.png
 
     ######### theme 4
     - assets/images/theme4/profileStarSign.svg
     - assets/images/theme4/login_button.svg
+    - assets/images/theme4/bg.png
+    - assets/images/theme4/bubble.png
+    - assets/images/theme4/fishLeft.png
+    - assets/images/theme4/fishRight.png
+    - assets/images/theme4/godRay.png
+    - assets/images/theme4/land.png
+    - assets/images/theme4/seaWeedLeft.png
+    - assets/images/theme4/seaWeedRight.png
+    - assets/images/theme4/stingray.png
+    - assets/images/theme4/subSeaWeedCenter.png
+    - assets/images/theme4/subSeaWeedLeft1.png
+    - assets/images/theme4/subSeaWeedRight1.png
+    - assets/images/theme4/subSeaWeedRight2.png
 
     ######### theme 5
     - assets/images/theme5/profileStarSign.svg
     - assets/images/theme5/login_button.svg
+    - assets/images/theme5/bg.png
+    - assets/images/theme5/bird.png
+    - assets/images/theme5/floor.png
+    - assets/images/theme5/forest.png
+
 
     ########## BookShelf Animation
     - assets/animation/book1.flr
@@ -356,6 +395,10 @@ flutter:
     - assets/images/arInteractive/monster9_light.png
     - assets/images/arInteractive/monster10_light.png
 
+  
+    ##################################  AR Interactive
+    - assets/images/splashScreen/wisekidsLogo.png
+    - assets/images/splashScreen/pattern.png
 
 
   fonts:

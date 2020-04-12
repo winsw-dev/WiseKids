@@ -51,6 +51,39 @@ class _KidsInfoState extends State<KidsInfo> {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
 
+    final textInsideBubbleScaleFactorTablet =
+        0.72; // [Tablet size] adjust this value to scale how much % u want text inside bubble to match its parent container size
+    final textInsideBubbleScaleFactorPhone =
+        0.65; // [Phone size] adjust this value to scale how much % u want text inside bubble to match its parent container size
+
+    final bubbleTextLine1HeightConstrainst = deviceHeight > 500
+        ? (((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) *
+                    textInsideBubbleScaleFactorTablet) *
+                (217 / 430)) *
+            0.4 // *217/430 is try to convert width to height by calculated by textInside bubble aspectRatio 430:217
+        : (((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) *
+                    textInsideBubbleScaleFactorPhone) *
+                (217 / 430)) *
+            0.4; // 0.4 mean 40% of overall height of text inside bubble container
+    final bubbleTextLine2HeightConstrainst = deviceHeight > 500
+        ? (((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) *
+                    textInsideBubbleScaleFactorTablet) *
+                (217 / 430)) *
+            0.3
+        : (((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) *
+                    textInsideBubbleScaleFactorPhone) *
+                (217 / 430)) *
+            0.3;
+    final bubbleTextLine3HeightConstrainst = deviceHeight > 500
+        ? (((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) *
+                    textInsideBubbleScaleFactorTablet) *
+                (217 / 430)) *
+            0.3
+        : (((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) *
+                    textInsideBubbleScaleFactorPhone) *
+                (217 / 430)) *
+            0.3; // so 0.4 + 0.3 + 0.3 = 100% of total height
+
     return SafeArea(
       top: deviceHeight > 500 ? false : true,
       bottom: false,
@@ -95,16 +128,19 @@ class _KidsInfoState extends State<KidsInfo> {
                                 top: deviceHeight > 500
                                     ? deviceHeight * 0.3034
                                     : deviceHeight * 0.26),
-                            width: deviceHeight > 500
+                            /* width: deviceHeight > 500
                                 ? deviceWidth * 0.107
-                                : deviceWidth * 0.08,
+                                : deviceWidth * 0.08, */
                             height: deviceHeight > 500
                                 ? deviceHeight * 0.42
                                 : deviceHeight * 0.47,
-                            child: FittedBox(
-                                fit: BoxFit.fill,
-                                child: Image.asset(
-                                    'assets/images/kidsInfo/plantFlipped.png')),
+                            child: AspectRatio(
+                              aspectRatio: 118 / 306,
+                              child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Image.asset(
+                                      'assets/images/kidsInfo/plantFlipped.png')),
+                            ),
                           )),
                     ),
 
@@ -121,30 +157,12 @@ class _KidsInfoState extends State<KidsInfo> {
                             height: deviceHeight > 500
                                 ? deviceHeight * 0.17
                                 : deviceHeight * 0.25,
-                            child: Image.asset(
-                                'assets/images/kidsInfo/windowCutted.png'),
+                            child: AspectRatio(
+                              aspectRatio: 58 / 127,
+                              child: Image.asset(
+                                  'assets/images/kidsInfo/windowCutted.png'),
+                            ),
                           )),
-                    ),
-
-                    ///////////////////////////////////////////////  Character
-
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: deviceHeight > 500
-                              ? deviceWidth * 0.09
-                              : deviceWidth * 0.098),
-                      height: deviceHeight > 500
-                          ? deviceHeight * 0.849
-                          : deviceHeight * 0.92,
-                      child: deviceHeight > 500
-                          ? Image.asset('assets/images/kidsInfo/' +
-                              Provider.of<DataProvider>(context, listen: false)
-                                  .avatar +
-                              'Spotlight.png')
-                          : Image.asset('assets/images/kidsInfo/' +
-                              Provider.of<DataProvider>(context, listen: false)
-                                  .avatar +
-                              'SpotlightSmall.png'),
                     ),
 
                     ////////////////////////////////////////////////////// decoration Shelf
@@ -166,182 +184,488 @@ class _KidsInfoState extends State<KidsInfo> {
                       ),
                     ),
 
-                    ////////////////////////////////////////////////////////// Bubble Speech Overall
+                    ///////////////////////////////////////////////  Character
+
                     Container(
                       margin: EdgeInsets.only(
-                        top: deviceHeight > 500
-                            ? deviceHeight * 0.277
-                            : deviceHeight * 0.12,
                         left: deviceHeight > 500
-                            ? deviceWidth * 0.357
-                            : deviceWidth * 0.3,
-                        right: deviceHeight > 500
-                            ? deviceWidth * 0.03
-                            : deviceWidth * 0.1,
+                            ? deviceWidth * (100 / 1024)
+                            : deviceWidth * (40 / 1024),
+                        bottom: deviceHeight > 500
+                            ? deviceHeight * (116 / 768)
+                            : deviceHeight * (80 / 768),
                       ),
-                      child: Stack(
+                      width: deviceHeight > 500
+                          ? deviceWidth * (358 / 1024)
+                          : deviceWidth * (358 / 1024),
+                      child: deviceHeight > 500
+                          ? Image.asset('assets/images/kidsInfo/' +
+                              Provider.of<DataProvider>(context, listen: false)
+                                  .avatar +
+                              'Spotlight.png')
+                          : Image.asset('assets/images/kidsInfo/' +
+                              Provider.of<DataProvider>(context, listen: false)
+                                  .avatar +
+                              'SpotlightSmall.png'),
+                    ),
+
+                    //////////////////////////// Bubble Speech Frame
+                    Container(
+                      margin: EdgeInsets.only(
+                        top:
+                            deviceHeight > 500 ? deviceHeight * (216 / 768) : 0,
+                        left: deviceHeight > 500
+                            ? deviceWidth * (364 / 1024)
+                            : deviceWidth * (320 / 1024),
+                        right: deviceWidth * (66 / 1024),
+                      ),
+                      width: deviceHeight > 500
+                          ? deviceWidth -
+                              (deviceWidth * 0.357) -
+                              deviceWidth * (66 / 1024)
+                          : deviceWidth -
+                              (deviceWidth * 0.3) -
+                              deviceWidth * (66 / 1024),
+                      /* height: deviceHeight > 500
+                          ? deviceHeight - (deviceHeight * (216 / 768))
+                          : deviceHeight - (deviceHeight * 0.2), */
+                      child: Column(
+                        mainAxisAlignment: deviceHeight > 500
+                            ? MainAxisAlignment.start
+                            : MainAxisAlignment.center,
                         children: <Widget>[
-                          /////////////////////////////////// Bubble Speech
                           Container(
-                            height: deviceHeight > 500
-                                ? deviceHeight * 0.446
-                                : deviceHeight * 0.646,
-                            width: deviceHeight > 500
-                                ? deviceWidth * 0.578
-                                : deviceWidth * 0.578,
                             child: Stack(
                               children: <Widget>[
-                                Container(
-                                  height: deviceHeight > 500
-                                      ? deviceHeight * 0.446
-                                      : deviceHeight * 0.646,
-                                  width: deviceHeight > 500
-                                      ? deviceWidth * 0.578
-                                      : deviceWidth * 0.578,
-                                  child: SvgPicture.asset(
-                                      'assets/images/kidsInfo/bubbleSpeech.svg'),
-                                ),
-                                /////////////////////////////////// Bubble Speech Text
+                                Image.asset(
+                                    'assets/images/kidsInfo/bubbleSpeech.png'),
+
+                                ////////////////////////////////////////////// Text Inside Bubble
                                 Positioned.fill(
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Container(
                                       margin: EdgeInsets.only(
-                                          left: deviceHeight > 500
-                                              ? deviceWidth * 0.025
-                                              : deviceWidth * 0.04),
+                                        left: deviceWidth * (34 / 1024),
+                                      ),
+                                      /* height: deviceHeight > 500
+                                          ? deviceHeight * (217 / 768)
+                                          : deviceHeight * (320 / 768), */
                                       width: deviceHeight > 500
-                                          ? deviceWidth * 0.4
-                                          : deviceWidth * 0.38,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Row(children: <Widget>[
-                                            Container(
-                                              child: Text(
-                                                "Hello!",
-                                                style: TextStyle(
-                                                    fontFamily: 'NunitoBlack',
-                                                    fontSize: deviceHeight > 500
-                                                        ? 70
-                                                        : 45,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ]),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 5),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  child: Text(
-                                                    "My name is",
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'NunitoBold',
-                                                        fontSize:
-                                                            deviceHeight > 500
-                                                                ? 50
-                                                                : 35,
-                                                        color: Colors.white),
+                                          ? (deviceWidth -
+                                                  (deviceWidth * 0.357) -
+                                                  deviceWidth * (66 / 1024)) *
+                                              textInsideBubbleScaleFactorTablet
+                                          : (deviceWidth -
+                                                  (deviceWidth * 0.3) -
+                                                  deviceWidth * (66 / 1024)) *
+                                              textInsideBubbleScaleFactorPhone,
+                                      child: AspectRatio(
+                                        aspectRatio: 430 / 217,
+                                        child: Container(
+                                          //color: Colors.red, //////////////////////// debug text inside bubble frame
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              ////////////////////////////////////////  Hello! Text
+                                              Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    height:
+                                                        bubbleTextLine1HeightConstrainst,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: Text(
+                                                        "Hello!",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoBlack',
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                                ///////////////////////////////////////////////////////////////////// Name input text feild
-                                                Stack(
-                                                  children: <Widget>[
-                                                    //////////////////////// decoration line
-                                                    Positioned.fill(
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .bottomCenter,
-                                                        child: Container(
+                                                ],
+                                              ),
+                                              ///////////////////////////////////////// My name is
+                                              Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    height:
+                                                        bubbleTextLine2HeightConstrainst,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: Text(
+                                                        "My name is",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoBold',
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  //////////////////////////////// Name Textfield Container
+                                                  Expanded(
+                                                      child: Container(
+                                                    height:
+                                                        bubbleTextLine2HeightConstrainst,
+                                                    //color: Colors.tealAccent, // debug
+                                                    child: Stack(
+                                                      children: <Widget>[
+                                                        //////////////////////// decoration line
+                                                        Positioned.fill(
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .bottomCenter,
+                                                            child: Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                bottom: deviceHeight >
+                                                                        500
+                                                                    ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorTablet) * (217 / 430)) *
+                                                                            0.3) *
+                                                                        0.05
+                                                                    : ((((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorPhone) *
+                                                                                (217 / 430)) *
+                                                                            0.3) *
+                                                                        0.03,
+                                                                left: deviceHeight >
+                                                                        500
+                                                                    ? deviceWidth *
+                                                                        0.01
+                                                                    : deviceWidth *
+                                                                        0.01,
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            24),
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        248,
+                                                                        226,
+                                                                        55,
+                                                                        1.00),
+                                                              ),
+                                                              height: deviceHeight >
+                                                                      500
+                                                                  ? deviceHeight *
+                                                                      0.006
+                                                                  : deviceHeight *
+                                                                      0.008,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        //////////////////////////// Name input
+                                                        Positioned.fill(
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Container(
+                                                              //color: Colors.white,
+                                                              /* height: deviceHeight >
+                                                                      500
+                                                                  ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorTablet) *
+                                                                              (217 /
+                                                                                  430)) *
+                                                                          0.3) *
+                                                                      0.38
+                                                                  : ((((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorPhone) *
+                                                                              (217 / 430)) *
+                                                                          0.3) *
+                                                                      0.25, */
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                left: deviceHeight >
+                                                                        500
+                                                                    ? deviceHeight *
+                                                                        0.013
+                                                                    : deviceHeight *
+                                                                        0.02,
+                                                              ),
+                                                              child:
+                                                                  TextFormField(
+                                                                controller:
+                                                                    textControllerName,
+                                                                inputFormatters: [
+                                                                  BlacklistingTextInputFormatter(
+                                                                      new RegExp(
+                                                                          '[.,0123456789@":;?><()_=/!-*-+#%^&]')),
+                                                                ], //blacklist character
+                                                                textInputAction:
+                                                                    TextInputAction
+                                                                        .next,
+                                                                onFieldSubmitted:
+                                                                    (v) {
+                                                                  FocusScope.of(
+                                                                          context)
+                                                                      .requestFocus(
+                                                                          focus);
+                                                                },
+
+                                                                maxLines: 1,
+
+                                                                //autofocus: true,
+                                                                cursorColor: Color
+                                                                    .fromRGBO(
+                                                                        248,
+                                                                        226,
+                                                                        55,
+                                                                        1.00),
+                                                                cursorRadius:
+                                                                    Radius.circular(
+                                                                        20.0),
+                                                                cursorWidth: 4,
+                                                                decoration: InputDecoration.collapsed(
+                                                                    //contentPadding: EdgeInsets.symmetric(vertical: 0),
+                                                                    //isDense: true,
+                                                                    //border: InputBorder.none,
+
+                                                                    hintText: ""), //delete underline
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    fontFamily:
+                                                                        'NunitoBold',
+                                                                    fontSize:
+                                                                        deviceHeight >
+                                                                                500
+                                                                            ? 50
+                                                                            : 35,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            248,
+                                                                            226,
+                                                                            55,
+                                                                            1.00)),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ))
+                                                ],
+                                              ),
+
+                                              /////////////////////////////// I'm Text
+                                              Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    height:
+                                                        bubbleTextLine3HeightConstrainst,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: Container(
+                                                        child: Text(
+                                                          "I'm",
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'NunitoBold',
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  ///////////////////////////////////////////////////////////////////// Age input textfeild
+                                                  Container(
+                                                    height:
+                                                        bubbleTextLine3HeightConstrainst,
+                                                    child: Stack(
+                                                      children: <Widget>[
+                                                        //////////////////////// decoration line
+                                                        Positioned.fill(
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .bottomCenter,
+                                                            child: Container(
+                                                              height: deviceHeight >
+                                                                      500
+                                                                  ? deviceHeight *
+                                                                      0.006
+                                                                  : deviceHeight *
+                                                                      0.008,
+                                                              width: deviceHeight >
+                                                                      500
+                                                                  ? deviceWidth *
+                                                                      0.07
+                                                                  : deviceWidth *
+                                                                      0.07,
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                bottom: deviceHeight >
+                                                                        500
+                                                                    ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorTablet) * (217 / 430)) *
+                                                                            0.3) *
+                                                                        0.17
+                                                                    : ((((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorPhone) *
+                                                                                (217 / 430)) *
+                                                                            0.3) *
+                                                                        0.15,
+                                                                left: deviceHeight >
+                                                                        500
+                                                                    ? deviceWidth *
+                                                                        0.001
+                                                                    : deviceWidth *
+                                                                        0.001,
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            24),
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        248,
+                                                                        226,
+                                                                        55,
+                                                                        1.00),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                        //////////////////////////// Age input
+                                                        Container(
+                                                          //color: Colors.white,
+                                                          width: deviceHeight >
+                                                                  500
+                                                              ? deviceWidth *
+                                                                  0.07
+                                                              : deviceWidth *
+                                                                  0.07,
                                                           margin:
                                                               EdgeInsets.only(
-                                                            bottom: deviceHeight >
+                                                            top: deviceHeight >
+                                                                    500
+                                                                ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) *
+                                                                                textInsideBubbleScaleFactorTablet) *
+                                                                            (217 /
+                                                                                430)) *
+                                                                        0.3) *
+                                                                    0.38
+                                                                : ((((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) *
+                                                                                textInsideBubbleScaleFactorPhone) *
+                                                                            (217 /
+                                                                                430)) *
+                                                                        0.3) *
+                                                                    0.3,
+                                                            left: deviceHeight >
                                                                     500
                                                                 ? deviceHeight *
-                                                                    0.007
+                                                                    0.02
                                                                 : deviceHeight *
-                                                                    0.015,
-                                                            left: deviceHeight > 500
-                                                                ? deviceWidth *
-                                                                    0.01
-                                                                : deviceWidth *
-                                                                    0.01,
+                                                                    0.02,
+                                                            right: deviceHeight >
+                                                                    500
+                                                                ? deviceHeight *
+                                                                    0.013
+                                                                : deviceHeight *
+                                                                    0.02,
+                                                            bottom: deviceHeight > 500
+                                                                ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) *
+                                                                                textInsideBubbleScaleFactorTablet) *
+                                                                            (217 /
+                                                                                430)) *
+                                                                        0.3) *
+                                                                    0.2
+                                                                : ((((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) *
+                                                                                textInsideBubbleScaleFactorPhone) *
+                                                                            (217 /
+                                                                                430)) *
+                                                                        0.3) *
+                                                                    0.25,
                                                           ),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        24),
-                                                            color:
+                                                          child: TextFormField(
+                                                            controller:
+                                                                textControllerAge,
+                                                            onChanged: (v) {
+                                                              checkTextField();
+                                                              FocusScope.of(
+                                                                      context)
+                                                                  .requestFocus(
+                                                                      FocusNode());
+                                                            },
+                                                            focusNode: focus,
+                                                            inputFormatters: [
+                                                              WhitelistingTextInputFormatter
+                                                                  .digitsOnly,
+                                                              BlacklistingTextInputFormatter(
+                                                                  new RegExp(
+                                                                      '[0]')),
+                                                            ], //blacklist & whitelist char
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            textInputAction:
+                                                                TextInputAction
+                                                                    .done,
+
+                                                            maxLines: 1,
+                                                            maxLength: 2,
+                                                            buildCounter: (BuildContext
+                                                                        context,
+                                                                    {int
+                                                                        currentLength,
+                                                                    int
+                                                                        maxLength,
+                                                                    bool
+                                                                        isFocused}) =>
+                                                                null,
+
+                                                            //autofocus: true,
+                                                            cursorColor:
                                                                 Color.fromRGBO(
                                                                     248,
                                                                     226,
                                                                     55,
                                                                     1.00),
-                                                          ),
-                                                          height: deviceHeight > 500
-                                                              ? deviceHeight *
-                                                                  0.006
-                                                              : deviceHeight *
-                                                                  0.008,
-                                                          width: deviceHeight >
-                                                                  500
-                                                              ? deviceWidth *
-                                                                  0.2
-                                                              : deviceWidth *
-                                                                  0.2,
-                                                        ),
-                                                      ),
-                                                    ),
+                                                            cursorRadius:
+                                                                Radius.circular(
+                                                                    20.0),
+                                                            cursorWidth: 4,
 
-                                                    //////////////////////////// Name input
-                                                    Container(
-                                                      width: deviceHeight > 500
-                                                          ? deviceWidth * 0.12
-                                                          : deviceWidth * 0.13,
-                                                      margin: EdgeInsets.only(
-                                                        left: deviceHeight > 500
-                                                            ? deviceHeight *
-                                                                0.013
-                                                            : deviceHeight *
-                                                                0.02,
-                                                      ),
-                                                      child: TextFormField(
-                                                        controller:
-                                                            textControllerName,
-                                                        inputFormatters: [
-                                                          BlacklistingTextInputFormatter(
-                                                              new RegExp(
-                                                                  '[.,0123456789@":;?><()_=/!-*-+#%^&]')),
-                                                        ], //blacklist character
-                                                        textInputAction:
-                                                            TextInputAction
-                                                                .next,
-                                                        onFieldSubmitted: (v) {
-                                                          FocusScope.of(context)
-                                                              .requestFocus(
-                                                                  focus);
-                                                        },
-                                                        maxLines: 1,
-                                                        //autofocus: true,
-                                                        cursorColor:
-                                                            Color.fromRGBO(248,
-                                                                226, 55, 1.00),
-                                                        cursorRadius:
-                                                            Radius.circular(
-                                                                20.0),
-                                                        cursorWidth: 4,
-                                                        decoration: InputDecoration
-                                                            .collapsed(
-                                                                hintText:
-                                                                    ""), //delete underline
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                            decoration:
+                                                                InputDecoration
+                                                                    .collapsed(
+                                                                        hintText:
+                                                                            ""), //delete underline
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'NunitoBold',
+                                                                fontSize:
+                                                                    deviceHeight >
+                                                                            500
+                                                                        ? 50
+                                                                        : 35,
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        248,
+                                                                        226,
+                                                                        55,
+                                                                        1.00)),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  ////////////////////////// years old Text
+                                                  Container(
+                                                    height:
+                                                        bubbleTextLine3HeightConstrainst,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: Text(
+                                                        "years old",
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'NunitoBold',
@@ -351,169 +675,15 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                     ? 50
                                                                     : 35,
                                                             color:
-                                                                Color.fromRGBO(
-                                                                    248,
-                                                                    226,
-                                                                    55,
-                                                                    1.00)),
+                                                                Colors.white),
                                                       ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                child: Text(
-                                                  "I'm",
-                                                  style: TextStyle(
-                                                      fontFamily: 'NunitoBold',
-                                                      fontSize:
-                                                          deviceHeight > 500
-                                                              ? 50
-                                                              : 35,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              ///////////////////////////////////////////////////////////////////// Age input textfeild
-                                              Stack(
-                                                children: <Widget>[
-                                                  //////////////////////// decoration line
-                                                  Positioned.fill(
-                                                    child: Align(
-                                                      alignment: Alignment
-                                                          .bottomCenter,
-                                                      child: Container(
-                                                        height:
-                                                            deviceHeight > 500
-                                                                ? deviceHeight *
-                                                                    0.006
-                                                                : deviceHeight *
-                                                                    0.008,
-                                                        width: deviceHeight >
-                                                                500
-                                                            ? deviceWidth * 0.07
-                                                            : deviceWidth *
-                                                                0.07,
-                                                        margin: EdgeInsets.only(
-                                                          bottom: deviceHeight > 500
-                                                              ? deviceHeight *
-                                                                  0.015
-                                                              : deviceHeight *
-                                                                  0.04,
-                                                          left: deviceHeight >
-                                                                  500
-                                                              ? deviceWidth *
-                                                                  0.001
-                                                              : deviceWidth *
-                                                                  0.001,
-                                                        ),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(24),
-                                                          color: Color.fromRGBO(
-                                                              248,
-                                                              226,
-                                                              55,
-                                                              1.00),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-
-                                                  //////////////////////////// Age input
-                                                  Container(
-                                                    width: deviceHeight > 500
-                                                        ? deviceWidth * 0.07
-                                                        : deviceWidth * 0.07,
-                                                    margin: EdgeInsets.only(
-                                                      left: deviceHeight > 500
-                                                          ? deviceHeight * 0.013
-                                                          : deviceHeight * 0.02,
-                                                      right: deviceHeight > 500
-                                                          ? deviceHeight * 0.013
-                                                          : deviceHeight * 0.02,
-                                                    ),
-                                                    child: TextFormField(
-                                                      controller:
-                                                          textControllerAge,
-                                                      onChanged: (v) {
-                                                        checkTextField();
-                                                        FocusScope.of(context)
-                                                            .requestFocus(
-                                                                FocusNode());
-                                                      },
-                                                      focusNode: focus,
-                                                      inputFormatters: [
-                                                        WhitelistingTextInputFormatter
-                                                            .digitsOnly,
-                                                        BlacklistingTextInputFormatter(
-                                                            new RegExp('[0]')),
-                                                      ], //blacklist & whitelist char
-                                                      keyboardType:
-                                                          TextInputType.text,
-                                                      textInputAction:
-                                                          TextInputAction.done,
-
-                                                      maxLines: 1,
-                                                      maxLength: 2,
-                                                      buildCounter: (BuildContext
-                                                                  context,
-                                                              {int
-                                                                  currentLength,
-                                                              int maxLength,
-                                                              bool
-                                                                  isFocused}) =>
-                                                          null,
-
-                                                      //autofocus: true,
-                                                      cursorColor:
-                                                          Color.fromRGBO(248,
-                                                              226, 55, 1.00),
-                                                      cursorRadius:
-                                                          Radius.circular(20.0),
-                                                      cursorWidth: 4,
-                                                      decoration: InputDecoration
-                                                          .collapsed(
-                                                              hintText:
-                                                                  ""), //delete underline
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'NunitoBold',
-                                                          fontSize:
-                                                              deviceHeight > 500
-                                                                  ? 50
-                                                                  : 35,
-                                                          color: Color.fromRGBO(
-                                                              248,
-                                                              226,
-                                                              55,
-                                                              1.00)),
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                              Container(
-                                                child: Text(
-                                                  "years old",
-                                                  style: TextStyle(
-                                                      fontFamily: 'NunitoBold',
-                                                      fontSize:
-                                                          deviceHeight > 500
-                                                              ? 50
-                                                              : 35,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
                                             ],
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -522,12 +692,14 @@ class _KidsInfoState extends State<KidsInfo> {
                             ),
                           ),
 
-                          /////////////////////////////////// Button
+                          ///////////////////////////////// Button
                           Container(
                             margin: EdgeInsets.only(
-                                bottom: deviceHeight > 500
-                                    ? deviceHeight * 0.14
-                                    : deviceHeight * 0.09),
+                              left: deviceWidth * (36 / 1024),
+                            ),
+                            height: deviceHeight > 500
+                                ? deviceHeight * 0.121
+                                : deviceHeight * 0.145,
                             child: IndexedStack(
                                 index: _buttonSwitch ? 1 : 0,
                                 children: <Widget>[
@@ -559,9 +731,11 @@ class _KidsInfoState extends State<KidsInfo> {
                                                     height: deviceHeight > 500
                                                         ? deviceHeight * 0.121
                                                         : deviceHeight * 0.145,
-                                                    width: deviceHeight > 500
-                                                        ? deviceWidth * 0.211
-                                                        : deviceWidth * 0.17,
+                                                    /* width: deviceHeight > 500
+                                                          ? deviceWidth * 0.211
+                                                          : deviceWidth * 0.17, */
+                                                    child: AspectRatio(
+                                                        aspectRatio: 216 / 93),
                                                   ),
                                                 ),
                                               ),
@@ -570,17 +744,26 @@ class _KidsInfoState extends State<KidsInfo> {
                                                 child: Align(
                                               alignment: Alignment.center,
                                               child: Container(
-                                                child: Text(
-                                                  "FINISH",
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          'NunitoExtraBold',
-                                                      fontSize:
-                                                          deviceHeight > 500
-                                                              ? 30
-                                                              : 17,
-                                                      color: Color.fromRGBO(
-                                                          154, 154, 177, 1.00)),
+                                                child: FractionallySizedBox(
+                                                  widthFactor: 0.5,
+                                                  child: FittedBox(
+                                                    fit: BoxFit.fitWidth,
+                                                    child: Text(
+                                                      "FINISH",
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'NunitoExtraBold',
+                                                          fontSize:
+                                                              deviceHeight > 500
+                                                                  ? 30
+                                                                  : 17,
+                                                          color: Color.fromRGBO(
+                                                              154,
+                                                              154,
+                                                              177,
+                                                              1.00)),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             )),
@@ -621,13 +804,16 @@ class _KidsInfoState extends State<KidsInfo> {
                                                     height: deviceHeight > 500
                                                         ? deviceHeight * 0.121
                                                         : deviceHeight * 0.145,
-                                                    width: deviceHeight > 500
-                                                        ? deviceWidth * 0.211
-                                                        : deviceWidth * 0.17,
-                                                    child: FittedBox(
-                                                        fit: BoxFit.fill,
-                                                        child: SvgPicture.asset(
-                                                            'assets/icon/selectActiveBTN.svg')),
+                                                    /* width: deviceHeight > 500
+                                                          ? deviceWidth * 0.211
+                                                          : deviceWidth * 0.17, */
+                                                    child: AspectRatio(
+                                                      aspectRatio: 216 / 93,
+                                                      child: FittedBox(
+                                                          fit: BoxFit.fill,
+                                                          child: SvgPicture.asset(
+                                                              'assets/icon/selectActiveBTN.svg')),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -646,20 +832,28 @@ class _KidsInfoState extends State<KidsInfo> {
                                                   );
                                                 },
                                                 child: Container(
-                                                  child: Text(
-                                                    "FINISH",
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'NunitoExtraBold',
-                                                        fontSize:
-                                                            deviceHeight > 500
-                                                                ? 30
-                                                                : 17,
-                                                        color: Color.fromRGBO(
-                                                            255,
-                                                            255,
-                                                            255,
-                                                            1.00)),
+                                                  child: FractionallySizedBox(
+                                                    widthFactor: 0.5,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.fitWidth,
+                                                      child: Text(
+                                                        "FINISH",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoExtraBold',
+                                                            fontSize:
+                                                                deviceHeight >
+                                                                        500
+                                                                    ? 30
+                                                                    : 17,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1.00)),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -674,27 +868,6 @@ class _KidsInfoState extends State<KidsInfo> {
                         ],
                       ),
                     ),
-
-                    ///////////////////////////////////////////////////// BubbleSpeech
-
-                    //////////////////////////////////////////////  screen size Debug
-                    /* Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 30),
-                          child: Text(
-                            'width:$deviceWidth height:$deviceHeight',
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Color.fromRGBO(0, 0, 0, 1.00)),
-                          ),
-                        ),
-                      ),
-                    ), */
-                    //////////////////////////////////////////////
-                    ///
-                    //////////////////////////////////////////////////////////
                   ],
                 ),
               ),

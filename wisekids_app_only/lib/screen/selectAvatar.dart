@@ -70,7 +70,7 @@ class _SelectAvatarState extends State<SelectAvatar> {
       right: false,
       child: Scaffold(
         body: SingleChildScrollView(
-                  child: Container(
+          child: Container(
             width: deviceWidth,
             height: deviceHeight,
             child: Stack(
@@ -104,11 +104,13 @@ class _SelectAvatarState extends State<SelectAvatar> {
                       width: deviceHeight > 500
                           ? deviceWidth * 0.1
                           : deviceHeight * 0.14,
-                      height: deviceHeight * 0.17,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Image.asset(
-                            'assets/images/selectAvatarAssets/window.png'),
+                      //height: deviceHeight * 0.17,
+                      child: AspectRatio(aspectRatio: 102/127,
+                                              child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: Image.asset(
+                              'assets/images/selectAvatarAssets/window.png'),
+                        ),
                       ),
                     ),
                   ),
@@ -117,38 +119,42 @@ class _SelectAvatarState extends State<SelectAvatar> {
                 //////////////////////////////////////////////////// Plant
                 Positioned.fill(
                   child: Align(
-                      alignment: Alignment.topRight,
+                      alignment: Alignment.bottomRight,
                       child: Container(
                           margin: EdgeInsets.only(
-                              top: deviceHeight > 500
-                                  ? deviceHeight * 0.3034
-                                  : deviceHeight * 0.26),
+                              bottom: deviceHeight > 500
+                                  ? deviceHeight * 0.286
+                                  : deviceHeight * 0.286),
                           width: deviceHeight > 500
                               ? deviceWidth * 0.107
                               : deviceWidth * 0.08,
-                          height: deviceHeight > 500
+                          /* height: deviceHeight > 500
                               ? deviceHeight * 0.42
-                              : deviceHeight * 0.47,
-                          child: FittedBox(
-                              fit: BoxFit.fill,
-                              child: Image.asset(
-                                  'assets/images/selectAvatarAssets/plant.png')))),
+                              : deviceHeight * 0.47, */
+                          child: AspectRatio(aspectRatio: 102/300,
+                                                      child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.asset(
+                                    'assets/images/selectAvatarAssets/plant.png')),
+                          ))),
                 ),
 
                 ///////////////////////////////////////////////////// BookShelf
                 Positioned.fill(
                   child: Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.bottomLeft,
                     child: Container(
-                      margin: EdgeInsets.only(top: deviceHeight * 0.19),
+                      margin: EdgeInsets.only(bottom: deviceHeight * 0.29),
                       width: deviceHeight > 500
                           ? deviceWidth * 0.115
                           : deviceWidth * 0.07,
-                      height: deviceHeight * 0.516,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Image.asset(
-                            'assets/images/selectAvatarAssets/bookShelf.png'),
+                      //height: deviceHeight * 0.516,
+                      child: AspectRatio(aspectRatio: 104/396,
+                                              child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: Image.asset(
+                              'assets/images/selectAvatarAssets/bookShelf.png'),
+                        ),
                       ),
                     ),
                   ),
@@ -169,25 +175,27 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             width: deviceHeight > 500
                                 ? deviceWidth * 0.38
                                 : deviceWidth * 0.3,
-                            height: deviceHeight > 500
+                            /* height: deviceHeight > 500
                                 ? deviceHeight * 0.239
-                                : deviceHeight * 0.35,
-                            child: FittedBox(
-                              fit: BoxFit.fill,
-                              child: Image.asset(
-                                  'assets/images/selectAvatarAssets/blackBoard.png'),
+                                : deviceHeight * 0.35, */
+                            child: AspectRatio(aspectRatio: 390/183,
+                                                          child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.asset(
+                                    'assets/images/selectAvatarAssets/blackBoard.png'),
+                              ),
                             ),
                           ),
                           Positioned.fill(
                             child: Align(
-                                alignment: deviceHeight > 500
-                                    ? Alignment.center
-                                    : Alignment.topCenter,
+                                alignment: 
+                                     Alignment.center,
+                                    
                                 child: Container(
-                                  margin: EdgeInsets.only(
+                                 /*  margin: EdgeInsets.only(
                                       top: deviceHeight > 500
                                           ? 0
-                                          : deviceHeight * 0.08),
+                                          : deviceHeight * 0.08), */
                                   width: deviceHeight > 500
                                       ? deviceWidth * 0.3
                                       : deviceWidth * 0.25,
@@ -218,20 +226,20 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('boy');
                             },
-                            child: AnimatedContainer(
+                            child: Container(
                               width: deviceHeight > 500
                                   ? deviceWidth * 0.3
                                   : deviceWidth * 0.4,
                               height: deviceHeight > 500
                                   ? deviceHeight * 0.468
                                   : deviceHeight * 0.55,
-                              duration: Duration(milliseconds: 400),
-                              curve: Curves.easeOut,
                               margin: EdgeInsets.only(
                                   left: deviceHeight > 500
                                       ? deviceWidth * 0.07
                                       : deviceWidth * 0.04),
-                              child: Container(
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 100),
+                                curve: Curves.easeOut,
                                 margin: EdgeInsets.only(
                                     top: Device.get().isTablet
                                         ? scaleBoyIpad
@@ -252,16 +260,16 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('girl');
                             },
-                            child: AnimatedContainer(
+                            child: Container(
                               width: deviceHeight > 500
                                   ? deviceWidth * 0.3
                                   : deviceWidth * 0.4,
                               height: deviceHeight > 500
                                   ? deviceHeight * 0.468
                                   : deviceHeight * 0.55,
-                              duration: Duration(milliseconds: 400),
-                              curve: Curves.easeOut,
-                              child: Container(
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 100),
+                                curve: Curves.easeOut,
                                 margin: EdgeInsets.only(
                                     top: Device.get().isTablet
                                         ? scaleGirlIpad
@@ -283,20 +291,20 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('cat');
                             },
-                            child: AnimatedContainer(
+                            child: Container(
                               width: deviceHeight > 500
                                   ? deviceWidth * 0.3
                                   : deviceWidth * 0.4,
                               height: deviceHeight > 500
                                   ? deviceHeight * 0.468
                                   : deviceHeight * 0.55,
-                              duration: Duration(milliseconds: 400),
-                              curve: Curves.easeOut,
                               margin: EdgeInsets.only(
                                   right: deviceHeight > 500
                                       ? deviceWidth * 0.07
                                       : deviceWidth * 0.04),
-                              child: Container(
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 100),
+                                curve: Curves.easeOut,
                                 margin: EdgeInsets.only(
                                     top: Device.get().isTablet
                                         ? scaleCatIpad
@@ -342,9 +350,10 @@ class _SelectAvatarState extends State<SelectAvatar> {
                                     height: deviceHeight > 500
                                         ? deviceHeight * 0.121
                                         : deviceHeight * 0.145,
-                                    width: deviceHeight > 500
+                                    /* width: deviceHeight > 500
                                         ? deviceWidth * 0.211
-                                        : deviceWidth * 0.17,
+                                        : deviceWidth * 0.17, */
+                                    child: AspectRatio(aspectRatio: 216 / 93),
                                   ),
                                 ),
                               ),
@@ -352,13 +361,18 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             Positioned.fill(
                                 child: Align(
                               alignment: Alignment.center,
-                              child: Container(
-                                child: Text(
-                                  "SELECT",
-                                  style: TextStyle(
-                                      fontFamily: 'NunitoExtraBold',
-                                      fontSize: deviceHeight > 500 ? 30 : 17,
-                                      color: Color.fromRGBO(154, 154, 177, 1.00)),
+                              child: FractionallySizedBox(
+                                widthFactor: 0.5,
+                                child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    "SELECT",
+                                    style: TextStyle(
+                                        fontFamily: 'NunitoExtraBold',
+                                        fontSize: deviceHeight > 500 ? 30 : 17,
+                                        color: Color.fromRGBO(
+                                            154, 154, 177, 1.00)),
+                                  ),
                                 ),
                               ),
                             )),
@@ -372,51 +386,22 @@ class _SelectAvatarState extends State<SelectAvatar> {
                   Positioned.fill(
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child:  Container(
-                          margin: EdgeInsets.only(
-                              bottom: deviceHeight > 500
-                                  ? deviceHeight * 0.047
-                                  : deviceHeight * 0.07),
-                          child: Stack(
-                            children: <Widget>[
-                              Material(
-                                color: Colors.transparent,
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    //color: Color.fromRGBO(237, 237, 243, 1.00),
-                                  ),
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(50),
-                                    onTap: () {
-                                      Provider.of<DataProvider>(context, listen: false)
-                              .selectAvatar(selectedAvatar);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => KidsInfo(),
-                            ),
-                          );
-                                    },
-                                    child: Container(
-                                      height: deviceHeight > 500
-                                          ? deviceHeight * 0.121
-                                          : deviceHeight * 0.145,
-                                      width: deviceHeight > 500
-                                          ? deviceWidth * 0.211
-                                          : deviceWidth * 0.17,
-                                      child: FittedBox(
-                                          fit: BoxFit.fill,
-                                          child: SvgPicture.asset(
-                                              'assets/icon/selectActiveBTN.svg')),
-                                    ),
-                                  ),
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            bottom: deviceHeight > 500
+                                ? deviceHeight * 0.047
+                                : deviceHeight * 0.07),
+                        child: Stack(
+                          children: <Widget>[
+                            Material(
+                              color: Colors.transparent,
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  //color: Color.fromRGBO(237, 237, 243, 1.00),
                                 ),
-                              ),
-                              Positioned.fill(
-                                  child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(50),
                                   onTap: () {
                                     Provider.of<DataProvider>(context,
                                             listen: false)
@@ -429,21 +414,59 @@ class _SelectAvatarState extends State<SelectAvatar> {
                                     );
                                   },
                                   child: Container(
+                                    height: deviceHeight > 500
+                                        ? deviceHeight * 0.121
+                                        : deviceHeight * 0.145,
+                                    /* width: deviceHeight > 500
+                                        ? deviceWidth * 0.211
+                                        : deviceWidth * 0.17, */
+
+                                    child: AspectRatio(
+                                      aspectRatio: 216 / 93,
+                                      child: FittedBox(
+                                          fit: BoxFit.fill,
+                                          child: SvgPicture.asset(
+                                              'assets/icon/selectActiveBTN.svg')),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned.fill(
+                                child: Align(
+                              alignment: Alignment.center,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Provider.of<DataProvider>(context,
+                                          listen: false)
+                                      .selectAvatar(selectedAvatar);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => KidsInfo(),
+                                    ),
+                                  );
+                                },
+                                child: FractionallySizedBox(
+                                  widthFactor: 0.5,
+                                  child: FittedBox(
+                                    fit: BoxFit.fitWidth,
                                     child: Text(
                                       "SELECT",
                                       style: TextStyle(
                                           fontFamily: 'NunitoExtraBold',
-                                          fontSize: deviceHeight > 500 ? 30 : 17,
-                                          color:
-                                              Color.fromRGBO(255, 255, 255, 1.00)),
+                                          fontSize:
+                                              deviceHeight > 500 ? 30 : 17,
+                                          color: Color.fromRGBO(
+                                              255, 255, 255, 1.00)),
                                     ),
                                   ),
                                 ),
-                              )),
-                            ],
-                          ),
+                              ),
+                            )),
+                          ],
                         ),
-                      
+                      ),
                     ),
                   ),
                 ]),

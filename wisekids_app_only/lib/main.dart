@@ -1,5 +1,6 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' as services;
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import './screen/selectAvatar.dart';
@@ -8,29 +9,44 @@ import 'package:audioplayers/audio_cache.dart';
 //import 'with_arkit_screen.dart';
 import 'dart:async';
 
-
 import './provider/dataProvider.dart';
 
+/////////////////////////// Device Preview
+void main() => runApp(
+      DevicePreview(
+        enabled: false,
+        builder: (context) => ChangeNotifierProvider(
+          create: (context) => DataProvider(),
+          child: MyApp(),
+        ),
+      ),
+    );
 
-void main() => runApp(ChangeNotifierProvider(
+/*  void main() => runApp(
+  ChangeNotifierProvider(
       create: (context) => DataProvider(),
       child: MyApp(),
-    ));
+    ),
+  
+  ); */
 
 class MyApp extends StatelessWidget {
-  
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     // Hide notification bar
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    services.SystemChrome.setEnabledSystemUIOverlays([]);
     // Set landscape orientation
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
+    services.SystemChrome.setPreferredOrientations([
+      services.DeviceOrientation.landscapeLeft,
+      services.DeviceOrientation.landscapeRight,
     ]);
 
     return MaterialApp(
+      // Device Preview
+      locale: DevicePreview.of(context).locale, // <--- Add the locale
+      builder: DevicePreview.appBuilder, // <--- Add the builder
+
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -84,13 +100,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   AudioCache audioCache = AudioCache();
-  
-  
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      audioCache.loop('sound/background.mp3');
+    
+    Future.delayed(Duration(seconds: 2), () {    
+      //audioCache.loop('sound/background.mp3'); ////// BG sound
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -113,24 +129,51 @@ class _MyHomePageState extends State<MyHomePage> {
       color: Colors.grey,
       fontSize: 50,
     );
+
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      body: Center(
-       
-        child: Image.asset('assets/images/splashScreen.png')
-        
-        
-        
-        /* Column(
-          
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Shimmer.fromColors(
-              baseColor: Color.fromRGBO(180, 180, 180, 1.0),
-              highlightColor: Color.fromRGBO(200, 200, 200, 1.0),
-              child: Text('WiseKids', style: textStyle),
-            )
-          ],
-        ), */
+      body: Stack(
+        children: <Widget>[
+          Container(
+            width: deviceWidth,
+            height: deviceHeight,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [
+                  0.1,
+                  1.0
+                ],
+                    colors: [
+                  Color.fromRGBO(71, 220, 214, 1.0),
+                  Color.fromRGBO(132, 207, 78, 1.0),
+                ])),
+          ),
+          ////////////////////////////////////////////// Pattern
+          Container(
+            width: deviceWidth,
+            child: Image.asset(
+              'assets/images/splashScreen/pattern.png',
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          /////////////////////////////////////////////// Logo
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: deviceWidth*0.34,
+                child: Image.asset(
+                  'assets/images/splashScreen/wisekidsLogo.png',
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -54,6 +54,20 @@ class _SlideDialogState extends State<SlideDialog> {
     'assets/images/themePopup/selectSpacerTheme5.svg',
   ];
 
+  Color themeColor(int currentTheme) {
+    if (currentTheme == 1) {
+      return Colors.white;
+    } else if (currentTheme == 2) {
+      return Color.fromRGBO(255, 165, 198, 1.00);
+    } else if (currentTheme == 3) {
+      return Color.fromRGBO(26, 8, 66, 1.00);
+    } else if (currentTheme == 4) {
+      return Color.fromRGBO(0, 192, 224, 1.00);
+    } else if (currentTheme == 5) {
+      return Color.fromRGBO(133, 203, 139, 1.00);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -79,44 +93,55 @@ class _SlideDialogState extends State<SlideDialog> {
                 margin: EdgeInsets.only(
                     top: deviceHeight > 500
                         ? deviceHeight * 0.09
-                        : deviceHeight * 0.09),
-                width: deviceWidth * 0.55,
-                height: deviceHeight * 0.61,
+                        : deviceHeight * 0.2),
+                width: deviceHeight > 500
+                    ? deviceWidth * 0.55
+                    : deviceWidth * 0.47,
+                height:
+                    deviceHeight > 500 ? deviceHeight * 0.61 : double.infinity,
                 child: Material(
                   /////////////////////////////////////////// Popup Bg color
-                  color: Color.fromRGBO(255, 249, 232, 1.00),
+                  //color: Color.fromRGBO(255, 249, 232, 1.00),
+                  color: Colors.white,
                   ///////////////////////////////////////////
                   elevation: 24.0,
                   type: MaterialType.card,
                   child: Column(
                     children: <Widget>[
                       Container(
-                        width: deviceWidth * 0.55,
-                        height: deviceHeight * 0.61,
+                        /* width: deviceHeight > 500
+                            ? deviceWidth * 0.55
+                            : deviceWidth * 0.48,
+                        height: deviceHeight * 0.61, */
                         child: Stack(
                           children: <Widget>[
                             /////////////////////////////////////// Theme Bg
                             Consumer<DataProvider>(
                               builder: (context, themeProvider, child) =>
                                   Container(
-                                    decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      ///////////////////////////// round corner bottom left,right
-                                      Radius.circular(500),
-                                    ),
+                                decoration: BoxDecoration(
+                                  color: themeColor(themeProvider.theme),
+                                  borderRadius: BorderRadius.all(
+                                    ///////////////////////////// round corner bottom left,right
+                                    Radius.circular(30),
                                   ),
-                                child: Image.asset(themePopupBg[
-                                    themeProvider.starScoreBgAndloginBtn]),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(31.5),
+                                      topRight: Radius.circular(31.5)),
+                                  child: Image.asset(themePopupBg[
+                                      themeProvider.starScoreBgAndloginBtn],gaplessPlayback: true,),
+                                ),
                               ),
                             ),
                             /////////////////////////////////////// White Bg
-                            Positioned.fill(
+                            /* Positioned.fill(
                               child: Align(
-                                alignment: Alignment.bottomCenter,
+                                alignment: Alignment.bottomLeft,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.orange,
                                     borderRadius: BorderRadius.all(
                                       ///////////////////////////// round corner bottom left,right
                                       Radius.circular(30),
@@ -125,16 +150,22 @@ class _SlideDialogState extends State<SlideDialog> {
                                   height: 271,
                                 ),
                               ),
-                            ),
+                            ), */
 
                             /////////////////////////////////////// Cloud
                             Container(
+                              /* width: deviceHeight > 500
+                                  ? deviceWidth * 0.55
+                                  : deviceWidth * 0.4, */
                               margin: EdgeInsets.only(
                                   top: deviceHeight > 500
-                                      ? deviceHeight * 0.19
-                                      : deviceHeight * 0.19),
+                                      ? (deviceHeight * 0.61) * 0.31
+                                      : (deviceHeight - (deviceHeight * 0.2)) *
+                                          0.31),
                               child: Image.asset(
-                                  'assets/images/themePopup/cloudPopup.png'),
+                                'assets/images/themePopup/cloudPopup.png',
+                                fit: BoxFit.fitWidth,
+                              ),
                             ),
 
                             /////////////////////////////////////// Close Btn
@@ -148,15 +179,18 @@ class _SlideDialogState extends State<SlideDialog> {
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(
-                                        top: deviceHeight > 500
-                                            ? deviceHeight * 0.013
-                                            : deviceHeight * 0.013,
-                                        right: deviceHeight > 500
-                                            ? deviceHeight * 0.013
-                                            : deviceHeight * 0.013),
+                                      top: deviceHeight > 500
+                                          ? (deviceWidth * 0.55) * 0.023
+                                          : (deviceHeight -
+                                                  (deviceHeight * 0.2)) *
+                                              0.015,
+                                      right: deviceHeight > 500
+                                          ? (deviceWidth * 0.55) * 0.023
+                                          : (deviceWidth * 0.47) * 0.027,
+                                    ),
                                     width: deviceHeight > 500
-                                        ? deviceWidth * 0.044
-                                        : deviceWidth * 0.044,
+                                        ? (deviceWidth * 0.55) * 0.08
+                                        : (deviceWidth * 0.47) * 0.08,
                                     child: SvgPicture.asset(
                                         'assets/images/themePopup/closePopup.svg'),
                                   ),
@@ -167,213 +201,260 @@ class _SlideDialogState extends State<SlideDialog> {
                             Column(
                               children: <Widget>[
                                 Container(
-                                  height: deviceHeight > 500
+                                  width: deviceHeight > 500
+                                      ? deviceWidth * 0.55
+                                      : deviceWidth * 0.47,
+                                  /* height: deviceHeight > 500
                                       ? deviceHeight * 0.255
-                                      : deviceHeight * 0.23,
+                                      : (deviceHeight - (deviceHeight * 0.2)) *
+                                          0.45, */
+
                                   margin: EdgeInsets.only(
                                       top: deviceHeight > 500
-                                          ? deviceHeight * 0.075
-                                          : deviceHeight * 0.075),
-                                  child: new Swiper(
-                                    index: Provider.of<DataProvider>(context,
-                                            listen: false)
-                                        .selectAvatarSwiperIndex(),
-                                    loop: false,
-                                    controller: avatarSwipeController,
-                                    onTap: (int index) {
-                                      if (index == 0) {
-                                        avatarSwipeController.move(0,
-                                            animation: true);
-                                      } else if (index == 1) {
-                                        avatarSwipeController.move(1,
-                                            animation: true);
-                                      } else if (index == 2) {
-                                        avatarSwipeController.move(2,
-                                            animation: true);
-                                      }
-                                    },
-                                    onIndexChanged: (int index) {
-                                      setState(() {
-                                        Provider.of<DataProvider>(context,
-                                                listen: false)
-                                            .selectAvatarSwiper(index);
-                                      });
-                                    },
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Consumer<DataProvider>(
-                                        builder: (context, theme, child) =>
-                                            Container(
-                                          decoration: new BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                ///////////////////////// Shadow color
-                                                color: shadowColor[theme
-                                                    .starScoreBgAndloginBtn],
-                                                blurRadius:
-                                                    15.0, // has the effect of softening the shadow
-                                                spreadRadius:
-                                                    -5, // has the effect of extending the shadow
-                                                offset: Offset(
-                                                  0.0, // horizontal, move right 10
-                                                  8.0, // vertical, move down 10
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          margin: EdgeInsets.only(
-                                              /* left: 8, right: 8, */ bottom:
-                                                  20),
-                                          child: new ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            child: Image.asset(
-                                              avatar[index],
-                                              fit: BoxFit.fill,
+                                          ? (deviceHeight * 0.61) * 0.15
+                                          : (deviceHeight -
+                                                  (deviceHeight * 0.2)) *
+                                              0.15),
+                                  child: AspectRatio(
+                                    aspectRatio: 565 / 195,
+                                    child: new Swiper(
+                                      index: Provider.of<DataProvider>(context,
+                                              listen: false)
+                                          .selectAvatarSwiperIndex(),
+                                      loop: false,
+                                      controller: avatarSwipeController,
+                                      onTap: (int index) {
+                                        if (index == 0) {
+                                          avatarSwipeController.move(0,
+                                              animation: true);
+                                        } else if (index == 1) {
+                                          avatarSwipeController.move(1,
+                                              animation: true);
+                                        } else if (index == 2) {
+                                          avatarSwipeController.move(2,
+                                              animation: true);
+                                        }
+                                      },
+                                      onIndexChanged: (int index) {
+                                        setState(() {
+                                          Provider.of<DataProvider>(context,
+                                                  listen: false)
+                                              .selectAvatarSwiper(index);
+                                        });
+                                      },
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Consumer<DataProvider>(
+                                          builder: (context, theme, child) =>
+                                              Container(
+                                            decoration: new BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  ///////////////////////// Shadow color
+                                                  color: shadowColor[theme
+                                                      .starScoreBgAndloginBtn],
+                                                  blurRadius:
+                                                      15.0, // has the effect of softening the shadow
+                                                  spreadRadius:
+                                                      -5, // has the effect of extending the shadow
+                                                  offset: Offset(
+                                                    0.0, // horizontal, move right 10
+                                                    8.0, // vertical, move down 10
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            margin: EdgeInsets.only(
+                                                /* left: 8, right: 8, */ bottom:
+                                                    20),
+                                            child: new ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              child: Image.asset(
+                                                avatar[index],
+                                                fit: BoxFit.fill,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    itemCount: 3,
-                                    viewportFraction: 0.31,
-                                    scale: 0.1,
+                                        );
+                                      },
+                                      itemCount: 3,
+                                      viewportFraction: 0.31,
+                                      scale: 0.1,
+                                    ),
                                   ),
                                 ),
                                 ///////////////////////////////// Select Your Avatar Spacer
                                 Consumer<DataProvider>(
                                   builder: (context, theme, child) => Container(
+                                    width: deviceHeight > 500
+                                        ? deviceWidth * 0.55 * 0.83
+                                        : deviceWidth * 0.47 * 0.82,
                                     margin: EdgeInsets.only(
                                         top: deviceHeight > 500
-                                            ? deviceHeight * 0.035
-                                            : deviceHeight * 0.035),
-                                    child: SvgPicture.asset(selectYourThemeSvg[
-                                        theme.starScoreBgAndloginBtn]),
+                                            ? (deviceHeight * 0.61) * 0.02
+                                            : (deviceHeight -
+                                                    (deviceHeight * 0.2)) *
+                                                0.02),
+                                    child: SvgPicture.asset(
+                                      selectYourThemeSvg[
+                                          theme.starScoreBgAndloginBtn],
+                                      fit: BoxFit.fitWidth,
+                                    ),
                                   ),
                                 ),
                                 /////////////////////////////////////  Select Theme
                                 Container(
+                                  height: deviceHeight > 500
+                                      ? (deviceHeight * 0.61) -
+                                          (((((deviceHeight * 0.61) * 0.15) +
+                                                      ((deviceWidth * 0.55) *
+                                                          (195 / 565))) +
+                                                  ((deviceHeight * 0.61) *
+                                                      0.02)) +
+                                              ((deviceWidth * 0.55 * 0.83) *
+                                                  (24 / 489)))
+                                      : null,
                                   margin: EdgeInsets.only(
                                       top: deviceHeight > 500
-                                          ? deviceHeight * 0.045
-                                          : deviceHeight * 0.045),
-                                  child: Wrap(
-                                    spacing: deviceHeight > 500
-                                        ? deviceWidth * 0.02
-                                        : deviceWidth * 0.02,
+                                          ? 0 //(deviceHeight * 0.61) * 0.1
+                                          : (deviceHeight -
+                                                  (deviceHeight * 0.2)) *
+                                              0.07),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      ///////////////////////////////// choose theme1
-                                      GestureDetector(
-                                        onTap: () {
-                                          WidgetsBinding.instance
-                                              .addPostFrameCallback((_) {
-                                            // Add Your Code here.
-                                            Provider.of<DataProvider>(context,
-                                                    listen: false)
-                                                .chooseTheme(1);
-                                          });
-                                        },
-                                        child: Consumer<DataProvider>(
-                                          builder:
-                                              (context, themeProvider, child) =>
+                                      Wrap(
+                                        spacing: deviceHeight > 500
+                                            ? deviceWidth * 0.02
+                                            : deviceWidth * 0.02,
+                                        children: <Widget>[
+                                          ///////////////////////////////// choose theme1
+                                          GestureDetector(
+                                            onTap: () {
+                                              WidgetsBinding.instance
+                                                  .addPostFrameCallback((_) {
+                                                // Add Your Code here.
+                                                Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .chooseTheme(1);
+                                              });
+                                            },
+                                            child: Consumer<DataProvider>(
+                                              builder: (context, themeProvider,
+                                                      child) =>
                                                   SelectThemeWidget(
-                                            visible:
-                                                themeProvider.theme1Visibility,
-                                            themePath:
-                                                'assets/images/themePopup/theme1Preview.png',
-                                            deviceHeight: deviceHeight,
+                                                visible: themeProvider
+                                                    .theme1Visibility,
+                                                themePath:
+                                                    'assets/images/themePopup/theme1Preview.png',
+                                                deviceHeight: deviceHeight,
+                                                deviceWidth: deviceWidth,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      //////////////////////////////// choose theme2
-                                      GestureDetector(
-                                        onTap: () {
-                                          WidgetsBinding.instance
-                                              .addPostFrameCallback((_) {
-                                            Provider.of<DataProvider>(context,
-                                                    listen: false)
-                                                .chooseTheme(2);
-                                          });
-                                        },
-                                        child: Consumer<DataProvider>(
-                                          builder:
-                                              (context, themeProvider, child) =>
+                                          //////////////////////////////// choose theme2
+                                          GestureDetector(
+                                            onTap: () {
+                                              WidgetsBinding.instance
+                                                  .addPostFrameCallback((_) {
+                                                Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .chooseTheme(2);
+                                              });
+                                            },
+                                            child: Consumer<DataProvider>(
+                                              builder: (context, themeProvider,
+                                                      child) =>
                                                   SelectThemeWidget(
-                                            visible:
-                                                themeProvider.theme2Visibility,
-                                            themePath:
-                                                'assets/images/themePopup/theme2Preview.png',
-                                            deviceHeight: deviceHeight,
+                                                visible: themeProvider
+                                                    .theme2Visibility,
+                                                themePath:
+                                                    'assets/images/themePopup/theme2Preview.png',
+                                                deviceHeight: deviceHeight,
+                                                deviceWidth: deviceWidth,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      //////////////////////////////// choose theme3
-                                      GestureDetector(
-                                        onTap: () {
-                                          WidgetsBinding.instance
-                                              .addPostFrameCallback((_) {
-                                            Provider.of<DataProvider>(context,
-                                                    listen: false)
-                                                .chooseTheme(3);
-                                          });
-                                        },
-                                        child: Consumer<DataProvider>(
-                                          builder:
-                                              (context, themeProvider, child) =>
+                                          //////////////////////////////// choose theme3
+                                          GestureDetector(
+                                            onTap: () {
+                                              WidgetsBinding.instance
+                                                  .addPostFrameCallback((_) {
+                                                Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .chooseTheme(3);
+                                              });
+                                            },
+                                            child: Consumer<DataProvider>(
+                                              builder: (context, themeProvider,
+                                                      child) =>
                                                   SelectThemeWidget(
-                                            visible:
-                                                themeProvider.theme3Visibility,
-                                            themePath:
-                                                'assets/images/themePopup/theme3Preview.png',
-                                            deviceHeight: deviceHeight,
+                                                visible: themeProvider
+                                                    .theme3Visibility,
+                                                themePath:
+                                                    'assets/images/themePopup/theme3Preview.png',
+                                                deviceHeight: deviceHeight,
+                                                deviceWidth: deviceWidth,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      /////////////////////////////// choose theme4
-                                      GestureDetector(
-                                        onTap: () {
-                                          WidgetsBinding.instance
-                                              .addPostFrameCallback((_) {
-                                            Provider.of<DataProvider>(context,
-                                                    listen: false)
-                                                .chooseTheme(4);
-                                          });
-                                        },
-                                        child: Consumer<DataProvider>(
-                                          builder:
-                                              (context, themeProvider, child) =>
+                                          /////////////////////////////// choose theme4
+                                          GestureDetector(
+                                            onTap: () {
+                                              WidgetsBinding.instance
+                                                  .addPostFrameCallback((_) {
+                                                Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .chooseTheme(4);
+                                              });
+                                            },
+                                            child: Consumer<DataProvider>(
+                                              builder: (context, themeProvider,
+                                                      child) =>
                                                   SelectThemeWidget(
-                                            visible:
-                                                themeProvider.theme4Visibility,
-                                            themePath:
-                                                'assets/images/themePopup/theme4Preview.png',
-                                            deviceHeight: deviceHeight,
+                                                visible: themeProvider
+                                                    .theme4Visibility,
+                                                themePath:
+                                                    'assets/images/themePopup/theme4Preview.png',
+                                                deviceHeight: deviceHeight,
+                                                deviceWidth: deviceWidth,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      /////////////////////////////// choose theme5
-                                      GestureDetector(
-                                        onTap: () {
-                                          WidgetsBinding.instance
-                                              .addPostFrameCallback((_) {
-                                            Provider.of<DataProvider>(context,
-                                                    listen: false)
-                                                .chooseTheme(5);
-                                          });
-                                        },
-                                        child: Consumer<DataProvider>(
-                                          builder:
-                                              (context, themeProvider, child) =>
+                                          /////////////////////////////// choose theme5
+                                          GestureDetector(
+                                            onTap: () {
+                                              WidgetsBinding.instance
+                                                  .addPostFrameCallback((_) {
+                                                Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .chooseTheme(5);
+                                              });
+                                            },
+                                            child: Consumer<DataProvider>(
+                                              builder: (context, themeProvider,
+                                                      child) =>
                                                   SelectThemeWidget(
-                                            visible:
-                                                themeProvider.theme5Visibility,
-                                            themePath:
-                                                'assets/images/themePopup/theme5Preview.png',
-                                            deviceHeight: deviceHeight,
+                                                visible: themeProvider
+                                                    .theme5Visibility,
+                                                themePath:
+                                                    'assets/images/themePopup/theme5Preview.png',
+                                                deviceHeight: deviceHeight,
+                                                deviceWidth: deviceWidth,
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -388,7 +469,18 @@ class _SlideDialogState extends State<SlideDialog> {
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft:Radius.circular(31.5),topRight:Radius.circular(31.5),bottomLeft: Radius.circular(30),bottomRight:Radius.circular(30),
+                      topLeft: deviceHeight > 500
+                          ? Radius.circular(31.5)
+                          : Radius.circular(31.5),
+                      topRight: deviceHeight > 500
+                          ? Radius.circular(31.5)
+                          : Radius.circular(31.5),
+                      bottomLeft: deviceHeight > 500
+                          ? Radius.circular(30)
+                          : Radius.circular(0),
+                      bottomRight: deviceHeight > 500
+                          ? Radius.circular(30)
+                          : Radius.circular(0),
                     ),
                   ),
                 ),
@@ -398,9 +490,14 @@ class _SlideDialogState extends State<SlideDialog> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Container(
+                    margin: EdgeInsets.only(
+                        top: deviceHeight > 500
+                            ? deviceHeight * 0.0
+                            : (deviceHeight * 0.18) -
+                                ((deviceHeight * 0.18) / 2)),
                     width: deviceHeight > 500
-                        ? deviceWidth * 0.38
-                        : deviceWidth * 0.38,
+                        ? deviceWidth * 0.55 * 0.69
+                        : deviceWidth * 0.47 * 0.69,
                     child: Image.asset(
                         'assets/images/themePopup/selectAvatarSign.png'),
                   ),
@@ -443,12 +540,14 @@ class _SlideDialogState extends State<SlideDialog> {
 class SelectThemeWidget extends StatefulWidget {
   String themePath;
   double deviceHeight;
+  double deviceWidth;
   bool visible;
 
   SelectThemeWidget({
     @required this.themePath,
     Key key,
     @required this.deviceHeight,
+    @required this.deviceWidth,
     @required this.visible,
   }) : super(key: key);
 
@@ -462,10 +561,16 @@ class _SelectThemeWidgetState extends State<SelectThemeWidget> {
     return Stack(
       children: <Widget>[
         Container(
-          height: widget.deviceHeight > 500
+          /* height: widget.deviceHeight > 500
               ? widget.deviceHeight * 0.08
-              : widget.deviceHeight * 0.08,
-          child: Image.asset(widget.themePath),
+              : widget.deviceHeight * 0.11, */
+          width: widget.deviceHeight > 500
+              ? widget.deviceWidth * 0.55 / 7.2
+              : widget.deviceWidth * 0.47 / 7.5,
+          child: Image.asset(
+            widget.themePath,
+            fit: BoxFit.fitWidth,
+          ),
         ),
         Positioned.fill(
           child: Align(
