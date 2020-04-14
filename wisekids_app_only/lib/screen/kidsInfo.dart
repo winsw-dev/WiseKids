@@ -389,6 +389,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                               ),
                                                               child:
                                                                   TextFormField(
+                                                                    onChanged: (text){checkTextField();},
                                                                 controller:
                                                                     textControllerName,
                                                                 inputFormatters: [
@@ -586,12 +587,16 @@ class _KidsInfoState extends State<KidsInfo> {
                                                           child: TextFormField(
                                                             controller:
                                                                 textControllerAge,
-                                                            onChanged: (v) {
+                                                            onChanged: (text) {
                                                               checkTextField();
-                                                              FocusScope.of(
+                                                              
+                                                              if(text != ''){
+                                                                FocusScope.of(
                                                                       context)
                                                                   .requestFocus(
                                                                       FocusNode());
+                                                              }
+                                                              
                                                             },
                                                             focusNode: focus,
                                                             inputFormatters: [
@@ -609,7 +614,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                     .done,
 
                                                             maxLines: 1,
-                                                            maxLength: 2,
+                                                            maxLength: 1,
                                                             buildCounter: (BuildContext
                                                                         context,
                                                                     {int

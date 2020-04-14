@@ -8,13 +8,14 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 //import 'with_arkit_screen.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './provider/dataProvider.dart';
 
 /////////////////////////// Device Preview
 void main() => runApp(
       DevicePreview(
-        enabled: false,
+        enabled: true,
         builder: (context) => ChangeNotifierProvider(
           create: (context) => DataProvider(),
           child: MyApp(),
@@ -101,11 +102,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   AudioCache audioCache = AudioCache();
 
+  ////////////////////////////// Function to check how many time wisekids has been opened
+  openAppCount() async { 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _checkValue = prefs.containsKey('appOpenCount'); ////// check key
+
+    if (_checkValue) { /////// if true openTime+1
+      int openTimeStored = prefs.getInt('appOpenCount');
+      int openTimeCurrent = openTimeStored + 1;
+      print('######################################\nWiseKids App has opened for $openTimeCurrent times.\n######################################');
+      prefs.setInt('appOpenCount', openTimeCurrent);
+    } else { ////////// if false then set initial value
+      prefs.setInt('appOpenCount', 1);
+      print('######################################\nWiseKids App has opened for 1 times.\n######################################');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    
-    Future.delayed(Duration(seconds: 2), () {    
+    openAppCount();
+    Future.delayed(Duration(seconds: 2), () {
       //audioCache.loop('sound/background.mp3'); ////// BG sound
       Navigator.pushReplacement(
         context,
@@ -165,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Align(
               alignment: Alignment.center,
               child: Container(
-                width: deviceWidth*0.34,
+                width: deviceWidth * 0.34,
                 child: Image.asset(
                   'assets/images/splashScreen/wisekidsLogo.png',
                   fit: BoxFit.fitWidth,

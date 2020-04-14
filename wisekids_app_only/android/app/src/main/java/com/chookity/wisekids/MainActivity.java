@@ -1,4 +1,4 @@
-package com.rexraphael.flutterunitywidgetexample;
+package com.chookity.wisekids;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
