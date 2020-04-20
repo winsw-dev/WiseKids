@@ -417,7 +417,7 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                       ignoring: _loadingVisible,
                       child: GestureDetector(
                         onTap: () {
-                          //Navigator.pop(context);
+                          Navigator.pop(context);
                           setState(() {
                             _isLoading = !_isLoading;
                           });
