@@ -2,6 +2,7 @@ library slide_popup_dialog;
 
 import 'package:flutter/material.dart';
 
+
 import './slide_dialog.dart';
 
 /// Display slide dialog.
@@ -31,7 +32,7 @@ Future<T> showSlideDialog<T>({
     context: context,
     pageBuilder: (context, animation1, animation2) {},
     barrierColor: barrierColor ?? Colors.black.withOpacity(0.7),
-    barrierDismissible: barrierDismissible,
+    barrierDismissible: true,
     barrierLabel: "Dismiss",
     transitionDuration: transitionDuration,
     transitionBuilder: (context, animation1, animation2, widget) {

@@ -11,16 +11,23 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './provider/dataProvider.dart';
+import './provider/socialMedialSignIn.dart';
 
 /////////////////////////// Device Preview
 void main() => runApp(
       DevicePreview(
-        enabled: true,
-        builder: (context) => ChangeNotifierProvider(
-          create: (context) => DataProvider(),
-          child: MyApp(),
-        ),
-      ),
+          enabled: false,
+          builder: (context) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                    create: (context) => DataProvider(),
+                  ),
+                  ChangeNotifierProvider.value(
+                    value: UserAuthentication.instance(),
+                  ),
+                ],
+                child: MyApp(),
+              )),
     );
 
 /*  void main() => runApp(
@@ -47,9 +54,9 @@ class MyApp extends StatelessWidget {
       // Device Preview
       locale: DevicePreview.of(context).locale, // <--- Add the locale
       builder: DevicePreview.appBuilder, // <--- Add the builder
-
+      
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'WiseKids',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -103,18 +110,22 @@ class _MyHomePageState extends State<MyHomePage> {
   AudioCache audioCache = AudioCache();
 
   ////////////////////////////// Function to check how many time wisekids has been opened
-  openAppCount() async { 
+  openAppCount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _checkValue = prefs.containsKey('appOpenCount'); ////// check key
 
-    if (_checkValue) { /////// if true openTime+1
+    if (_checkValue) {
+      /////// if true openTime+1
       int openTimeStored = prefs.getInt('appOpenCount');
       int openTimeCurrent = openTimeStored + 1;
-      print('######################################\nWiseKids App has opened for $openTimeCurrent times.\n######################################');
+      print(
+          '######################################\nWiseKids App has opened for $openTimeCurrent times.\n######################################');
       prefs.setInt('appOpenCount', openTimeCurrent);
-    } else { ////////// if false then set initial value
+    } else {
+      ////////// if false then set initial value
       prefs.setInt('appOpenCount', 1);
-      print('######################################\nWiseKids App has opened for 1 times.\n######################################');
+      print(
+          '######################################\nWiseKids App has opened for 1 times.\n######################################');
     }
   }
 
@@ -195,3 +206,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

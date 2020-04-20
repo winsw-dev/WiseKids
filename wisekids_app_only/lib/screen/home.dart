@@ -1395,13 +1395,13 @@ class Theme1 extends StatelessWidget {
                 gaplessPlayback: true,
                 fit: BoxFit.fill,
               ), */
-              child: FittedBox(
-                fit: BoxFit.fill,
+              /* child: FittedBox(
+                fit: BoxFit.fill, */
                 child: FadeInImage(
                     fadeInDuration: Duration(milliseconds: fadeInDuration),
                     placeholder: MemoryImage(kTransparentImage),
                     image: AssetImage('assets/images/theme1/desk.png')),
-              ),
+              //),
             ),
           ),
         ),

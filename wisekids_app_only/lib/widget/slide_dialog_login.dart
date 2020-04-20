@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flare_loading/flare_loading.dart';
+
+import '../provider/socialMedialSignIn.dart';
 
 import '../screen/parentalConsent.dart';
- 
+
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 
@@ -24,6 +27,9 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
   var _initialPosition = 0.0;
   var _currentPosition = 0.0;
 
+  bool _isLoading = true;
+  bool _loadingVisible = false;
+  String _consent = '';
   var avatarSwipeController = new SwiperController();
 
   List<String> themePopupBg = [
@@ -76,36 +82,414 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
         child: Center(
           child: Stack(
             children: <Widget>[
-              ///////////////////// Bg
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: 977,
-                    child: Image.asset(
-                        'assets/images/loginDialog/loginDialogBg.png'),
+              ///////////////////// Card & Bg
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [
+                        0.1,
+                        1.0
+                      ],
+                      colors: [
+                        Color.fromRGBO(71, 220, 214, 1.0),
+                        Color.fromRGBO(132, 207, 78, 1.0),
+                      ]),
+                  borderRadius: BorderRadius.only(
+                    ///////////////////////////// round corner bottom left,right
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
                   ),
+                ),
+                margin: EdgeInsets.only(
+                    top: deviceHeight > 500
+                        ? deviceHeight * 0.25
+                        : deviceHeight * 0.2),
+                width: deviceHeight > 500
+                    ? deviceWidth * 0.55
+                    : deviceWidth * 0.47,
+                height: deviceHeight > 500 ? double.infinity : double.infinity,
+                ////////////////////////////
+                child: Column(
+                  children: <Widget>[
+                    ///////////////////// Welcome to wisekids Logo
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: deviceHeight > 500
+                              ? (deviceHeight - (deviceHeight * 0.25)) * 0.09
+                              : (deviceHeight - (deviceHeight * 0.2)) * 0.09),
+                      width: deviceHeight > 500
+                          ? (deviceWidth * 0.55) * 0.6
+                          : (deviceWidth * 0.47) * 0.6,
+                      child: Image.asset(
+                          'assets/images/loginDialog/welcomeToWisekids.png'),
+                    ),
+                    ///////////////////// Facebook Btn
+                    IgnorePointer(
+                      ignoring: _loadingVisible,
+                      child: GestureDetector(
+                        onTap: () async {
+                          setState(() {
+                            _loadingVisible = true;
+
+                            _consent = 'Facebook';
+                          });
+                          await Provider.of<UserAuthentication>(context,
+                                  listen: false)
+                              .signInWithFacebook();
+
+                          print(Provider.of<UserAuthentication>(context,
+                                  listen: false)
+                              .status
+                              .toString());
+                          if (Provider.of<UserAuthentication>(context,
+                                      listen: false)
+                                  .status ==
+                              Status.Authenticated) {
+                            setState(() {
+                              _isLoading = false;
+                            });
+                            /* Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ParentalConsent(consentDetail: 'Facebook',);
+                                },
+                              ),
+                            ); */
+                          }
+                          /* signInWithFacebook().whenComplete(() {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ParentalConsent();
+                                },
+                              ),
+                            );
+                          }); */
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              top: deviceHeight > 500
+                                  ? (deviceHeight - (deviceHeight * 0.25)) *
+                                      0.09
+                                  : (deviceHeight - (deviceHeight * 0.2)) *
+                                      0.07),
+                          width: deviceHeight > 500
+                              ? (deviceWidth * 0.55) * 0.75
+                              : (deviceWidth * 0.47) * 0.75,
+                          child: AspectRatio(
+                            aspectRatio: 442 / 65,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.20),
+                                      blurRadius:
+                                          15.0, // has the effect of softening the shadow
+                                      spreadRadius:
+                                          -5, // has the effect of extending the shadow
+                                      offset: Offset(
+                                        0.0, // horizontal, move right 10
+                                        5.0, // vertical, move down 10
+                                      ),
+                                    ),
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(500))),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: deviceHeight > 500
+                                        ? (((deviceWidth * 0.55) * 0.75) *
+                                                (65 / 442)) *
+                                            0.6
+                                        : (((deviceWidth * 0.47) * 0.75) *
+                                                (65 / 442)) *
+                                            0.6,
+                                    margin: EdgeInsets.only(
+                                      left: deviceHeight > 500
+                                          ? ((deviceWidth * 0.55) * 0.75) * 0.07
+                                          : ((deviceWidth * 0.47) * 0.75) *
+                                              0.07,
+                                    ),
+                                    child: SvgPicture.asset(
+                                        'assets/images/loginDialog/facebookIcon.svg'),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    height: deviceHeight > 500
+                                        ? (((deviceWidth * 0.55) * 0.75) *
+                                                (65 / 442)) *
+                                            0.4
+                                        : (((deviceWidth * 0.47) * 0.75) *
+                                                (65 / 442)) *
+                                            0.45,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: FittedBox(
+                                        fit: BoxFit.fitHeight,
+                                        child: Text(
+                                          'Facebook',
+                                          style: TextStyle(
+                                            fontFamily: 'NunitoRegular',
+                                            color: Color.fromRGBO(
+                                                80, 85, 89, 1.00),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      right: deviceHeight > 500
+                                          ? ((deviceWidth * 0.55) * 0.75) * 0.07
+                                          : ((deviceWidth * 0.47) * 0.75) *
+                                              0.07,
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'assets/images/loginDialog/facebookIcon.svg',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    ///////////////////// Google Btn
+                    IgnorePointer(
+                      ignoring: _loadingVisible,
+                      child: GestureDetector(
+                        onTap: () async {
+                          setState(() {
+                            _loadingVisible = true;
+
+                            _consent = 'Google';
+                          });
+                          await Provider.of<UserAuthentication>(context,
+                                  listen: false)
+                              .signInWithGoogle();
+
+                          print(Provider.of<UserAuthentication>(context,
+                                  listen: false)
+                              .status
+                              .toString());
+
+                          if (Provider.of<UserAuthentication>(context,
+                                      listen: false)
+                                  .status ==
+                              Status.Authenticated) {
+                            setState(() {
+                              _isLoading = false;
+                            });
+
+                            /* Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ParentalConsent(consentDetail: 'Google',);
+                                },
+                              ),
+                            ); */
+                          }
+                          /* if (signInWithGoogle() != null){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ParentalConsent();
+                                },
+                              ),
+                            );
+                          } else{
+                            print('GoogleSignIn Not successful');
+                          } */
+
+                          /*  signInWithGoogle().whenComplete(() {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ParentalConsent();
+                                },
+                              ),
+                            );
+                          }); */
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              top: deviceHeight > 500
+                                  ? (deviceHeight - (deviceHeight * 0.25)) *
+                                      0.04
+                                  : (deviceHeight - (deviceHeight * 0.2)) *
+                                      0.04),
+                          width: deviceHeight > 500
+                              ? (deviceWidth * 0.55) * 0.75
+                              : (deviceWidth * 0.47) * 0.75,
+                          child: AspectRatio(
+                            aspectRatio: 442 / 65,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.20),
+                                      blurRadius:
+                                          15.0, // has the effect of softening the shadow
+                                      spreadRadius:
+                                          -5, // has the effect of extending the shadow
+                                      offset: Offset(
+                                        0.0, // horizontal, move right 10
+                                        5.0, // vertical, move down 10
+                                      ),
+                                    ),
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(500))),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: deviceHeight > 500
+                                        ? (((deviceWidth * 0.55) * 0.75) *
+                                                (65 / 442)) *
+                                            0.6
+                                        : (((deviceWidth * 0.47) * 0.75) *
+                                                (65 / 442)) *
+                                            0.6,
+                                    margin: EdgeInsets.only(
+                                      left: deviceHeight > 500
+                                          ? ((deviceWidth * 0.55) * 0.75) * 0.07
+                                          : ((deviceWidth * 0.47) * 0.75) *
+                                              0.07,
+                                    ),
+                                    child: SvgPicture.asset(
+                                        'assets/images/loginDialog/googleIcon.svg'),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    height: deviceHeight > 500
+                                        ? (((deviceWidth * 0.55) * 0.75) *
+                                                (65 / 442)) *
+                                            0.4
+                                        : (((deviceWidth * 0.47) * 0.75) *
+                                                (65 / 442)) *
+                                            0.45,
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: FittedBox(
+                                        fit: BoxFit.fitHeight,
+                                        child: Text(
+                                          'Google',
+                                          style: TextStyle(
+                                            fontFamily: 'NunitoRegular',
+                                            color: Color.fromRGBO(
+                                                80, 85, 89, 1.00),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      right: deviceHeight > 500
+                                          ? ((deviceWidth * 0.55) * 0.75) * 0.07
+                                          : ((deviceWidth * 0.47) * 0.75) *
+                                              0.07,
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'assets/images/loginDialog/googleIcon.svg',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    /////////////////////////////////////// Use as guest
+                    deviceHeight > 500 ? Container() : Spacer(),
+                    IgnorePointer(
+                      ignoring: _loadingVisible,
+                      child: GestureDetector(
+                        onTap: () {
+                          //Navigator.pop(context);
+                          setState(() {
+                            _isLoading = !_isLoading;
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              top: deviceHeight > 500
+                                  ? (deviceWidth * 0.55) * 0.05
+                                  : 0),
+                          height: deviceHeight > 500
+                              ? (((deviceWidth * 0.55) * 0.75) * (65 / 442)) *
+                                  0.45
+                              : (((deviceWidth * 0.47) * 0.75) * (65 / 442)) *
+                                  0.45,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: FittedBox(
+                              fit: BoxFit.fitHeight,
+                              child: Text(
+                                'Use as Guest',
+                                style: TextStyle(
+                                  fontFamily: 'NunitoRegular',
+                                  color: Color.fromRGBO(255, 255, 255, 1.00),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    deviceHeight > 500 ? Container() : Spacer(),
+                  ],
                 ),
               ),
               ///////////////////// Close Btn
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      return;
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 250, top: 210),
-                      child: SvgPicture.asset(
-                          'assets/images/loginDialog/close.svg'),
+                  child: IgnorePointer(
+                    ignoring: _loadingVisible,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        return;
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: deviceHeight > 500
+                              ? (deviceHeight * 0.25) +
+                                  (deviceWidth * 0.55) * 0.04
+                              : (deviceHeight * 0.2) +
+                                  (deviceWidth * 0.55) * 0.04,
+                          right: deviceHeight > 500
+                              ? (deviceWidth * 0.55) * 0.04
+                              : (deviceWidth * 0.55) * 0.04,
+                        ),
+                        width: deviceHeight > 500
+                            ? (deviceWidth * 0.55) * 0.06
+                            : (deviceWidth * 0.47) * 0.06,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: SvgPicture.asset(
+                              'assets/images/themePopup/closePopup.svg'),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
+
               ///////////////////// Facebook Btn
-              Positioned.fill(
+              /* Positioned.fill(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: GestureDetector(
@@ -124,9 +508,9 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                     ),
                   ),
                 ),
-              ),
+              ), */
               ///////////////////// Google Btn
-              Positioned.fill(
+              /* Positioned.fill(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: GestureDetector(
@@ -146,9 +530,9 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                     ),
                   ),
                 ),
-              ),
+              ), */
               ////////////////////// Guest Mode
-              Positioned.fill(
+              /*  Positioned.fill(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: GestureDetector(
@@ -167,6 +551,42 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                               fontSize: deviceHeight > 500 ? 19 : 15,
                               color: Colors.white),
                         ),
+                      ),
+                    ),
+                  ),
+                ),
+              ), */
+              ////////////////////////////////// Loading
+
+              Visibility(
+                visible: _loadingVisible,
+                child: Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      child: FlareLoading(
+                        name: 'assets/animation/loading.flr',
+                        loopAnimation: 'loading',
+                        endAnimation: 'success',
+                        isLoading: _isLoading,
+                        onSuccess: (_) {
+                          print('finish loading');
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ParentalConsent(
+                                  consentDetail: _consent,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        onError: (err, stack) {
+                          print(err);
+                        },
                       ),
                     ),
                   ),

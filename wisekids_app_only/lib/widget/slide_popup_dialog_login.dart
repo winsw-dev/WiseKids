@@ -1,7 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-
+import '../provider/socialMedialSignIn.dart';
+import 'package:provider/provider.dart';
 import './slide_dialog_login.dart';
 
 /// Display slide dialog.
@@ -31,7 +32,7 @@ Future<T> showSlideDialog<T>({
     context: context,
     pageBuilder: (context, animation1, animation2) {},
     barrierColor: barrierColor ?? Colors.black.withOpacity(0.7),
-    barrierDismissible: barrierDismissible,
+    barrierDismissible: false,
     barrierLabel: "Dismiss",
     transitionDuration: transitionDuration,
     transitionBuilder: (context, animation1, animation2, widget) {

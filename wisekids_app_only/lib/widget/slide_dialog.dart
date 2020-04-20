@@ -130,8 +130,11 @@ class _SlideDialogState extends State<SlideDialog> {
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(31.5),
                                       topRight: Radius.circular(31.5)),
-                                  child: Image.asset(themePopupBg[
-                                      themeProvider.starScoreBgAndloginBtn],gaplessPlayback: true,),
+                                  child: Image.asset(
+                                    themePopupBg[
+                                        themeProvider.starScoreBgAndloginBtn],
+                                    gaplessPlayback: true,
+                                  ),
                                 ),
                               ),
                             ),
@@ -181,18 +184,19 @@ class _SlideDialogState extends State<SlideDialog> {
                                     margin: EdgeInsets.only(
                                       top: deviceHeight > 500
                                           ? (deviceWidth * 0.55) * 0.023
-                                          : (deviceHeight -
-                                                  (deviceHeight * 0.2)) *
-                                              0.015,
+                                          : (deviceWidth * 0.55) * 0.023,
                                       right: deviceHeight > 500
                                           ? (deviceWidth * 0.55) * 0.023
-                                          : (deviceWidth * 0.47) * 0.027,
+                                          : (deviceWidth * 0.55) * 0.023,
                                     ),
                                     width: deviceHeight > 500
                                         ? (deviceWidth * 0.55) * 0.08
                                         : (deviceWidth * 0.47) * 0.08,
-                                    child: SvgPicture.asset(
-                                        'assets/images/themePopup/closePopup.svg'),
+                                    child: AspectRatio(
+                                      aspectRatio: 1,
+                                      child: SvgPicture.asset(
+                                          'assets/images/themePopup/closePopup.svg'),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -217,72 +221,81 @@ class _SlideDialogState extends State<SlideDialog> {
                                               0.15),
                                   child: AspectRatio(
                                     aspectRatio: 565 / 195,
-                                    child: new Swiper(
-                                      index: Provider.of<DataProvider>(context,
-                                              listen: false)
-                                          .selectAvatarSwiperIndex(),
-                                      loop: false,
-                                      controller: avatarSwipeController,
-                                      onTap: (int index) {
-                                        if (index == 0) {
-                                          avatarSwipeController.move(0,
-                                              animation: true);
-                                        } else if (index == 1) {
-                                          avatarSwipeController.move(1,
-                                              animation: true);
-                                        } else if (index == 2) {
-                                          avatarSwipeController.move(2,
-                                              animation: true);
-                                        }
+                                    child: NotificationListener<
+                                        OverscrollIndicatorNotification>(
+                                      onNotification:
+                                          (OverscrollIndicatorNotification
+                                              overscroll) {
+                                        overscroll.disallowGlow();
                                       },
-                                      onIndexChanged: (int index) {
-                                        setState(() {
-                                          Provider.of<DataProvider>(context,
-                                                  listen: false)
-                                              .selectAvatarSwiper(index);
-                                        });
-                                      },
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Consumer<DataProvider>(
-                                          builder: (context, theme, child) =>
-                                              Container(
-                                            decoration: new BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  ///////////////////////// Shadow color
-                                                  color: shadowColor[theme
-                                                      .starScoreBgAndloginBtn],
-                                                  blurRadius:
-                                                      15.0, // has the effect of softening the shadow
-                                                  spreadRadius:
-                                                      -5, // has the effect of extending the shadow
-                                                  offset: Offset(
-                                                    0.0, // horizontal, move right 10
-                                                    8.0, // vertical, move down 10
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            margin: EdgeInsets.only(
-                                                /* left: 8, right: 8, */ bottom:
-                                                    20),
-                                            child: new ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              child: Image.asset(
-                                                avatar[index],
-                                                fit: BoxFit.fill,
+                                      child: new Swiper(
+                                        index: Provider.of<DataProvider>(
+                                                context,
+                                                listen: false)
+                                            .selectAvatarSwiperIndex(),
+                                        loop: false,
+                                        controller: avatarSwipeController,
+                                        onTap: (int index) {
+                                          if (index == 0) {
+                                            avatarSwipeController.move(0,
+                                                animation: true);
+                                          } else if (index == 1) {
+                                            avatarSwipeController.move(1,
+                                                animation: true);
+                                          } else if (index == 2) {
+                                            avatarSwipeController.move(2,
+                                                animation: true);
+                                          }
+                                        },
+                                        onIndexChanged: (int index) {
+                                          setState(() {
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .selectAvatarSwiper(index);
+                                          });
+                                        },
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Consumer<DataProvider>(
+                                            builder: (context, theme, child) =>
+                                                Container(
+                                              decoration: new BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    ///////////////////////// Shadow color
+                                                    color: shadowColor[theme
+                                                        .starScoreBgAndloginBtn],
+                                                    blurRadius:
+                                                        15.0, // has the effect of softening the shadow
+                                                    spreadRadius:
+                                                        -5, // has the effect of extending the shadow
+                                                    offset: Offset(
+                                                      0.0, // horizontal, move right 10
+                                                      8.0, // vertical, move down 10
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                  /* left: 8, right: 8, */ bottom:
+                                                      20),
+                                              child: new ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                child: Image.asset(
+                                                  avatar[index],
+                                                  fit: BoxFit.fill,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: 3,
-                                      viewportFraction: 0.31,
-                                      scale: 0.1,
+                                          );
+                                        },
+                                        itemCount: 3,
+                                        viewportFraction: 0.31,
+                                        scale: 0.1,
+                                      ),
                                     ),
                                   ),
                                 ),

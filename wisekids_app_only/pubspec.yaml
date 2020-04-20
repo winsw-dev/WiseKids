@@ -47,9 +47,20 @@ dependencies:
 
   flutter_device_type: ^0.2.0
   
-  flare_flutter: ^1.8.3
+  flare_flutter: ^2.0.3
+  flare_loading: ^2.1.1
+
+  url_launcher: ^5.4.2
+
+  dotted_border: ^1.0.5
 
   firebase_auth: ^0.16.0
+  cloud_firestore: ^0.13.5
+  google_sign_in: ^4.4.1
+  #google_sign_in: 
+  #  git:
+  #    url: https://github.com/sarawin008/googleLogin.git
+  flutter_facebook_login: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -280,14 +291,10 @@ flutter:
     - assets/images/parentalConsent/logoParental.png
     - assets/images/parentalConsent/consentDetail.png
 
-    ########### Parental Kids Center
+    ########### Parental Kids Center    
+    - assets/images/parentalKidsCenter/addMore.svg
     - assets/images/parentalKidsCenter/homeBtn.svg
     - assets/images/parentalKidsCenter/Signout.svg
-    - assets/images/parentalKidsCenter/leaveReview.svg
-    - assets/images/parentalKidsCenter/Todd.png
-    - assets/images/parentalKidsCenter/Gusjung.png
-    - assets/images/parentalKidsCenter/Mimi.png
-    - assets/images/parentalKidsCenter/addMore.png
 
 
     ########### KidsProfile
@@ -336,7 +343,14 @@ flutter:
     - assets/images/loginDialog/loginDialogBg.png
     - assets/images/loginDialog/google.png
     - assets/images/loginDialog/face.png
+
+
     - assets/images/loginDialog/close.svg
+    - assets/images/loginDialog/welcomeToWisekids.png
+    - assets/images/loginDialog/googleIcon.svg
+    - assets/images/loginDialog/facebookIcon.svg
+
+
 
     ########## Select Avatar & Theme Popup
     - assets/images/themePopup/selectAvatarSign.png
@@ -371,6 +385,7 @@ flutter:
     ##################################  Animation
     - assets/animation/Firework.flr
     - assets/animation/star.flr
+    - assets/animation/loading.flr
 
 
 
