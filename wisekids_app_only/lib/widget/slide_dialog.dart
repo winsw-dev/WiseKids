@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -21,6 +23,7 @@ class SlideDialog extends StatefulWidget {
 class _SlideDialogState extends State<SlideDialog> {
   var _initialPosition = 0.0;
   var _currentPosition = 0.0;
+  bool _perventMultipleTab = true;
 
   var avatarSwipeController = new SwiperController();
 
@@ -120,7 +123,7 @@ class _SlideDialogState extends State<SlideDialog> {
                               builder: (context, themeProvider, child) =>
                                   Container(
                                 decoration: BoxDecoration(
-                                  color: themeColor(themeProvider.theme),
+                                  color: themeColor(themeProvider.theme[themeProvider.currentKids]),
                                   borderRadius: BorderRadius.all(
                                     ///////////////////////////// round corner bottom left,right
                                     Radius.circular(30),
@@ -132,7 +135,7 @@ class _SlideDialogState extends State<SlideDialog> {
                                       topRight: Radius.circular(31.5)),
                                   child: Image.asset(
                                     themePopupBg[
-                                        themeProvider.starScoreBgAndloginBtn],
+                                        themeProvider.theme[themeProvider.currentKids]-1],
                                     gaplessPlayback: true,
                                   ),
                                 ),
@@ -176,10 +179,19 @@ class _SlideDialogState extends State<SlideDialog> {
                               child: Align(
                                 alignment: Alignment.topRight,
                                 child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    return;
-                                  },
+                                  onTap: _perventMultipleTab
+                                      ? () {
+                                          setState(() {
+                                            _perventMultipleTab = false;
+                                          });
+
+                                          Timer(
+                                              Duration(seconds: 1),
+                                              () => setState(() =>
+                                                  _perventMultipleTab = true));
+                                          Navigator.pop(context);
+                                        }
+                                      : null,
                                   child: Container(
                                     margin: EdgeInsets.only(
                                       top: deviceHeight > 500
@@ -266,7 +278,7 @@ class _SlideDialogState extends State<SlideDialog> {
                                                   BoxShadow(
                                                     ///////////////////////// Shadow color
                                                     color: shadowColor[theme
-                                                        .starScoreBgAndloginBtn],
+                                                        .theme[theme.currentKids]-1],
                                                     blurRadius:
                                                         15.0, // has the effect of softening the shadow
                                                     spreadRadius:
@@ -313,7 +325,7 @@ class _SlideDialogState extends State<SlideDialog> {
                                                 0.02),
                                     child: SvgPicture.asset(
                                       selectYourThemeSvg[
-                                          theme.starScoreBgAndloginBtn],
+                                          theme.theme[theme.currentKids]-1],
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),
@@ -348,16 +360,16 @@ class _SlideDialogState extends State<SlideDialog> {
                                         children: <Widget>[
                                           ///////////////////////////////// choose theme1
                                           GestureDetector(
-                                            onTap: () {
+                                            onTap: () =>/* {
                                               WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
+                                                  .addPostFrameCallback((_) { */
                                                 // Add Your Code here.
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseTheme(1);
-                                              });
-                                            },
+                                                    .chooseTheme(1)
+                                              /* });
+                                            } */,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -373,15 +385,15 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           //////////////////////////////// choose theme2
                                           GestureDetector(
-                                            onTap: () {
+                                            onTap: () =>/* {
                                               WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
+                                                  .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseTheme(2);
-                                              });
-                                            },
+                                                    .chooseTheme(2)
+                                             /*  });
+                                            } */,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -397,15 +409,15 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           //////////////////////////////// choose theme3
                                           GestureDetector(
-                                            onTap: () {
+                                            onTap: () =>/* {
                                               WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
+                                                  .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseTheme(3);
-                                              });
-                                            },
+                                                    .chooseTheme(3)
+                                              /* });
+                                            } */,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -421,15 +433,15 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           /////////////////////////////// choose theme4
                                           GestureDetector(
-                                            onTap: () {
+                                            onTap: () =>/* {
                                               WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
+                                                  .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseTheme(4);
-                                              });
-                                            },
+                                                    .chooseTheme(4)
+                                             /*  });
+                                            } */,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -445,15 +457,15 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           /////////////////////////////// choose theme5
                                           GestureDetector(
-                                            onTap: () {
+                                            onTap: () =>/* {
                                               WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) {
+                                                  .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseTheme(5);
-                                              });
-                                            },
+                                                    .chooseTheme(5)
+                                             /*  });
+                                            } */,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -523,13 +535,13 @@ class _SlideDialogState extends State<SlideDialog> {
     );
   }
 
-  void _onVerticalDragStart(DragStartDetails drag) {
+  /* void _onVerticalDragStart(DragStartDetails drag) {
     setState(() {
       _initialPosition = drag.globalPosition.dy;
     });
-  }
+  } */
 
-  void _onVerticalDragUpdate(DragUpdateDetails drag) {
+  /* void _onVerticalDragUpdate(DragUpdateDetails drag) {
     setState(() {
       final temp = _currentPosition;
       _currentPosition = drag.globalPosition.dy - _initialPosition;
@@ -547,7 +559,7 @@ class _SlideDialogState extends State<SlideDialog> {
     setState(() {
       _currentPosition = 0.0;
     });
-  }
+  } */
 }
 
 class SelectThemeWidget extends StatefulWidget {

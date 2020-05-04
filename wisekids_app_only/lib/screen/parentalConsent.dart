@@ -5,8 +5,9 @@ import './parentalKidsCenter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
-import '../provider/socialMedialSignIn.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import '../provider/dataProvider.dart';
 
 import 'home.dart';
 
@@ -23,6 +24,7 @@ class _ParentalConsentState extends State<ParentalConsent> {
   bool check1 = false;
   bool check2 = false;
   bool check3 = false;
+  bool _ignorePointer = false;
 
   //var consentDetail = 'Google';
   var acceptBtn = false;
@@ -46,12 +48,17 @@ class _ParentalConsentState extends State<ParentalConsent> {
         .collection('WiseKidsUser')
         .document(_userId)
         .setData({"acceptedConsent": true}, merge: true); */
+    setState(() {
+      _ignorePointer = true;
+    });
     await Firestore.instance
         .collection('WiseKidsUser')
         .document(_userId)
         .updateData({"acceptedConsent": true});
 
-    Navigator.of(context).push(
+    Provider.of<DataProvider>(context, listen: false).consentAccepted(true);
+
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
           return ParentalKidsCenter();
@@ -100,25 +107,28 @@ class _ParentalConsentState extends State<ParentalConsent> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     //////////////////////////////////// Back Btn
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Home(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: deviceHeight > 500
-                                ? deviceWidth * 0.014
-                                : deviceWidth * 0.018,
-                            left: deviceHeight > 500
-                                ? deviceWidth * 0.014
-                                : deviceWidth * 0.018),
-                        child: SvgPicture.asset(
-                            'assets/images/parentalConsent/backBtn.svg'),
+                    IgnorePointer(
+                      ignoring: _ignorePointer,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(
+                            context,
+                            /* MaterialPageRoute(
+                              builder: (context) => Home(),
+                            ), */
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              top: deviceHeight > 500
+                                  ? deviceWidth * 0.014
+                                  : deviceWidth * 0.018,
+                              left: deviceHeight > 500
+                                  ? deviceWidth * 0.014
+                                  : deviceWidth * 0.018),
+                          child: SvgPicture.asset(
+                              'assets/images/parentalConsent/backBtn.svg'),
+                        ),
                       ),
                     ),
                     //////////////////////////////////// spacer
@@ -740,39 +750,43 @@ class _ParentalConsentState extends State<ParentalConsent> {
                                 child: Padding(
                                   padding: EdgeInsets.all(
                                       (deviceHeight * 0.72) * 0.037),
-                                  child: GestureDetector(
-                                    /////////////////////////////////////// record user accepted consent to database
-                                    onTap: _acceptBtn,
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Container(
-                                          child: SvgPicture.asset(
-                                              'assets/images/parentalConsent/accept.svg'),
-                                        ),
-                                        Positioned.fill(
-                                            child: Align(
-                                                alignment: Alignment.center,
-                                                child: FractionallySizedBox(
-                                                  heightFactor: 0.62,
-                                                  child: Container(
-                                                    child: FittedBox(
-                                                      fit: BoxFit.fitHeight,
-                                                      child: Text(
-                                                        'Accept',
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              'NunitoBlack',
-                                                          color: Color.fromRGBO(
-                                                              255,
-                                                              255,
-                                                              255,
-                                                              1.00),
+                                  child: IgnorePointer(
+                                    ignoring: _ignorePointer,
+                                    child: GestureDetector(
+                                      /////////////////////////////////////// record user accepted consent to database
+                                      onTap: _acceptBtn,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Container(
+                                            child: SvgPicture.asset(
+                                                'assets/images/parentalConsent/accept.svg'),
+                                          ),
+                                          Positioned.fill(
+                                              child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: FractionallySizedBox(
+                                                    heightFactor: 0.62,
+                                                    child: Container(
+                                                      child: FittedBox(
+                                                        fit: BoxFit.fitHeight,
+                                                        child: Text(
+                                                          'Accept',
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoBlack',
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1.00),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ))),
-                                      ],
+                                                  ))),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -820,35 +834,38 @@ class _ParentalConsentState extends State<ParentalConsent> {
                             ],
                           ),
                           /////////////////////////////////// active
-                          GestureDetector(
-                            /////////////////////////////////////// record user accepted consent to database
-                            onTap: _acceptBtn,
-                            child: Stack(
-                              children: <Widget>[
-                                Container(
-                                  child: SvgPicture.asset(
-                                      'assets/images/parentalConsent/accept.svg'),
-                                ),
-                                Positioned.fill(
-                                    child: Align(
-                                        alignment: Alignment.center,
-                                        child: FractionallySizedBox(
-                                          heightFactor: 0.62,
-                                          child: Container(
-                                            child: FittedBox(
-                                              fit: BoxFit.fitHeight,
-                                              child: Text(
-                                                'Accept',
-                                                style: TextStyle(
-                                                  fontFamily: 'NunitoBlack',
-                                                  color: Color.fromRGBO(
-                                                      255, 255, 255, 1.00),
+                          IgnorePointer(
+                            ignoring: _ignorePointer,
+                            child: GestureDetector(
+                              /////////////////////////////////////// record user accepted consent to database
+                              onTap: _acceptBtn,
+                              child: Stack(
+                                children: <Widget>[
+                                  Container(
+                                    child: SvgPicture.asset(
+                                        'assets/images/parentalConsent/accept.svg'),
+                                  ),
+                                  Positioned.fill(
+                                      child: Align(
+                                          alignment: Alignment.center,
+                                          child: FractionallySizedBox(
+                                            heightFactor: 0.62,
+                                            child: Container(
+                                              child: FittedBox(
+                                                fit: BoxFit.fitHeight,
+                                                child: Text(
+                                                  'Accept',
+                                                  style: TextStyle(
+                                                    fontFamily: 'NunitoBlack',
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 1.00),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ))),
-                              ],
+                                          ))),
+                                ],
+                              ),
                             ),
                           ),
                         ],

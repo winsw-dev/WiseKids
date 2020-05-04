@@ -20,10 +20,8 @@ class _KidsInfoState extends State<KidsInfo> {
   final focus = FocusNode();
   final textControllerName = TextEditingController();
   final textControllerAge = TextEditingController();
-
+  String inputName, inputAge;
   void checkTextField() {
-    String inputName, inputAge;
-
     setState(() {
       // Getting Value From Text Field and Store into String Variable
       inputName = textControllerName.text;
@@ -201,11 +199,13 @@ class _KidsInfoState extends State<KidsInfo> {
                       child: deviceHeight > 500
                           ? Image.asset('assets/images/kidsInfo/' +
                               Provider.of<DataProvider>(context, listen: false)
-                                  .avatar +
+                                  .avatar[Provider.of<DataProvider>(context, listen: false)
+                                  .currentKids] +
                               'Spotlight.png')
                           : Image.asset('assets/images/kidsInfo/' +
                               Provider.of<DataProvider>(context, listen: false)
-                                  .avatar +
+                                  .avatar[Provider.of<DataProvider>(context, listen: false)
+                                  .currentKids] +
                               'SpotlightSmall.png'),
                     ),
 
@@ -389,7 +389,10 @@ class _KidsInfoState extends State<KidsInfo> {
                                                               ),
                                                               child:
                                                                   TextFormField(
-                                                                    onChanged: (text){checkTextField();},
+                                                                onChanged:
+                                                                    (text) {
+                                                                  checkTextField();
+                                                                },
                                                                 controller:
                                                                     textControllerName,
                                                                 inputFormatters: [
@@ -589,14 +592,13 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                 textControllerAge,
                                                             onChanged: (text) {
                                                               checkTextField();
-                                                              
-                                                              if(text != ''){
+
+                                                              if (text != '') {
                                                                 FocusScope.of(
-                                                                      context)
-                                                                  .requestFocus(
-                                                                      FocusNode());
+                                                                        context)
+                                                                    .requestFocus(
+                                                                        FocusNode());
                                                               }
-                                                              
                                                             },
                                                             focusNode: focus,
                                                             inputFormatters: [
@@ -797,6 +799,13 @@ class _KidsInfoState extends State<KidsInfo> {
                                                   borderRadius:
                                                       BorderRadius.circular(50),
                                                   onTap: () {
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .setKisdNameAndAge(
+                                                            inputName,
+                                                            inputAge);
+
                                                     Navigator.pushReplacement(
                                                       context,
                                                       MaterialPageRoute(
@@ -828,6 +837,12 @@ class _KidsInfoState extends State<KidsInfo> {
                                               alignment: Alignment.center,
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .setKisdNameAndAge(
+                                                            inputName,
+                                                            inputAge);
                                                   Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(

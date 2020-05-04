@@ -91,7 +91,7 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
                     ? deviceHeight * 0.5
                     : deviceHeight * 0.6,
                 child: Image.asset('assets/images/finishSelectAvatar/' +
-                    Provider.of<DataProvider>(context, listen: false).avatar +
+                    Provider.of<DataProvider>(context, listen: false).avatar[Provider.of<DataProvider>(context, listen: false).currentKids] +
                     'AvatarCongrat.png'),
               ),
             ),

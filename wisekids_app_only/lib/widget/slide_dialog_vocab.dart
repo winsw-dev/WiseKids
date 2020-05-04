@@ -14,7 +14,7 @@ class SlideDialogVocab extends StatefulWidget {
 
 class _SlideDialogVocabState extends State<SlideDialogVocab> {
   //var _initialPosition = 0.0;
-  var _currentPosition = 0.0;
+  //var _currentPosition = 0.0;
 
   @override
   Widget build(BuildContext context) {

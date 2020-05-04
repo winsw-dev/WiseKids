@@ -7,18 +7,21 @@ import 'package:transparent_image/transparent_image.dart';
 import '../widget/slide_popup_dialog.dart' as slideDialog;
 import '../widget/slide_popup_dialog_vocab.dart' as vocabDialog;
 import '../widget/slide_popup_dialog_login.dart' as loginDialog;
+import '../widget/selectkids_popup.dart';
 import './enterBook.dart';
-import './parentalConsent.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 
 class Home extends StatefulWidget {
+  /* Home({Key key, this.selectedAvatar}) : super(key: key); 
+  final String selectedAvatar; */
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  //var fadeInDuration = 100; for switch case
   var fadeInDuration = 100;
 
   List<String> bookShelf = [
@@ -86,43 +89,71 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            Consumer<DataProvider>(builder: (context, theme, child) {
-              switch (theme.theme) {
-                case 1:
-                  return Theme1(
+            Consumer<DataProvider>(
+              builder: (context, theme, child) {
+                /* return  IndexedStack(     /// [not work] this solution make switch theme in notime (no flickering) but cause memory leak error when navigate back and forth between pages
+                  index: theme.theme - 1,
+                  children: <Widget>[
+                    
+                    Theme1(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration),
+                    Theme2(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration),
+                    Theme3(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration),
+                    Theme4(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration),
+                    Theme5(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration),
+                  ],
+                ); */
+                switch (theme.theme[theme.currentKids]) {
+                  case 1:
+                    return Theme1(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration);
+
+                  case 2:
+                    return Theme2(
                       deviceWidth: deviceWidth,
                       deviceHeight: deviceHeight,
-                      fadeInDuration: fadeInDuration);
+                      fadeInDuration: fadeInDuration,
+                    );
 
-                case 2:
-                  return Theme2(
-                    deviceWidth: deviceWidth,
-                    deviceHeight: deviceHeight,
-                    fadeInDuration: fadeInDuration,
-                  );
+                    break;
+                  case 3:
+                    return Theme3(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration);
 
-                  break;
-                case 3:
-                  return Theme3(
-                      deviceWidth: deviceWidth,
-                      deviceHeight: deviceHeight,
-                      fadeInDuration: fadeInDuration);
+                  case 4:
+                    return Theme4(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration);
 
-                case 4:
-                  return Theme4(
-                      deviceWidth: deviceWidth,
-                      deviceHeight: deviceHeight,
-                      fadeInDuration: fadeInDuration);
-
-                case 5:
-                  return Theme5(
-                      deviceWidth: deviceWidth,
-                      deviceHeight: deviceHeight,
-                      fadeInDuration: fadeInDuration);
-                default:
-                  return Container();
-              }
-            }),
+                  case 5:
+                    return Theme5(
+                        deviceWidth: deviceWidth,
+                        deviceHeight: deviceHeight,
+                        fadeInDuration: fadeInDuration);
+                  default:
+                    return Container();
+                }
+              },
+            ),
 
             /////////////////////////////////////////////////////////////
             Column(
@@ -162,9 +193,12 @@ class _HomeState extends State<Home> {
                                     builder: (context, avatar, child) {
                                   return ClipRRect(
                                     borderRadius: BorderRadius.circular(1000),
-                                    child: Image.asset('assets/images/avatar_' +
-                                        avatar.avatar +
-                                        '.png',gaplessPlayback: true,),
+                                    child: Image.asset(
+                                      'assets/images/avatar_' +
+                                          avatar.avatar[avatar.currentKids] +
+                                          '.png',
+                                      gaplessPlayback: true,
+                                    ),
                                   );
                                 }),
                               ),
@@ -189,7 +223,7 @@ class _HomeState extends State<Home> {
                                           : (deviceWidth * 0.134) * 0.237,
                                       child: SvgPicture.asset(
                                         starScoreBg[
-                                            theme.starScoreBgAndloginBtn],
+                                            theme.theme[theme.currentKids] - 1],
                                         fit: BoxFit.fill,
                                       ),
                                     ),
@@ -225,11 +259,13 @@ class _HomeState extends State<Home> {
                                                 : deviceWidth * 0.012),
                                         child: FittedBox(
                                           fit: BoxFit.fitHeight,
-                                          child: Text(
-                                            '24',
-                                            style: TextStyle(
-                                                fontFamily: 'NunitoBold',
-                                                color: Colors.white),
+                                          child: Consumer<DataProvider>(
+                                    builder: (context, provider, child) => Text(
+                                              provider.kidsStar[provider.currentKids].toString(),
+                                              style: TextStyle(
+                                                  fontFamily: 'NunitoBold',
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -270,7 +306,16 @@ class _HomeState extends State<Home> {
                     //////////////////////////////////////// Login Btn
                     Spacer(),
                     GestureDetector(
-                      onTap: _showLoginDialog,
+                      onTap: Provider.of<DataProvider>(context, listen: false)
+                                  .status ==
+                              Status.Authenticated
+                          ? () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => FunkyOverlay(),
+                              );
+                            }
+                          : _showLoginDialog,
                       child: Container(
                         height: deviceHeight > 500
                             ? deviceWidth * 0.075
@@ -292,7 +337,8 @@ class _HomeState extends State<Home> {
                                       aspectRatio: 178 / 58,
                                       child: SvgPicture.asset(
                                           loginBtnSvg[
-                                              theme.starScoreBgAndloginBtn],
+                                              theme.theme[theme.currentKids] -
+                                                  1],
                                           fit: BoxFit.fitWidth),
                                     )),
                             Positioned.fill(
@@ -314,27 +360,62 @@ class _HomeState extends State<Home> {
                                             : (deviceWidth * 0.065) * 0.50,
                                         child: FittedBox(
                                           fit: BoxFit.fitHeight,
-                                          child: Text(
-                                            'Login',
-                                            style: TextStyle(
-                                                fontFamily: 'NunitoBlack',
-                                                //fontSize: deviceHeight > 500 ? 20 : 16,
-                                                color: Colors.white),
-                                          ),
+                                          child: Provider.of<DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .status ==
+                                                  Status.Authenticated
+                                              ? Consumer<DataProvider>(
+                                                  builder: (context, provider,
+                                                          child) =>
+                                                      Text(
+                                                    provider.displayName[
+                                                        provider.currentKids],
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NunitoBlack',
+                                                        //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                        color: Colors.white),
+                                                  ),
+                                                )
+                                              : Text(
+                                                  'Login',
+                                                  style: TextStyle(
+                                                      fontFamily: 'NunitoBlack',
+                                                      //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                      color: Colors.white),
+                                                ),
                                         ),
                                       ),
                                       Spacer(),
-                                      Container(
-                                        height: deviceHeight > 500
-                                            ? (deviceWidth * 0.075) * 0.28
-                                            : (deviceWidth * 0.065) * 0.30,
-                                        child: AspectRatio(
-                                          aspectRatio: 10 / 17,
-                                          child: SvgPicture.asset(
-                                            'assets/icon/arrowRight.svg',
-                                          ),
-                                        ),
-                                      ),
+                                      Provider.of<DataProvider>(context,
+                                                      listen: false)
+                                                  .status ==
+                                              Status.Authenticated
+                                          ? Container(
+                                              height: deviceHeight > 500
+                                                  ? (deviceWidth * 0.075) * 0.13
+                                                  : (deviceWidth * 0.065) *
+                                                      0.15,
+                                              child: AspectRatio(
+                                                aspectRatio: 17 / 10,
+                                                child: SvgPicture.asset(
+                                                  'assets/icon/arrowDown.svg',
+                                                ),
+                                              ),
+                                            )
+                                          : Container(
+                                              height: deviceHeight > 500
+                                                  ? (deviceWidth * 0.075) * 0.28
+                                                  : (deviceWidth * 0.065) *
+                                                      0.30,
+                                              child: AspectRatio(
+                                                aspectRatio: 10 / 17,
+                                                child: SvgPicture.asset(
+                                                  'assets/icon/arrowRight.svg',
+                                                ),
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -398,7 +479,7 @@ class _HomeState extends State<Home> {
                         child: GestureDetector(
                           onTap: index == 6
                               ? () {
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => EnterBook(),
@@ -936,20 +1017,24 @@ class Theme3 extends StatelessWidget {
           child: Align(
             alignment: Alignment.center,
             child: Container(
-              height: deviceHeight,
-              /* child: Image.asset(
+                height: deviceHeight,
+                /* child: Image.asset(
                 'assets/images/theme3/star.png',
                 gaplessPlayback: true,
                 fit: BoxFit.fill,
               ), */
-              child: FittedBox(
+                child:
+                    /* FittedBox(
                 fit: BoxFit.fill,
                 child: FadeInImage(
                     fadeInDuration: Duration(milliseconds: fadeInDuration),
                     placeholder: MemoryImage(kTransparentImage),
                     image: AssetImage('assets/images/theme3/star.png')),
-              ),
-            ),
+              ), */
+                    Image.asset(
+                  'assets/images/theme3/star.png',
+                  fit: BoxFit.fill,
+                )),
           ),
         ),
         //////////////////////// Star2
@@ -1068,50 +1153,63 @@ class Theme2 extends StatelessWidget {
             gaplessPlayback: true,
             fit: BoxFit.fitWidth,
           ), */
-          child: FittedBox(
+          /* child: FittedBox(
             fit: BoxFit.fitWidth,
             child: FadeInImage(
                 fadeInDuration: Duration(milliseconds: fadeInDuration),
                 placeholder: MemoryImage(kTransparentImage),
                 image: AssetImage('assets/images/theme2/theme2Bg.png')),
+          ), */
+          child: Image.asset(
+            'assets/images/theme2/theme2Bg.png',
+            fit: BoxFit.fitWidth,
           ),
         ),
 
         //////////////////////// Star Top
         Container(
-          width: deviceWidth,
-          /* child: Image.asset(
+            width: deviceWidth,
+            /* child: Image.asset(
             'assets/images/theme2/starTop.png',
             gaplessPlayback: true,
             fit: BoxFit.fitWidth,
           ), */
-          child: FittedBox(
+            child:
+                /* FittedBox(
             fit: BoxFit.fitWidth,
             child: FadeInImage(
                 fadeInDuration: Duration(milliseconds: fadeInDuration),
                 placeholder: MemoryImage(kTransparentImage),
                 image: AssetImage('assets/images/theme2/starTop.png')),
-          ),
-        ),
+          ), */
+                Image.asset(
+              'assets/images/theme2/starTop.png',
+              fit: BoxFit.fitWidth,
+            )),
         //////////////////////// Star Low
         Positioned.fill(
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              width: deviceWidth,
-              /* child: Image.asset(
+                width: deviceWidth,
+                /* child: Image.asset(
                 'assets/images/theme2/starLow.png',
                 gaplessPlayback: true,
                 fit: BoxFit.fitWidth,
               ), */
-              child: FittedBox(
+                child:
+                    /* FittedBox(
                 fit: BoxFit.fitWidth,
                 child: FadeInImage(
                     fadeInDuration: Duration(milliseconds: fadeInDuration),
                     placeholder: MemoryImage(kTransparentImage),
                     image: AssetImage('assets/images/theme2/starLow.png')),
               ),
-            ),
+            ), */
+                    Image.asset(
+                  'assets/images/theme2/starLow.png',
+                  fit: BoxFit.fitWidth,
+                )),
           ),
         ),
 
@@ -1350,12 +1448,13 @@ class Theme1 extends StatelessWidget {
                 gaplessPlayback: true,
               ), */
               child: FittedBox(
-                fit: BoxFit.fill,
-                child: FadeInImage(
+                  fit: BoxFit.fill,
+                  child:
+                      /* FadeInImage(
                     fadeInDuration: Duration(milliseconds: fadeInDuration),
                     placeholder: MemoryImage(kTransparentImage),
-                    image: AssetImage('assets/images/theme1/blackBoard.png')),
-              ),
+                    image: AssetImage('assets/images/theme1/blackBoard.png')), */
+                      Image.asset('assets/images/theme1/blackBoard.png')),
             ),
           ),
         ),
@@ -1365,20 +1464,21 @@ class Theme1 extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-              margin: EdgeInsets.only(
-                  left: deviceHeight > 500
-                      ? deviceWidth * 0.015
-                      : deviceWidth * 0.012),
-              height: deviceHeight > 500
-                  ? deviceHeight * 0.22
-                  : deviceHeight * 0.22,
-              /* child: Image.asset('assets/images/theme1/plant.png',
+                margin: EdgeInsets.only(
+                    left: deviceHeight > 500
+                        ? deviceWidth * 0.015
+                        : deviceWidth * 0.012),
+                height: deviceHeight > 500
+                    ? deviceHeight * 0.22
+                    : deviceHeight * 0.22,
+                /* child: Image.asset('assets/images/theme1/plant.png',
                   gaplessPlayback: true), */
-              child: FadeInImage(
+                child:
+                    /* FadeInImage(
                   fadeInDuration: Duration(milliseconds: fadeInDuration),
                   placeholder: MemoryImage(kTransparentImage),
-                  image: AssetImage('assets/images/theme1/plant.png')),
-            ),
+                  image: AssetImage('assets/images/theme1/plant.png')), */
+                    Image.asset('assets/images/theme1/plant.png')),
           ),
         ),
 
@@ -1387,22 +1487,24 @@ class Theme1 extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomRight,
             child: Container(
-              height: deviceHeight > 500
-                  ? deviceHeight * 0.097
-                  : deviceHeight * 0.097,
-              /* child: Image.asset(
+                height: deviceHeight > 500
+                    ? deviceHeight * 0.097
+                    : deviceHeight * 0.097,
+                /* child: Image.asset(
                 'assets/images/theme1/desk.png',
                 gaplessPlayback: true,
                 fit: BoxFit.fill,
               ), */
-              /* child: FittedBox(
+                /* child: FittedBox(
                 fit: BoxFit.fill, */
-                child: FadeInImage(
-                    fadeInDuration: Duration(milliseconds: fadeInDuration),
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: AssetImage('assets/images/theme1/desk.png')),
-              //),
-            ),
+                child:
+                    /* FadeInImage(
+                  fadeInDuration: Duration(milliseconds: fadeInDuration),
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: AssetImage('assets/images/theme1/desk.png')), */
+                    Image.asset('assets/images/theme1/desk.png')
+                //),
+                ),
           ),
         ),
       ],

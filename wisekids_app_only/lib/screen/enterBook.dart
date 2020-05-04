@@ -45,7 +45,7 @@ class _EnterBookState extends State<EnterBook> {
               width: deviceWidth,
               height: deviceHeight,
               child: Image.asset(
-                enterBookThemeBg[theme.starScoreBgAndloginBtn],
+                enterBookThemeBg[(theme.theme[theme.currentKids] - 1 )],
                 fit: BoxFit.fill,
               ),
             ),
@@ -187,7 +187,7 @@ class _EnterBookState extends State<EnterBook> {
           ////////////////////////////////////// Go Home Btn
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(
+              Navigator.pop(
                 context,
                 MaterialPageRoute(
                   builder: (context) => Home(),

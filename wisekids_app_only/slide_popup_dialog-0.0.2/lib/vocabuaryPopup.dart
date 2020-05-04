@@ -31,7 +31,7 @@ Future<T> showVocabuaryDialog<T>({
 
   return showGeneralDialog(
     context: context,
-    pageBuilder: (context, animation1, animation2) {},
+    pageBuilder: (context, animation1, animation2) {return;},
     barrierColor: barrierColor ?? Colors.black.withOpacity(0.7),
     barrierDismissible: barrierDismissible,
     barrierLabel: "Dismiss",

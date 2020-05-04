@@ -21,8 +21,8 @@ class SlideDialogRead extends StatefulWidget {
 }
 
 class _SlideDialogReadState extends State<SlideDialogRead> {
-  var _initialPosition = 0.0;
-  var _currentPosition = 0.0;
+  /* var _initialPosition = 0.0;
+  var _currentPosition = 0.0; */
 
   var avatarSwipeController = new SwiperController();
 
@@ -325,7 +325,7 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
     );
   }
 
-  void _onVerticalDragStart(DragStartDetails drag) {
+  /* void _onVerticalDragStart(DragStartDetails drag) {
     setState(() {
       _initialPosition = drag.globalPosition.dy;
     });
@@ -349,5 +349,5 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
     setState(() {
       _currentPosition = 0.0;
     });
-  }
+  } */
 }

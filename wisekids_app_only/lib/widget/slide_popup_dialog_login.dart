@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import '../provider/socialMedialSignIn.dart';
+
 import 'package:provider/provider.dart';
 import './slide_dialog_login.dart';
 

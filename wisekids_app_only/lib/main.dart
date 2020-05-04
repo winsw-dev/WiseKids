@@ -2,7 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as services;
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
+//import 'package:shimmer/shimmer.dart';
 import './screen/selectAvatar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
@@ -11,20 +11,28 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './provider/dataProvider.dart';
-import './provider/socialMedialSignIn.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import './screen/home.dart';
 
 /////////////////////////// Device Preview
 void main() => runApp(
       DevicePreview(
-          enabled: false,
+          /* style: DevicePreviewStyle(
+            toolBar: DevicePreviewToolBarStyle.light(),
+            background: BoxDecoration(color: const Color(0xFFFF0000)),
+          ), */
+          enabled: true,
           builder: (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                    create: (context) => DataProvider(),
+                    create: (context) => DataProvider.instance(),
                   ),
-                  ChangeNotifierProvider.value(
+                  /*  ChangeNotifierProvider.value(
                     value: UserAuthentication.instance(),
-                  ),
+                  ), */
                 ],
                 child: MyApp(),
               )),
@@ -54,7 +62,7 @@ class MyApp extends StatelessWidget {
       // Device Preview
       locale: DevicePreview.of(context).locale, // <--- Add the locale
       builder: DevicePreview.appBuilder, // <--- Add the builder
-      
+
       debugShowCheckedModeBanner: false,
       title: 'WiseKids',
       theme: ThemeData(
@@ -118,6 +126,9 @@ class _MyHomePageState extends State<MyHomePage> {
       /////// if true openTime+1
       int openTimeStored = prefs.getInt('appOpenCount');
       int openTimeCurrent = openTimeStored + 1;
+      /////// save open time data to provider 
+      Provider.of<DataProvider>(context, listen: false)
+          .appOpenData(openTimeCurrent);
       print(
           '######################################\nWiseKids App has opened for $openTimeCurrent times.\n######################################');
       prefs.setInt('appOpenCount', openTimeCurrent);
@@ -135,12 +146,48 @@ class _MyHomePageState extends State<MyHomePage> {
     openAppCount();
     Future.delayed(Duration(seconds: 2), () {
       //audioCache.loop('sound/background.mp3'); ////// BG sound
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SelectAvatar(),
-        ),
-      );
+      FirebaseAuth.instance
+          .currentUser()
+          .then((currentUser) => {
+                if (currentUser == null)
+                  {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SelectAvatar(),
+                      ),
+                    )
+                  }
+                else
+                  {
+                    Firestore.instance
+                        .collection("WiseKidsUser")
+                        .document(currentUser.uid)
+                        .get()
+                        .then((DocumentSnapshot result) async {
+                          
+                      /* //////////////////////////////////////////////////// restore avatar & theme data
+                      Provider.of<DataProvider>(context, listen: false)
+                          .selectAvatar(result["kidsAvatar"]);
+                      await Provider.of<DataProvider>(context, listen: false)
+                          .chooseTheme(result["kidsTheme"]); */
+                      //////////////////////////////////////////////////// restore user data ex. name email age etc.
+                      await Provider.of<DataProvider>(context, listen: false)
+                          .restoreUserData(result);
+                      /* Provider.of<DataProvider>(context, listen: false)
+                          .chooseTheme(result["kids1Name"]); */
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Home(
+
+                                  /* title: result["fname"] + "'s Tasks",
+                                          uid: currentUser.uid, */
+                                  )));
+                    }).catchError((err) => print(err))
+                  }
+              })
+          .catchError((err) => print(err));
     });
   }
 
@@ -152,11 +199,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    var textStyle = TextStyle(
-      fontFamily: 'NunitoBold',
-      color: Colors.grey,
-      fontSize: 50,
-    );
 
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -206,4 +248,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

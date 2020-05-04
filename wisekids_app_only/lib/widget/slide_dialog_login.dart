@@ -1,14 +1,18 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flare_loading/flare_loading.dart';
 
-import '../provider/socialMedialSignIn.dart';
-
 import '../screen/parentalConsent.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../screen/parentalKidsCenter.dart';
 
 class SlideDialogLogin extends StatefulWidget {
   final Widget child;
@@ -30,7 +34,10 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
   bool _isLoading = true;
   bool _loadingVisible = false;
   String _consent = '';
+  String _loadingStatusAnimation = 'success';
   var avatarSwipeController = new SwiperController();
+
+  bool _perventMultipleTab = true;
 
   List<String> themePopupBg = [
     'assets/images/themePopup/theme1Bg.png',
@@ -135,21 +142,32 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
 
                             _consent = 'Facebook';
                           });
-                          await Provider.of<UserAuthentication>(context,
+                          await Provider.of<DataProvider>(context,
                                   listen: false)
                               .signInWithFacebook();
 
-                          print(Provider.of<UserAuthentication>(context,
-                                  listen: false)
-                              .status
-                              .toString());
-                          if (Provider.of<UserAuthentication>(context,
-                                      listen: false)
+                          print(
+                              Provider.of<DataProvider>(context, listen: false)
+                                  .status
+                                  .toString());
+
+                          if (Provider.of<DataProvider>(context, listen: false)
                                   .status ==
                               Status.Authenticated) {
                             setState(() {
                               _isLoading = false;
                             });
+
+                            /* if (Provider.of<DataProvider>(context,
+                                        listen: false)
+                                    .status ==
+                                Status.Unauthenticated) {
+                              setState(() {
+                                _loadingStatusAnimation = 'failure';
+
+                                _isLoading = false;
+                              });
+                            } */
                             /* Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
@@ -271,22 +289,32 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
 
                             _consent = 'Google';
                           });
-                          await Provider.of<UserAuthentication>(context,
+                          await Provider.of<DataProvider>(context,
                                   listen: false)
                               .signInWithGoogle();
 
-                          print(Provider.of<UserAuthentication>(context,
-                                  listen: false)
-                              .status
-                              .toString());
+                          print(
+                              Provider.of<DataProvider>(context, listen: false)
+                                  .status
+                                  .toString());
 
-                          if (Provider.of<UserAuthentication>(context,
-                                      listen: false)
+                          if (Provider.of<DataProvider>(context, listen: false)
                                   .status ==
                               Status.Authenticated) {
                             setState(() {
                               _isLoading = false;
                             });
+
+                            /* if (Provider.of<DataProvider>(context,
+                                        listen: false)
+                                    .status ==
+                                Status.Unauthenticated) {
+                              setState(() {
+                                _loadingStatusAnimation = 'failure';
+
+                                _isLoading = false;
+                              });
+                            } */
 
                             /* Navigator.of(context).push(
                               MaterialPageRoute(
@@ -416,12 +444,20 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                     IgnorePointer(
                       ignoring: _loadingVisible,
                       child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          setState(() {
-                            _isLoading = !_isLoading;
-                          });
-                        },
+                        onTap: _perventMultipleTab
+                            ? () {
+                                setState(() {
+                                  _perventMultipleTab = false;
+                                  _isLoading = !_isLoading;
+                                });
+
+                                Timer(
+                                    Duration(seconds: 1),
+                                    () => setState(
+                                        () => _perventMultipleTab = true));
+                                Navigator.pop(context);
+                              }
+                            : null,
                         child: Container(
                           margin: EdgeInsets.only(
                               top: deviceHeight > 500
@@ -459,10 +495,19 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                   child: IgnorePointer(
                     ignoring: _loadingVisible,
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        return;
-                      },
+                      onTap: _perventMultipleTab
+                          ? () {
+                              setState(() {
+                                _perventMultipleTab = false;
+                              });
+
+                              Timer(
+                                  Duration(seconds: 1),
+                                  () => setState(
+                                      () => _perventMultipleTab = true));
+                              Navigator.pop(context);
+                            }
+                          : null,
                       child: Container(
                         margin: EdgeInsets.only(
                           top: deviceHeight > 500
@@ -569,20 +614,64 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                       child: FlareLoading(
                         name: 'assets/animation/loading.flr',
                         loopAnimation: 'loading',
-                        endAnimation: 'success',
+                        endAnimation: _loadingStatusAnimation,
                         isLoading: _isLoading,
                         onSuccess: (_) {
                           print('finish loading');
 
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ParentalConsent(
-                                  consentDetail: _consent,
-                                );
-                              },
-                            ),
-                          );
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .status ==
+                              Status.Authenticated) {
+                                
+                            FirebaseAuth.instance
+                                .currentUser()
+                                .then((currentUser) => {
+                                      Firestore.instance
+                                          .collection("WiseKidsUser")
+                                          .document(currentUser.uid)
+                                          .get()
+                                          .then((DocumentSnapshot result) {
+                                        /////////////////////////////// if consented skip to parentCenter
+                                        if (result["acceptedConsent"]) {
+                                          Navigator.pop(context);
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return ParentalKidsCenter();
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          ////////////////////// if not consented goto parentConsent
+                                          Navigator.pop(context);
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return ParentalConsent(
+                                                  consentDetail: _consent,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      }).catchError((err) => print(err))
+                                    })
+                                .catchError((err) => print(err));
+                          }
+                          /* else if (Provider.of<DataProvider>(context,
+                                      listen: true)
+                                  .status ==
+                              Status.Unauthenticated) {
+                            Navigator.pop(context);
+                            Fluttertoast.showToast(
+                                msg: "Sign fail, try again later",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 2,
+                                backgroundColor: Colors.black54,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          } */
                         },
                         onError: (err, stack) {
                           print(err);
@@ -671,3 +760,6 @@ class _SelectThemeWidgetState extends State<SelectThemeWidget> {
     );
   }
 }
+
+
+
