@@ -5,34 +5,47 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_svg/svg.dart';
+import '../widget/addKidsProfile_dialog.dart' as addMoreKidsDialog;
+import '../screen/parentalConsent.dart';
+import '../screen/parentalKidsCenter.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class DataProvider extends ChangeNotifier {
   /// Internal, private state
 
+  BuildContext _parentalKidsCenterContext;
+  BuildContext _selectKidsPopupContext;
+  double _deviceHeight;
+  double _deviceWidth;
+
+  /// use to create function showAddKids Dialog that required context in provider
+  //////////////////
+
   int _appOpen;
   bool _appReviewed = false;
 
   ///////////////// Book Statistics var
   Map _bookStatistics = {
-    'book1':{
-      'kidsReview':[],
+    'book1': {
+      'kidsReview': [null],
       //////////
-      'kidsExerciseScore':{ //// if score == null then don't show score bar
+      'kidsExerciseScore': {
+        //// if score == null then don't show score bar
         /// '0' is index of kids in profile
         /// null value in score array mean that this kids haven't done an exercise yet thus no score recorded
         /// u should do funtion to add score like if score[0]**firstTime score == null then assign this score if != null look at next index
         /// and if all position != null then pop 1st position score and add recentest score to last position
-        '0':[null,null,null],
-        
+        '0': [null, null, null],
       },
       //////////
-      'kidsStickerCollection':[{
-        'stickers':[]
-      }],
+      'kidsStickerCollection': [
+        {'stickers': []}
+      ],
       //////////
-      'timeRead':[0]
+      'timeRead': [0]
     }
   };
 
@@ -45,10 +58,13 @@ class DataProvider extends ChangeNotifier {
 
   ///////////////// display data var
   List<String> _avatar = [''];
-  List<String> _kidsName=[''];
-  List<String> _kidsAge=[''];
-  List<String> _displayName=[''];
+  List<String> _kidsName = [''];
+  List<String> _kidsAge = [''];
+  List<String> _displayName = [''];
   List<int> _kidsStar = [0];
+  List<int> _kidsContentLevel = [1];
+  List<Widget> _kidsProfileWidget;
+  List<Widget> _selectKidsPopupWidget;
 
   ///////////////// theme var
   List<int> _theme = [1];
@@ -82,6 +98,13 @@ class DataProvider extends ChangeNotifier {
   String _signinMethod;
 
   ///////////////// An unmodifiable view
+  double get deviceHeight => _deviceHeight;
+  double get deviceWidth => _deviceWidth;
+  BuildContext get selectKidsPopupContext => _selectKidsPopupContext;
+  List<Widget> get selectKidsPopupWidget => _selectKidsPopupWidget;
+  BuildContext get parentalKidsCenterContext => _parentalKidsCenterContext;
+  List<Widget> get kidsProfileWidget => _kidsProfileWidget;
+  List<int> get kidsContentLevel => _kidsContentLevel;
   Map get bookStatistics => _bookStatistics;
   int get appOpen => _appOpen;
   bool get appReviewed => _appReviewed;
@@ -108,6 +131,11 @@ class DataProvider extends ChangeNotifier {
   FirebaseUser get user => _user;
 
   String get signinMethod => _signinMethod;
+
+  getDeviceSize(double height, double width) {
+    _deviceHeight = height;
+    _deviceWidth = width;
+  }
 
   /////////////////////// save App open data to current session
   appOpenData(int timeAppHasOpened) {
@@ -198,6 +226,158 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  getParentalKidsCenterBuildContext(BuildContext context) {
+    _parentalKidsCenterContext = context;
+  }
+
+  void _showAddMoreKisDialog() {
+    addMoreKidsDialog.showSlideDialog(
+      context: _parentalKidsCenterContext,
+    );
+  }
+
+  kidsProfileWidgetBuilder() async {
+    //////////// put this Future.delayed to prevent setState() or markNeedsBuild() called during build. Error
+    /// https://app.asana.com/0/1169144468173007/1174071424345692 <== take a look at this for issue
+    await Future.delayed(const Duration(milliseconds: 100), () {});
+    // clear widget
+    _kidsProfileWidget = [];
+
+    // then rebuild everytime it get call
+    for (var i = 0; i < _avatar.length; i++) {
+      _kidsProfileWidget.add(
+        //////////////////////////////////// Kids1 Profile
+        Container(
+          margin: EdgeInsets.only(
+              top: 10, bottom: 16, right: _deviceHeight > 500 ? 36 : 20),
+          child: AspectRatio(
+            aspectRatio: 113 / 129,
+            child: Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(69, 223, 224, 1.00),
+                      blurRadius:
+                          10.0, // has the effect of softening the shadow
+                      spreadRadius:
+                          -1, // has the effect of extending the shadow
+                      offset: Offset(
+                        0.0, // horizontal, move right 10
+                        2.0, // vertical, move down 10
+                      ),
+                    ),
+                  ],
+                  color: Color.fromRGBO(69, 223, 224, 1.00),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(right: 15, left: 15),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(1000),
+                      child: Image.asset('assets/images/avatar_' +
+                          _avatar[i].toString() +
+                          '.png'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: _deviceHeight > 500
+                        ? (_deviceHeight * 0.93 * 0.08 + _deviceWidth * 0.030) *
+                            0.3
+                        : (_deviceHeight - (54 + _deviceWidth * 0.025)) * 0.09,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        _displayName[i],
+                        style: TextStyle(
+                            fontFamily: 'NunitoBold',
+                            //fontSize: 21,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    _kidsProfileWidget
+        .add(///////////////////////////////////// Add more kids Btn
+            _avatar.length < 5
+                ? GestureDetector(
+                    onTap: _showAddMoreKisDialog,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 16, right: 16),
+                      child: AspectRatio(
+                        aspectRatio: 113 / 129,
+                        child: DottedBorder(
+                          color: Color.fromRGBO(69, 223, 224, 1.00),
+                          strokeWidth: 2,
+                          borderType: BorderType.RRect,
+                          radius: Radius.circular(10),
+                          dashPattern: [10, 4],
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                                'assets/images/parentalKidsCenter/addMore.svg'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container());
+
+    notifyListeners();
+  }
+
+  addKids(
+    String kidsAgeInput,
+    String kidsAvatarInput,
+    String kidsNameInput,
+    int kidsThemeInput,
+  ) async {
+    print('pressed');
+    /////////////////////////////////// add kid to local provider
+    _kidsName.add(kidsNameInput);
+    _kidsAge.add(kidsAgeInput);
+    _kidsContentLevel.add(1);
+    _kidsStar.add(0);
+    _avatar.add(kidsAvatarInput);
+    _theme.add(kidsThemeInput);
+    //set default kidsExerciseScore
+    _bookStatistics['book1']['kidsExerciseScore']
+        [(_avatar.length - 1).toString()] = [null, null, null];
+    _bookStatistics['book1']['kidsReview'].add(null);
+    _bookStatistics['book1']['kidsStickerCollection'].add({'stickers': []});
+    _bookStatistics['book1']['timeRead'].add(0);
+
+    notifyListeners();
+    /////////////////////////////////// add kids to database
+    final FirebaseUser currentUser = await _auth.currentUser();
+
+    await Firestore.instance
+        .collection('WiseKidsUser')
+        .document(currentUser.uid)
+        .updateData(
+      {
+        'kidsAvatar': _avatar,
+        'kidsTheme': _theme,
+        'kidsName': _kidsName,
+        'kidsAge': _kidsAge,
+        'kidsStar': _kidsStar,
+        'bookStatistics': _bookStatistics,
+        'kidsContentLevel': _kidsContentLevel,
+      }, /* merge: true */
+    );
+    kidsProfileWidgetBuilder();
+  }
+
 ////////////////////////////////////////////////  Avatar
   void selectAvatar(String avatar) {
     _avatar[_currentKids] = avatar;
@@ -217,20 +397,17 @@ class DataProvider extends ChangeNotifier {
   }
 
   void setKisdNameAndAge(String name, String age) {
-    _kidsName[_currentKids]= name; 
-    _kidsAge[_currentKids]= age;
+    _kidsName[_currentKids] = name;
+    _kidsAge[_currentKids] = age;
 
     _displayName = _kidsName;
-    for (var i = 0; i<_kidsName.length; i++) {
-      
+    for (var i = 0; i < _kidsName.length; i++) {
       if (_kidsName[i].length <= 11) {
         _displayName[i] = _kidsName[i];
       } else if (_kidsName[i].length > 11) {
-        _displayName[i] =
-            _kidsName[i].substring(0, 10) + '.';
+        _displayName[i] = _kidsName[i].substring(0, 10) + '.';
       }
     }
-
   }
 
   ///////////////////////////////////////// function to update selected avatar provider and database
@@ -244,7 +421,7 @@ class DataProvider extends ChangeNotifier {
                 Firestore.instance
                     .collection('WiseKidsUser')
                     .document(currentUser.uid)
-                    .setData({'kidsAvatar': _avatar} , merge: true)
+                    .setData({'kidsAvatar': _avatar}, merge: true)
               }
           });
     } else if (index == 1) {
@@ -255,7 +432,7 @@ class DataProvider extends ChangeNotifier {
                 Firestore.instance
                     .collection('WiseKidsUser')
                     .document(currentUser.uid)
-                    .setData({'kidsAvatar': _avatar} , merge: true)
+                    .setData({'kidsAvatar': _avatar}, merge: true)
               }
           });
     } else if (index == 2) {
@@ -266,16 +443,15 @@ class DataProvider extends ChangeNotifier {
                 Firestore.instance
                     .collection('WiseKidsUser')
                     .document(currentUser.uid)
-                    .setData({'kidsAvatar': _avatar} , merge: true)
+                    .setData({'kidsAvatar': _avatar}, merge: true)
               }
           });
     }
     notifyListeners();
   }
 
-////////////////////////////////////////////////// Theme 
-/// function to upadate _theme following selected theme and push to database
-  
+////////////////////////////////////////////////// Theme
+  /// function to upadate _theme following selected theme and push to database
 
   chooseTheme(int selectedTheme) {
     if (selectedTheme == 1) {
@@ -420,13 +596,14 @@ class DataProvider extends ChangeNotifier {
       name = googleUser.displayName;
       email = googleUser.email;
       imageUrl = googleUser.photoUrl;
-      _userName = name;
-      _userEmail = email;
 
       // Only taking the first part of the name, i.e., First Name
       if (name.contains(" ")) {
         name = name.substring(0, name.indexOf(" "));
       }
+
+      _userName = name;
+      _userEmail = email;
 
       assert(!googleUser.isAnonymous);
       assert(await googleUser.getIdToken() != null);
@@ -456,8 +633,9 @@ class DataProvider extends ChangeNotifier {
           'kidsName': _kidsName,
           'kidsAge': _kidsAge,
           'kidsStar': _kidsStar,
-          'appReviewed' : _appReviewed,
-          'bookStatistics': _bookStatistics
+          'appReviewed': _appReviewed,
+          'bookStatistics': _bookStatistics,
+          'kidsContentLevel': _kidsContentLevel,
         });
         ////// fetch user data and update provider (Old User)
       } else {
@@ -548,8 +726,9 @@ class DataProvider extends ChangeNotifier {
               'kidsName': _kidsName,
               'kidsAge': _kidsAge,
               'kidsStar': _kidsStar,
-              'appReviewed' : _appReviewed,
-              'bookStatistics': _bookStatistics
+              'appReviewed': _appReviewed,
+              'bookStatistics': _bookStatistics,
+              'kidsContentLevel': _kidsContentLevel,
             });
             ////// fetch user data and update provider (Old User)
           } else {
@@ -578,13 +757,13 @@ class DataProvider extends ChangeNotifier {
   }
 
   restoreUserData(DocumentSnapshot userData) async {
-    
+    _kidsContentLevel = List<int>.from(userData['kidsContentLevel']);
     _bookStatistics = userData['bookStatistics'];
     _appReviewed = userData['appReviewed'];
     _userName = userData['userName'];
     _userEmail = userData['email'];
     _userAcceptConsent = userData['acceptedConsent'];
-    _kidsName = List<String>.from(userData['kidsName'])    ;
+    _kidsName = List<String>.from(userData['kidsName']);
     _kidsAge = List<String>.from(userData['kidsAge']);
     _avatar = List<String>.from(userData['kidsAvatar']);
     _theme = List<int>.from(userData['kidsTheme']);
@@ -593,12 +772,14 @@ class DataProvider extends ChangeNotifier {
 
     ///////////////////////////////////////////////////////// sort display name if it too long
     for (var i = 0; i < _kidsName.length; i++) {
-      
+      if (_displayName.length < _kidsName.length) {
+        _displayName.add('');
+      }
+
       if (_kidsName[i].length <= 11) {
         _displayName[i] = _kidsName[i];
       } else if (_kidsName[i].length > 11) {
-        _displayName[i] =
-            _kidsName[i].substring(0, 10) + '.';
+        _displayName[i] = _kidsName[i].substring(0, 10) + '.';
       }
     }
     print('\n----------Restored user data----------');
@@ -607,11 +788,151 @@ class DataProvider extends ChangeNotifier {
     print('--------------------------------------\n\n');
     notifyListeners();
     /////////////////////////// update theme & avatar after retrive user data from database
-    
+
     chooseTheme(_theme[_currentKids]);
   }
 
   consentAccepted(bool consentAccepted) {
     _userAcceptConsent = consentAccepted;
+  }
+
+  /// reset variable in provider to default
+  resetProvider() {
+    _avatar = [''];
+    _kidsName = [''];
+    _kidsAge = [''];
+    _displayName = [''];
+    _kidsStar = [0];
+    _kidsContentLevel = [1];
+    _theme = [1];
+    _theme1Visibility = true;
+    _theme2Visibility = false;
+    _theme3Visibility = false;
+    _theme4Visibility = false;
+    _theme5Visibility = false;
+    _currentKids = 0;
+    _profileBorderColor = Color.fromRGBO(255, 96, 83, 1.00);
+    _bookStatistics = {
+      'book1': {
+        'kidsReview': [null],
+        'kidsExerciseScore': {
+          '0': [null, null, null],
+        },
+        'kidsStickerCollection': [
+          {'stickers': []}
+        ],
+        'timeRead': [0]
+      }
+    };
+    _appReviewed = false;
+  }
+
+  selectKidsPopupWidgetBuilder(BuildContext context) {
+    /// reset list before build
+    _selectKidsPopupWidget = [];
+
+    for (var i = 0; i < _avatar.length; i++) {
+      _selectKidsPopupWidget.add(
+        /////////////////////////////////////////// kid name
+        Padding(
+          padding: EdgeInsets.only(
+              left: _deviceHeight > 500
+                  ? (_deviceWidth * 0.075) * (178 / 58) * 0.07
+                  : (_deviceWidth * 0.065) * (178 / 58) * 0.07),
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: _deviceHeight > 500
+                    ? (_deviceWidth * 0.075) * 0.45
+                    : (_deviceWidth * 0.065) * 0.50,
+                child: FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: Text(
+                    _displayName[i],
+                    style: TextStyle(
+                      fontFamily: 'NunitoBold',
+                      //fontSize: deviceHeight > 500 ? 20 : 16,
+                      color: _currentKids==i? Color.fromRGBO(69, 223, 224, 1.0):Color.fromRGBO(160, 163, 168, 1.0),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+      _selectKidsPopupWidget.add(
+        ////////////////////////////////////////////////////////////// Devider
+        Divider(
+          height: _deviceHeight > 500
+              ? (_deviceWidth * 0.075) * (178 / 58) * 0.07 * 2
+              : (_deviceWidth * 0.065) * (178 / 58) * 0.07 * 2,
+          color: Color.fromRGBO(238, 239, 243, 1.0),
+        ),
+      );
+    }
+    _selectKidsPopupWidget.add(
+      ////////////////////////////////////////////////////////////// Paretal Area
+      GestureDetector(
+        onTap: () {
+          /////////////////////////////// if consented skip to parentCenter
+          if (_userAcceptConsent) {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return ParentalKidsCenter();
+                },
+              ),
+            );
+          } else {
+            ////////////////////// if not consented goto parentConsent
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return ParentalConsent(
+                    consentDetail: _signinMethod,
+                  );
+                },
+              ),
+            );
+          }
+        },
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                  left: _deviceHeight > 500
+                      ? (_deviceWidth * 0.075) * (178 / 58) * 0.07
+                      : (_deviceWidth * 0.065) * (178 / 58) * 0.07),
+              child: Container(
+                height: _deviceHeight > 500
+                    ? (_deviceWidth * 0.075) * 0.45
+                    : (_deviceWidth * 0.065) * 0.50,
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: _deviceHeight > 500
+                      ? (_deviceWidth * 0.075) * 0.35
+                      : (_deviceWidth * 0.065) * 0.40,
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      'Parental Area',
+                      style: TextStyle(
+                        fontFamily: 'NunitoRegular',
+                        //fontSize: deviceHeight > 500 ? 20 : 16,
+                        color: Color.fromRGBO(160, 163, 168, 1.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

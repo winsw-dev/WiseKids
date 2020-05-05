@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import './kidsProfile.dart';
@@ -26,17 +28,31 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
         builder: (context) => Home(),
       ), */
     );
+    Provider.of<DataProvider>(context, listen: false).resetProvider();
+    Phoenix.rebirth(context);
   }
 
-  void _showAddMoreKisDialog() {
+  /* void _showAddMoreKisDialog() {
     addMoreKidsDialog.showSlideDialog(
       context: context,
-     
     );
+  } */
+
+  @override
+  void initState() {
+    //////////////////////// Send Build Context of this page to use in provider
+    Provider.of<DataProvider>(context, listen: false)
+        .getParentalKidsCenterBuildContext(context);
+    //////////////////////// initialize list of kids profile widgets before it get build by BuildContext
+    Provider.of<DataProvider>(context, listen: false)
+        .kidsProfileWidgetBuilder();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
 
@@ -304,9 +320,14 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                         child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Container(
-                                            child: Row(
-                                              children: <Widget>[
-                                                //////////////////////////////////// Kids1 Profile
+                                            child: Consumer<DataProvider>(
+                                              builder: (context, provider,
+                                                      child) =>
+                                                  Row(
+                                                      children: provider
+                                                          .kidsProfileWidget
+                                                      //<Widget>[
+                                                      /*  //////////////////////////////////// Kids1 Profile
                                                 Container(
                                                   margin: EdgeInsets.only(
                                                       top: 10,
@@ -406,9 +427,12 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                ///////////////////////////////////// Add more kids
-                                                GestureDetector(
+                                                ), */
+
+                                                      /* ///////////////////////////////////// Add more kids
+                                                Provider.of<DataProvider>(context,
+                                              listen: false)
+                                          .avatar.length < 5 ? GestureDetector(
                                                   onTap: _showAddMoreKisDialog,
                                                   child: Container(
                                                     margin: EdgeInsets.only(
@@ -439,8 +463,9 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ):Container(), */
+                                                      //],
+                                                      ),
                                             ),
                                           ),
                                         ),

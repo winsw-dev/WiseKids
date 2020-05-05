@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import './screen/selectAvatar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 //import 'with_arkit_screen.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,7 +35,7 @@ void main() => runApp(
                     value: UserAuthentication.instance(),
                   ), */
                 ],
-                child: MyApp(),
+                child: Phoenix(child: MyApp()),
               )),
     );
 
@@ -202,6 +203,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
+
+    /// initialize device size into provider 
+    Provider.of<DataProvider>(context, listen: false)
+                                  .getDeviceSize(deviceHeight, deviceWidth);
 
     return Scaffold(
       body: Stack(

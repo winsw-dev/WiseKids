@@ -132,6 +132,17 @@ class AddMoreKidsState extends State<AddMoreKids>
         }).showModal(this.context); //_scaffoldKey.currentState);
   }
 
+  _addKids() {
+    /////////////////////// limited 5 kids profiles per account.
+    if (Provider.of<DataProvider>(context, listen: false).kidsName.length < 5) {
+      Provider.of<DataProvider>(context, listen: false).addKids(
+          _addKidsAge.toString(),
+          Provider.of<DataProvider>(context, listen: false).addkidsAvatar,
+          _textControllerName.text,
+          Provider.of<DataProvider>(context, listen: false).addkidsTheme);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -716,33 +727,30 @@ class AddMoreKidsState extends State<AddMoreKids>
                                   :
                                   /////////////////////////////////// enable
                                   GestureDetector(
-                                      onTap: () async {
-                                        print('test');
-                                        final FirebaseUser currentUser =
-                                            await FirebaseAuth.instance
-                                                .currentUser();
-                                        Firestore.instance
-                                            .collection('WiseKidsUser')
-                                            .document(currentUser.uid)
-                                            ////////////////////////////////// set data
-                                            /* .setData({
-                                          "Test": ['555','55555','123'],
-                                          
-                                          //'kids1Star':
-                                        },merge: true);
-                                      } */
-                                      ///////////////////////////////////// add data 
-                                          /*   .updateData({
-                                          "Test":
-                                              FieldValue.arrayUnion(['Added'])
-                                        }); */
+                                      onTap: _perventMultipleTab
+                                          ? () async {
+                                              setState(() {
+                                                _perventMultipleTab = false;
+                                              });
 
-                                        /////////////////////////////////// remove data
-                                        .updateData({
-                                          "Test":
-                                              FieldValue.arrayRemove(['Added'])
-                                        });
-                                      },
+                                              Timer(
+                                                  Duration(seconds: 1),
+                                                  () => setState(() =>
+                                                      _perventMultipleTab =
+                                                          true));
+                                              await _addKids();
+                                              Navigator.pop(context);
+                                              /////////////////////////////////// prevent flickering when dismiss dialog
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 150), () {
+                                                Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .resetAddKids();
+                                              });
+                                            }
+                                          : null,
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -773,25 +781,50 @@ class AddMoreKidsState extends State<AddMoreKids>
                                         ),
                                       ),
                                     ),
-                              ////////////////////////////// Text Create
+                              ////////////////////////////// Text Create Profile
                               Positioned.fill(
                                 child: Align(
                                   alignment: Alignment.center,
-                                  child: Container(
-                                    height: deviceHeight > 500
-                                        ? (deviceHeight * 0.5) * (26 / 381)
-                                        : (deviceHeight * 0.85) * (26 / 381),
-                                    child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        'Create Profile',
-                                        style: TextStyle(
-                                          fontFamily: 'NunitoBold',
-                                          //fontSize: deviceHeight > 500 ? 20 : 16,
-                                          color: !_buttonSwitch
-                                              ? Color.fromRGBO(
-                                                  209, 212, 217, 1.00)
-                                              : Colors.white,
+                                  child: GestureDetector(
+                                    onTap: _perventMultipleTab
+                                        ? () async {
+                                            setState(() {
+                                              _perventMultipleTab = false;
+                                            });
+
+                                            Timer(
+                                                Duration(seconds: 1),
+                                                () => setState(() =>
+                                                    _perventMultipleTab =
+                                                        true));
+                                            await _addKids();
+                                            Navigator.pop(context);
+                                            /////////////////////////////////// prevent flickering when dismiss dialog
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 150), () {
+                                              Provider.of<DataProvider>(context,
+                                                      listen: false)
+                                                  .resetAddKids();
+                                            });
+                                          }
+                                        : null,
+                                    child: Container(
+                                      height: deviceHeight > 500
+                                          ? (deviceHeight * 0.5) * (26 / 381)
+                                          : (deviceHeight * 0.85) * (26 / 381),
+                                      child: FittedBox(
+                                        fit: BoxFit.fitHeight,
+                                        child: Text(
+                                          'Create Profile',
+                                          style: TextStyle(
+                                            fontFamily: 'NunitoBold',
+                                            //fontSize: deviceHeight > 500 ? 20 : 16,
+                                            color: !_buttonSwitch
+                                                ? Color.fromRGBO(
+                                                    209, 212, 217, 1.00)
+                                                : Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),

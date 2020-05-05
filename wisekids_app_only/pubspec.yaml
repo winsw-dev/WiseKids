@@ -39,6 +39,9 @@ dependencies:
 
   fluttertoast: ^4.0.0
 
+  flutter_phoenix: "^0.1.0"
+ 
+
   device_preview: ^0.4.4
 
   flutter_launcher_icons: "^0.7.3"

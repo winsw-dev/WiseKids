@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import '../screen/parentalKidsCenter.dart';
 import '../screen/parentalConsent.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 
 class FunkyOverlay extends StatefulWidget {
   @override
@@ -19,6 +20,10 @@ class FunkyOverlayState extends State<FunkyOverlay>
   @override
   void initState() {
     super.initState();
+
+    //////////////////////// initialize list of kids profile widgets before it get build by BuildContext
+    Provider.of<DataProvider>(context, listen: false)
+        .selectKidsPopupWidgetBuilder(context);
 
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
@@ -36,6 +41,9 @@ class FunkyOverlayState extends State<FunkyOverlay>
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
+
+  
+    
     return Stack(
       children: <Widget>[
         Positioned.fill(
@@ -87,7 +95,10 @@ class FunkyOverlayState extends State<FunkyOverlay>
                             : (deviceWidth * 0.065) * (178 / 58) * 0.067,
                       ),
                       child: Wrap(
-                        children: <Widget>[
+                          children:
+                              Provider.of<DataProvider>(context, listen: false)
+                                  .selectKidsPopupWidget
+                          /* <Widget>[
                           /////////////////////////////////////////// kid1 name
                           Padding(
                             padding: EdgeInsets.only(
@@ -106,9 +117,11 @@ class FunkyOverlayState extends State<FunkyOverlay>
                                     fit: BoxFit.fitHeight,
                                     child: Text(
                                       Provider.of<DataProvider>(context,
-                                              listen: false)
-                                          .displayName[Provider.of<DataProvider>(context,
-                                              listen: false).currentKids],
+                                                  listen: false)
+                                              .displayName[
+                                          Provider.of<DataProvider>(context,
+                                                  listen: false)
+                                              .currentKids],
                                       style: TextStyle(
                                         fontFamily: 'NunitoBold',
                                         //fontSize: deviceHeight > 500 ? 20 : 16,
@@ -131,14 +144,6 @@ class FunkyOverlayState extends State<FunkyOverlay>
                           ////////////////////////////////////////////////////////////// Paretal Area
                           GestureDetector(
                             onTap: () {
-                              /* FirebaseAuth.instance
-                                  .currentUser()
-                                  .then((currentUser) => {
-                                        Firestore.instance
-                                            .collection("WiseKidsUser")
-                                            .document(currentUser.uid)
-                                            .get()
-                                            .then((DocumentSnapshot result) { */
                               /////////////////////////////// if consented skip to parentCenter
                               if (Provider.of<DataProvider>(context,
                                       listen: false)
@@ -167,9 +172,6 @@ class FunkyOverlayState extends State<FunkyOverlay>
                                   ),
                                 );
                               }
-                              /* }).catchError((err) => print(err))
-                                      })
-                                  .catchError((err) => print(err)); */
                             },
                             child: Row(
                               children: <Widget>[
@@ -209,8 +211,8 @@ class FunkyOverlayState extends State<FunkyOverlay>
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        ], */
+                          ),
                     ),
                   ),
                 ),
