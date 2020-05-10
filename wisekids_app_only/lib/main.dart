@@ -25,7 +25,7 @@ void main() => runApp(
             toolBar: DevicePreviewToolBarStyle.light(),
             background: BoxDecoration(color: const Color(0xFFFF0000)),
           ), */
-          enabled: true,
+          enabled: false,
           builder: (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(

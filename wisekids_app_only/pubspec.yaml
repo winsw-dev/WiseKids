@@ -59,6 +59,8 @@ dependencies:
 
   dotted_border: ^1.0.5
 
+  flutter_emoji: ^2.2.1+1
+
   firebase_auth: ^0.16.0
   cloud_firestore: ^0.13.5
   google_sign_in: ^4.4.1
@@ -310,6 +312,8 @@ flutter:
 
     ########### KidsProfile
     - assets/images/kidsProfile/backToParentArea.svg
+    - assets/images/kidsProfile/noHistory.png
+    - assets/images/kidsProfile/book1.png
 
 
     ########### AR UI
@@ -349,6 +353,17 @@ flutter:
     - assets/images/kidsStatisticDialog/mock4.png
     - assets/images/kidsStatisticDialog/mock5.png
     - assets/images/kidsStatisticDialog/mock6.png
+
+    - assets/images/kidsProfile/Book/book1.png
+    - assets/images/kidsProfile/Book/book2.png
+    - assets/images/kidsProfile/Book/book3.png
+    - assets/images/kidsProfile/Book/book4.png
+    - assets/images/kidsProfile/Book/book5.png
+    - assets/images/kidsProfile/Book/book6.png
+    - assets/images/kidsProfile/Book/book7.png
+    - assets/images/kidsProfile/Book/book8.png
+    
+
 
     ########### Login Dialog
     - assets/images/loginDialog/loginDialogBg.png

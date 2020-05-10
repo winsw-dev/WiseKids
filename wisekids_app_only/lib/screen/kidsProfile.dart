@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
-import '../widget/slide_popup_dialog_kidsStatistic.dart'as kidsStatistic;
+import '../widget/slide_dialog_kidsStatistic.dart' as kidsStatistic;
 import 'parentalKidsCenter.dart';
+import '../provider/dataProvider.dart';
 
 class KidsProfile extends StatefulWidget {
+  final int kids;
+  KidsProfile({Key key, @required this.kids}) : super(key: key);
   @override
   _KidsProfileState createState() => _KidsProfileState();
 }
 
 class _KidsProfileState extends State<KidsProfile> {
-
- void _showKidsStatisticDialog() {
+  /* void _showKidsStatisticDialog() {
     kidsStatistic.showSlideDialog(
       context: context,
       child: Container(
-        //color: Colors.white,
-      ),
+          //color: Colors.white,
+          ),
     );
+  } */
+
+  @override
+  void initState() {
+    //////////////////////// Send Build Context of this page to use in provider
+    Provider.of<DataProvider>(context, listen: false)
+        .getKidsProfileBuildContext(context);
+    //////////////////////// initialize list of book History widgets before it get build by BuildContext
+    Provider.of<DataProvider>(context, listen: false)
+        .kidsProfileReadBookWidgetBuilder(widget.kids);
+    super.initState();
   }
 
   @override
@@ -30,6 +44,8 @@ class _KidsProfileState extends State<KidsProfile> {
         children: <Widget>[
           ///////////////////////////////// gradient Bg
           Container(
+            width: deviceWidth,
+            height: deviceHeight,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -43,6 +59,228 @@ class _KidsProfileState extends State<KidsProfile> {
             ),
           ),
           /////////////////////////////// White Card
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: double.infinity,
+                width: double.infinity,
+                margin: EdgeInsets.all(
+                    deviceHeight > 500 ? deviceHeight * 0.04 : 0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      deviceHeight > 500 ? BorderRadius.circular(10) : null,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        //////////////////////////////// Back to parent area Btn
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ParentalKidsCenter(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: deviceHeight > 500
+                                ? deviceHeight * 0.93 * 0.04
+                                : 30,
+                            margin: EdgeInsets.all(deviceHeight > 500
+                                ? deviceWidth * 0.015
+                                : deviceWidth * 0.025),
+                            child: AspectRatio(
+                              aspectRatio: 136.88 / 28.42,
+                              child: SvgPicture.asset(
+                                'assets/images/kidsProfile/backToParentArea.svg',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    //////////////////////////////////////////////////////////////// Kids Profile
+                    Container(
+                      //////////////////// height of all content white card container
+                      height: deviceHeight > 500
+                          ? deviceHeight -
+                              (deviceHeight * 0.08) -
+                              ((deviceHeight * 0.93 * 0.04) +
+                                  (deviceWidth * 0.015 * 2))
+                          : deviceHeight - ((deviceWidth * 0.025 * 2) + 30),
+                      width: deviceHeight > 500
+                          ? deviceWidth * (820 / 1024)
+                          : deviceWidth * (880 / 1024),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          //////////////////////////////////// Kids Profile
+                          Column(
+                            children: <Widget>[
+                              Container(
+                                //////////// size of profile frame
+                                height: deviceHeight > 500
+                                    ? deviceHeight * (130 / 768)
+                                    : deviceHeight * 0.4,
+                                margin: EdgeInsets.only(
+                                    top: deviceHeight > 500
+                                        ? (deviceHeight / 2) -
+                                            (deviceHeight * 0.04) -
+                                            ((deviceHeight * 0.93 * 0.04) +
+                                                (deviceWidth * 0.015 * 2)) -
+                                            (deviceHeight * (130 / 768) / 2) -
+                                            7
+                                        : deviceHeight * 0.05),
+                                child: AspectRatio(
+                                  aspectRatio: 113 / 129,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(
+                                                69, 223, 224, 1.00),
+                                            blurRadius:
+                                                10.0, // has the effect of softening the shadow
+                                            spreadRadius:
+                                                -1, // has the effect of extending the shadow
+                                            offset: Offset(
+                                              0.0, // horizontal, move right 10
+                                              2.0, // vertical, move down 10
+                                            ),
+                                          ),
+                                        ],
+                                        color:
+                                            Color.fromRGBO(69, 223, 224, 1.00),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              right: 15, left: 15),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(1000),
+                                            child: Image.asset(
+                                                'assets/images/avatar_' +
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .avatar[widget.kids] +
+                                                    '.png'),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          height: deviceHeight > 500
+                                              ? (deviceHeight * 0.93 * 0.08 +
+                                                      deviceWidth * 0.030) *
+                                                  0.3
+                                              : (deviceHeight -
+                                                      (54 +
+                                                          deviceWidth *
+                                                              0.025)) *
+                                                  0.09,
+                                          child: FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              Provider.of<DataProvider>(context,
+                                                      listen: false)
+                                                  .displayName[widget.kids],
+                                              style: TextStyle(
+                                                  fontFamily: 'NunitoBold',
+                                                  //fontSize: 21,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              ///////////////////////////////////////// Time read today
+                              Container(
+                                  margin: EdgeInsets.only(top: 14),
+                                  child: Text('0 minutes today',
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontFamily: 'NunitoRegular',
+                                          //fontSize: 21,
+                                          color: Color.fromRGBO(
+                                              80, 85, 89, 1.0)))),
+                            ],
+                          ),
+                          Spacer(),
+                          ////////////////////////////////////////////// Book History
+                          Consumer<DataProvider>(
+                            builder: (context, provider, child) =>
+                                ///////////////////// No reading History
+                                provider.bookStatistic[widget.kids]['readBook'][0] == null
+                                    ? Container(
+                                        height: deviceHeight > 500
+                                            ? deviceHeight * (238 / 768)
+                                            : deviceHeight * (290 / 459),
+                                        margin: EdgeInsets.only(
+                                            top: deviceHeight > 500
+                                                ? (deviceHeight / 2) -
+                                                    (deviceHeight * 0.04) -
+                                                    ((deviceHeight *
+                                                            0.93 *
+                                                            0.04) +
+                                                        (deviceWidth *
+                                                            0.015 *
+                                                            2)) -
+                                                    (deviceHeight *
+                                                        (238 / 768) /
+                                                        2)
+                                                : deviceHeight * 0.03),
+                                        child: Image.asset(
+                                            'assets/images/kidsProfile/noHistory.png'),
+                                      )
+                                    :
+                                    ////////////////////// have reading history
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            top: deviceHeight > 500
+                                                ? 0
+                                                : deviceHeight * 0.05),
+                                        height: double.infinity,
+                                        width: deviceHeight > 500
+                                            ? deviceWidth * (645 / 1024)
+                                            : deviceWidth * (630 / 1024),
+                                        /* color: Colors.blue, */
+                                        child: Wrap(
+                                          children: Provider.of<DataProvider>(context, listen: false).kidsProfileReadBookWidget,
+                                        ),
+                                      ),
+                          ),
+                          Consumer<DataProvider>(
+                            builder: (context, provider, child) =>
+                                provider.bookStatistic[widget.kids]['readBook'][0] == null
+                                    ? Spacer()
+                                    : Container(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          /////////////////////// OLD
+          /* /////////////////////////////// White Card
           Positioned.fill(
             child: Align(
               alignment: Alignment.center,
@@ -94,9 +332,10 @@ class _KidsProfileState extends State<KidsProfile> {
                     
                     children: <Widget>[
                       Container(
+                        color: Colors.blueGrey,
                         margin: EdgeInsets.only(right: 20),
-                        child: Image.asset(
-                            'assets/images/parentalKidsCenter/Todd.png'),
+                        /* child: Image.asset(
+                            'assets/images/parentalKidsCenter/Todd.png'), */
                         width: 145,
                         height: 160,
                       ),
@@ -262,7 +501,7 @@ class _KidsProfileState extends State<KidsProfile> {
                 ],
               ),
             ),
-          )
+          ) */
         ],
       ),
     );

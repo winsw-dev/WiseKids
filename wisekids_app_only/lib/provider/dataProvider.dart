@@ -10,14 +10,18 @@ import 'package:flutter_svg/svg.dart';
 import '../widget/addKidsProfile_dialog.dart' as addMoreKidsDialog;
 import '../screen/parentalConsent.dart';
 import '../screen/parentalKidsCenter.dart';
+import '../screen/kidsProfile.dart';
+import '../widget/slide_dialog_kidsStatistic.dart' as kidsStatistic;
+import '../widget/kidsStatisticPhoneSize.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class DataProvider extends ChangeNotifier {
   /// Internal, private state
-
+  int _kidsLimit = 4;
   BuildContext _parentalKidsCenterContext;
   BuildContext _selectKidsPopupContext;
+  BuildContext _kidsProfileContext;
   double _deviceHeight;
   double _deviceWidth;
 
@@ -28,7 +32,10 @@ class DataProvider extends ChangeNotifier {
   bool _appReviewed = false;
 
   ///////////////// Book Statistics var
-  Map _bookStatistics = {
+  List<Map> _bookStatistic = [
+    {'readBook': []}
+  ]; //when finish reading create,update local var, update database
+  /* = {
     'book1': {
       'kidsReview': [null],
       //////////
@@ -38,16 +45,21 @@ class DataProvider extends ChangeNotifier {
         /// null value in score array mean that this kids haven't done an exercise yet thus no score recorded
         /// u should do funtion to add score like if score[0]**firstTime score == null then assign this score if != null look at next index
         /// and if all position != null then pop 1st position score and add recentest score to last position
-        '0': [null, null, null],
+        '0': [
+          {'firstExerciseScore': null, 'secondExerciseScore': null},
+          {'firstExerciseScore': null, 'secondExerciseScore': null},
+          {'firstExerciseScore': null, 'secondExerciseScore': null}
+        ],
       },
       //////////
       'kidsStickerCollection': [
         {'stickers': []}
       ],
       //////////
-      'timeRead': [0]
+      'timeRead': [0],
+      'amountRead': [0]
     }
-  };
+  }; */
 
   ///////////////// Current kids select by user
   int _currentKids = 0;
@@ -65,6 +77,7 @@ class DataProvider extends ChangeNotifier {
   List<int> _kidsContentLevel = [1];
   List<Widget> _kidsProfileWidget;
   List<Widget> _selectKidsPopupWidget;
+  List<Widget> _kidsProfileReadBookWidget;
 
   ///////////////// theme var
   List<int> _theme = [1];
@@ -100,12 +113,14 @@ class DataProvider extends ChangeNotifier {
   ///////////////// An unmodifiable view
   double get deviceHeight => _deviceHeight;
   double get deviceWidth => _deviceWidth;
+  BuildContext get kidsProfileContext => _kidsProfileContext;
+  List<Widget> get kidsProfileReadBookWidget => _kidsProfileReadBookWidget;
   BuildContext get selectKidsPopupContext => _selectKidsPopupContext;
   List<Widget> get selectKidsPopupWidget => _selectKidsPopupWidget;
   BuildContext get parentalKidsCenterContext => _parentalKidsCenterContext;
   List<Widget> get kidsProfileWidget => _kidsProfileWidget;
   List<int> get kidsContentLevel => _kidsContentLevel;
-  Map get bookStatistics => _bookStatistics;
+  List<Map> get bookStatistic => _bookStatistic;
   int get appOpen => _appOpen;
   bool get appReviewed => _appReviewed;
   List<String> get avatar => _avatar;
@@ -246,59 +261,72 @@ class DataProvider extends ChangeNotifier {
     // then rebuild everytime it get call
     for (var i = 0; i < _avatar.length; i++) {
       _kidsProfileWidget.add(
-        //////////////////////////////////// Kids1 Profile
-        Container(
-          margin: EdgeInsets.only(
-              top: 10, bottom: 16, right: _deviceHeight > 500 ? 36 : 20),
-          child: AspectRatio(
-            aspectRatio: 113 / 129,
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(69, 223, 224, 1.00),
-                      blurRadius:
-                          10.0, // has the effect of softening the shadow
-                      spreadRadius:
-                          -1, // has the effect of extending the shadow
-                      offset: Offset(
-                        0.0, // horizontal, move right 10
-                        2.0, // vertical, move down 10
+        //////////////////////////////////// Kids Profile
+        GestureDetector(
+          onTap: () {
+            Navigator.of(_parentalKidsCenterContext).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return KidsProfile(kids: i);
+                },
+              ),
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                top: 10, bottom: 16, right: _deviceHeight > 500 ? 36 : 25),
+            child: AspectRatio(
+              aspectRatio: 113 / 129,
+              child: Container(
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(69, 223, 224, 1.00),
+                        blurRadius:
+                            10.0, // has the effect of softening the shadow
+                        spreadRadius:
+                            -1, // has the effect of extending the shadow
+                        offset: Offset(
+                          0.0, // horizontal, move right 10
+                          2.0, // vertical, move down 10
+                        ),
+                      ),
+                    ],
+                    color: Color.fromRGBO(69, 223, 224, 1.00),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(right: 15, left: 15),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(1000),
+                        child: Image.asset('assets/images/avatar_' +
+                            _avatar[i].toString() +
+                            '.png'),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      height: _deviceHeight > 500
+                          ? (_deviceHeight * 0.93 * 0.08 +
+                                  _deviceWidth * 0.030) *
+                              0.3
+                          : (_deviceHeight - (54 + _deviceWidth * 0.025)) *
+                              0.09,
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Text(
+                          _displayName[i],
+                          style: TextStyle(
+                              fontFamily: 'NunitoBold',
+                              //fontSize: 21,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
                   ],
-                  color: Color.fromRGBO(69, 223, 224, 1.00),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 15, left: 15),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(1000),
-                      child: Image.asset('assets/images/avatar_' +
-                          _avatar[i].toString() +
-                          '.png'),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    height: _deviceHeight > 500
-                        ? (_deviceHeight * 0.93 * 0.08 + _deviceWidth * 0.030) *
-                            0.3
-                        : (_deviceHeight - (54 + _deviceWidth * 0.025)) * 0.09,
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: Text(
-                        _displayName[i],
-                        style: TextStyle(
-                            fontFamily: 'NunitoBold',
-                            //fontSize: 21,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -307,7 +335,7 @@ class DataProvider extends ChangeNotifier {
     }
     _kidsProfileWidget
         .add(///////////////////////////////////// Add more kids Btn
-            _avatar.length < 5
+            _avatar.length < _kidsLimit
                 ? GestureDetector(
                     onTap: _showAddMoreKisDialog,
                     child: Container(
@@ -350,12 +378,27 @@ class DataProvider extends ChangeNotifier {
     _kidsStar.add(0);
     _avatar.add(kidsAvatarInput);
     _theme.add(kidsThemeInput);
+    _bookStatistic.add({'readBook': []});
     //set default kidsExerciseScore
-    _bookStatistics['book1']['kidsExerciseScore']
-        [(_avatar.length - 1).toString()] = [null, null, null];
-    _bookStatistics['book1']['kidsReview'].add(null);
-    _bookStatistics['book1']['kidsStickerCollection'].add({'stickers': []});
-    _bookStatistics['book1']['timeRead'].add(0);
+    /*  _bookStatistic['book1']['kidsExerciseScore']
+        [(_avatar.length - 1).toString()] = [
+      {'firstExerciseScore': null, 'secondExerciseScore': null},
+      {'firstExerciseScore': null, 'secondExerciseScore': null},
+      {'firstExerciseScore': null, 'secondExerciseScore': null}
+    ];
+    _bookStatistic['book1']['kidsReview'].add(null);
+    _bookStatistic['book1']['kidsStickerCollection'].add({'stickers': []});
+    _bookStatistic['book1']['timeRead'].add(0); 
+    _bookStatistic['book1']['amountRead'].add(0);*/
+
+    /////// sort display name
+    for (var i = 0; i < _kidsName.length; i++) {
+      if (_kidsName[i].length <= 11) {
+        _displayName[i] = _kidsName[i];
+      } else if (_kidsName[i].length > 11) {
+        _displayName[i] = _kidsName[i].substring(0, 10) + '.';
+      }
+    }
 
     notifyListeners();
     /////////////////////////////////// add kids to database
@@ -371,7 +414,7 @@ class DataProvider extends ChangeNotifier {
         'kidsName': _kidsName,
         'kidsAge': _kidsAge,
         'kidsStar': _kidsStar,
-        'bookStatistics': _bookStatistics,
+        'bookStatistic': _bookStatistic,
         'kidsContentLevel': _kidsContentLevel,
       }, /* merge: true */
     );
@@ -634,7 +677,7 @@ class DataProvider extends ChangeNotifier {
           'kidsAge': _kidsAge,
           'kidsStar': _kidsStar,
           'appReviewed': _appReviewed,
-          'bookStatistics': _bookStatistics,
+          'bookStatistic': _bookStatistic,
           'kidsContentLevel': _kidsContentLevel,
         });
         ////// fetch user data and update provider (Old User)
@@ -727,7 +770,7 @@ class DataProvider extends ChangeNotifier {
               'kidsAge': _kidsAge,
               'kidsStar': _kidsStar,
               'appReviewed': _appReviewed,
-              'bookStatistics': _bookStatistics,
+              'bookStatistic': _bookStatistic,
               'kidsContentLevel': _kidsContentLevel,
             });
             ////// fetch user data and update provider (Old User)
@@ -758,7 +801,7 @@ class DataProvider extends ChangeNotifier {
 
   restoreUserData(DocumentSnapshot userData) async {
     _kidsContentLevel = List<int>.from(userData['kidsContentLevel']);
-    _bookStatistics = userData['bookStatistics'];
+    _bookStatistic = List<Map>.from(userData['bookStatistic']);
     _appReviewed = userData['appReviewed'];
     _userName = userData['userName'];
     _userEmail = userData['email'];
@@ -769,6 +812,8 @@ class DataProvider extends ChangeNotifier {
     _theme = List<int>.from(userData['kidsTheme']);
     _signinMethod = userData['signInWith'];
     _kidsStar = List<int>.from(userData['kidsStar']);
+
+    print(_bookStatistic);
 
     ///////////////////////////////////////////////////////// sort display name if it too long
     for (var i = 0; i < _kidsName.length; i++) {
@@ -812,19 +857,25 @@ class DataProvider extends ChangeNotifier {
     _theme5Visibility = false;
     _currentKids = 0;
     _profileBorderColor = Color.fromRGBO(255, 96, 83, 1.00);
-    _bookStatistics = {
+    _bookStatistic = null;
+    /* = {
       'book1': {
         'kidsReview': [null],
         'kidsExerciseScore': {
-          '0': [null, null, null],
+          '0': [
+            {'firstExerciseScore': null, 'secondExerciseScore': null},
+            {'firstExerciseScore': null, 'secondExerciseScore': null},
+            {'firstExerciseScore': null, 'secondExerciseScore': null}
+          ],
         },
         'kidsStickerCollection': [
           {'stickers': []}
         ],
-        'timeRead': [0]
+        'timeRead': [0],
+        'amountRead': [0]
       }
     };
-    _appReviewed = false;
+    _appReviewed = false;*/
   }
 
   selectKidsPopupWidgetBuilder(BuildContext context) {
@@ -836,9 +887,13 @@ class DataProvider extends ChangeNotifier {
         /////////////////////////////////////////// kid name
         Padding(
           padding: EdgeInsets.only(
-              left: _deviceHeight > 500
+            left: _deviceHeight > 500
+                ? (_deviceWidth * 0.075) * (178 / 58) * 0.07
+                : (_deviceWidth * 0.065) * (178 / 58) * 0.07,
+            /* right: _deviceHeight > 500
                   ? (_deviceWidth * 0.075) * (178 / 58) * 0.07
-                  : (_deviceWidth * 0.065) * (178 / 58) * 0.07),
+                  : (_deviceWidth * 0.065) * (178 / 58) * 0.07 */
+          ),
           child: Row(
             children: <Widget>[
               Container(
@@ -846,13 +901,15 @@ class DataProvider extends ChangeNotifier {
                     ? (_deviceWidth * 0.075) * 0.45
                     : (_deviceWidth * 0.065) * 0.50,
                 child: FittedBox(
-                  fit: BoxFit.fitHeight,
+                  fit: BoxFit.fitWidth,
                   child: Text(
                     _displayName[i],
                     style: TextStyle(
                       fontFamily: 'NunitoBold',
                       //fontSize: deviceHeight > 500 ? 20 : 16,
-                      color: _currentKids==i? Color.fromRGBO(69, 223, 224, 1.0):Color.fromRGBO(160, 163, 168, 1.0),
+                      color: _currentKids == i
+                          ? Color.fromRGBO(69, 223, 224, 1.0)
+                          : Color.fromRGBO(160, 163, 168, 1.0),
                     ),
                   ),
                 ),
@@ -934,5 +991,97 @@ class DataProvider extends ChangeNotifier {
         ),
       ),
     );
+  }
+
+  getKidsProfileBuildContext(BuildContext context) {
+    _kidsProfileContext = context;
+  }
+
+  /*  void _showKidsStatisticCard() {
+    kidsStatistic.showSlideDialog(
+      context: _kidsProfileContext,
+    );
+  } */
+
+  kidsProfileReadBookWidgetBuilder(int whichKids) {
+    ///////// clear array before build
+    _kidsProfileReadBookWidget = [];
+
+    if (_bookStatistic[whichKids]['readBook'][0] != null) {
+      print('pass');
+      for (var i in _bookStatistic[whichKids]['readBook']) {
+        _kidsProfileReadBookWidget.add(
+          GestureDetector(
+            onTap: _deviceHeight > 500
+                ? () {
+                    kidsStatistic.showSlideDialog(
+                      context: _kidsProfileContext,
+                      book: i,
+                      totalTimeRead: _bookStatistic[whichKids]
+                          ['book' + i.toString()]['timeMinuteReadTotal'],
+                      firstExerciseScore: _bookStatistic[whichKids]
+                          ['book' + i.toString()]['kidsExerciseScore'][0],
+                      secondExerciseScore: _bookStatistic[whichKids]
+                          ['book' + i.toString()]['kidsExerciseScore'][1],
+                      thirdExerciseScore: _bookStatistic[whichKids]
+                          ['book' + i.toString()]['kidsExerciseScore'][2],
+                      kidsReview: _bookStatistic[whichKids]
+                          ['book' + i.toString()]['kidsReview'],
+                    );
+                  }
+                : () {
+                    Navigator.of(_kidsProfileContext).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return KidsStatisticPhoneSize(
+                            book: i,
+                            totalTimeRead: _bookStatistic[whichKids]
+                                ['book' + i.toString()]['timeMinuteReadTotal'],
+                            firstExerciseScore: _bookStatistic[whichKids]
+                                ['book' + i.toString()]['kidsExerciseScore'][0],
+                            secondExerciseScore: _bookStatistic[whichKids]
+                                ['book' + i.toString()]['kidsExerciseScore'][1],
+                            thirdExerciseScore: _bookStatistic[whichKids]
+                                ['book' + i.toString()]['kidsExerciseScore'][2],
+                            kidsReview: _bookStatistic[whichKids]
+                                ['book' + i.toString()]['kidsReview'],
+                          );
+                        },
+                      ),
+                    );
+                  },
+            child: Hero(tag: 'book',
+                          child: Container(
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(69, 223, 224, 0.5),
+                      blurRadius: 10.0, // has the effect of softening the shadow
+                      spreadRadius: -1, // has the effect of extending the shadow
+                      offset: Offset(
+                        0.0, // horizontal, move right 10
+                        2.0, // vertical, move down 10
+                      ),
+                    ),
+                  ],
+                ),
+                height: deviceHeight > 500
+                    ? deviceHeight * (203 / 768)
+                    : deviceHeight * (250 / 495),
+                    width: (deviceHeight * (250 / 495))*(1258/1638),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                      'assets/images/kidsProfile/book' + i.toString() + '.png'),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+    } else {
+      _kidsProfileReadBookWidget.add(Container());
+    }
   }
 }

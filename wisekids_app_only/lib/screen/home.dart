@@ -375,7 +375,7 @@ class _HomeState extends State<Home> {
                                                         fontFamily:
                                                             'NunitoBlack',
                                                         //fontSize: deviceHeight > 500 ? 20 : 16,
-                                                        color: Colors.white),
+                                                        color: provider.theme[provider.currentKids]==2? Color.fromRGBO(245, 98, 167, 1.0):Colors.white),
                                                   ),
                                                 )
                                               : Text(
@@ -399,8 +399,12 @@ class _HomeState extends State<Home> {
                                                       0.15,
                                               child: AspectRatio(
                                                 aspectRatio: 17 / 10,
-                                                child: SvgPicture.asset(
-                                                  'assets/icon/arrowDown.svg',
+                                                child: Consumer<DataProvider>(
+                                                  builder: (context, provider,
+                                                          child) => SvgPicture.asset(
+                                                    'assets/icon/arrowDown.svg',
+                                                    color: provider.theme[provider.currentKids]==2? Color.fromRGBO(245, 98, 167, 1.0):Colors.white,
+                                                  ),
                                                 ),
                                               ),
                                             )
@@ -411,8 +415,12 @@ class _HomeState extends State<Home> {
                                                       0.30,
                                               child: AspectRatio(
                                                 aspectRatio: 10 / 17,
-                                                child: SvgPicture.asset(
-                                                  'assets/icon/arrowRight.svg',
+                                                child: Consumer<DataProvider>(
+                                                  builder: (context, provider,
+                                                          child) => SvgPicture.asset(
+                                                    'assets/icon/arrowRight.svg',
+                                                    color: provider.theme[provider.currentKids]==2? Color.fromRGBO(245, 98, 167, 1.0):Colors.white,
+                                                  ),
                                                 ),
                                               ),
                                             ),

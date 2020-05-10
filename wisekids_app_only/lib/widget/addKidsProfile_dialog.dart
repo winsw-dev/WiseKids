@@ -743,7 +743,7 @@ class AddMoreKidsState extends State<AddMoreKids>
                                               /////////////////////////////////// prevent flickering when dismiss dialog
                                               Future.delayed(
                                                   const Duration(
-                                                      milliseconds: 150), () {
+                                                      milliseconds: 250), () {
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
@@ -802,7 +802,7 @@ class AddMoreKidsState extends State<AddMoreKids>
                                             /////////////////////////////////// prevent flickering when dismiss dialog
                                             Future.delayed(
                                                 const Duration(
-                                                    milliseconds: 150), () {
+                                                    milliseconds: 250), () {
                                               Provider.of<DataProvider>(context,
                                                       listen: false)
                                                   .resetAddKids();
