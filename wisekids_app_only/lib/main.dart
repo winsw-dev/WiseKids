@@ -25,7 +25,8 @@ void main() => runApp(
             toolBar: DevicePreviewToolBarStyle.light(),
             background: BoxDecoration(color: const Color(0xFFFF0000)),
           ), */
-          enabled: false,
+          
+          enabled: !const bool.fromEnvironment("dart.vm.product"), // disable device preview in release mode [const bool.fromEnvironment("dart.vm.product")] will return "true" in release mode
           builder: (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
@@ -127,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
       /////// if true openTime+1
       int openTimeStored = prefs.getInt('appOpenCount');
       int openTimeCurrent = openTimeStored + 1;
-      /////// save open time data to provider 
+      /////// save open time data to provider
       Provider.of<DataProvider>(context, listen: false)
           .appOpenData(openTimeCurrent);
       print(
@@ -142,22 +143,40 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     openAppCount();
-    Future.delayed(Duration(seconds: 2), () {
+    
+    Future.delayed(Duration(seconds: 2), ()async {
       //audioCache.loop('sound/background.mp3'); ////// BG sound
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       FirebaseAuth.instance
           .currentUser()
           .then((currentUser) => {
                 if (currentUser == null)
-                  {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SelectAvatar(),
-                      ),
-                    )
+                  {    /////////// check if preference have data if have restore and direct to home
+                    if (prefs.containsKey('avatar')) // old User
+                      {
+                        Provider.of<DataProvider>(context, listen: false)
+                            .restoreDataFromSharedPreferences(),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(),
+                          ),
+                        )
+                      }
+                    else // First time user
+                      {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SelectAvatar(),
+                          ),
+                        )
+                      }
+
+                
                   }
                 else
                   {
@@ -166,7 +185,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         .document(currentUser.uid)
                         .get()
                         .then((DocumentSnapshot result) async {
-                          
                       /* //////////////////////////////////////////////////// restore avatar & theme data
                       Provider.of<DataProvider>(context, listen: false)
                           .selectAvatar(result["kidsAvatar"]);
@@ -204,9 +222,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    /// initialize device size into provider 
+    /// initialize device size into provider
     Provider.of<DataProvider>(context, listen: false)
-                                  .getDeviceSize(deviceHeight, deviceWidth);
+        .getDeviceSize(deviceHeight, deviceWidth);
 
     return Scaffold(
       body: Stack(

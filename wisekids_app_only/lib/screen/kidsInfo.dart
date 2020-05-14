@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'selectAvatar.dart';
 import './finishSelectAvatar.dart';
-
+ 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 
@@ -424,12 +424,14 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                     Radius.circular(
                                                                         20.0),
                                                                 cursorWidth: 4,
-                                                                decoration: InputDecoration.collapsed(
-                                                                    //contentPadding: EdgeInsets.symmetric(vertical: 0),
-                                                                    //isDense: true,
-                                                                    //border: InputBorder.none,
+                                                                decoration: InputDecoration/* .collapsed */(
+                                                                  
+                                                                    contentPadding: EdgeInsets.symmetric(vertical: -10),
+                                                                    isDense: true,
+                                                                    border: InputBorder.none,
 
-                                                                    hintText: ""), //delete underline
+                                                                    hintText: "",),
+                                                                     //delete underline
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -641,7 +643,9 @@ class _KidsInfoState extends State<KidsInfo> {
 
                                                             decoration:
                                                                 InputDecoration
-                                                                    .collapsed(
+                                                                    /* .collapsed */(contentPadding: EdgeInsets.symmetric(vertical: -20),
+                                                                    isDense: true,
+                                                                    border: InputBorder.none,
                                                                         hintText:
                                                                             ""), //delete underline
                                                             textAlign: TextAlign

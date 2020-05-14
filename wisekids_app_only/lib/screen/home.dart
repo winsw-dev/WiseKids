@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare.dart';
+import 'package:flare_flutter/flare_cache.dart';
+import 'package:flare_flutter/flare_controls.dart';
+import '../widget/flare_artboard.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -21,6 +25,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  /*  @override
+  void initState()async {
+   // Preload our Flare files (you could also do this in a widget).
+  var asset = await cachedActor(rootBundle, 'assets/Chatbot-back.flr');
+  asset.ref();
+  var artboardBack =
+      asset.actor.artboard.makeInstance() as FlutterActorArtboard;
+  artboardBack.initializeGraphics();
+  artboardBack.advance(0);
+
+  var asset2 = await cachedActor(rootBundle, 'assets/Chatbot-front.flr');
+  asset2.ref();
+  var artboardFront =
+      asset2.actor.artboard.makeInstance() as FlutterActorArtboard;
+  artboardFront.initializeGraphics();
+  artboardFront.advance(0);
+    super.initState();
+  } */
+
   //var fadeInDuration = 100; for switch case
   var fadeInDuration = 100;
 
@@ -260,8 +283,12 @@ class _HomeState extends State<Home> {
                                         child: FittedBox(
                                           fit: BoxFit.fitHeight,
                                           child: Consumer<DataProvider>(
-                                    builder: (context, provider, child) => Text(
-                                              provider.kidsStar[provider.currentKids].toString(),
+                                            builder:
+                                                (context, provider, child) =>
+                                                    Text(
+                                              provider.kidsStar[
+                                                      provider.currentKids]
+                                                  .toString(),
                                               style: TextStyle(
                                                   fontFamily: 'NunitoBold',
                                                   color: Colors.white),
@@ -354,40 +381,67 @@ class _HomeState extends State<Home> {
                                           : deviceWidth * 0.023),
                                   child: Row(
                                     children: <Widget>[
-                                      Container(
-                                        height: deviceHeight > 500
-                                            ? (deviceWidth * 0.075) * 0.45
-                                            : (deviceWidth * 0.065) * 0.50,
-                                        child: FittedBox(
-                                          fit: BoxFit.fitHeight,
-                                          child: Provider.of<DataProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .status ==
-                                                  Status.Authenticated
-                                              ? Consumer<DataProvider>(
-                                                  builder: (context, provider,
-                                                          child) =>
-                                                      Text(
-                                                    provider.displayName[
-                                                        provider.currentKids],
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'NunitoBlack',
-                                                        //fontSize: deviceHeight > 500 ? 20 : 16,
-                                                        color: provider.theme[provider.currentKids]==2? Color.fromRGBO(245, 98, 167, 1.0):Colors.white),
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          height: deviceHeight > 500
+                                              ? (deviceWidth * 0.075) * 0.45
+                                              : (deviceWidth * 0.065) * 0.50,
+                                          child: FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .status ==
+                                                    Status.Authenticated
+                                                ? Consumer<DataProvider>(
+                                                    builder: (context, provider,
+                                                            child) =>
+                                                        Container(
+                                                           height: deviceHeight > 500
+                                              ? (deviceWidth * 0.075) * 0.45
+                                              : (deviceWidth * 0.065) * 0.50,
+                                                          child: FittedBox(fit: BoxFit.contain,
+                                                                                                                    child: Text(
+                                                      provider.displayName[
+                                                              provider.currentKids],
+                                                      style: TextStyle(
+                                                              fontFamily:
+                                                                  'NunitoBlack',
+                                                              //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                              color: provider.theme[
+                                                                          provider
+                                                                              .currentKids] ==
+                                                                      2
+                                                                  ? Color.fromRGBO(
+                                                                      245,
+                                                                      98,
+                                                                      167,
+                                                                      1.0)
+                                                                  : Colors.white),
+                                                    ),
+                                                          ),
+                                                        ),
+                                                  )
+                                                : Container(
+                                                   height: deviceHeight > 500
+                                              ? (deviceWidth * 0.075) * 0.45
+                                              : (deviceWidth * 0.065) * 0.50,
+                                                  child: FittedBox(fit: BoxFit.contain,
+                                                                                                    child: Text(
+                                                        'Login',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoBlack',
+                                                            //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                            color: Colors.white),
+                                                      ),
                                                   ),
-                                                )
-                                              : Text(
-                                                  'Login',
-                                                  style: TextStyle(
-                                                      fontFamily: 'NunitoBlack',
-                                                      //fontSize: deviceHeight > 500 ? 20 : 16,
-                                                      color: Colors.white),
                                                 ),
+                                          ),
                                         ),
                                       ),
-                                      Spacer(),
+                                      //Spacer(),
                                       Provider.of<DataProvider>(context,
                                                       listen: false)
                                                   .status ==
@@ -401,9 +455,15 @@ class _HomeState extends State<Home> {
                                                 aspectRatio: 17 / 10,
                                                 child: Consumer<DataProvider>(
                                                   builder: (context, provider,
-                                                          child) => SvgPicture.asset(
+                                                          child) =>
+                                                      SvgPicture.asset(
                                                     'assets/icon/arrowDown.svg',
-                                                    color: provider.theme[provider.currentKids]==2? Color.fromRGBO(245, 98, 167, 1.0):Colors.white,
+                                                    color: provider.theme[provider
+                                                                .currentKids] ==
+                                                            2
+                                                        ? Color.fromRGBO(
+                                                            245, 98, 167, 1.0)
+                                                        : Colors.white,
                                                   ),
                                                 ),
                                               ),
@@ -417,9 +477,15 @@ class _HomeState extends State<Home> {
                                                 aspectRatio: 10 / 17,
                                                 child: Consumer<DataProvider>(
                                                   builder: (context, provider,
-                                                          child) => SvgPicture.asset(
+                                                          child) =>
+                                                      SvgPicture.asset(
                                                     'assets/icon/arrowRight.svg',
-                                                    color: provider.theme[provider.currentKids]==2? Color.fromRGBO(245, 98, 167, 1.0):Colors.white,
+                                                    color: provider.theme[provider
+                                                                .currentKids] ==
+                                                            2
+                                                        ? Color.fromRGBO(
+                                                            245, 98, 167, 1.0)
+                                                        : Colors.white,
                                                   ),
                                                 ),
                                               ),
@@ -495,10 +561,8 @@ class _HomeState extends State<Home> {
                                   );
                                 }
                               : () {},
-                          child: Container(
-                            child: FlareActor(bookShelf[index],
-                                animation: 'bookAnimation'),
-                          ),
+                          child: FlareActor(bookShelf[index],
+                              animation: 'bookAnimation'),
                         ),
                       );
                     },
@@ -1426,6 +1490,19 @@ class Theme1 extends StatelessWidget {
           width: deviceWidth,
           height: deviceWidth,
           color: Color.fromRGBO(255, 249, 232, 1.00),
+        ),
+        /////////////////////// Pattern
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: deviceHeight / 2,
+              child: Image.asset(
+                'assets/images/theme1/pattern.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
         ),
 
         //////////////////////// BlackBoard

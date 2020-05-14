@@ -7,17 +7,20 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import '../widget/addKidsProfile_dialog.dart' as addMoreKidsDialog;
 import '../screen/parentalConsent.dart';
 import '../screen/parentalKidsCenter.dart';
 import '../screen/kidsProfile.dart';
 import '../widget/slide_dialog_kidsStatistic.dart' as kidsStatistic;
 import '../widget/kidsStatisticPhoneSize.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class DataProvider extends ChangeNotifier {
   /// Internal, private state
+  int _displayNameLength = 10;
   int _kidsLimit = 4;
   BuildContext _parentalKidsCenterContext;
   BuildContext _selectKidsPopupContext;
@@ -275,57 +278,63 @@ class DataProvider extends ChangeNotifier {
           child: Container(
             margin: EdgeInsets.only(
                 top: 10, bottom: 16, right: _deviceHeight > 500 ? 36 : 25),
-            child: AspectRatio(
-              aspectRatio: 113 / 129,
-              child: Container(
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
+            child: Hero(
+              tag: i.toString() + 'Profile',
+              child: Material(
+                color: Colors.transparent,
+                child: AspectRatio(
+                  aspectRatio: 113 / 129,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(69, 223, 224, 1.00),
+                            blurRadius:
+                                10.0, // has the effect of softening the shadow
+                            spreadRadius:
+                                -1, // has the effect of extending the shadow
+                            offset: Offset(
+                              0.0, // horizontal, move right 10
+                              2.0, // vertical, move down 10
+                            ),
+                          ),
+                        ],
                         color: Color.fromRGBO(69, 223, 224, 1.00),
-                        blurRadius:
-                            10.0, // has the effect of softening the shadow
-                        spreadRadius:
-                            -1, // has the effect of extending the shadow
-                        offset: Offset(
-                          0.0, // horizontal, move right 10
-                          2.0, // vertical, move down 10
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(right: 15, left: 15),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(1000),
+                            child: Image.asset('assets/images/avatar_' +
+                                _avatar[i].toString() +
+                                '.png'),
+                          ),
                         ),
-                      ),
-                    ],
-                    color: Color.fromRGBO(69, 223, 224, 1.00),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(right: 15, left: 15),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(1000),
-                        child: Image.asset('assets/images/avatar_' +
-                            _avatar[i].toString() +
-                            '.png'),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      height: _deviceHeight > 500
-                          ? (_deviceHeight * 0.93 * 0.08 +
-                                  _deviceWidth * 0.030) *
-                              0.3
-                          : (_deviceHeight - (54 + _deviceWidth * 0.025)) *
-                              0.09,
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Text(
-                          _displayName[i],
-                          style: TextStyle(
-                              fontFamily: 'NunitoBold',
-                              //fontSize: 21,
-                              color: Colors.white),
+                        Container(
+                          margin: EdgeInsets.only(left: 10, right: 10),
+                          height: _deviceHeight > 500
+                              ? (_deviceHeight * 0.93 * 0.08 +
+                                      _deviceWidth * 0.030) *
+                                  0.3
+                              : (_deviceHeight - (54 + _deviceWidth * 0.025)) *
+                                  0.09,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              _displayName[i],
+                              style: TextStyle(
+                                  fontFamily: 'NunitoBold',
+                                  //fontSize: 21,
+                                  color: Colors.white),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -393,9 +402,9 @@ class DataProvider extends ChangeNotifier {
 
     /////// sort display name
     for (var i = 0; i < _kidsName.length; i++) {
-      if (_kidsName[i].length <= 11) {
+      if (_kidsName[i].length <= _displayNameLength) {
         _displayName[i] = _kidsName[i];
-      } else if (_kidsName[i].length > 11) {
+      } else if (_kidsName[i].length > _displayNameLength) {
         _displayName[i] = _kidsName[i].substring(0, 10) + '.';
       }
     }
@@ -445,9 +454,9 @@ class DataProvider extends ChangeNotifier {
 
     _displayName = _kidsName;
     for (var i = 0; i < _kidsName.length; i++) {
-      if (_kidsName[i].length <= 11) {
+      if (_kidsName[i].length <= _displayNameLength) {
         _displayName[i] = _kidsName[i];
-      } else if (_kidsName[i].length > 11) {
+      } else if (_kidsName[i].length > _displayNameLength) {
         _displayName[i] = _kidsName[i].substring(0, 10) + '.';
       }
     }
@@ -458,6 +467,7 @@ class DataProvider extends ChangeNotifier {
     if (index == 0) {
       /////////////////////////////////// modify avatar list following current kids index thex push to database
       _avatar[_currentKids] = 'boy';
+      saveDataToSharedPreferences();
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
               {
@@ -466,9 +476,12 @@ class DataProvider extends ChangeNotifier {
                     .document(currentUser.uid)
                     .setData({'kidsAvatar': _avatar}, merge: true)
               }
+            else if (currentUser == null)
+              {}
           });
     } else if (index == 1) {
       _avatar[_currentKids] = 'girl';
+      saveDataToSharedPreferences();
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
               {
@@ -480,6 +493,7 @@ class DataProvider extends ChangeNotifier {
           });
     } else if (index == 2) {
       _avatar[_currentKids] = 'cat';
+      saveDataToSharedPreferences();
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
               {
@@ -505,6 +519,7 @@ class DataProvider extends ChangeNotifier {
       _theme4Visibility = false;
       _theme5Visibility = false;
       _profileBorderColor = Color.fromRGBO(255, 96, 83, 1.00);
+      saveDataToSharedPreferences();
 
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
@@ -523,6 +538,7 @@ class DataProvider extends ChangeNotifier {
       _theme4Visibility = false;
       _theme5Visibility = false;
       _profileBorderColor = Color.fromRGBO(245, 98, 167, 1.00);
+      saveDataToSharedPreferences();
 
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
@@ -541,6 +557,7 @@ class DataProvider extends ChangeNotifier {
       _theme4Visibility = false;
       _theme5Visibility = false;
       _profileBorderColor = Color.fromRGBO(222, 41, 68, 1.00);
+      saveDataToSharedPreferences();
 
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
@@ -559,6 +576,7 @@ class DataProvider extends ChangeNotifier {
       _theme4Visibility = true;
       _theme5Visibility = false;
       _profileBorderColor = Color.fromRGBO(222, 41, 68, 1.00);
+      saveDataToSharedPreferences();
 
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
@@ -577,6 +595,7 @@ class DataProvider extends ChangeNotifier {
       _theme4Visibility = false;
       _theme5Visibility = true;
       _profileBorderColor = Color.fromRGBO(51, 73, 57, 1.00);
+      saveDataToSharedPreferences();
 
       FirebaseAuth.instance.currentUser().then((currentUser) => {
             if (currentUser != null)
@@ -679,6 +698,7 @@ class DataProvider extends ChangeNotifier {
           'appReviewed': _appReviewed,
           'bookStatistic': _bookStatistic,
           'kidsContentLevel': _kidsContentLevel,
+          'currentKids': _currentKids,
         });
         ////// fetch user data and update provider (Old User)
       } else {
@@ -772,6 +792,7 @@ class DataProvider extends ChangeNotifier {
               'appReviewed': _appReviewed,
               'bookStatistic': _bookStatistic,
               'kidsContentLevel': _kidsContentLevel,
+              'currentKids': _currentKids,
             });
             ////// fetch user data and update provider (Old User)
           } else {
@@ -812,6 +833,7 @@ class DataProvider extends ChangeNotifier {
     _theme = List<int>.from(userData['kidsTheme']);
     _signinMethod = userData['signInWith'];
     _kidsStar = List<int>.from(userData['kidsStar']);
+    _currentKids = userData['currentKids'];
 
     print(_bookStatistic);
 
@@ -821,9 +843,9 @@ class DataProvider extends ChangeNotifier {
         _displayName.add('');
       }
 
-      if (_kidsName[i].length <= 11) {
+      if (_kidsName[i].length <= _displayNameLength) {
         _displayName[i] = _kidsName[i];
-      } else if (_kidsName[i].length > 11) {
+      } else if (_kidsName[i].length > _displayNameLength) {
         _displayName[i] = _kidsName[i].substring(0, 10) + '.';
       }
     }
@@ -842,7 +864,7 @@ class DataProvider extends ChangeNotifier {
   }
 
   /// reset variable in provider to default
-  resetProvider() {
+  resetProvider() async {
     _avatar = [''];
     _kidsName = [''];
     _kidsAge = [''];
@@ -857,7 +879,13 @@ class DataProvider extends ChangeNotifier {
     _theme5Visibility = false;
     _currentKids = 0;
     _profileBorderColor = Color.fromRGBO(255, 96, 83, 1.00);
-    _bookStatistic = null;
+    _bookStatistic = [
+      {'readBook': []}
+    ];
+
+    /// reset local database
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
     /* = {
       'book1': {
         'kidsReview': [null],
@@ -894,27 +922,48 @@ class DataProvider extends ChangeNotifier {
                   ? (_deviceWidth * 0.075) * (178 / 58) * 0.07
                   : (_deviceWidth * 0.065) * (178 / 58) * 0.07 */
           ),
-          child: Row(
-            children: <Widget>[
-              Container(
-                height: _deviceHeight > 500
-                    ? (_deviceWidth * 0.075) * 0.45
-                    : (_deviceWidth * 0.065) * 0.50,
-                child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    _displayName[i],
-                    style: TextStyle(
-                      fontFamily: 'NunitoBold',
-                      //fontSize: deviceHeight > 500 ? 20 : 16,
-                      color: _currentKids == i
-                          ? Color.fromRGBO(69, 223, 224, 1.0)
-                          : Color.fromRGBO(160, 163, 168, 1.0),
+          child: GestureDetector(
+            onTap: () {
+              print('Choosen kids: ' + _kidsName[i]);
+              _currentKids = i;
+              chooseTheme(_theme[_currentKids]);
+              notifyListeners();
+              ////////// save selected kids to database to save select kids stage after restart
+              FirebaseAuth.instance.currentUser().then((currentUser) => {
+                    if (currentUser != null)
+                      {
+                        Firestore.instance
+                            .collection('WiseKidsUser')
+                            .document(currentUser.uid)
+                            .setData({'currentKids': _currentKids}, merge: true)
+                      }
+                  });
+            },
+            child: Row(
+              children: <Widget>[
+                Container(
+                  height: _deviceHeight > 500
+                      ? (_deviceWidth * 0.075) * 0.45
+                      : (_deviceWidth * 0.065) * 0.50,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    ////////// change display name hilight following selecet kids
+                    child: Consumer<DataProvider>(
+                      builder: (context, provider, child) => Text(
+                        _displayName[i],
+                        style: TextStyle(
+                          fontFamily: 'NunitoBold',
+                          //fontSize: deviceHeight > 500 ? 20 : 16,
+                          color: provider.currentKids == i
+                              ? Color.fromRGBO(69, 223, 224, 1.0)
+                              : Color.fromRGBO(160, 163, 168, 1.0),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -997,12 +1046,6 @@ class DataProvider extends ChangeNotifier {
     _kidsProfileContext = context;
   }
 
-  /*  void _showKidsStatisticCard() {
-    kidsStatistic.showSlideDialog(
-      context: _kidsProfileContext,
-    );
-  } */
-
   kidsProfileReadBookWidgetBuilder(int whichKids) {
     ///////// clear array before build
     _kidsProfileReadBookWidget = [];
@@ -1050,15 +1093,18 @@ class DataProvider extends ChangeNotifier {
                       ),
                     );
                   },
-            child: Hero(tag: 'book',
-                          child: Container(
+            child: Hero(
+              tag: 'book',
+              child: Container(
                 decoration: new BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
                       color: Color.fromRGBO(69, 223, 224, 0.5),
-                      blurRadius: 10.0, // has the effect of softening the shadow
-                      spreadRadius: -1, // has the effect of extending the shadow
+                      blurRadius:
+                          10.0, // has the effect of softening the shadow
+                      spreadRadius:
+                          -1, // has the effect of extending the shadow
                       offset: Offset(
                         0.0, // horizontal, move right 10
                         2.0, // vertical, move down 10
@@ -1069,7 +1115,7 @@ class DataProvider extends ChangeNotifier {
                 height: deviceHeight > 500
                     ? deviceHeight * (203 / 768)
                     : deviceHeight * (250 / 495),
-                    width: (deviceHeight * (250 / 495))*(1258/1638),
+                width: (deviceHeight * (250 / 495)) * (1258 / 1638),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
@@ -1083,5 +1129,65 @@ class DataProvider extends ChangeNotifier {
     } else {
       _kidsProfileReadBookWidget.add(Container());
     }
+  }
+
+  saveDataToSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    /* prefs.setStringList(key, value) */
+    prefs.setStringList('avatar', _avatar);
+    prefs.setStringList('kidsName', _kidsName);
+    prefs.setStringList('kidsAge', _kidsAge);
+    prefs.setStringList('displayName', _displayName);
+
+    List<String> kidsStarListString =
+        _kidsStar.map((i) => i.toString()).toList();
+    prefs.setStringList('kidsStar', kidsStarListString);
+
+    List<String> kidsContentLevelListString =
+        _kidsContentLevel.map((i) => i.toString()).toList();
+    prefs.setStringList('kidsContentLevel', kidsContentLevelListString);
+
+    List<String> themeListString = _theme.map((i) => i.toString()).toList();
+    prefs.setStringList('theme', themeListString);
+
+    prefs.setBool('theme1Visibility', _theme1Visibility);
+    prefs.setBool('theme2Visibility', _theme1Visibility);
+    prefs.setBool('theme3Visibility', _theme1Visibility);
+    prefs.setBool('theme4Visibility', _theme1Visibility);
+    prefs.setBool('theme5Visibility', _theme1Visibility);
+
+    //prefs.setInt('currentKids', _currentKids);
+
+    String bookStatisticStringConverted = json.encode(_bookStatistic);
+    // use jsonDecode(...) to convert back to map
+    prefs.setString('bookStatistic', bookStatisticStringConverted);
+
+    //check theme then change border color var accorading to theme
+  }
+
+  restoreDataFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _avatar = prefs.getStringList('avatar');
+    _kidsName = prefs.getStringList('kidsName');
+    _kidsAge = prefs.getStringList('kidsAge');
+    _displayName = prefs.getStringList('displayName');
+    _kidsStar =
+        prefs.getStringList('kidsStar').map((i) => int.parse(i)).toList();
+    _kidsContentLevel = prefs
+        .getStringList('kidsContentLevel')
+        .map((i) => int.parse(i))
+        .toList();
+    _theme = prefs.getStringList('theme').map((i) => int.parse(i)).toList();
+    _theme1Visibility = prefs.getBool('theme1Visibility');
+    _theme1Visibility = prefs.getBool('theme2Visibility');
+    _theme1Visibility = prefs.getBool('theme3Visibility');
+    _theme1Visibility = prefs.getBool('theme4Visibility');
+    _theme1Visibility = prefs.getBool('theme5Visibility');
+
+    _bookStatistic =
+        List<Map>.from(jsonDecode(prefs.getString('bookStatistic')));
+    //////////// update theme after retrive data
+    chooseTheme(_theme[_currentKids]);
+    print('Restore local data successfully');
   }
 }

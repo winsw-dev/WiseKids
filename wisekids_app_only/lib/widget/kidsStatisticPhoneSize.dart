@@ -274,6 +274,37 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                                         80, 85, 89, 1.0)))),
                                       ],
                                     ),
+                                    /////////////// Total Score
+                                          Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: <Widget>[
+                                              ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          1000),
+                                                  child: Container(
+                                                    height: 18,
+                                                    width: 18,
+                                                    color: Color.fromRGBO(
+                                                        238, 239, 243, 1.0),
+                                                  )),
+                                              Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 10),
+                                                  child: Text('Total Score',
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontFamily:
+                                                              'NunitoRegular',
+                                                          //fontSize: 21,
+                                                          color: Color.fromRGBO(
+                                                              80,
+                                                              85,
+                                                              89,
+                                                              1.0)))),
+                                            ],
+                                          ),
                                   ],
                                 ),
                               ),

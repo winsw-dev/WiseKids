@@ -144,6 +144,7 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
                   highlightColor: Color.fromRGBO(255, 255, 255, 0.05),
                   splashColor: Color.fromRGBO(255, 255, 255, 0.2),
                   onTap: () {
+                    Provider.of<DataProvider>(context, listen: false).saveDataToSharedPreferences();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
