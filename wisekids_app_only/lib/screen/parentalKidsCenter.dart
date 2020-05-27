@@ -526,7 +526,7 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                       starCount: 5,
                                       allowHalfRating: false,
                                       spacing: 2.0,
-                                      onRatingChanged: (value) {
+                                      onRated:  (value) {
                                         setState(() {
                                           rating = value;
                                         });

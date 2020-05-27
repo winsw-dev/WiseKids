@@ -282,6 +282,9 @@ flutter:
 
     - assets/animation/wink.flr
 
+    ########### play Dialog
+    - assets/images/playDialog/congratSign.png
+
     ########### read Dialog
     - assets/images/readDialog/3star.png
     - assets/images/readDialog/dialogBg.png
@@ -326,6 +329,7 @@ flutter:
     ########### Play
     - assets/images/play/backBtn.png
     - assets/images/play/playBg.png
+    - assets/images/play/playBgLong.png
 
     - assets/images/play/toothBrush.png
     - assets/images/play/tooth.png

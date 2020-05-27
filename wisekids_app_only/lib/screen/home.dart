@@ -57,6 +57,16 @@ class _HomeState extends State<Home> {
     'assets/animation/book1.flr',
   ];
 
+  List<String> bookShelf1 = [
+    'assets/images/Book2.png',
+    'assets/images/Book3.png',
+    'assets/images/Book4.png',
+    'assets/images/Book5.png',
+    'assets/images/Book6.png',
+    'assets/images/Book7.png',
+    'assets/images/Book1.png',
+  ];
+
   List<String> starScoreBg = [
     'assets/images/theme1/profileStarSign.svg',
     'assets/images/theme2/profileStarSign.svg',
@@ -389,55 +399,71 @@ class _HomeState extends State<Home> {
                                               : (deviceWidth * 0.065) * 0.50,
                                           child: FittedBox(
                                             fit: BoxFit.fitWidth,
-                                            child: Provider.of<DataProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .status ==
-                                                    Status.Authenticated
-                                                ? Consumer<DataProvider>(
-                                                    builder: (context, provider,
-                                                            child) =>
-                                                        Container(
-                                                           height: deviceHeight > 500
-                                              ? (deviceWidth * 0.075) * 0.45
-                                              : (deviceWidth * 0.065) * 0.50,
-                                                          child: FittedBox(fit: BoxFit.contain,
-                                                                                                                    child: Text(
-                                                      provider.displayName[
-                                                              provider.currentKids],
-                                                      style: TextStyle(
-                                                              fontFamily:
-                                                                  'NunitoBlack',
-                                                              //fontSize: deviceHeight > 500 ? 20 : 16,
-                                                              color: provider.theme[
-                                                                          provider
+                                            child:
+                                                Provider.of<DataProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .status ==
+                                                        Status.Authenticated
+                                                    ? Consumer<DataProvider>(
+                                                        builder: (context,
+                                                                provider,
+                                                                child) =>
+                                                            Container(
+                                                          height: deviceHeight >
+                                                                  500
+                                                              ? (deviceWidth *
+                                                                      0.075) *
+                                                                  0.45
+                                                              : (deviceWidth *
+                                                                      0.065) *
+                                                                  0.50,
+                                                          child: FittedBox(
+                                                            fit: BoxFit.contain,
+                                                            child: Text(
+                                                              provider.displayName[
+                                                                  provider
+                                                                      .currentKids],
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'NunitoBlack',
+                                                                  //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                                  color: provider.theme[provider
                                                                               .currentKids] ==
-                                                                      2
-                                                                  ? Color.fromRGBO(
-                                                                      245,
-                                                                      98,
-                                                                      167,
-                                                                      1.0)
-                                                                  : Colors.white),
-                                                    ),
+                                                                          2
+                                                                      ? Color.fromRGBO(
+                                                                          245,
+                                                                          98,
+                                                                          167,
+                                                                          1.0)
+                                                                      : Colors
+                                                                          .white),
+                                                            ),
                                                           ),
                                                         ),
-                                                  )
-                                                : Container(
-                                                   height: deviceHeight > 500
-                                              ? (deviceWidth * 0.075) * 0.45
-                                              : (deviceWidth * 0.065) * 0.50,
-                                                  child: FittedBox(fit: BoxFit.contain,
-                                                                                                    child: Text(
-                                                        'Login',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'NunitoBlack',
-                                                            //fontSize: deviceHeight > 500 ? 20 : 16,
-                                                            color: Colors.white),
+                                                      )
+                                                    : Container(
+                                                        height:
+                                                            deviceHeight > 500
+                                                                ? (deviceWidth *
+                                                                        0.075) *
+                                                                    0.45
+                                                                : (deviceWidth *
+                                                                        0.065) *
+                                                                    0.50,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.contain,
+                                                          child: Text(
+                                                            'Login',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'NunitoBlack',
+                                                                //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        ),
                                                       ),
-                                                  ),
-                                                ),
                                           ),
                                         ),
                                       ),
@@ -528,7 +554,6 @@ class _HomeState extends State<Home> {
                   width: MediaQuery.of(context).size.width,
                   child: new Swiper(
                     onTap: (index) {},
-
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         /* decoration: new BoxDecoration(
@@ -561,17 +586,17 @@ class _HomeState extends State<Home> {
                                   );
                                 }
                               : () {},
-                          child: FlareActor(bookShelf[index],
-                              animation: 'bookAnimation'),
+                          child: Hero(
+                            tag: 'book' + index.toString(),
+                            child: FlareActor(bookShelf[index],
+                                animation: 'bookAnimation'),
+                          ),
                         ),
                       );
                     },
                     itemCount: 7,
-                    //itemHeight: 206,
-                    //itemWidth: 147,
-
-                    viewportFraction: 0.3,
-                    scale: 1.0,
+                    viewportFraction: deviceHeight > 500 ? 0.285 : 0.28,
+                    scale: 1,
                   ),
                 ),
               ],

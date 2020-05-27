@@ -234,6 +234,7 @@ class _KidsInfoState extends State<KidsInfo> {
                             ? MainAxisAlignment.start
                             : MainAxisAlignment.center,
                         children: <Widget>[
+                         /*  Spacer(), */
                           Container(
                             child: Stack(
                               children: <Widget>[
@@ -702,7 +703,7 @@ class _KidsInfoState extends State<KidsInfo> {
                               ],
                             ),
                           ),
-
+//Spacer(),
                           ///////////////////////////////// Button
                           Container(
                             margin: EdgeInsets.only(
@@ -888,7 +889,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                     ),
                                   ),
                                 ]),
-                          ),
+                          ),/* Spacer(), */
                         ],
                       ),
                     ),
