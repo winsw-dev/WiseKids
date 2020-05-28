@@ -1,9 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_cache.dart';
 import 'package:flare_flutter/flare_controls.dart';
-import '../widget/flare_artboard.dart';
+
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -552,7 +553,41 @@ class _HomeState extends State<Home> {
                               ((deviceHeight * 0.04) + (deviceWidth * 0.13))) *
                           0.85,
                   width: MediaQuery.of(context).size.width,
-                  child: new Swiper(
+                  child: /* CarouselSlider(
+                    options: CarouselOptions(
+
+                      initialPage: 6,
+                      viewportFraction: 0.2,
+                      autoPlay: false,
+                      enableInfiniteScroll: false,
+                      enlargeCenterPage: true,
+                    ),
+                    items: [0, 1, 2, 3, 4, 5, 6].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return GestureDetector(
+                            onTap: i == 6
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EnterBook(),
+                                      ),
+                                    );
+                                  }
+                                : () {},
+                            child: Hero(
+                              tag: 'book' + i.toString(),
+                              child: FlareActor(bookShelf[i],
+                                  animation: 'bookAnimation'),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ), */
+
+                  new Swiper(
                     onTap: (index) {},
                     itemBuilder: (BuildContext context, int index) {
                       return Container(

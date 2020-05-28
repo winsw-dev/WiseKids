@@ -33,14 +33,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   flutter_swiper: ^1.1.6
+  carousel_slider: ^2.1.0
   provider: ^4.0.3
 
   transparent_image: ^1.0.0
 
   fluttertoast: ^4.0.0
 
-  flutter_phoenix: "^0.1.0"
- 
+  flutter_phoenix: "^0.1.0"   
 
   device_preview: ^0.4.4
 
@@ -175,6 +175,12 @@ flutter:
     - assets/images/kidsInfo/girlSpotlightSmall.png
     - assets/images/kidsInfo/catSpotlightSmall.png
 
+    - assets/images/kidsInfo/SpotLight.png
+    - assets/images/kidsInfo/SpotLightSmall.png
+    - assets/images/kidsInfo/boyWithShadow.png
+    - assets/images/kidsInfo/girlWithShadow.png
+    - assets/images/kidsInfo/catWithShadow.png
+
 
     ######### finishSelectAvatar screen
     - assets/images/finishSelectAvatar/congratGradientOverlay.svg
@@ -196,6 +202,12 @@ flutter:
     ######### vocab popup
     - assets/images/vocabulary/vocab.png
     - assets/images/vocabulary/closeBtn.svg
+
+    - assets/images/vocabulary/closeBtn.png
+    - assets/images/vocabulary/bookBg.png
+    - assets/images/vocabulary/back.png
+    - assets/images/vocabulary/next.png
+    - assets/images/vocabulary/stickerItems.png
 
 
 

@@ -105,8 +105,9 @@ class _SelectAvatarState extends State<SelectAvatar> {
                           ? deviceWidth * 0.1
                           : deviceHeight * 0.14,
                       //height: deviceHeight * 0.17,
-                      child: AspectRatio(aspectRatio: 102/127,
-                                              child: FittedBox(
+                      child: AspectRatio(
+                        aspectRatio: 102 / 127,
+                        child: FittedBox(
                           fit: BoxFit.fill,
                           child: Image.asset(
                               'assets/images/selectAvatarAssets/window.png'),
@@ -131,8 +132,9 @@ class _SelectAvatarState extends State<SelectAvatar> {
                           /* height: deviceHeight > 500
                               ? deviceHeight * 0.42
                               : deviceHeight * 0.47, */
-                          child: AspectRatio(aspectRatio: 102/300,
-                                                      child: FittedBox(
+                          child: AspectRatio(
+                            aspectRatio: 102 / 300,
+                            child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: Image.asset(
                                     'assets/images/selectAvatarAssets/plant.png')),
@@ -149,8 +151,9 @@ class _SelectAvatarState extends State<SelectAvatar> {
                           ? deviceWidth * 0.115
                           : deviceWidth * 0.07,
                       //height: deviceHeight * 0.516,
-                      child: AspectRatio(aspectRatio: 104/396,
-                                              child: FittedBox(
+                      child: AspectRatio(
+                        aspectRatio: 104 / 396,
+                        child: FittedBox(
                           fit: BoxFit.fill,
                           child: Image.asset(
                               'assets/images/selectAvatarAssets/bookShelf.png'),
@@ -178,8 +181,9 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             /* height: deviceHeight > 500
                                 ? deviceHeight * 0.239
                                 : deviceHeight * 0.35, */
-                            child: AspectRatio(aspectRatio: 390/183,
-                                                          child: FittedBox(
+                            child: AspectRatio(
+                              aspectRatio: 390 / 183,
+                              child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: Image.asset(
                                     'assets/images/selectAvatarAssets/blackBoard.png'),
@@ -188,11 +192,9 @@ class _SelectAvatarState extends State<SelectAvatar> {
                           ),
                           Positioned.fill(
                             child: Align(
-                                alignment: 
-                                     Alignment.center,
-                                    
+                                alignment: Alignment.center,
                                 child: Container(
-                                 /*  margin: EdgeInsets.only(
+                                  /*  margin: EdgeInsets.only(
                                       top: deviceHeight > 500
                                           ? 0
                                           : deviceHeight * 0.08), */
@@ -226,26 +228,28 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('boy');
                             },
-                            child: Container(
-                              width: deviceHeight > 500
-                                  ? deviceWidth * 0.3
-                                  : deviceWidth * 0.4,
-                              height: deviceHeight > 500
-                                  ? deviceHeight * 0.468
-                                  : deviceHeight * 0.55,
-                              margin: EdgeInsets.only(
-                                  left: deviceHeight > 500
-                                      ? deviceWidth * 0.07
-                                      : deviceWidth * 0.04),
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 100),
-                                curve: Curves.easeOut,
+                            child:  Container(
+                                width: deviceHeight > 500
+                                    ? deviceWidth * 0.3
+                                    : deviceWidth * 0.4,
+                                height: deviceHeight > 500
+                                    ? deviceHeight * 0.468
+                                    : deviceHeight * 0.55,
                                 margin: EdgeInsets.only(
-                                    top: Device.get().isTablet
-                                        ? scaleBoyIpad
-                                        : scaleBoyIphone),
-                                child: Image.asset(
-                                    'assets/images/selectAvatarAssets/boyWithShadow.png'),
+                                    left: deviceHeight > 500
+                                        ? deviceWidth * 0.07
+                                        : deviceWidth * 0.04),
+                                child: Hero(tag: 'avatarboy',
+                                                          child:AnimatedContainer(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.easeOut,
+                                  margin: EdgeInsets.only(
+                                      top: Device.get().isTablet
+                                          ? scaleBoyIpad
+                                          : scaleBoyIphone),
+                                  child: Image.asset(
+                                      'assets/images/selectAvatarAssets/boyWithShadow.png'),
+                                ),
                               ),
                             ),
                           ),
@@ -260,23 +264,26 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('girl');
                             },
-                            child: Container(
-                              width: deviceHeight > 500
-                                  ? deviceWidth * 0.3
-                                  : deviceWidth * 0.4,
-                              height: deviceHeight > 500
-                                  ? deviceHeight * 0.468
-                                  : deviceHeight * 0.55,
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 100),
-                                curve: Curves.easeOut,
-                                margin: EdgeInsets.only(
-                                    top: Device.get().isTablet
-                                        ? scaleGirlIpad
-                                        : scaleGirlIphone),
-                                //margin: EdgeInsets.only(top:deviceHeight>500?ipad:iphone),
-                                child: Image.asset(
-                                    'assets/images/selectAvatarAssets/girlWithShadow.png'),
+                            child:  Container(
+                                width: deviceHeight > 500
+                                    ? deviceWidth * 0.3
+                                    : deviceWidth * 0.4,
+                                height: deviceHeight > 500
+                                    ? deviceHeight * 0.468
+                                    : deviceHeight * 0.55,
+                                child: Hero(
+                              tag: 'avatargirl',
+                              child:AnimatedContainer(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.easeOut,
+                                  margin: EdgeInsets.only(
+                                      top: Device.get().isTablet
+                                          ? scaleGirlIpad
+                                          : scaleGirlIphone),
+                                  //margin: EdgeInsets.only(top:deviceHeight>500?ipad:iphone),
+                                  child: Image.asset(
+                                      'assets/images/selectAvatarAssets/girlWithShadow.png'),
+                                ),
                               ),
                             ),
                           ),
@@ -291,27 +298,29 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('cat');
                             },
-                            child: Container(
-                              width: deviceHeight > 500
-                                  ? deviceWidth * 0.3
-                                  : deviceWidth * 0.4,
-                              height: deviceHeight > 500
-                                  ? deviceHeight * 0.468
-                                  : deviceHeight * 0.55,
-                              margin: EdgeInsets.only(
-                                  right: deviceHeight > 500
-                                      ? deviceWidth * 0.07
-                                      : deviceWidth * 0.04),
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 100),
-                                curve: Curves.easeOut,
+                            child:  Container(
+                                width: deviceHeight > 500
+                                    ? deviceWidth * 0.3
+                                    : deviceWidth * 0.4,
+                                height: deviceHeight > 500
+                                    ? deviceHeight * 0.468
+                                    : deviceHeight * 0.55,
                                 margin: EdgeInsets.only(
-                                    top: Device.get().isTablet
-                                        ? scaleCatIpad
-                                        : scaleCatIphone),
-                                //margin: EdgeInsets.only(top:deviceHeight>500?ipad:iphone),
-                                child: Image.asset(
-                                    'assets/images/selectAvatarAssets/catWithShadow.png'),
+                                    right: deviceHeight > 500
+                                        ? deviceWidth * 0.07
+                                        : deviceWidth * 0.04),
+                                child: Hero(tag: 'avatarcat',
+                                                          child:AnimatedContainer(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.easeOut,
+                                  margin: EdgeInsets.only(
+                                      top: Device.get().isTablet
+                                          ? scaleCatIpad
+                                          : scaleCatIphone),
+                                  //margin: EdgeInsets.only(top:deviceHeight>500?ipad:iphone),
+                                  child: Image.asset(
+                                      'assets/images/selectAvatarAssets/catWithShadow.png'),
+                                ),
                               ),
                             ),
                           ),
@@ -406,7 +415,7 @@ class _SelectAvatarState extends State<SelectAvatar> {
                                     Provider.of<DataProvider>(context,
                                             listen: false)
                                         .selectAvatar(selectedAvatar);
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => KidsInfo(),
@@ -440,7 +449,7 @@ class _SelectAvatarState extends State<SelectAvatar> {
                                   Provider.of<DataProvider>(context,
                                           listen: false)
                                       .selectAvatar(selectedAvatar);
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => KidsInfo(),

@@ -5,7 +5,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_cache.dart';
 import 'package:flare_flutter/flare_controls.dart';
-import '../widget/flare_artboard.dart';
+
 import 'package:flare_flutter/flare_actor.dart';
 
 import '../widget/slide_popup_dialog_read.dart' as readDialog;
@@ -29,8 +29,22 @@ class _EnterBookState extends State<EnterBook> {
     'assets/images/enterBook/enterBookTheme4.png',
     'assets/images/enterBook/enterBookTheme5.png',
   ];
+  Image bookImage; // it doesn't help flashing image problem in this scenario 
+  @override // it doesn't help flashing image problem in this scenario 
+  void initState() {
+    super.initState();
 
-  Image bookImage;
+    bookImage = Image.asset(
+      'assets/images/enterBook/book1.png',
+      fit: BoxFit.contain,
+    );
+  }
+
+  @override  // it doesn't help flashing image problem in this scenario 
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(bookImage.image, context);
+  }
 
   var fadeInDuration = 100;
 
@@ -39,19 +53,6 @@ class _EnterBookState extends State<EnterBook> {
       context: context,
       child: Container(),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    bookImage =
-        Image.asset('assets/images/enterBook/book1.png', fit: BoxFit.fitHeight);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    precacheImage(bookImage.image, context);
   }
 
   @override
@@ -112,16 +113,18 @@ class _EnterBookState extends State<EnterBook> {
                 Hero(
                   tag: 'book6',
                   child: Container(
-                    height: deviceHeight > 500
-                        ? deviceHeight * 0.66
-                        : deviceHeight * 0.75,
-                    child:
-                        /* Image.asset(
+                      height: deviceHeight > 500
+                          ? deviceHeight * 0.66
+                          : deviceHeight * 0.75,
+                      child: AspectRatio(
+                        aspectRatio: 1251 / 1620,
+                        child:
+                            bookImage /* Image.asset(
                       'assets/images/enterBook/book1.png',
-                      fit: BoxFit.fitHeight,
+                      //fit: BoxFit.fitHeight,
                     ) */
-                        bookImage,
-                  ),
+                        ,
+                      )),
                 ),
 
                 /////////////////////////////////// Column Btn

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'selectAvatar.dart';
 import './finishSelectAvatar.dart';
- 
+
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 
@@ -185,19 +185,141 @@ class _KidsInfoState extends State<KidsInfo> {
                     ///////////////////////////////////////////////  Character
 
                     Container(
-                      margin: EdgeInsets.only(
-                        left: deviceHeight > 500
-                            ? deviceWidth * (100 / 1024)
-                            : deviceWidth * (40 / 1024),
-                        bottom: deviceHeight > 500
-                            ? deviceHeight * (116 / 768)
-                            : deviceHeight * (80 / 768),
-                      ),
-                      width: deviceHeight > 500
-                          ? deviceWidth * (358 / 1024)
-                          : deviceWidth * (358 / 1024),
-                      child: deviceHeight > 500
-                          ? Image.asset('assets/images/kidsInfo/' +
+                        margin: EdgeInsets.only(
+                          left: deviceHeight > 500
+                              ? deviceWidth * (100 / 1024)
+                              : deviceWidth * (40 / 1024),
+                          bottom: deviceHeight > 500
+                              ? deviceHeight * (116 / 768)
+                              : deviceHeight * (80 / 768),
+                        ),
+                        width: deviceHeight > 500
+                            ? deviceWidth * (358 / 1024)
+                            : deviceWidth * (358 / 1024),
+                        child: deviceHeight > 500
+                            ? //////////////////// ipad size
+                            AspectRatio(
+                                aspectRatio: 1074 / 1956,
+                                child: Stack(
+                                  children: <Widget>[
+                                    ///////////////////// Spot Light
+                                    Positioned.fill(
+                                      child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Image.asset(
+                                              'assets/images/kidsInfo/SpotLight.png')),
+                                    ),
+                                    ////////////////////// Avatar Pic
+                                    Positioned.fill(
+                                      child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: deviceWidth *
+                                                    (358 / 1024) *
+                                                    (31 / 307)),
+                                            child: Hero(
+                                              tag: 'avatar' +
+                                                  Provider.of<DataProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .avatar[
+                                                      Provider.of<DataProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .currentKids],
+                                              child: Container(
+                                                width: deviceHeight > 500
+                                                    ? deviceWidth * (358 / 1024)
+                                                    : deviceWidth *
+                                                        (358 / 1024),
+                                                child: AspectRatio(
+                                                  aspectRatio: 358 / 430,
+                                                  child: Image.asset(
+                                                    'assets/images/kidsInfo/' +
+                                                        Provider.of<DataProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .avatar[Provider.of<
+                                                                    DataProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .currentKids] +
+                                                        'WithShadow.png',
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            :
+                            /////////////////////////////// phone size
+                            AspectRatio(
+                                aspectRatio: 1074 / 1560,
+                                child: Stack(
+                                  children: <Widget>[
+                                    ///////////////////// Spot Light
+                                    Positioned.fill(
+                                      child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Image.asset(
+                                              'assets/images/kidsInfo/SpotLightSmall.png')),
+                                    ),
+                                    ////////////////////// Avatar Pic
+                                    Positioned.fill(
+                                      child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: deviceWidth *
+                                                    (358 / 1024) *
+                                                    (68 / 430),
+                                                bottom: deviceWidth *
+                                                    (358 / 1024) *
+                                                    (31 / 430)),
+                                            child: Hero(
+                                              tag: 'avatar' +
+                                                  Provider.of<DataProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .avatar[
+                                                      Provider.of<DataProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .currentKids],
+                                              child: Container(
+                                                width: deviceHeight > 500
+                                                    ? deviceWidth * (358 / 1024)
+                                                    : deviceWidth *
+                                                        (358 / 1024),
+                                                child: AspectRatio(
+                                                  aspectRatio: 358 / 430,
+                                                  child: Image.asset(
+                                                    'assets/images/kidsInfo/' +
+                                                        Provider.of<DataProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .avatar[Provider.of<
+                                                                    DataProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .currentKids] +
+                                                        'WithShadow.png',
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                              )
+                        /* ? Image.asset('assets/images/kidsInfo/' +
                               Provider.of<DataProvider>(context, listen: false)
                                   .avatar[Provider.of<DataProvider>(context, listen: false)
                                   .currentKids] +
@@ -206,8 +328,8 @@ class _KidsInfoState extends State<KidsInfo> {
                               Provider.of<DataProvider>(context, listen: false)
                                   .avatar[Provider.of<DataProvider>(context, listen: false)
                                   .currentKids] +
-                              'SpotlightSmall.png'),
-                    ),
+                              'SpotlightSmall.png'), */
+                        ),
 
                     //////////////////////////// Bubble Speech Frame
                     Container(
@@ -234,7 +356,7 @@ class _KidsInfoState extends State<KidsInfo> {
                             ? MainAxisAlignment.start
                             : MainAxisAlignment.center,
                         children: <Widget>[
-                         /*  Spacer(), */
+                          /*  Spacer(), */
                           Container(
                             child: Stack(
                               children: <Widget>[
@@ -425,14 +547,19 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                     Radius.circular(
                                                                         20.0),
                                                                 cursorWidth: 4,
-                                                                decoration: InputDecoration/* .collapsed */(
-                                                                  
-                                                                    contentPadding: EdgeInsets.symmetric(vertical: -10),
-                                                                    isDense: true,
-                                                                    border: InputBorder.none,
-
-                                                                    hintText: "",),
-                                                                     //delete underline
+                                                                decoration:
+                                                                    InputDecoration /* .collapsed */ (
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              -10),
+                                                                  isDense: true,
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText: "",
+                                                                ),
+                                                                //delete underline
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -644,9 +771,14 @@ class _KidsInfoState extends State<KidsInfo> {
 
                                                             decoration:
                                                                 InputDecoration
-                                                                    /* .collapsed */(contentPadding: EdgeInsets.symmetric(vertical: -20),
-                                                                    isDense: true,
-                                                                    border: InputBorder.none,
+                                                                    /* .collapsed */ (
+                                                                        contentPadding: EdgeInsets.symmetric(
+                                                                            vertical:
+                                                                                -20),
+                                                                        isDense:
+                                                                            true,
+                                                                        border: InputBorder
+                                                                            .none,
                                                                         hintText:
                                                                             ""), //delete underline
                                                             textAlign: TextAlign
@@ -843,11 +975,10 @@ class _KidsInfoState extends State<KidsInfo> {
                                               child: GestureDetector(
                                                 onTap: () {
                                                   Provider.of<DataProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .setKisdNameAndAge(
-                                                            inputName,
-                                                            inputAge);
+                                                          context,
+                                                          listen: false)
+                                                      .setKisdNameAndAge(
+                                                          inputName, inputAge);
                                                   Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
@@ -889,7 +1020,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                     ),
                                   ),
                                 ]),
-                          ),/* Spacer(), */
+                          ), /* Spacer(), */
                         ],
                       ),
                     ),
@@ -903,11 +1034,11 @@ class _KidsInfoState extends State<KidsInfo> {
                 alignment: Alignment.topLeft,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.pop(
                       context,
-                      MaterialPageRoute(
+                      /* MaterialPageRoute(
                         builder: (context) => SelectAvatar(),
-                      ),
+                      ), */
                     );
                   },
                   child: Container(

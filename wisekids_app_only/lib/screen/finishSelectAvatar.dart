@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'home.dart';
 
-
 class FinishSelectAvatar extends StatefulWidget {
   @override
   _FinishSelectAvatarState createState() => _FinishSelectAvatarState();
@@ -79,20 +78,32 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
           Positioned.fill(
             child: Align(
               alignment: Alignment.topCenter,
-              child: Container(
-                margin: EdgeInsets.only(
-                  top: deviceHeight > 500
-                      ? deviceHeight * 0.324
-                      : deviceHeight * 0.34,
+              child: Padding(
+                padding: EdgeInsets.only(
+                      top: deviceHeight > 500
+                          ? deviceHeight * 0.324
+                          : deviceHeight * 0.34,
+                    ),
+                child: Hero(
+                  tag: 'avatar' +
+                      Provider.of<DataProvider>(context, listen: false).avatar[
+                          Provider.of<DataProvider>(context, listen: false)
+                              .currentKids],
+                  child: Container(
+                    
+                    width: deviceHeight > 500
+                        ? deviceWidth * 0.3
+                        : deviceWidth * 0.5,
+                    height: deviceHeight > 500
+                        ? deviceHeight * 0.5
+                        : deviceHeight * 0.6,
+                    child: Image.asset('assets/images/finishSelectAvatar/' +
+                        Provider.of<DataProvider>(context, listen: false).avatar[
+                            Provider.of<DataProvider>(context, listen: false)
+                                .currentKids] +
+                        'AvatarCongrat.png'),
+                  ),
                 ),
-                width:
-                    deviceHeight > 500 ? deviceWidth * 0.3 : deviceWidth * 0.5,
-                height: deviceHeight > 500
-                    ? deviceHeight * 0.5
-                    : deviceHeight * 0.6,
-                child: Image.asset('assets/images/finishSelectAvatar/' +
-                    Provider.of<DataProvider>(context, listen: false).avatar[Provider.of<DataProvider>(context, listen: false).currentKids] +
-                    'AvatarCongrat.png'),
               ),
             ),
           ),
@@ -144,7 +155,8 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
                   highlightColor: Color.fromRGBO(255, 255, 255, 0.05),
                   splashColor: Color.fromRGBO(255, 255, 255, 0.2),
                   onTap: () {
-                    Provider.of<DataProvider>(context, listen: false).saveDataToSharedPreferences();
+                    Provider.of<DataProvider>(context, listen: false)
+                        .saveDataToSharedPreferences();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
