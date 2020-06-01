@@ -14,7 +14,7 @@ import './play.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'home.dart';
-import 'with_arkit_screen.dart';
+import 'unityArBook.dart';
 
 class EnterBook extends StatefulWidget {
   @override
@@ -147,7 +147,7 @@ class _EnterBookState extends State<EnterBook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => WithARkitScreen(),
+                              builder: (context) => UnityARBook(),
                             ),
                           );
                         },
@@ -361,7 +361,7 @@ class _EnterBookState extends State<EnterBook> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => WithARkitScreen(),
+                              builder: (context) => UnityARBook(),
                             ),
                           );
                         },
