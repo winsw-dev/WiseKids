@@ -1,0 +1,549 @@
+name: wisekids
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^0.17.4
+  flutter_unity_widget:   
+    git:
+      url: https://github.com/sarawin008/flutter-unity-view-widget.git
+  shimmer: ^1.0.1
+  audioplayers: ^0.14.0
+  
+  flutter_swiper: ^1.1.6
+  provider: ^4.0.3
+  transparent_image: ^1.0.0
+
+  fluttertoast: ^4.0.0
+
+  flutter_phoenix: "^0.1.0"   
+
+  device_preview: ^0.4.4
+
+  flutter_launcher_icons: "^0.7.3"
+
+  smooth_star_rating: ^1.0.4+2
+
+  keyboard_actions: "^3.1.2"
+
+  flutter_device_type: ^0.2.0
+  
+  flare_flutter: ^2.0.3
+  flare_loading: ^2.1.1
+
+  url_launcher: ^5.4.10
+
+  dotted_border: ^1.0.5
+
+  flutter_emoji: ^2.2.1+1
+
+  firebase_auth: ^0.16.0
+  cloud_firestore: ^0.13.6
+  google_sign_in: ^4.4.1
+
+  assets_audio_player: ^1.6.4+4
+  flutter_facebook_login: ^3.0.0
+
+  flutter_picker: ^1.1.3
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+ 
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/appIcon/wisekids.png"
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  assets:  
+    ############################# sound
+    - assets/sound/background.mp3
+
+    ##############################################################  SVG
+    - assets/icon/music-and-multimedia.svg    
+    - assets/icon/Button_Or.svg
+    - assets/icon/back_button_OR_cir.svg    
+    - assets/images/speechBubble.svg
+    - assets/images/whiteCloudBG.svg    
+    - assets/icon/Category.svg    
+    - assets/icon/arrowDown.svg    
+    - assets/images/bgPattern.svg
+    - assets/icon/Button_Bl.svg
+    - assets/icon/Button_Pp.svg
+    - assets/icon/Button_Yl.svg    
+    
+    - assets/icon/selectYourTheme.svg
+    - assets/icon/IconChecked.svg
+    - assets/icon/arrowRight.svg
+    - assets/icon/wiseKidsLogoLogin.svg
+    - assets/icon/Sign_in_to_set_up_multiple_profiles.svg
+    - assets/icon/Facebook.svg
+    - assets/icon/Google.svg    
+    - assets/icon/vocabuaryPopup.svg
+    - assets/icon/bookshelf.svg
+    - assets/icon/readAgain.svg
+    - assets/icon/favourite.svg
+    - assets/icon/new.svg
+    - assets/icon/treasure-map.svg
+    - assets/icon/learning.svg
+    - assets/icon/animal.svg
+    - assets/icon/holiday.svg
+    - assets/icon/sport.svg
+    - assets/icon/science.svg
+    - assets/icon/selectActiveBTN.svg
+
+
+    #############################################################  PNG
+    - assets/images/187x215_boi_character.png
+    - assets/images/187x215_Cat_character.png
+    - assets/images/187x215_girl_character.png
+    - assets/icon/bgPattern.png
+    - assets/images/kidsInfoBoy.png
+    - assets/images/kidsInfoCat.png
+    - assets/images/kidsInfoGirl.png
+    - assets/images/avatar_boy.png
+    - assets/images/avatar_girl.png
+    - assets/images/avatar_cat.png
+    - assets/images/Book1.png
+    - assets/images/Book2.png
+    - assets/images/Book3.png
+    - assets/images/Book4.png
+    - assets/images/Book5.png
+    - assets/images/Book6.png
+    - assets/images/Book7.png
+    - assets/images/Book8.png
+    - assets/images/loginPropBoyGirl.png
+    - assets/images/loginPropCat.png
+    - assets/images/splashScreen.png
+
+    ######### selectAvatar screen
+    - assets/images/selectAvatarAssets/blackBoard.png
+    - assets/images/selectAvatarAssets/bookShelf.png
+    - assets/images/selectAvatarAssets/floor.png
+    - assets/images/selectAvatarAssets/originalBoy.png
+    - assets/images/selectAvatarAssets/originalCat.png
+    - assets/images/selectAvatarAssets/originalGirl.png
+    - assets/images/selectAvatarAssets/plant.png
+    - assets/images/selectAvatarAssets/selectYourAvatar.png
+    - assets/images/selectAvatarAssets/window.png
+    - assets/images/selectAvatarAssets/boyWithShadow.png
+    - assets/images/selectAvatarAssets/girlWithShadow.png
+    - assets/images/selectAvatarAssets/catWithShadow.png
+    
+    ######### kidsInfo screen
+    - assets/images/kidsInfo/backButton.png
+    - assets/images/kidsInfo/boySpotlight.png
+    - assets/images/kidsInfo/girlSpotlight.png
+    - assets/images/kidsInfo/catSpotlight.png
+    - assets/images/kidsInfo/windowCutted.png
+    - assets/images/kidsInfo/bubbleSpeech.svg
+    - assets/images/kidsInfo/bubbleSpeech.png
+    - assets/images/kidsInfo/plantFlipped.png
+    - assets/images/kidsInfo/decorationShelf.png
+    - assets/images/kidsInfo/boySpotlightSmall.png
+    - assets/images/kidsInfo/girlSpotlightSmall.png
+    - assets/images/kidsInfo/catSpotlightSmall.png
+
+    - assets/images/kidsInfo/SpotLight.png
+    - assets/images/kidsInfo/SpotLightSmall.png
+    - assets/images/kidsInfo/boyWithShadow.png
+    - assets/images/kidsInfo/girlWithShadow.png
+    - assets/images/kidsInfo/catWithShadow.png
+
+
+    ######### finishSelectAvatar screen
+    - assets/images/finishSelectAvatar/congratGradientOverlay.svg
+    - assets/images/finishSelectAvatar/congratSign.png
+    - assets/images/finishSelectAvatar/pattern.png
+    - assets/images/finishSelectAvatar/boyAvatarCongrat.png
+    - assets/images/finishSelectAvatar/girlAvatarCongrat.png
+    - assets/images/finishSelectAvatar/catAvatarCongrat.png
+
+
+    ######### theme non responsive
+    - assets/images/theme1/theme1FullBg.png
+    - assets/images/theme2/theme2FullBg.png
+    - assets/images/theme3/theme3FullBg.png
+    - assets/images/theme4/theme4FullBg.png
+    - assets/images/theme5/theme5FullBg.png
+
+
+    ######### vocab popup
+    - assets/images/vocabulary/vocab.png
+    - assets/images/vocabulary/closeBtn.svg
+
+    - assets/images/vocabulary/closeBtn.png
+    - assets/images/vocabulary/bookBg.png
+    - assets/images/vocabulary/back.png
+    - assets/images/vocabulary/next.png
+    - assets/images/vocabulary/stickerItems.png
+
+
+
+    ######### theme 1
+    - assets/icon/starScore.svg
+    - assets/images/theme1/blackBoard.png
+    - assets/images/theme1/desk.png
+    - assets/images/theme1/login_button.svg
+    - assets/images/theme1/pattern.png
+    - assets/images/theme1/plant.png
+    - assets/images/theme1/profileStarSign.svg
+    - assets/images/theme1/starScore.png
+    - assets/icon/vocabulary.svg
+
+    ######### theme 2
+    - assets/images/theme2/profileStarSign.svg
+    - assets/images/theme2/login_button.svg
+    - assets/images/theme2/controlPad.png
+    - assets/images/theme2/monitor.png
+    - assets/images/theme2/starLow.png
+    - assets/images/theme2/starTop.png
+    - assets/images/theme2/theme2Bg.png
+    - assets/images/theme2/starnHeart.png
+    - assets/images/theme2/monitorBtn.png
+    - assets/images/theme2/keep.png
+
+    ######### theme 3
+    - assets/images/theme3/profileStarSign.svg
+    - assets/images/theme3/login_button.svg
+    - assets/images/theme3/cloudLeft.png
+    - assets/images/theme3/cloudRight.png
+    - assets/images/theme3/moon.png
+    - assets/images/theme3/rocket.png
+    - assets/images/theme3/star.png
+    - assets/images/theme3/star3.png
+    - assets/images/theme3/ufo.png
+    - assets/images/theme3/bg.png
+
+    ######### theme 4
+    - assets/images/theme4/profileStarSign.svg
+    - assets/images/theme4/login_button.svg
+    - assets/images/theme4/bg.png
+    - assets/images/theme4/bubble.png
+    - assets/images/theme4/fishLeft.png
+    - assets/images/theme4/fishRight.png
+    - assets/images/theme4/godRay.png
+    - assets/images/theme4/land.png
+    - assets/images/theme4/seaWeedLeft.png
+    - assets/images/theme4/seaWeedRight.png
+    - assets/images/theme4/stingray.png
+    - assets/images/theme4/subSeaWeedCenter.png
+    - assets/images/theme4/subSeaWeedLeft1.png
+    - assets/images/theme4/subSeaWeedRight1.png
+    - assets/images/theme4/subSeaWeedRight2.png
+
+    ######### theme 5
+    - assets/images/theme5/profileStarSign.svg
+    - assets/images/theme5/login_button.svg
+    - assets/images/theme5/bg.png
+    - assets/images/theme5/bird.png
+    - assets/images/theme5/floor.png
+    - assets/images/theme5/forest.png
+
+
+    ########## BookShelf Animation
+    - assets/animation/book1.flr
+    - assets/animation/book2.flr
+    - assets/animation/book3.flr
+    - assets/animation/book4.flr
+    - assets/animation/book5.flr
+    - assets/animation/book6.flr
+    - assets/animation/book7.flr
+
+    ########## Enter Book 
+    - assets/images/enterBook/homeBtn.png
+    - assets/images/enterBook/book1.png
+    - assets/images/enterBook/readBtn.svg
+    - assets/images/enterBook/playBtn.svg
+    - assets/images/enterBook/enterBookTheme1.png
+    - assets/images/enterBook/enterBookTheme2.png
+    - assets/images/enterBook/enterBookTheme3.png
+    - assets/images/enterBook/enterBookTheme4.png
+    - assets/images/enterBook/enterBookTheme5.png
+
+    - assets/animation/wink.flr
+
+    ########### play Dialog
+    - assets/images/playDialog/congratSign.png
+
+    ########### read Dialog
+    - assets/images/readDialog/3star.png
+    - assets/images/readDialog/dialogBg.png
+    - assets/images/readDialog/closeBtn.svg
+    - assets/images/readDialog/starScoreSlot.png
+    - assets/images/readDialog/starScore.svg
+    - assets/animation/balloon.flr
+
+    ## 
+    - assets/images/readDialog/dialogBgFix.png
+
+
+    ########### Parental Consent
+    - assets/images/parentalConsent/backBtn.svg
+    - assets/images/parentalConsent/accept.svg
+    - assets/images/parentalConsent/logoParental.png
+    - assets/images/parentalConsent/consentDetail.png
+
+    ########### Parental Kids Center    
+    - assets/images/parentalKidsCenter/addMore.svg
+    - assets/images/parentalKidsCenter/homeBtn.svg
+    - assets/images/parentalKidsCenter/Signout.svg
+    - assets/images/parentalKidsCenter/leaveReview.svg
+    - assets/images/parentalKidsCenter/star.svg
+    - assets/images/parentalKidsCenter/addMoreKidsPopup_closeBtn.png
+    - assets/images/parentalKidsCenter/pencil.svg
+
+
+    ########### KidsProfile
+    - assets/images/kidsProfile/backToParentArea.svg
+    - assets/images/kidsProfile/noHistory.png
+    - assets/images/kidsProfile/book1.png
+
+
+    ########### AR UI
+    - assets/images/arUI/home.png
+    - assets/images/arUI/button_book_back.png
+    - assets/images/arUI/button_book_forward.png
+    - assets/images/arUI/3dBtn.png
+
+
+    ########### Play
+    - assets/images/play/backBtn.png
+    - assets/images/play/playBg.png
+    - assets/images/play/playBgLong.png
+
+    - assets/images/play/toothBrush.png
+    - assets/images/play/tooth.png
+    - assets/images/play/candyMonster.png
+    - assets/images/play/candy.png
+    - assets/images/play/mirror.png
+    - assets/images/play/toothBrush_W.png
+    - assets/images/play/tooth_W.png
+    - assets/images/play/mirror_W.png
+    - assets/images/play/candy_W.png
+    - assets/images/play/candyMonster_W.png
+
+    - assets/images/play/toothBrush_Grey.png
+    - assets/images/play/tooth_Grey.png
+    - assets/images/play/candyMonster_Grey.png
+    - assets/images/play/candy_Grey.png
+    - assets/images/play/mirror_Grey.png
+
+
+    
+    ########### KidsStatisticDialog
+    - assets/images/kidsStatisticDialog/mock1.png
+    - assets/images/kidsStatisticDialog/mock2.png
+    - assets/images/kidsStatisticDialog/mock3.png
+    - assets/images/kidsStatisticDialog/mock4.png
+    - assets/images/kidsStatisticDialog/mock5.png
+    - assets/images/kidsStatisticDialog/mock6.png
+
+    - assets/images/kidsProfile/Book/book1.png
+    - assets/images/kidsProfile/Book/book2.png
+    - assets/images/kidsProfile/Book/book3.png
+    - assets/images/kidsProfile/Book/book4.png
+    - assets/images/kidsProfile/Book/book5.png
+    - assets/images/kidsProfile/Book/book6.png
+    - assets/images/kidsProfile/Book/book7.png
+    - assets/images/kidsProfile/Book/book8.png
+    
+
+
+    ########### Login Dialog
+    - assets/images/loginDialog/loginDialogBg.png
+    - assets/images/loginDialog/google.png
+    - assets/images/loginDialog/face.png
+
+
+    - assets/images/loginDialog/close.svg
+    - assets/images/loginDialog/welcomeToWisekids.png
+    - assets/images/loginDialog/googleIcon.svg
+    - assets/images/loginDialog/facebookIcon.svg
+
+
+
+    ########## Select Avatar & Theme Popup
+    - assets/images/themePopup/selectAvatarSign.png
+    - assets/images/themePopup/cloudPopup.png
+    - assets/images/themePopup/selectSpacerTheme1.svg
+    - assets/images/themePopup/selectSpacerTheme3.svg
+    - assets/images/themePopup/selectSpacerTheme4.svg
+    - assets/images/themePopup/selectSpacerTheme5.svg    
+    - assets/icon/iconClose.svg
+    - assets/images/themePopup/closePopup.svg
+
+    - assets/images/themePopup/theme1Bg.png
+    - assets/images/themePopup/theme2Bg.png
+    - assets/images/themePopup/theme3Bg.png
+    - assets/images/themePopup/theme4Bg.png
+    - assets/images/themePopup/theme5Bg.png
+
+    - assets/images/themePopup/theme1Preview.png
+    - assets/images/themePopup/theme2Preview.png
+    - assets/images/themePopup/theme3Preview.png
+    - assets/images/themePopup/theme4Preview.png
+    - assets/images/themePopup/theme5Preview.png
+
+    - assets/images/themePopup/theme1Choose.png
+    - assets/images/themePopup/theme2Choose.png
+    - assets/images/themePopup/theme3Choose.png
+    - assets/images/themePopup/theme4Choose.png
+    - assets/images/themePopup/theme5Choose.png
+
+
+
+    ##################################  Animation
+    - assets/animation/Firework.flr
+    - assets/animation/star.flr
+    - assets/animation/loading.flr
+
+
+
+    ##################################  AR Interactive
+    - assets/images/arInteractive/mountBg.png
+    - assets/images/arInteractive/monster1.png
+    - assets/images/arInteractive/monster2.png
+    - assets/images/arInteractive/monster3.png
+    - assets/images/arInteractive/monster4.png
+    - assets/images/arInteractive/monster5.png
+    - assets/images/arInteractive/monster6.png
+    - assets/images/arInteractive/monster7.png
+    - assets/images/arInteractive/monster8.png
+    - assets/images/arInteractive/monster9.png
+    - assets/images/arInteractive/monster10.png
+    - assets/images/arInteractive/monster1_light.png
+    - assets/images/arInteractive/monster2_light.png
+    - assets/images/arInteractive/monster3_light.png
+    - assets/images/arInteractive/monster4_light.png
+    - assets/images/arInteractive/monster5_light.png
+    - assets/images/arInteractive/monster6_light.png
+    - assets/images/arInteractive/monster7_light.png
+    - assets/images/arInteractive/monster8_light.png
+    - assets/images/arInteractive/monster9_light.png
+    - assets/images/arInteractive/monster10_light.png
+
+  
+    ##################################  AR Interactive
+    - assets/images/splashScreen/wisekidsLogo.png
+    - assets/images/splashScreen/pattern.png
+
+
+    ################################### TTS Candy Monster
+    ########## Level1
+    - assets/ttsAudio/candyMonster/level1/
+    ########## arInteractive
+    - assets/ttsAudio/arInteractive/
+
+
+
+  fonts:
+    - family: NunitoRegular
+      fonts:
+        - asset: assets/fonts/Nunito-Regular.ttf
+    - family: NunitoBlack
+      fonts:
+        - asset: assets/fonts/Nunito-Black.ttf
+    - family: NunitoBlackItalic
+      fonts:
+        - asset: assets/fonts/Nunito-BlackItalic.ttf
+    - family: NunitoBold
+      fonts:
+        - asset: assets/fonts/Nunito-Bold.ttf
+    - family: NunitoBoldItalic
+      fonts:
+        - asset: assets/fonts/Nunito-BoldItalic.ttf
+    - family: NunitoExtraBold
+      fonts:
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
+    - family: NunitoExtraBoldItalic
+      fonts:
+        - asset: assets/fonts/Nunito-ExtraBoldItalic.ttf
+    - family: NunitoExtraLight
+      fonts:
+        - asset: assets/fonts/Nunito-ExtraLight.ttf
+    - family: NunitoExtraLightItalic
+      fonts:
+        - asset: assets/fonts/Nunito-ExtraLightItalic.ttf
+    - family: NunitoItalic
+      fonts:
+        - asset: assets/fonts/Nunito-Italic.ttf
+    - family: NunitoLight
+      fonts:
+        - asset: assets/fonts/Nunito-Light.ttf
+    - family: NunitoLightItalic
+      fonts:
+        - asset: assets/fonts/Nunito-LightItalic.ttf
+    - family: NunitoSemiBold
+      fonts:
+        - asset: assets/fonts/Nunito-SemiBold.ttf
+    - family: NunitoSemiBoldItalic
+      fonts:
+        - asset: assets/fonts/Nunito-SemiBoldItalic.ttf
+
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages

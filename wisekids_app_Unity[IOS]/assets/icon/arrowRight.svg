@@ -1,9 +1,0 @@
-<<<<<<< HEAD
-<svg xmlns="http://www.w3.org/2000/svg" width="8" height="13.992" viewBox="0 0 8 13.992">
-  <path id="arrowRight" d="M13.186,16.835l5.29-5.295a1,1,0,0,1,1.412,0,1.008,1.008,0,0,1,0,1.416l-5.995,6a1,1,0,0,1-1.379.029L6.479,12.961a1,1,0,0,1,1.412-1.416Z" transform="translate(-11.246 20.179) rotate(-90)" fill="#fff"/>
-</svg>
-=======
-<svg xmlns="http://www.w3.org/2000/svg" width="8" height="13.992" viewBox="0 0 8 13.992">
-  <path id="arrowRight" d="M13.186,16.835l5.29-5.295a1,1,0,0,1,1.412,0,1.008,1.008,0,0,1,0,1.416l-5.995,6a1,1,0,0,1-1.379.029L6.479,12.961a1,1,0,0,1,1.412-1.416Z" transform="translate(-11.246 20.179) rotate(-90)" fill="#fff"/>
-</svg>
->>>>>>> 7bfdda0a3c8ea7faa13ccbb6c2a0b7e9a11ef939
