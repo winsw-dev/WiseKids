@@ -11,6 +11,10 @@ class SelectAvatar extends StatefulWidget {
 }
 
 class _SelectAvatarState extends State<SelectAvatar> {
+ 
+
+  
+
   ///////// Device Info
   bool ipad = Device.get().isTablet;
 
@@ -38,6 +42,7 @@ class _SelectAvatarState extends State<SelectAvatar> {
         scaleCatIpad = 40;
         scaleCatIphone = 20;
         print('BoySelected');
+        
       } else if (pickChar == 'girl') {
         scaleBoyIpad = 40;
         scaleBoyIphone = 20;
@@ -46,6 +51,7 @@ class _SelectAvatarState extends State<SelectAvatar> {
         scaleCatIpad = 40;
         scaleCatIphone = 20;
         print('GirlSelected');
+       
       } else if (pickChar == 'cat') {
         scaleBoyIpad = 40;
         scaleBoyIphone = 20;
@@ -54,6 +60,7 @@ class _SelectAvatarState extends State<SelectAvatar> {
         scaleCatIpad = 0;
         scaleCatIphone = 0;
         print('CatSelected');
+       
       }
       buttonSwitch = true;
     });
@@ -65,7 +72,7 @@ class _SelectAvatarState extends State<SelectAvatar> {
     final deviceWidth = MediaQuery.of(context).size.width;
 
     return SafeArea(
-      top: deviceHeight > 500 ? false : true,
+      top: deviceHeight > 500 ? false : false,
       bottom: false,
       right: false,
       child: Scaffold(
@@ -228,19 +235,20 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('boy');
                             },
-                            child:  Container(
-                                width: deviceHeight > 500
-                                    ? deviceWidth * 0.3
-                                    : deviceWidth * 0.4,
-                                height: deviceHeight > 500
-                                    ? deviceHeight * 0.468
-                                    : deviceHeight * 0.55,
-                                margin: EdgeInsets.only(
-                                    left: deviceHeight > 500
-                                        ? deviceWidth * 0.07
-                                        : deviceWidth * 0.04),
-                                child: Hero(tag: 'avatarboy',
-                                                          child:AnimatedContainer(
+                            child: Container(
+                              width: deviceHeight > 500
+                                  ? deviceWidth * 0.3
+                                  : deviceWidth * 0.4,
+                              height: deviceHeight > 500
+                                  ? deviceHeight * 0.468
+                                  : deviceHeight * 0.55,
+                              margin: EdgeInsets.only(
+                                  left: deviceHeight > 500
+                                      ? deviceWidth * 0.07
+                                      : deviceWidth * 0.04),
+                              child: Hero(
+                                tag: 'avatarboy',
+                                child: AnimatedContainer(
                                   duration: Duration(milliseconds: 100),
                                   curve: Curves.easeOut,
                                   margin: EdgeInsets.only(
@@ -264,16 +272,16 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('girl');
                             },
-                            child:  Container(
-                                width: deviceHeight > 500
-                                    ? deviceWidth * 0.3
-                                    : deviceWidth * 0.4,
-                                height: deviceHeight > 500
-                                    ? deviceHeight * 0.468
-                                    : deviceHeight * 0.55,
-                                child: Hero(
-                              tag: 'avatargirl',
-                              child:AnimatedContainer(
+                            child: Container(
+                              width: deviceHeight > 500
+                                  ? deviceWidth * 0.3
+                                  : deviceWidth * 0.4,
+                              height: deviceHeight > 500
+                                  ? deviceHeight * 0.468
+                                  : deviceHeight * 0.55,
+                              child: Hero(
+                                tag: 'avatargirl',
+                                child: AnimatedContainer(
                                   duration: Duration(milliseconds: 100),
                                   curve: Curves.easeOut,
                                   margin: EdgeInsets.only(
@@ -298,19 +306,20 @@ class _SelectAvatarState extends State<SelectAvatar> {
                             onTap: () {
                               selectChar('cat');
                             },
-                            child:  Container(
-                                width: deviceHeight > 500
-                                    ? deviceWidth * 0.3
-                                    : deviceWidth * 0.4,
-                                height: deviceHeight > 500
-                                    ? deviceHeight * 0.468
-                                    : deviceHeight * 0.55,
-                                margin: EdgeInsets.only(
-                                    right: deviceHeight > 500
-                                        ? deviceWidth * 0.07
-                                        : deviceWidth * 0.04),
-                                child: Hero(tag: 'avatarcat',
-                                                          child:AnimatedContainer(
+                            child: Container(
+                              width: deviceHeight > 500
+                                  ? deviceWidth * 0.3
+                                  : deviceWidth * 0.4,
+                              height: deviceHeight > 500
+                                  ? deviceHeight * 0.468
+                                  : deviceHeight * 0.55,
+                              margin: EdgeInsets.only(
+                                  right: deviceHeight > 500
+                                      ? deviceWidth * 0.07
+                                      : deviceWidth * 0.04),
+                              child: Hero(
+                                tag: 'avatarcat',
+                                child: AnimatedContainer(
                                   duration: Duration(milliseconds: 100),
                                   curve: Curves.easeOut,
                                   margin: EdgeInsets.only(

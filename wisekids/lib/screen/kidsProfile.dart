@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import '../widget/addKidsProfile_dialog.dart' as editProfile;
+import '../widget/slide_popup_dialog_deleteProflie.dart' as deleteProfile;
 
 import '../widget/slide_dialog_kidsStatistic.dart' as kidsStatistic;
 import 'parentalKidsCenter.dart';
@@ -32,6 +34,18 @@ class _KidsProfileState extends State<KidsProfile> {
     Provider.of<DataProvider>(context, listen: false)
         .kidsProfileReadBookWidgetBuilder(widget.kids);
     super.initState();
+  }
+
+  void _showEditProfileDialog() {
+    Provider.of<DataProvider>(context, listen: false)
+        .initEditKidsProfileCacheVar(widget.kids);
+    editProfile.showSlideDialog(
+        popUpMode: 'editProflie', editWhichKid: widget.kids, context: context);
+  }
+
+  void _showDeleteProfileDialog() {
+    deleteProfile.showSlideDialog(
+        child: Container(), deleteWhichKid: widget.kids, context: context);
   }
 
   @override
@@ -116,12 +130,13 @@ class _KidsProfileState extends State<KidsProfile> {
                                 ((deviceHeight * 0.93 * 0.04) +
                                     (deviceWidth * 0.015 * 2))
                             : deviceHeight - ((deviceWidth * 0.025 * 2) + 30),
-                        width: deviceHeight > 500
+                        /* width: deviceHeight > 500
                             ? deviceWidth * (820 / 1024)
-                            : deviceWidth * (880 / 1024),
+                            : deviceWidth * (880 / 1024), */
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            Spacer(),
                             //////////////////////////////////// Kids Profile
                             Column(
                               children: <Widget>[
@@ -130,7 +145,7 @@ class _KidsProfileState extends State<KidsProfile> {
                                   height: deviceHeight > 500
                                       ? deviceHeight * (130 / 768)
                                       : deviceHeight * 0.4,
-                                  margin: EdgeInsets.only(
+                                  /* margin: EdgeInsets.only(
                                       top: deviceHeight > 500
                                           ? (deviceHeight / 2) -
                                               (deviceHeight * 0.04) -
@@ -138,16 +153,18 @@ class _KidsProfileState extends State<KidsProfile> {
                                                   (deviceWidth * 0.015 * 2)) -
                                               (deviceHeight * (130 / 768) / 2) -
                                               7
-                                          : deviceHeight * 0.05),
-                                  child: Hero(
+                                          : deviceHeight * 0.05), */
+                                  child:
+                                      /* Hero(
                                     tag: widget.kids.toString() + 'Profile',
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: AspectRatio(
-                                        aspectRatio: 113 / 129,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
+                                    child: */
+                                      Material(
+                                    color: Colors.transparent,
+                                    child: AspectRatio(
+                                      aspectRatio: 100 / 130,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            /* boxShadow: [
                                                 BoxShadow(
                                                   color: Color.fromRGBO(
                                                       69, 223, 224, 1.00),
@@ -160,89 +177,194 @@ class _KidsProfileState extends State<KidsProfile> {
                                                     2.0, // vertical, move down 10
                                                   ),
                                                 ),
-                                              ],
-                                              color: Color.fromRGBO(
-                                                  69, 223, 224, 1.00),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    right: 15, left: 15),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          1000),
-                                                  child: Image.asset(
-                                                      'assets/images/avatar_' +
-                                                          Provider.of<DataProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .avatar[widget.kids] +
-                                                          '.png'),
-                                                ),
+                                              ], */
+                                            color: Colors
+                                                .white /* Color.fromRGBO(
+                                                  69, 223, 224, 1.00) */
+                                            ,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(1000),
+                                                border: Border.all(
+                                                    width: deviceHeight > 500
+                                                        ? 1
+                                                        : 1,
+                                                    color: Color.fromRGBO(
+                                                        219,
+                                                        212,
+                                                        227,
+                                                        1.0) //                   <--- border width here
+                                                    ),
                                               ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 10, right: 10),
-                                                height: deviceHeight > 500
-                                                    ? (deviceHeight *
-                                                                0.93 *
-                                                                0.08 +
-                                                            deviceWidth *
-                                                                0.030) *
-                                                        0.3
-                                                    : (deviceHeight -
-                                                            (54 +
-                                                                deviceWidth *
-                                                                    0.025)) *
-                                                        0.09,
-                                                child: FittedBox(
-                                                  fit: BoxFit.fitWidth,
-                                                  child: Text(
-                                                    Provider.of<DataProvider>(
+                                              /* margin: EdgeInsets.only(
+                                                    right: 15, left: 15), */
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(1000),
+                                                child: Image.asset(
+                                                    'assets/images/avatar_' +
+                                                        Provider.of<DataProvider>(
                                                                 context,
                                                                 listen: false)
-                                                            .displayName[
-                                                        widget.kids],
+                                                            .avatar[widget.kids] +
+                                                        '.png'),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              height: deviceHeight > 500
+                                                  ? deviceHeight *
+                                                      (130 / 768) *
+                                                      (24 / 130)
+                                                  : deviceHeight *
+                                                      0.4 *
+                                                      (24 / 130),
+                                              child: FittedBox(
+                                                fit: BoxFit.fitWidth,
+                                                child: Consumer<DataProvider>(
+                                                  builder: (context, provider,
+                                                          child) =>
+                                                      Text(
+                                                    provider.displayName[
+                                                                widget.kids][0]
+                                                            .toUpperCase() +
+                                                        provider.displayName[
+                                                                widget.kids]
+                                                            .substring(1),
                                                     style: TextStyle(
                                                         fontFamily:
                                                             'NunitoBold',
                                                         //fontSize: 21,
-                                                        color: Colors.white),
+                                                        color: Color.fromRGBO(
+                                                            80, 85, 89, 1.0)),
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
+                                  /* ), */
                                 ),
                                 ///////////////////////////////////////// Time read today
                                 Container(
-                                    margin: EdgeInsets.only(top: 14),
-                                    child: Text('0 minutes today',
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontFamily: 'NunitoRegular',
-                                            //fontSize: 21,
-                                            color: Color.fromRGBO(
-                                                80, 85, 89, 1.0)))),
+                                    height: deviceHeight > 500
+                                        ? deviceHeight *
+                                            (130 / 768) *
+                                            (24 / 130)
+                                        : deviceHeight * 0.4 * (24 / 130),
+                                    //margin: EdgeInsets.only(top: 14),
+                                    child: FittedBox(
+                                      fit: BoxFit.contain,
+                                      child: Text(
+                                          Provider.of<DataProvider>(context,
+                                                      listen: false)
+                                                  .kidsReadingTime[
+                                                      Provider.of<DataProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .currentKids]
+                                                  .toString() +
+                                              ' mins today',
+                                          style: TextStyle(
+                                              fontFamily: 'NunitoSemiBold',
+                                              //fontSize: 21,
+                                              color: Color.fromRGBO(
+                                                  69, 222, 223, 1.0))),
+                                    )),
+
+                                /////////////////////////////////////// Edit Profile
+                                GestureDetector(
+                                  onTap: _showEditProfileDialog,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      top: deviceHeight > 500
+                                          ? deviceHeight *
+                                              (130 / 768) *
+                                              (15 / 130)
+                                          : deviceHeight * 0.35 * (15 / 130),
+                                    ),
+                                    height: deviceHeight > 500
+                                        ? deviceHeight *
+                                            (130 / 768) *
+                                            (30 / 130)
+                                        : deviceHeight * 0.35 * (30 / 130),
+                                    child: AspectRatio(
+                                      aspectRatio: 154 / 30,
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                            child: Image.asset(
+                                              'assets/images/kidsProfile/editProfile.png',
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                /////////////////////////////////////// Delete Profile
+                                Provider.of<DataProvider>(context,
+                                                listen: false)
+                                            .avatar
+                                            .length >
+                                        1
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          _showDeleteProfileDialog();
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            top: deviceHeight > 500
+                                                ? deviceHeight *
+                                                    (130 / 768) *
+                                                    (15 / 130)
+                                                : deviceHeight *
+                                                    0.35 *
+                                                    (15 / 130),
+                                          ),
+                                          height: deviceHeight > 500
+                                              ? deviceHeight *
+                                                  (130 / 768) *
+                                                  (30 / 130)
+                                              : deviceHeight *
+                                                  0.35 *
+                                                  (30 / 130),
+                                          child: Image.asset(
+                                            'assets/images/kidsProfile/deleteProfile.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
                               ],
+                            ),
+                            Spacer(),
+                            VerticalDivider(
+                              thickness: 1,
                             ),
                             Spacer(),
                             ////////////////////////////////////////////// Book History
                             Consumer<DataProvider>(
                               builder: (context, provider, child) =>
                                   ///////////////////// No reading History
-                                  provider.bookStatistic[widget.kids]
-                                              ['readBook'][0] ==
-                                          null
+                                  provider
+                                              .bookStatistic[widget.kids]
+                                                  ['readBook']
+                                              .length ==
+                                          0
                                       ? Container(
                                           height: deviceHeight > 500
                                               ? deviceHeight * (238 / 768)
@@ -285,13 +407,15 @@ class _KidsProfileState extends State<KidsProfile> {
                                         ),
                             ),
                             Consumer<DataProvider>(
-                              builder: (context, provider, child) =>
-                                  provider.bookStatistic[widget.kids]
-                                              ['readBook'][0] ==
-                                          null
-                                      ? Spacer()
-                                      : Container(),
+                              builder: (context, provider, child) => provider
+                                          .bookStatistic[widget.kids]
+                                              ['readBook']
+                                          .length ==
+                                      0
+                                  ? Spacer()
+                                  : Container(),
                             ),
+                            Spacer(),
                           ],
                         ),
                       ),

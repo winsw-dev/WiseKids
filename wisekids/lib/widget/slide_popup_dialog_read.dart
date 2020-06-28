@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:wisekids/screen/enterBook.dart';
 import 'dart:async';
 
 import '../screen/home.dart';
@@ -168,12 +169,12 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                 _perventMultipleTab = true));
 
                                         Navigator.pop(context);
-                                        Navigator.pushReplacement(
+                                        /* Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => Home(),
                                           ),
-                                        );
+                                        ); */
                                       }
                                     : null,
                                 child: Container(
@@ -378,7 +379,8 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[Spacer(),
+                                  children: <Widget>[
+                                    Spacer(),
                                     ////////////////////////////////////////////////////// Play Btn
                                     GestureDetector(
                                       onTap: _perventMultipleTab
@@ -413,8 +415,9 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                 : deviceHeight *
                                                     (276 / 414) *
                                                     (82 / 276),
-                                            child: AspectRatio(aspectRatio: 216/93,
-                                                                                          child: SvgPicture.asset(
+                                            child: AspectRatio(
+                                              aspectRatio: 216 / 93,
+                                              child: SvgPicture.asset(
                                                 'assets/images/enterBook/playBtn.svg',
                                               ),
                                             ),
@@ -446,7 +449,8 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                           ),
                                         ],
                                       ),
-                                    ),Spacer(),
+                                    ),
+                                    Spacer(),
                                     ////////////////////////////////////////////////////// Read again
                                     GestureDetector(
                                       onTap: _perventMultipleTab
@@ -462,12 +466,15 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                           true));
 
                                               Navigator.pop(context);
-                                              /* Navigator.pushReplacement(
+                                              Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => Play(),
+                                                  builder: (context) =>
+                                                      EnterBook(
+                                                    pickedBook: 6,
+                                                  ),
                                                 ),
-                                              ); */
+                                              );
                                             }
                                           : null,
                                       child: Stack(
@@ -481,8 +488,9 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                 : deviceHeight *
                                                     (276 / 414) *
                                                     (82 / 276),
-                                            child: AspectRatio(aspectRatio: 216/93,
-                                                                                          child: SvgPicture.asset(
+                                            child: AspectRatio(
+                                              aspectRatio: 216 / 93,
+                                              child: SvgPicture.asset(
                                                 'assets/images/enterBook/readBtn.svg',
                                               ),
                                             ),
@@ -514,7 +522,8 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                           ),
                                         ],
                                       ),
-                                    ),Spacer(),
+                                    ),
+                                    Spacer(),
                                     /////////////////////////////////////////////////////////////
                                   ],
                                 ),

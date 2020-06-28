@@ -66,7 +66,15 @@ dependencies:
 
   flutter_picker: ^1.1.3
 
+  auto_size_text: ^2.1.0
 
+  after_layout: ^1.0.7+2
+
+  image_sequence_animator:   
+    git:
+      url: https://github.com/sarawin008/flutter-image-sequence-animator.git 
+
+  #image_sequence_animator: ^1.0.6
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
@@ -207,68 +215,31 @@ flutter:
     - assets/images/vocabulary/back.png
     - assets/images/vocabulary/next.png
     - assets/images/vocabulary/stickerItems.png
+    - assets/images/vocabulary/VocabStickerCollect.flr
+
+    ######### content Level
+    - assets/images/contentLevel/
 
 
 
     ######### theme 1
     - assets/icon/starScore.svg
-    - assets/images/theme1/blackBoard.png
-    - assets/images/theme1/desk.png
-    - assets/images/theme1/login_button.svg
-    - assets/images/theme1/pattern.png
-    - assets/images/theme1/plant.png
-    - assets/images/theme1/profileStarSign.svg
-    - assets/images/theme1/starScore.png
+    - assets/images/theme1/
+    
     - assets/icon/vocabulary.svg
+    
 
     ######### theme 2
-    - assets/images/theme2/profileStarSign.svg
-    - assets/images/theme2/login_button.svg
-    - assets/images/theme2/controlPad.png
-    - assets/images/theme2/monitor.png
-    - assets/images/theme2/starLow.png
-    - assets/images/theme2/starTop.png
-    - assets/images/theme2/theme2Bg.png
-    - assets/images/theme2/starnHeart.png
-    - assets/images/theme2/monitorBtn.png
-    - assets/images/theme2/keep.png
+    - assets/images/theme2/
 
     ######### theme 3
-    - assets/images/theme3/profileStarSign.svg
-    - assets/images/theme3/login_button.svg
-    - assets/images/theme3/cloudLeft.png
-    - assets/images/theme3/cloudRight.png
-    - assets/images/theme3/moon.png
-    - assets/images/theme3/rocket.png
-    - assets/images/theme3/star.png
-    - assets/images/theme3/star3.png
-    - assets/images/theme3/ufo.png
-    - assets/images/theme3/bg.png
+    - assets/images/theme3/
 
     ######### theme 4
-    - assets/images/theme4/profileStarSign.svg
-    - assets/images/theme4/login_button.svg
-    - assets/images/theme4/bg.png
-    - assets/images/theme4/bubble.png
-    - assets/images/theme4/fishLeft.png
-    - assets/images/theme4/fishRight.png
-    - assets/images/theme4/godRay.png
-    - assets/images/theme4/land.png
-    - assets/images/theme4/seaWeedLeft.png
-    - assets/images/theme4/seaWeedRight.png
-    - assets/images/theme4/stingray.png
-    - assets/images/theme4/subSeaWeedCenter.png
-    - assets/images/theme4/subSeaWeedLeft1.png
-    - assets/images/theme4/subSeaWeedRight1.png
-    - assets/images/theme4/subSeaWeedRight2.png
+    - assets/images/theme4/
 
     ######### theme 5
-    - assets/images/theme5/profileStarSign.svg
-    - assets/images/theme5/login_button.svg
-    - assets/images/theme5/bg.png
-    - assets/images/theme5/bird.png
-    - assets/images/theme5/floor.png
-    - assets/images/theme5/forest.png
+    - assets/images/theme5/
 
 
     ########## BookShelf Animation
@@ -280,9 +251,17 @@ flutter:
     - assets/animation/book6.flr
     - assets/animation/book7.flr
 
-    ########## Enter Book 
+    ########## Enter Book
+    - assets/images/enterBook/balloon.png
     - assets/images/enterBook/homeBtn.png
+    - assets/images/enterBook/star.png
     - assets/images/enterBook/book1.png
+    - assets/images/enterBook/book2.png
+    - assets/images/enterBook/book3.png
+    - assets/images/enterBook/book4.png
+    - assets/images/enterBook/book5.png
+    - assets/images/enterBook/book6.png
+    - assets/images/enterBook/book7.png
     - assets/images/enterBook/readBtn.svg
     - assets/images/enterBook/playBtn.svg
     - assets/images/enterBook/enterBookTheme1.png
@@ -309,6 +288,7 @@ flutter:
 
 
     ########### Parental Consent
+    - assets/images/parentalConsent/close.svg
     - assets/images/parentalConsent/backBtn.svg
     - assets/images/parentalConsent/accept.svg
     - assets/images/parentalConsent/logoParental.png
@@ -328,6 +308,8 @@ flutter:
     - assets/images/kidsProfile/backToParentArea.svg
     - assets/images/kidsProfile/noHistory.png
     - assets/images/kidsProfile/book1.png
+    - assets/images/kidsProfile/deleteProfile.png
+    - assets/images/kidsProfile/editProfile.png
 
 
     ########### AR UI
@@ -464,6 +446,16 @@ flutter:
     - assets/ttsAudio/candyMonster/level1/
     ########## arInteractive
     - assets/ttsAudio/arInteractive/
+
+
+    ################################### Sicker Collected Page
+    - assets/animation/paperShoot/
+    - assets/animation/CongratSignBounce.flr
+    - assets/animation/StickerCollectedLoop.flr
+
+    ################################### ExceedLitmitNotification page
+    - assets/images/exceedLimtiNotification/paperShootViolet/
+    - assets/images/exceedLimtiNotification/
 
 
 

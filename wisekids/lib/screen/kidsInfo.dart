@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
-
-import 'selectAvatar.dart';
+import 'package:flutter/services.dart' as services;
+import 'selectAvatar.dart' as selectAvatarPage;
 import './finishSelectAvatar.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 
 class KidsInfo extends StatefulWidget {
+  
+
+ 
+
+
   @override
   _KidsInfoState createState() => _KidsInfoState();
 }
 
 class _KidsInfoState extends State<KidsInfo> {
+
+
+  
   bool _buttonSwitch = false;
 
   final scrollController = ScrollController();
@@ -46,6 +54,7 @@ class _KidsInfoState extends State<KidsInfo> {
 
   @override
   Widget build(BuildContext context) {
+    services.SystemChrome.setEnabledSystemUIOverlays([]);
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
 
@@ -83,7 +92,7 @@ class _KidsInfoState extends State<KidsInfo> {
             0.3; // so 0.4 + 0.3 + 0.3 = 100% of total height
 
     return SafeArea(
-      top: deviceHeight > 500 ? false : true,
+      top: deviceHeight > 500 ? false : false,
       bottom: false,
       right: false,
       child: Scaffold(
@@ -521,7 +530,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                 inputFormatters: [
                                                                   BlacklistingTextInputFormatter(
                                                                       new RegExp(
-                                                                          '[.,0123456789@":;?><()_=/!-*-+#%^&]')),
+                                                                          '[.,0123456789@":;?><()_=/!-*-+#%^& ]')),
                                                                 ], //blacklist character
                                                                 textInputAction:
                                                                     TextInputAction

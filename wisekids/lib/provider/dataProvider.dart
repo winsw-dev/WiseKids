@@ -82,6 +82,7 @@ class DataProvider extends ChangeNotifier {
   List<Widget> _kidsProfileWidget;
   List<Widget> _selectKidsPopupWidget;
   List<Widget> _kidsProfileReadBookWidget;
+  List<int> _kidsReadingTime = [0];
 
   ///////////////// theme var
   List<int> _theme = [1];
@@ -103,6 +104,15 @@ class DataProvider extends ChangeNotifier {
   bool _addkidsTheme4Visibility = false;
   bool _addkidsTheme5Visibility = false;
 
+  ////////////////// Edit Kids Profile
+  String _cacheEditKidsProfileAvatar;
+  int _cacheEditKidsProfileTheme;
+  bool _cacheEditKidsTheme1Visibility;
+  bool _cacheEditKidsTheme2Visibility;
+  bool _cacheEditKidsTheme3Visibility;
+  bool _cacheEditKidsTheme4Visibility;
+  bool _cacheEditKidsTheme5Visibility;
+
   ////////////////// Authentication var
   FirebaseAuth _auth;
   FirebaseUser _user;
@@ -118,7 +128,7 @@ class DataProvider extends ChangeNotifier {
   List<bool> _textSelected = [];
   String _inputSubtitle = 'Todd likes to eat dessert. Candy is his favourite.';
   List<Widget> _subtitleItems = [];
-  bool _allowTab = true; 
+  bool _allowTab = true;
 
   ///////////////// An unmodifiable view
   double get deviceHeight => _deviceHeight;
@@ -132,6 +142,7 @@ class DataProvider extends ChangeNotifier {
   List<int> get kidsContentLevel => _kidsContentLevel;
   List<Map> get bookStatistic => _bookStatistic;
   int get appOpen => _appOpen;
+  List<int> get kidsReadingTime => _kidsReadingTime;
   bool get appReviewed => _appReviewed;
   List<String> get avatar => _avatar;
   List<int> get theme => _theme;
@@ -172,7 +183,197 @@ class DataProvider extends ChangeNotifier {
     _appOpen = timeAppHasOpened;
   }
 
-/////////////////////// Select Avatar&Theme addMoreKids Popup unmodifiable view & functions
+  ///////////////////// Edit & delete Kids unmodifiable view + function
+
+  String get cacheEditKidsProfileAvatar => _cacheEditKidsProfileAvatar;
+  int get cacheEditKidsProfileTheme => _cacheEditKidsProfileTheme;
+
+  bool get cacheEditKidsTheme1Visibility => _cacheEditKidsTheme1Visibility;
+  bool get cacheEditKidsTheme2Visibility => _cacheEditKidsTheme2Visibility;
+  bool get cacheEditKidsTheme3Visibility => _cacheEditKidsTheme3Visibility;
+  bool get cacheEditKidsTheme4Visibility => _cacheEditKidsTheme4Visibility;
+  bool get cacheEditKidsTheme5Visibility => _cacheEditKidsTheme5Visibility;
+
+  deleteKidsProfile(int whichKids) async {
+    _kidsName.removeAt(whichKids);
+    _displayName.removeAt(whichKids);
+    _kidsAge.removeAt(whichKids);
+    _kidsContentLevel.removeAt(whichKids);
+    _kidsStar.removeAt(whichKids);
+    _avatar.removeAt(whichKids);
+    _theme.removeAt(whichKids);
+    _bookStatistic.removeAt(whichKids);
+    _kidsReadingTime.removeAt(whichKids);
+    _currentKids = 0;
+
+    notifyListeners();
+    /////////////////////////////////// update data to database
+    final FirebaseUser currentUser = await _auth.currentUser();
+
+    await Firestore.instance
+        .collection('WiseKidsUser')
+        .document(currentUser.uid)
+        .updateData(
+      {
+        'kidsAvatar': _avatar,
+        'kidsTheme': _theme,
+        'kidsName': _kidsName,
+        'kidsAge': _kidsAge,
+        'kidsStar': _kidsStar,
+        'bookStatistic': _bookStatistic,
+        'kidsContentLevel': _kidsContentLevel,
+        'kidsReadingTime': _kidsReadingTime,
+      }, /* merge: true */
+    );
+
+    !bool.fromEnvironment("dart.vm.product")
+        ? print('Remove kids Profile successfully')
+        : null;
+    kidsProfileWidgetBuilder();
+  }
+
+  saveEditKidsProfile({
+    int whichKids,
+    String kidsAgeInput,
+    String kidsAvatarInput,
+    String kidsNameInput,
+    int kidsThemeInput,
+  }) async {
+    print('save edited data');
+    /////////////////////////////////// edit kid data in local provider
+    _kidsName[whichKids] = kidsNameInput;
+    _displayName[whichKids] = kidsNameInput;
+    _kidsAge[whichKids] = kidsAgeInput;
+    _avatar[whichKids] = kidsAvatarInput;
+    _theme[whichKids] = kidsThemeInput;
+
+    /////// sort display name
+    for (var i = 0; i < _kidsName.length; i++) {
+      if (_kidsName[i].length <= _displayNameLength) {
+        _displayName[i] = _kidsName[i];
+      } else if (_kidsName[i].length > _displayNameLength) {
+        _displayName[i] = _kidsName[i].substring(0, 10) + '.';
+      }
+    }
+
+    notifyListeners();
+    /////////////////////////////////// add kids to database
+    final FirebaseUser currentUser = await _auth.currentUser();
+
+    await Firestore.instance
+        .collection('WiseKidsUser')
+        .document(currentUser.uid)
+        .updateData(
+      {
+        'kidsAvatar': _avatar,
+        'kidsTheme': _theme,
+        'kidsName': _kidsName,
+        'kidsAge': _kidsAge,
+      }, /* merge: true */
+    );
+    kidsProfileWidgetBuilder();
+    !bool.fromEnvironment("dart.vm.product")
+        ? print('edit kids: "$kidsNameInput" successfully')
+        : null;
+  }
+
+  chooseThemeEditKidsProfile(int theme) {
+    _cacheEditKidsProfileTheme = theme;
+    if (theme == 1) {
+      _cacheEditKidsTheme1Visibility = true;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (theme == 2) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = true;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (theme == 3) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = true;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (theme == 4) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = true;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (theme == 5) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = true;
+    }
+    notifyListeners();
+  }
+
+  initEditKidsProfileCacheVar(int whichKids) {
+    _cacheEditKidsProfileAvatar = _avatar[whichKids];
+    _cacheEditKidsProfileTheme = _theme[whichKids];
+
+    if (_theme[whichKids] == 1) {
+      _cacheEditKidsTheme1Visibility = true;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (_theme[whichKids] == 2) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = true;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (_theme[whichKids] == 3) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = true;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (_theme[whichKids] == 4) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = true;
+      _cacheEditKidsTheme5Visibility = false;
+    } else if (_theme[whichKids] == 5) {
+      _cacheEditKidsTheme1Visibility = false;
+      _cacheEditKidsTheme2Visibility = false;
+      _cacheEditKidsTheme3Visibility = false;
+      _cacheEditKidsTheme4Visibility = false;
+      _cacheEditKidsTheme5Visibility = true;
+    }
+
+    notifyListeners();
+  }
+
+  selectAvatarSwiperIndexEditKids(String avatar) {
+    if (avatar == 'boy') {
+      return 0;
+    } else if (avatar == 'girl') {
+      return 1;
+    } else if (avatar == 'cat') {
+      return 2;
+    }
+  }
+
+  editProfileAvatar(int whichKid, int avatarIndex) {
+    if (avatarIndex == 0) {
+      _cacheEditKidsProfileAvatar = 'boy';
+    } else if (avatarIndex == 1) {
+      _cacheEditKidsProfileAvatar = 'girl';
+    } else if (avatarIndex == 2) {
+      _cacheEditKidsProfileAvatar = 'cat';
+    }
+    notifyListeners();
+  }
+
+  /////////////////////// Select Avatar&Theme addMoreKids Popup unmodifiable view & functions
   String get addkidsAvatar => _addkidsAvatar;
   int get addkidsTheme => _addkidsTheme;
 
@@ -262,6 +463,7 @@ class DataProvider extends ChangeNotifier {
 
   void _showAddMoreKisDialog() {
     addMoreKidsDialog.showSlideDialog(
+      popUpMode: 'createProfile',
       context: _parentalKidsCenterContext,
     );
   }
@@ -290,66 +492,68 @@ class DataProvider extends ChangeNotifier {
           child: Container(
             margin: EdgeInsets.only(
                 top: 10, bottom: 16, right: _deviceHeight > 500 ? 36 : 25),
-            child: Hero(
+            child:
+                /* Hero(
               tag: i.toString() + 'Profile',
-              child: Material(
-                color: Colors.transparent,
-                child: AspectRatio(
-                  aspectRatio: 113 / 129,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(69, 223, 224, 1.00),
-                            blurRadius:
-                                10.0, // has the effect of softening the shadow
-                            spreadRadius:
-                                -1, // has the effect of extending the shadow
-                            offset: Offset(
-                              0.0, // horizontal, move right 10
-                              2.0, // vertical, move down 10
-                            ),
-                          ),
-                        ],
-                        color: Color.fromRGBO(69, 223, 224, 1.00),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 15, left: 15),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(1000),
-                            child: Image.asset('assets/images/avatar_' +
-                                _avatar[i].toString() +
-                                '.png'),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          height: _deviceHeight > 500
-                              ? (_deviceHeight * 0.93 * 0.08 +
-                                      _deviceWidth * 0.030) *
-                                  0.3
-                              : (_deviceHeight - (54 + _deviceWidth * 0.025)) *
-                                  0.09,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              _displayName[i],
-                              style: TextStyle(
-                                  fontFamily: 'NunitoBold',
-                                  //fontSize: 21,
-                                  color: Colors.white),
-                            ),
+              child: */
+                Material(
+              color: Colors.transparent,
+              child: AspectRatio(
+                aspectRatio: 113 / 129,
+                child: Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(69, 223, 224, 1.00),
+                          blurRadius:
+                              10.0, // has the effect of softening the shadow
+                          spreadRadius:
+                              -1, // has the effect of extending the shadow
+                          offset: Offset(
+                            0.0, // horizontal, move right 10
+                            2.0, // vertical, move down 10
                           ),
                         ),
                       ],
-                    ),
+                      color: Color.fromRGBO(69, 223, 224, 1.00),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(right: 15, left: 15),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(1000),
+                          child: Image.asset('assets/images/avatar_' +
+                              _avatar[i].toString() +
+                              '.png'),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 10, right: 10),
+                        height: _deviceHeight > 500
+                            ? (_deviceHeight * 0.93 * 0.08 +
+                                    _deviceWidth * 0.030) *
+                                0.3
+                            : (_deviceHeight - (54 + _deviceWidth * 0.025)) *
+                                0.09,
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            _displayName[i],
+                            style: TextStyle(
+                                fontFamily: 'NunitoBold',
+                                //fontSize: 21,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
+            /* ), */
           ),
         ),
       );
@@ -394,12 +598,14 @@ class DataProvider extends ChangeNotifier {
     print('pressed');
     /////////////////////////////////// add kid to local provider
     _kidsName.add(kidsNameInput);
+    _displayName.add(kidsNameInput);
     _kidsAge.add(kidsAgeInput);
     _kidsContentLevel.add(1);
     _kidsStar.add(0);
     _avatar.add(kidsAvatarInput);
     _theme.add(kidsThemeInput);
     _bookStatistic.add({'readBook': []});
+    _kidsReadingTime.add(0);
     //set default kidsExerciseScore
     /*  _bookStatistic['book1']['kidsExerciseScore']
         [(_avatar.length - 1).toString()] = [
@@ -437,8 +643,13 @@ class DataProvider extends ChangeNotifier {
         'kidsStar': _kidsStar,
         'bookStatistic': _bookStatistic,
         'kidsContentLevel': _kidsContentLevel,
+        'kidsReadingTime': _kidsReadingTime,
       }, /* merge: true */
     );
+
+    !bool.fromEnvironment("dart.vm.product")
+        ? print('add kid "$kidsNameInput" successfully')
+        : null;
     kidsProfileWidgetBuilder();
   }
 
@@ -711,6 +922,7 @@ class DataProvider extends ChangeNotifier {
           'bookStatistic': _bookStatistic,
           'kidsContentLevel': _kidsContentLevel,
           'currentKids': _currentKids,
+          'kidsReadingTime': _kidsReadingTime,
         });
         ////// fetch user data and update provider (Old User)
       } else {
@@ -805,6 +1017,7 @@ class DataProvider extends ChangeNotifier {
               'bookStatistic': _bookStatistic,
               'kidsContentLevel': _kidsContentLevel,
               'currentKids': _currentKids,
+              'kidsReadingTime': _kidsReadingTime,
             });
             ////// fetch user data and update provider (Old User)
           } else {
@@ -833,6 +1046,7 @@ class DataProvider extends ChangeNotifier {
   }
 
   restoreUserData(DocumentSnapshot userData) async {
+    _kidsReadingTime = List<int>.from(userData['kidsReadingTime']);
     _kidsContentLevel = List<int>.from(userData['kidsContentLevel']);
     _bookStatistic = List<Map>.from(userData['bookStatistic']);
     _appReviewed = userData['appReviewed'];
@@ -847,7 +1061,26 @@ class DataProvider extends ChangeNotifier {
     _kidsStar = List<int>.from(userData['kidsStar']);
     _currentKids = userData['currentKids'];
 
-    print(_bookStatistic);
+    ///////////// compare timeStamp data if readTime is in the same day so, we can use this as [Reading Time Today]
+    ///if not in the same day then reset readTime
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('readedTime_TimeStamp') != null) {
+      if (DateTime.now()
+              .difference(
+                  DateTime.parse(prefs.getString('readedTime_TimeStamp')))
+              .inDays >
+          0) {
+        for (var i in _kidsReadingTime) {
+          _kidsReadingTime[i] = 0;
+        }
+      } else {
+        ///////// restore reading time today
+        _kidsReadingTime =
+            prefs.getStringList('readingTime').map(int.parse).toList();
+      }
+    }
+
+    //print(_bookStatistic);
 
     ///////////////////////////////////////////////////////// sort display name if it too long
     for (var i = 0; i < _kidsName.length; i++) {
@@ -861,10 +1094,12 @@ class DataProvider extends ChangeNotifier {
         _displayName[i] = _kidsName[i].substring(0, 10) + '.';
       }
     }
-    print('\n----------Restored user data----------');
-    print('Account name == $_userName');
-    print('Kids in this profile == $_kidsName');
-    print('--------------------------------------\n\n');
+    !bool.fromEnvironment("dart.vm.product")
+        ? print(
+            '\n----------Restored user data----------\nAccount name == $_userName\nKids in this profile == $_kidsName\nBookStatistic == $_bookStatistic')
+        : null;
+
+    print('\n--------------------------------------\n\n');
     notifyListeners();
     /////////////////////////// update theme & avatar after retrive user data from database
 
@@ -883,6 +1118,7 @@ class DataProvider extends ChangeNotifier {
     _displayName = [''];
     _kidsStar = [0];
     _kidsContentLevel = [1];
+    _kidsReadingTime = [0];
     _theme = [1];
     _theme1Visibility = true;
     _theme2Visibility = false;
@@ -950,6 +1186,7 @@ class DataProvider extends ChangeNotifier {
                             .setData({'currentKids': _currentKids}, merge: true)
                       }
                   });
+              Navigator.pop(context);
             },
             child: Row(
               children: <Widget>[
@@ -1062,8 +1299,9 @@ class DataProvider extends ChangeNotifier {
     ///////// clear array before build
     _kidsProfileReadBookWidget = [];
 
-    if (_bookStatistic[whichKids]['readBook'][0] != null) {
+    if (_bookStatistic[whichKids]['readBook'].length != 0) {
       print('pass');
+      print('whichKids==' + whichKids.toString());
       for (var i in _bookStatistic[whichKids]['readBook']) {
         _kidsProfileReadBookWidget.add(
           GestureDetector(
@@ -1073,15 +1311,18 @@ class DataProvider extends ChangeNotifier {
                       context: _kidsProfileContext,
                       book: i,
                       totalTimeRead: _bookStatistic[whichKids]
-                          ['book' + i.toString()]['timeMinuteReadTotal'],
+                              [/* 'book' + */ i.toString()]
+                          ['timeMinuteReadTotal'] /* [whichKids] */,
+                      ///////////////////////////////////////////////// order score by lasted => oldest (1=>3 button in kidsStatistic)
                       firstExerciseScore: _bookStatistic[whichKids]
-                          ['book' + i.toString()]['kidsExerciseScore'][0],
+                              [/* 'book' +  */ i.toString()]
+                          ['kidsExerciseScore'][2],
                       secondExerciseScore: _bookStatistic[whichKids]
-                          ['book' + i.toString()]['kidsExerciseScore'][1],
+                          [/* 'book' + */ i.toString()]['kidsExerciseScore'][1],
                       thirdExerciseScore: _bookStatistic[whichKids]
-                          ['book' + i.toString()]['kidsExerciseScore'][2],
+                          [/* 'book' + */ i.toString()]['kidsExerciseScore'][0],
                       kidsReview: _bookStatistic[whichKids]
-                          ['book' + i.toString()]['kidsReview'],
+                          [/* 'book' + */ i.toString()]['kidsReview'],
                     );
                   }
                 : () {
@@ -1091,15 +1332,19 @@ class DataProvider extends ChangeNotifier {
                           return KidsStatisticPhoneSize(
                             book: i,
                             totalTimeRead: _bookStatistic[whichKids]
-                                ['book' + i.toString()]['timeMinuteReadTotal'],
+                                    [/* 'book' + */ i.toString()]
+                                ['timeMinuteReadTotal'] /* [whichKids] */,
                             firstExerciseScore: _bookStatistic[whichKids]
-                                ['book' + i.toString()]['kidsExerciseScore'][0],
+                                    [/* 'book' + */ i.toString()]
+                                ['kidsExerciseScore'][0],
                             secondExerciseScore: _bookStatistic[whichKids]
-                                ['book' + i.toString()]['kidsExerciseScore'][1],
+                                    [/* 'book' + */ i.toString()]
+                                ['kidsExerciseScore'][1],
                             thirdExerciseScore: _bookStatistic[whichKids]
-                                ['book' + i.toString()]['kidsExerciseScore'][2],
+                                    [/* 'book' + */ i.toString()]
+                                ['kidsExerciseScore'][2],
                             kidsReview: _bookStatistic[whichKids]
-                                ['book' + i.toString()]['kidsReview'],
+                                [/* 'book' + */ i.toString()]['kidsReview'],
                           );
                         },
                       ),
@@ -1131,7 +1376,7 @@ class DataProvider extends ChangeNotifier {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
-                      'assets/images/kidsProfile/book' + i.toString() + '.png'),
+                      'assets/images/kidsProfile/' + i.toString() + '.png'),
                 ),
               ),
             ),
@@ -1150,6 +1395,10 @@ class DataProvider extends ChangeNotifier {
     prefs.setStringList('kidsName', _kidsName);
     prefs.setStringList('kidsAge', _kidsAge);
     prefs.setStringList('displayName', _displayName);
+
+    List<String> readingTimeListString =
+        _kidsReadingTime.map((i) => i.toString()).toList();
+    prefs.setStringList('readingTime', readingTimeListString);
 
     List<String> kidsStarListString =
         _kidsStar.map((i) => i.toString()).toList();
@@ -1189,6 +1438,8 @@ class DataProvider extends ChangeNotifier {
         .getStringList('kidsContentLevel')
         .map((i) => int.parse(i))
         .toList();
+    _kidsReadingTime =
+        prefs.getStringList('readingTime').map((i) => int.parse(i)).toList();
     _theme = prefs.getStringList('theme').map((i) => int.parse(i)).toList();
     _theme1Visibility = prefs.getBool('theme1Visibility');
     _theme1Visibility = prefs.getBool('theme2Visibility');
@@ -1200,10 +1451,32 @@ class DataProvider extends ChangeNotifier {
         List<Map>.from(jsonDecode(prefs.getString('bookStatistic')));
     //////////// update theme after retrive data
     chooseTheme(_theme[_currentKids]);
+
+    ///////////// compare timeStamp data if readTime is in the same day so, we can use this as [Reading Time Today]
+    ///if not in the same day then reset readTime
+
+    if (prefs.getString('readedTime_TimeStamp') != null) {
+      if (DateTime.now()
+              .difference(
+                  DateTime.parse(prefs.getString('readedTime_TimeStamp')))
+              .inDays >
+          0) {
+        for (var i in _kidsReadingTime) {
+          _kidsReadingTime[i] = 0;
+        }
+      } else {
+        ///////// restore reading time today
+        _kidsReadingTime =
+            prefs.getStringList('readingTime').map(int.parse).toList();
+      }
+    }
+    print('readedTime_Today == ' + _kidsReadingTime.toString());
     print('Restore local data successfully');
   }
 
   ///////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////
+
   //////////////////////////////////////////// UnityARPage Subtitle Logic
   setInputSubtitle(String subtitle) {
     _inputSubtitle = subtitle;
@@ -1248,11 +1521,11 @@ class DataProvider extends ChangeNotifier {
       textSelected.add(false);
     }
     textSelected[id] = true;
-    
+
     notifyListeners();
   }
 
-  onTextSelectedFinished(){
+  onTextSelectedFinished() {
     var textDisplayString = inputSubtitle.split(" ");
     _textSelected = [];
     for (var i in textDisplayString) {
@@ -1261,12 +1534,186 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  disableTab(){
+  disableTab() {
     _allowTab = false;
   }
-  enableTab(){
+
+  enableTab() {
     _allowTab = true;
   }
+
+  ///////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////// finishedReading function
+  /// 1.) add star locally
+  /// 2.) add bookStatistic {readtime, vocabSticker, amountRead} locally
+  /// 3.) add firstExercise Score (arInteractive)
+  /// 4.) save data to sharePreferenced
+  /// 5.) save data to database
+  /// [note : use _kidsReadingTime as reading Time today]
+  finishedReading(int timeReadSecond, String whichBook) async {
+    print('kidsReadingTime' + _kidsReadingTime.toString());
+
+    //////// update local reading time
+    _kidsReadingTime[_currentKids] += (timeReadSecond / 60).round();
+
+    notifyListeners();
+
+    ////// check if bookStatistic have data, update and push data
+    if (_bookStatistic[_currentKids]['readBook'].length > 0) {
+      // update time in _bookStatistic
+      _bookStatistic[_currentKids][whichBook]['timeMinuteReadTotal'] +=
+          (timeReadSecond / 60).round();
+
+      // update amount read
+      _bookStatistic[_currentKids][whichBook]['amountRead'] += 1;
+
+      // add(Replace) lasted firstExerciseScore and step back the other score 1 index
+
+      int _lastedTimeDonefirstExerciseScore = _bookStatistic[_currentKids]
+          [whichBook]['kidsExerciseScore'][0]['firstExercise'];
+      int _oldTimeDonefirstExerciseScore = _bookStatistic[_currentKids]
+          [whichBook]['kidsExerciseScore'][1]['firstExercise'];
+      int _oldestTimeDonefirstExerciseScore = _bookStatistic[_currentKids]
+          [whichBook]['kidsExerciseScore'][2]['firstExercise'];
+      _bookStatistic[_currentKids][whichBook]['kidsExerciseScore'][0]
+          ['firstExercise'] = 10;
+      _bookStatistic[_currentKids][whichBook]['kidsExerciseScore'][1]
+          ['firstExercise'] = _lastedTimeDonefirstExerciseScore;
+      _bookStatistic[_currentKids][whichBook]['kidsExerciseScore'][2]
+          ['firstExercise'] = _oldTimeDonefirstExerciseScore;
+    }
+    ////// check if bookStatistic doesn't have data yet then create new one
+    else {
+      _bookStatistic[_currentKids] = {
+        whichBook: {
+          'amountRead': 1,
+          'amountDoneExcercise': 0,
+          'kidsExerciseScore': [
+            {'firstExercise': 10, 'secondExercise': 0},
+            {'firstExercise': 0, 'secondExercise': 0},
+            {'firstExercise': 0, 'secondExercise': 0}
+          ],
+          'kidsReview': '',
+          // add all sticker after finish reading monster candy
+          'kidsStickerCollection': [
+            'candy',
+            'mirror',
+            'toothBrush',
+            'tooth',
+            'monster'
+          ],
+          'timeMinuteReadTotal': _kidsReadingTime[_currentKids]
+        },
+        'readBook': [whichBook]
+      };
+
+      //////////////////////// add reward star to currentkids for finished reading first time
+      _kidsStar[_currentKids] += 3;
+    }
+    ////// save data to local device
+    saveDataToSharedPreferences();
+
+    /// create timestamp to compare when restore local data if readed time data
+    /// is in the same day *** use this to make time read today feature
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('readedTime_TimeStamp', DateTime.now().toIso8601String());
+
+    /////  save data to database if user logged in
+    if (_status == Status.Authenticated) {
+      final FirebaseUser currentUser = await _auth.currentUser();
+      await Firestore.instance
+          .collection('WiseKidsUser')
+          .document(currentUser.uid)
+          .updateData(
+        {
+          'bookStatistic': _bookStatistic,
+          'kidsStar': _kidsStar,
+        }, /* merge: true */
+      );
+    }
+    print('finished reading press');
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////
+  ///
+  ///////////////////////////////////// function to select ContentLevel and update local and push todatabase
+  chooseContentLevel(int level) {
+    _kidsContentLevel[_currentKids] = level;
+    notifyListeners();
+    saveDataToSharedPreferences();
+
+    FirebaseAuth.instance.currentUser().then((currentUser) => {
+          if (currentUser != null)
+            {
+              Firestore.instance
+                  .collection('WiseKidsUser')
+                  .document(currentUser.uid)
+                  .setData({'kidsContentLevel': _kidsContentLevel}, merge: true)
+            }
+        });
+  }
+  /////////////////////////////////////////////////// finished play function
+  /// 1.) add star locally
+  /// 2.) add bookStatistic {lasted ExerciseScore} locally then remove the last one of the array
+  /// 3.) save data to sharePreferenced
+  /// 4.) save data to database
+
+  finishedPlay() async {
+    //////////////////////// add reward star to currentkids
+    if (_bookStatistic[_currentKids]['book1']['amountDoneExcercise'] != 0) {
+    }
+    ///////// add star only if done Exercise at the first time
+    else {
+      _kidsStar[_currentKids] += 3;
+    }
+
+    // increase amountDoneExcercise
+    _bookStatistic[_currentKids]['book1']['amountDoneExcercise'] += 1;
+
+    print('finished 2nd Exercise for : ' +
+        _bookStatistic[_currentKids]['book1']['amountDoneExcercise']
+            .toString() +
+        ' time');
+
+    notifyListeners();
+
+    // add(Replace) lasted firstScore of Exercise and step back the other score 1 index
+
+    int _lastedTimeDonefirstExerciseScore = _bookStatistic[_currentKids]
+        ['book1']['kidsExerciseScore'][0]['secondExercise'];
+    int _oldTimeDonefirstExerciseScore = _bookStatistic[_currentKids]['book1']
+        ['kidsExerciseScore'][1]['secondExercise'];
+    int _oldestTimeDonefirstExerciseScore = _bookStatistic[_currentKids]
+        ['book1']['kidsExerciseScore'][2]['secondExercise'];
+    _bookStatistic[_currentKids]['book1']['kidsExerciseScore'][0]
+        ['secondExercise'] = 10;
+    _bookStatistic[_currentKids]['book1']['kidsExerciseScore'][1]
+        ['secondExercise'] = _lastedTimeDonefirstExerciseScore;
+    _bookStatistic[_currentKids]['book1']['kidsExerciseScore'][2]
+        ['secondExercise'] = _oldTimeDonefirstExerciseScore;
+
+    ////// save data to local device
+    saveDataToSharedPreferences();
+
+    /////  save data to database if user logged in
+    if (_status == Status.Authenticated) {
+      final FirebaseUser currentUser = await _auth.currentUser();
+      await Firestore.instance
+          .collection('WiseKidsUser')
+          .document(currentUser.uid)
+          .updateData(
+        {
+          'bookStatistic': _bookStatistic,
+          'kidsStar': _kidsStar,
+        }, /* merge: true */
+      );
+    }
+    print('finished reading press');
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////
 

@@ -82,24 +82,29 @@ public class PlaceMultipleObjectsOnPlane : MonoBehaviour
   
     void Awake()
     {
-        m_RaycastManager = GetComponent<ARRaycastManager>();
+        
+        
+
+    }
+
+    private void Start()
+    {
+       /*m_RaycastManager = GetComponent<ARRaycastManager>();
         if (selectedMainCharecter == "Boy")
         {
             placeObject = m_scene1BoyPrefab;
-            
+
         }
         else if (selectedMainCharecter == "Girl")
         {
             placeObject = m_scene1GirlPrefab;
-            
+
         }
         else if (selectedMainCharecter == "Cat")
         {
             placeObject = m_scene1CatPrefab;
-            
-        }
-        
 
+        }*/
     }
 
     void Update()
@@ -113,6 +118,7 @@ public class PlaceMultipleObjectsOnPlane : MonoBehaviour
             {
                 if (m_RaycastManager.Raycast(touch.position, s_Hits, TrackableType.PlaneWithinPolygon))
                 {
+                    
                     Pose hitPose = s_Hits[0].pose;
                     placedPosition = UIManager.placementPose.position;
                     placedRotation = UIManager.placementPose.rotation;
@@ -127,4 +133,34 @@ public class PlaceMultipleObjectsOnPlane : MonoBehaviour
             }
         }
     }
+
+
+
+
+void MainCharacterSelected(String messageFromFlutter)
+{
+        selectedMainCharecter = messageFromFlutter;
+
+        m_RaycastManager = GetComponent<ARRaycastManager>();
+        if (selectedMainCharecter == "boy")
+        {
+            placeObject = m_scene1BoyPrefab;
+
+        }
+        else if (selectedMainCharecter == "girl")
+        {
+            placeObject = m_scene1GirlPrefab;
+
+        }
+        else if (selectedMainCharecter == "cat")
+        {
+            placeObject = m_scene1CatPrefab;
+
+        }
+        /*Destroy(spawnedObject);
+        spawnedObject = Instantiate(placeObject, placedPosition, placedRotation);
+
+        UnityMessageManager.Instance.SendMessageToFlutter("ConnectionOK : selectedMainCharecter == " + selectedMainCharecter);*/
+    }
+
 }

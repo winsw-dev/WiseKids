@@ -207,37 +207,121 @@ public class pageController : MonoBehaviour
     {
         if (currentScene == 1)
         {
-            placeObject = m_scene2BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene2BoyPrefab;
+                    
+            }else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene2GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene2CatPrefab;
+            }
+            
             currentScene = 2;
         }
         else if(currentScene == 2)
         {
-            placeObject = m_scene3BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene3BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene3GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene3CatPrefab;
+            }
             currentScene = 3;
         }
         else if (currentScene == 3)
         {
-            placeObject = m_scene4BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene4BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene4GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene4CatPrefab;
+            }
             currentScene = 4;
         }
         else if (currentScene == 4)
         {
-            placeObject = m_scene5BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene5BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene5GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene5CatPrefab;
+            }
             currentScene = 5;
         }
         else if (currentScene == 5)
         {
-            placeObject = m_scene6BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene6BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene6GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene6CatPrefab;
+            }
             currentScene = 6;
         }
         else if (currentScene == 6)
         {
-            placeObject = m_scene7BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene7BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene7GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene7CatPrefab;
+            }
             currentScene = 7;
         }
         else if (currentScene == 7)
         {
-            placeObject = m_scene7BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene7BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene7GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene7CatPrefab;
+            }
             currentScene = 7;
         }
 
@@ -249,37 +333,121 @@ public class pageController : MonoBehaviour
     public void backwardScene() {
         if (currentScene == 1)
         {
-            placeObject = m_scene1BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene1BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene1GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene1CatPrefab;
+            }
             currentScene = 1;
         }
         else if (currentScene == 2)
         {
-            placeObject = m_scene1BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene1BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene1GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene1CatPrefab;
+            }
             currentScene = 1;
         }
         else if (currentScene == 3)
         {
-            placeObject = m_scene2BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene2BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene2GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene2CatPrefab;
+            }
             currentScene = 2;
         }
         else if (currentScene == 4)
         {
-            placeObject = m_scene3BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene3BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene3GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene3CatPrefab;
+            }
             currentScene = 3;
         }
         else if (currentScene == 5)
         {
-            placeObject = m_scene4BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene4BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene4GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene4CatPrefab;
+            }
             currentScene = 4;
         }
         else if (currentScene == 6)
         {
-            placeObject = m_scene5BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene5BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene5GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene5CatPrefab;
+            }
             currentScene = 5;
         }
         else if (currentScene == 7)
         {
-            placeObject = m_scene6BoyPrefab;
+            if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "boy")
+            {
+                placeObject = m_scene6BoyPrefab;
+
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "girl")
+            {
+                placeObject = m_scene6GirlPrefab;
+            }
+            else if (PlaceMultipleObjectsOnPlane.selectedMainCharecter == "cat")
+            {
+                placeObject = m_scene6CatPrefab;
+            }
             currentScene = 6;
         }
         Destroy(PlaceMultipleObjectsOnPlane.spawnedObject);

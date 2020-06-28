@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &6229144214514270201
 Transform:
@@ -123,10 +123,30 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -2554518511676811036, guid: 8a05efdd67216454cb8bb3c22d94bded,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 8a05efdd67216454cb8bb3c22d94bded,
         type: 3}
       propertyPath: m_Name
       value: scene3
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 8a05efdd67216454cb8bb3c22d94bded,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -502876898551377506, guid: 8a05efdd67216454cb8bb3c22d94bded,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594735326087456684, guid: 8a05efdd67216454cb8bb3c22d94bded,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3334367305182009010, guid: 8a05efdd67216454cb8bb3c22d94bded,
         type: 3}
@@ -158,11 +178,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b11e2a979d58f1a4a89d95c954779fcc, type: 2}
+    - target: {fileID: 6909044112171316368, guid: 8a05efdd67216454cb8bb3c22d94bded,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7513215671019461070, guid: 8a05efdd67216454cb8bb3c22d94bded,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bfcfc2eff5e39be47ad402a3c6297a30, type: 2}
+    - target: {fileID: 8383166412984763065, guid: 8a05efdd67216454cb8bb3c22d94bded,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a05efdd67216454cb8bb3c22d94bded, type: 3}
 --- !u!4 &6978444736455076404 stripped

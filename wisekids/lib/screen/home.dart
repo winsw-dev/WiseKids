@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_cache.dart';
 import 'package:flare_flutter/flare_controls.dart';
+import 'package:flutter/services.dart' as services;
+import './exceedLimitNotification.dart';
 
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -12,11 +14,17 @@ import 'package:transparent_image/transparent_image.dart';
 import '../widget/slide_popup_dialog.dart' as slideDialog;
 import '../widget/slide_popup_dialog_vocab.dart' as vocabDialog;
 import '../widget/slide_popup_dialog_login.dart' as loginDialog;
+import '../widget/slide_popup_dialog_contentLevel.dart' as contentLevelDialog;
+
+import '../widget/selectkids_popup_dialog.dart' as selectKidsDialog;
+
 import '../widget/selectkids_popup.dart';
 import './enterBook.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
+import '../provider/timerProvider.dart';
+import 'package:after_layout/after_layout.dart';
 
 class Home extends StatefulWidget {
   /* Home({Key key, this.selectedAvatar}) : super(key: key); 
@@ -25,7 +33,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
   /*  @override
   void initState()async {
    // Preload our Flare files (you could also do this in a widget).
@@ -83,6 +91,29 @@ class _HomeState extends State<Home> {
     'assets/images/theme4/login_button.svg',
     'assets/images/theme5/login_button.svg'
   ];
+  List<String> loginedBtnSvg = [
+    'assets/images/theme1/logined_button.svg',
+    'assets/images/theme2/logined_button.svg',
+    'assets/images/theme3/logined_button.svg',
+    'assets/images/theme4/logined_button.svg',
+    'assets/images/theme5/logined_button.svg'
+  ];
+
+  List<String> contentLevelBtn = [
+    'assets/images/theme1/levelBtn.png',
+    'assets/images/theme2/levelBtn.png',
+    'assets/images/theme3/levelBtn.png',
+    'assets/images/theme4/levelBtn.png',
+    'assets/images/theme5/levelBtn.png'
+  ];
+
+  List<Color> appTimerColor = [
+    Color.fromRGBO(255, 96, 83, 1.0),
+    Color.fromRGBO(245, 98, 167, 1.0),
+    Color.fromRGBO(208, 38, 72, 1.0),
+    Color.fromRGBO(211, 39, 73, 1.0),
+    Color.fromRGBO(252, 130, 56, 1.0),
+  ];
 
   void _showThemeDialog() {
     slideDialog.showSlideDialog(
@@ -102,6 +133,15 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void _showContentLevelDialog() {
+    contentLevelDialog.showSlideDialog(
+      context: context,
+      child: Container(
+        color: Colors.white,
+      ),
+    );
+  }
+
   void _showVocabDialog() {
     vocabDialog.showSlideDialog(
       context: context,
@@ -112,45 +152,48 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     print('--------------------Build full-------------------------');
-
+    var timerService = TimerService.of(context);
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    return SafeArea(
-      top: deviceHeight > 500 ? false : true,
+    return /* SafeArea(
+      top: deviceHeight > 500 ? false : false,
       bottom: false,
       right: false,
+      child: */
+        WillPopScope(
+      onWillPop: () async => false,
       child: Scaffold(
         body: Stack(
           children: <Widget>[
             Consumer<DataProvider>(
               builder: (context, theme, child) {
                 /* return  IndexedStack(     /// [not work] this solution make switch theme in notime (no flickering) but cause memory leak error when navigate back and forth between pages
-                  index: theme.theme - 1,
-                  children: <Widget>[
-                    
-                    Theme1(
-                        deviceWidth: deviceWidth,
-                        deviceHeight: deviceHeight,
-                        fadeInDuration: fadeInDuration),
-                    Theme2(
-                        deviceWidth: deviceWidth,
-                        deviceHeight: deviceHeight,
-                        fadeInDuration: fadeInDuration),
-                    Theme3(
-                        deviceWidth: deviceWidth,
-                        deviceHeight: deviceHeight,
-                        fadeInDuration: fadeInDuration),
-                    Theme4(
-                        deviceWidth: deviceWidth,
-                        deviceHeight: deviceHeight,
-                        fadeInDuration: fadeInDuration),
-                    Theme5(
-                        deviceWidth: deviceWidth,
-                        deviceHeight: deviceHeight,
-                        fadeInDuration: fadeInDuration),
-                  ],
-                ); */
+                    index: theme.theme - 1,
+                    children: <Widget>[
+                      
+                      Theme1(
+                          deviceWidth: deviceWidth,
+                          deviceHeight: deviceHeight,
+                          fadeInDuration: fadeInDuration),
+                      Theme2(
+                          deviceWidth: deviceWidth,
+                          deviceHeight: deviceHeight,
+                          fadeInDuration: fadeInDuration),
+                      Theme3(
+                          deviceWidth: deviceWidth,
+                          deviceHeight: deviceHeight,
+                          fadeInDuration: fadeInDuration),
+                      Theme4(
+                          deviceWidth: deviceWidth,
+                          deviceHeight: deviceHeight,
+                          fadeInDuration: fadeInDuration),
+                      Theme5(
+                          deviceWidth: deviceWidth,
+                          deviceHeight: deviceHeight,
+                          fadeInDuration: fadeInDuration),
+                    ],
+                  ); */
                 switch (theme.theme[theme.currentKids]) {
                   case 1:
                     return Theme1(
@@ -332,8 +375,8 @@ class _HomeState extends State<Home> {
                             ? (deviceWidth * 0.134) * 0.7
                             : (deviceWidth * 0.134) * 0.7,
                         /* width: deviceHeight > 500
-                            ? deviceHeight * 0.123
-                            : deviceHeight * 0.193, */
+                              ? deviceHeight * 0.123
+                              : deviceHeight * 0.193, */
                         child: AspectRatio(
                             aspectRatio: 1 / 1,
                             child: SvgPicture.asset(
@@ -341,16 +384,85 @@ class _HomeState extends State<Home> {
                             )),
                       ),
                     ),
-                    //////////////////////////////////////// Login Btn
+                    //////////////////////////////////////// contentLevel Btn
                     Spacer(),
+                    Provider.of<DataProvider>(context, listen: true).status ==
+                            Status.Authenticated
+                        ? GestureDetector(
+                            onTap: _showContentLevelDialog,
+                            child: Container(
+                              height: deviceHeight > 500
+                                  ? deviceWidth * 0.075
+                                  : deviceWidth * 0.065,
+                              margin: EdgeInsets.only(
+                                right: deviceHeight > 500
+                                    ? deviceWidth * 0.012
+                                    : deviceWidth * 0.012,
+                                top: deviceHeight > 500
+                                    ? deviceHeight * 0.026 +
+                                        ((deviceHeight * 0.134) * 0.27)
+                                    : deviceHeight * 0.036 +
+                                        ((deviceHeight * 0.134) * 0.27),
+                              ),
+                              child: Stack(
+                                children: <Widget>[
+                                  ///////////////////////////// bg contentLevel btn
+                                  Consumer<DataProvider>(
+                                      builder: (context, theme, child) =>
+                                          AspectRatio(
+                                            aspectRatio: 113 / 58,
+                                            child: Image.asset(
+                                                contentLevelBtn[theme.theme[
+                                                        theme.currentKids] -
+                                                    1],
+                                                fit: BoxFit.contain),
+                                          )),
+                                  ////////////////////////// Content level text
+                                  Positioned.fill(
+                                    child: Align(
+                                        alignment: Alignment.center,
+                                        child: Consumer<DataProvider>(
+                                          builder: (context, provider, child) =>
+                                              Container(
+                                            height: deviceHeight > 500
+                                                ? (deviceWidth * 0.075) * 0.45
+                                                : (deviceWidth * 0.065) * 0.50,
+                                            child: FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: Text(
+                                                'Level ' +
+                                                    provider.kidsContentLevel[
+                                                            provider
+                                                                .currentKids]
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    fontFamily: 'NunitoBlack',
+                                                    //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                    color: provider.theme[provider
+                                                                .currentKids] ==
+                                                            2
+                                                        ? Color.fromRGBO(
+                                                            245, 98, 167, 1.0)
+                                                        : Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Container(),
+                    //////////////////////////////////////// Login Btn
                     GestureDetector(
                       onTap: Provider.of<DataProvider>(context, listen: false)
                                   .status ==
                               Status.Authenticated
                           ? () {
-                              showDialog(
+                              selectKidsDialog.showSlideDialog(
+                                child: FunkyOverlay(),
                                 context: context,
-                                builder: (_) => FunkyOverlay(),
                               );
                             }
                           : _showLoginDialog,
@@ -370,14 +482,24 @@ class _HomeState extends State<Home> {
                         ),
                         child: Stack(
                           children: <Widget>[
+                            /////////////////////////// BG login Btn
                             Consumer<DataProvider>(
                                 builder: (context, theme, child) => AspectRatio(
                                       aspectRatio: 178 / 58,
-                                      child: SvgPicture.asset(
-                                          loginBtnSvg[
-                                              theme.theme[theme.currentKids] -
+                                      child: Provider.of<DataProvider>(context,
+                                                      listen: true)
+                                                  .status ==
+                                              Status.Authenticated
+                                          ? SvgPicture.asset(
+                                              loginedBtnSvg[theme.theme[
+                                                      theme.currentKids] -
                                                   1],
-                                          fit: BoxFit.fitWidth),
+                                              fit: BoxFit.fitWidth)
+                                          : SvgPicture.asset(
+                                              loginBtnSvg[theme.theme[
+                                                      theme.currentKids] -
+                                                  1],
+                                              fit: BoxFit.fitWidth),
                                     )),
                             Positioned.fill(
                               child: Align(
@@ -403,7 +525,7 @@ class _HomeState extends State<Home> {
                                             child:
                                                 Provider.of<DataProvider>(
                                                                 context,
-                                                                listen: false)
+                                                                listen: true)
                                                             .status ==
                                                         Status.Authenticated
                                                     ? Consumer<DataProvider>(
@@ -425,6 +547,51 @@ class _HomeState extends State<Home> {
                                                               provider.displayName[
                                                                   provider
                                                                       .currentKids],
+                                                              style: Provider.of<DataProvider>(
+                                                                              context,
+                                                                              listen:
+                                                                                  true)
+                                                                          .status ==
+                                                                      Status
+                                                                          .Authenticated
+                                                                  ? TextStyle(
+                                                                      fontFamily:
+                                                                          'NunitoBlack',
+                                                                      color: Colors
+                                                                          .white)
+                                                                  : TextStyle(
+                                                                      fontFamily:
+                                                                          'NunitoBlack',
+                                                                      color: provider.theme[provider.currentKids] ==
+                                                                              2
+                                                                          ? Color.fromRGBO(
+                                                                              245,
+                                                                              98,
+                                                                              167,
+                                                                              1.0)
+                                                                          : Colors
+                                                                              .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Consumer<DataProvider>(
+                                                        builder: (context,
+                                                                provider,
+                                                                child) =>
+                                                            Container(
+                                                          height: deviceHeight >
+                                                                  500
+                                                              ? (deviceWidth *
+                                                                      0.075) *
+                                                                  0.45
+                                                              : (deviceWidth *
+                                                                      0.065) *
+                                                                  0.50,
+                                                          child: FittedBox(
+                                                            fit: BoxFit.contain,
+                                                            child: Text(
+                                                              'Login',
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'NunitoBlack',
@@ -440,28 +607,6 @@ class _HomeState extends State<Home> {
                                                                       : Colors
                                                                           .white),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(
-                                                        height:
-                                                            deviceHeight > 500
-                                                                ? (deviceWidth *
-                                                                        0.075) *
-                                                                    0.45
-                                                                : (deviceWidth *
-                                                                        0.065) *
-                                                                    0.50,
-                                                        child: FittedBox(
-                                                          fit: BoxFit.contain,
-                                                          child: Text(
-                                                            'Login',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'NunitoBlack',
-                                                                //fontSize: deviceHeight > 500 ? 20 : 16,
-                                                                color: Colors
-                                                                    .white),
                                                           ),
                                                         ),
                                                       ),
@@ -485,12 +630,7 @@ class _HomeState extends State<Home> {
                                                           child) =>
                                                       SvgPicture.asset(
                                                     'assets/icon/arrowDown.svg',
-                                                    color: provider.theme[provider
-                                                                .currentKids] ==
-                                                            2
-                                                        ? Color.fromRGBO(
-                                                            245, 98, 167, 1.0)
-                                                        : Colors.white,
+                                                    color: Colors.white,
                                                   ),
                                                 ),
                                               ),
@@ -553,74 +693,75 @@ class _HomeState extends State<Home> {
                               ((deviceHeight * 0.04) + (deviceWidth * 0.13))) *
                           0.85,
                   width: MediaQuery.of(context).size.width,
-                  child: /* CarouselSlider(
-                    options: CarouselOptions(
+                  child:
+                      /* CarouselSlider(
+                      options: CarouselOptions(
 
-                      initialPage: 6,
-                      viewportFraction: 0.2,
-                      autoPlay: false,
-                      enableInfiniteScroll: false,
-                      enlargeCenterPage: true,
-                    ),
-                    items: [0, 1, 2, 3, 4, 5, 6].map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return GestureDetector(
-                            onTap: i == 6
-                                ? () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => EnterBook(),
-                                      ),
-                                    );
-                                  }
-                                : () {},
-                            child: Hero(
-                              tag: 'book' + i.toString(),
-                              child: FlareActor(bookShelf[i],
-                                  animation: 'bookAnimation'),
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ), */
+                        initialPage: 6,
+                        viewportFraction: 0.2,
+                        autoPlay: false,
+                        enableInfiniteScroll: false,
+                        enlargeCenterPage: true,
+                      ),
+                      items: [0, 1, 2, 3, 4, 5, 6].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return GestureDetector(
+                              onTap: i == 6
+                                  ? () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EnterBook(),
+                                        ),
+                                      );
+                                    }
+                                  : () {},
+                              child: Hero(
+                                tag: 'book' + i.toString(),
+                                child: FlareActor(bookShelf[i],
+                                    animation: 'bookAnimation'),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ), */
 
-                  new Swiper(
+                      new Swiper(
                     onTap: (index) {},
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         /* decoration: new BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black,
-                                  blurRadius:
-                                      10.0, // has the effect of softening the shadow
-                                  spreadRadius:
-                                      -1, // has the effect of extending the shadow
-                                  offset: Offset(
-                                    0.0, // horizontal, move right 10
-                                    2.0, // vertical, move down 10
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius:
+                                        10.0, // has the effect of softening the shadow
+                                    spreadRadius:
+                                        -1, // has the effect of extending the shadow
+                                    offset: Offset(
+                                      0.0, // horizontal, move right 10
+                                      2.0, // vertical, move down 10
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ), */
+                                ],
+                              ), */
                         /* margin: EdgeInsets.only(
-                          left: 12, right: 12, bottom: 10, top: 10), */
+                            left: 12, right: 12, bottom: 10, top: 10), */
                         //padding: EdgeInsets.only(bottom: 20),
                         child: GestureDetector(
-                          onTap: index == 6
-                              ? () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EnterBook(),
-                                    ),
-                                  );
-                                }
-                              : () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EnterBook(
+                                  pickedBook: index,
+                                ),
+                              ),
+                            );
+                          },
                           child: Hero(
                             tag: 'book' + index.toString(),
                             child: FlareActor(bookShelf[index],
@@ -636,11 +777,153 @@ class _HomeState extends State<Home> {
                 ),
               ],
             ),
+            //////////////////////////////////////////////////////////// App used timer
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                    height: deviceHeight > 500
+                        ? deviceWidth * 0.055
+                        : deviceWidth * 0.055,
+                    margin: EdgeInsets.only(
+                      right: deviceHeight > 500
+                          ? deviceWidth * 0.015
+                          : deviceWidth * 0.015,
+                      bottom: deviceHeight > 500
+                          ? deviceWidth * 0.015
+                          : deviceWidth * 0.015,
+                    ),
+                    child: Consumer<DataProvider>(
+                      builder: (context, provider, child) => Stack(
+                        children: <Widget>[
+                          //////////////////////////// app used timer bg
+                          Container(
+                              height: deviceHeight > 500
+                                  ? deviceWidth * 0.055
+                                  : deviceWidth * 0.055,
+                              //color: Colors.red,
+                              child: AspectRatio(
+                                aspectRatio: 113 / 43,
+                                child: SvgPicture.asset(
+                                  'assets/images/theme1/appTimeBg.svg',
+                                  fit: BoxFit.contain,
+                                  color:
+                                      provider.theme[provider.currentKids] == 2
+                                          ? Color.fromRGBO(253, 233, 240, 1.0)
+                                          : Colors.white,
+                                ),
+                              )),
+                          ////////////////////////////
+                          AspectRatio(
+                            aspectRatio: 113 / 43,
+                            child: Container(
+                              height: deviceHeight > 500
+                                  ? deviceWidth * 0.055 * (21 / 43)
+                                  : deviceWidth * 0.055 * (21 / 43),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Spacer(),
+                                  ///////////////////////// clock icon
+                                  GestureDetector(
+                                    onLongPress: () {
+                                      /* !bool.fromEnvironment("dart.vm.product")
+                                          ? */
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ExceedLimitNotification(),
+                                        ),
+                                      );
+                                      /* : null; */
+                                    },
+                                    child: Container(
+                                      height: deviceHeight > 500
+                                          ? deviceWidth * 0.055 * (23 / 43)
+                                          : deviceWidth * 0.055 * (23 / 43),
+                                      child: AspectRatio(
+                                        aspectRatio: 1,
+                                        child: SvgPicture.asset(
+                                          'assets/images/theme1/clock.svg',
+                                          fit: BoxFit.contain,
+                                          color: appTimerColor[provider
+                                                  .theme[provider.currentKids] -
+                                              1],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  ////////////////////// Timer text
+                                  AnimatedBuilder(
+                                      animation:
+                                          timerService, // listen to ChangeNotifier
+                                      builder: (context, child) {
+                                        return Container(
+                                          height: deviceHeight > 500
+                                              ? deviceWidth * 0.055 * (20 / 43)
+                                              : deviceWidth * 0.055 * (20 / 43),
+                                          child: FittedBox(
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                              timerService
+                                                      .currentDuration.inHours
+                                                      .toString() +
+                                                  ':' +
+                                                  timerService
+                                                      .currentDuration.inMinutes
+                                                      .remainder(60)
+                                                      .toString()
+                                                      .padLeft(2, '0') +
+                                                  ' today',
+                                              style: TextStyle(
+                                                  fontFamily: 'NunitoSemiBold',
+                                                  color: appTimerColor[
+                                                      provider.theme[provider
+                                                              .currentKids] -
+                                                          1]),
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                  Spacer(),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+              ),
+            ),
           ],
         ),
       ),
-    );
+    )
+        /* ) */;
   }
+
+/////////////////////////////////////////////////// check ExceedTime Nitification Trigger
+  @override
+  void afterFirstLayout(BuildContext context) {
+    // Calling the same function "after layout" to resolve the issue.
+    checkExceedTimeNitificationTrigger();
+  }
+
+  void checkExceedTimeNitificationTrigger() {
+    var timerService = TimerService.of(context);
+    if (timerService.notificationTrigger) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ExceedLimitNotification(),
+        ),
+      );
+      timerService.disableTrigger();
+    }
+  }
+  /////////////////////////////////////////////////////////////////////////
 }
 
 class Theme5 extends StatelessWidget {

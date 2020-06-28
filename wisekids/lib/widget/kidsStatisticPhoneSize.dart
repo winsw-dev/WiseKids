@@ -13,7 +13,7 @@ class KidsStatisticPhoneSize extends StatefulWidget {
       @required this.thirdExerciseScore,
       @required this.kidsReview})
       : super(key: key);
-  final int book;
+  final String book;
   final int totalTimeRead;
   final Map firstExerciseScore;
   final Map secondExerciseScore;
@@ -128,7 +128,7 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
-                                  'assets/images/kidsProfile/Book/book' +
+                                  'assets/images/kidsProfile/Book/' +
                                       widget.book.toString() +
                                       '.png'),
                             ),
@@ -545,12 +545,19 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                                       color: Color.fromRGBO(
                                                           69, 223, 224, 1.0)))),
                                           /////////////////////////////// Emoji
-                                          Container(
+                                           widget.kidsReview != ''? Container(
                                               height: 20,
+                                              
                                               child: FittedBox(
                                                   fit: BoxFit.fitHeight,
                                                   child:
-                                                      Text(widget.kidsReview))),
+                                                      Text(widget.kidsReview))):Container(
+                                              height: 20,
+                                               child: FittedBox(
+                                                  fit: BoxFit.fitHeight,
+                                                  child:
+                                                      Text('-'))
+                                              ),
                                         ],
                                       ),
                                     ),

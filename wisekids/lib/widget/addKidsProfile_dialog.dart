@@ -18,6 +18,8 @@ Future<T> showSlideDialog<T>({
   @required BuildContext context,
   Color barrierColor,
   bool barrierDismissible = true,
+  String popUpMode,
+  int editWhichKid,
   Duration transitionDuration = const Duration(milliseconds: 300),
 }) {
   assert(context != null);
@@ -25,7 +27,7 @@ Future<T> showSlideDialog<T>({
   return showGeneralDialog(
     context: context,
     pageBuilder: (context, animation1, animation2) {},
-    barrierColor: barrierColor ?? Colors.black.withOpacity(0.2),
+    barrierColor: barrierColor ?? Colors.black.withOpacity(0.6),
     //barrierDismissible: barrierDismissible,
     barrierDismissible: false,
     barrierLabel: "Dismiss",
@@ -37,7 +39,10 @@ Future<T> showSlideDialog<T>({
         child: */
           Opacity(
         opacity: animation1.value,
-        child: AddMoreKids(),
+        child: AddMoreKids(
+          popUpMode: popUpMode,
+          editWhichKid: editWhichKid,
+        ),
       );
       /* ); */
     },
@@ -45,6 +50,10 @@ Future<T> showSlideDialog<T>({
 }
 
 class AddMoreKids extends StatefulWidget {
+  final int editWhichKid;
+  final String popUpMode;
+  AddMoreKids({Key key, @required this.popUpMode, this.editWhichKid})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() => AddMoreKidsState();
 }
@@ -96,6 +105,16 @@ class AddMoreKidsState extends State<AddMoreKids>
     }
   }
 
+  checkNameAndAgeEditMode() {
+    if (_addKidsAge != null || _textControllerName.text != '') {
+      setState(() {
+        _buttonSwitch = true;
+      });
+    } else {
+      _buttonSwitch = false;
+    }
+  }
+
   //////////////////////////////////////////////////// Age picker
   showPickerModal(BuildContext context) {
     Picker(
@@ -128,7 +147,7 @@ class AddMoreKidsState extends State<AddMoreKids>
           setState(() {
             _addKidsAge = age[0];
           });
-          checkNameAndAge();
+          widget.popUpMode=='createProfile'? checkNameAndAge():checkNameAndAgeEditMode();
         }).showModal(this.context); //_scaffoldKey.currentState);
   }
 
@@ -158,6 +177,15 @@ class AddMoreKidsState extends State<AddMoreKids>
               height:
                   deviceHeight > 500 ? deviceHeight * 0.5 : deviceHeight * 0.85,
               decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.1, 1.0],
+                    colors: [
+                      Color.fromRGBO(69, 223, 224, 1.00),
+                      Color.fromRGBO(133, 207, 76, 1.00)
+                    ],
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Color.fromRGBO(87, 87, 87, 0.40),
@@ -171,7 +199,7 @@ class AddMoreKidsState extends State<AddMoreKids>
                       ),
                     ),
                   ],
-                  color: Colors.white,
+                  //color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: AspectRatio(
                 aspectRatio: 642 / 381,
@@ -198,12 +226,19 @@ class AddMoreKidsState extends State<AddMoreKids>
                                   : (deviceHeight * 0.85) * (20 / 381)),
                           child: FittedBox(
                             fit: BoxFit.fitHeight,
-                            child: Text('Create New Profile',
-                                style: TextStyle(
-                                  fontFamily: 'NunitoExtraBold',
-                                  //fontSize: deviceHeight > 500 ? 20 : 16,
-                                  color: Color.fromRGBO(69, 223, 224, 1.0),
-                                )),
+                            child: widget.popUpMode == 'createProfile'
+                                ? Text('Create New Profile',
+                                    style: TextStyle(
+                                      fontFamily: 'NunitoExtraBold',
+                                      color: Colors
+                                          .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                    ))
+                                : Text('Edit Profile',
+                                    style: TextStyle(
+                                      fontFamily: 'NunitoExtraBold',
+                                      color: Colors
+                                          .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                    )),
                           ),
                         ),
                         Spacer(),
@@ -240,10 +275,15 @@ class AddMoreKidsState extends State<AddMoreKids>
                                     ? (deviceHeight * 0.5) * 0.04
                                     : (deviceHeight * 0.85) * 0.04),
                             height: deviceHeight > 500
-                                ? (deviceHeight * 0.5) * 0.16
-                                : (deviceHeight * 0.85) * 0.16,
-                            child: Image.asset(
-                                'assets/images/parentalKidsCenter/addMoreKidsPopup_closeBtn.png'),
+                                ? (deviceHeight * 0.5) * 0.09
+                                : (deviceHeight * 0.85) * 0.09,
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: SvgPicture.asset(
+                                'assets/images/loginDialog/close.svg',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
                         )
                       ],
@@ -252,14 +292,19 @@ class AddMoreKidsState extends State<AddMoreKids>
                       children: <Widget>[
                         //////////////////////////////////// Avatar Select overall
                         GestureDetector(
-                          onTap: () {
+                          onTap: widget.popUpMode=='createProfile'? () {
+                            /* Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .initEditKidsProfileCacheVar(widget.editWhichKid); */
                             selectAvatarAddKidsDialog.showSlideDialog(
+                              popUpMode: widget.popUpMode,
+                              editWhichKid: widget.editWhichKid,
                               context: context,
                               child: Container(
                                 color: Colors.white,
                               ),
                             );
-                          },
+                          }:(){},
                           child: Container(
                             margin: EdgeInsets.only(
                               left: deviceHeight > 500
@@ -285,11 +330,11 @@ class AddMoreKidsState extends State<AddMoreKids>
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(1000),
-                                      border: Border.all(
+                                      /* border: Border.all(
                                           width: deviceHeight > 500 ? 6 : 3,
                                           color: Color.fromRGBO(238, 239, 243,
                                               1.0) //                   <--- border width here
-                                          ),
+                                          ), */
                                     ),
                                     child: AspectRatio(
                                       aspectRatio: 1,
@@ -298,12 +343,21 @@ class AddMoreKidsState extends State<AddMoreKids>
                                         return ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(1000),
-                                          child: Image.asset(
-                                            'assets/images/avatar_' +
-                                                avatar.addkidsAvatar +
-                                                '.png',
-                                            gaplessPlayback: true,
-                                          ),
+                                          child: widget.popUpMode ==
+                                                  'createProfile'
+                                              ? Image.asset(
+                                                  'assets/images/avatar_' +
+                                                      avatar.addkidsAvatar +
+                                                      '.png',
+                                                  gaplessPlayback: true,
+                                                )
+                                              : Image.asset(
+                                                  'assets/images/avatar_' +
+                                                      avatar
+                                                          .cacheEditKidsProfileAvatar +
+                                                      '.png',
+                                                  gaplessPlayback: true,
+                                                ),
                                         );
                                       }),
                                     ),
@@ -357,6 +411,8 @@ class AddMoreKidsState extends State<AddMoreKids>
                                                         (25 / 381),
                                                 child: SvgPicture.asset(
                                                   'assets/images/parentalKidsCenter/pencil.svg',
+                                                  color: Color.fromRGBO(
+                                                      248, 226, 55, 1.0),
                                                 ),
                                               ),
                                             ),
@@ -395,8 +451,8 @@ class AddMoreKidsState extends State<AddMoreKids>
                                       style: TextStyle(
                                         fontFamily: 'NunitoRegular',
                                         //fontSize: deviceHeight > 500 ? 20 : 16,
-                                        color:
-                                            Color.fromRGBO(69, 223, 224, 1.0),
+                                        color: Colors.white
+                                        /* Color.fromRGBO(69, 223, 224, 1.0) */,
                                       )),
                                 ),
                               ),
@@ -409,11 +465,27 @@ class AddMoreKidsState extends State<AddMoreKids>
                                 height: deviceHeight > 500
                                     ? (deviceHeight * 0.5) * (45 / 381)
                                     : (deviceHeight * 0.85) * (45 / 381),
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          Color.fromRGBO(160, 163, 168, 0.16),
+                                      blurRadius:
+                                          6.0, // has the effect of softening the shadow
+                                      spreadRadius:
+                                          0, // has the effect of extending the shadow
+                                      offset: Offset(
+                                        0.0, // horizontal, move right 10
+                                        3.0, // vertical, move down 10
+                                      ),
+                                    ),
+                                  ],
+                                ),
                                 child: AspectRatio(
                                   aspectRatio: 222 / 45,
                                   child: TextFormField(
                                     onChanged: (text) {
-                                      checkNameAndAge();
+                                      widget.popUpMode=='createProfile'? checkNameAndAge():checkNameAndAgeEditMode();
                                     },
                                     controller: _textControllerName,
                                     maxLines: 1,
@@ -425,14 +497,19 @@ class AddMoreKidsState extends State<AddMoreKids>
                                         Color.fromRGBO(132, 134, 148, 0.50),
                                     decoration:
                                         new InputDecoration /* .collapsed */ (
-                                      hintText: /* null */ 'Type Your Name...',
+                                      hintText: /* null */ widget.popUpMode ==
+                                              'createProfile'
+                                          ? 'Type Kid\'s Name...'
+                                          : Provider.of<DataProvider>(context,
+                                                  listen: false)
+                                              .kidsName[widget.editWhichKid],
                                       hintStyle: TextStyle(
                                           color: Color.fromRGBO(
                                               132, 134, 148, 1.0)),
                                       contentPadding: EdgeInsets.only(left: 15),
                                       filled: true,
-                                      fillColor:
-                                          Color.fromRGBO(238, 239, 243, 1.0),
+                                      fillColor: Colors.white
+                                      /* Color.fromRGBO(238, 239, 243, 1.0) */,
                                       focusedBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(
@@ -485,8 +562,8 @@ class AddMoreKidsState extends State<AddMoreKids>
                                       style: TextStyle(
                                         fontFamily: 'NunitoRegular',
                                         //fontSize: deviceHeight > 500 ? 20 : 16,
-                                        color:
-                                            Color.fromRGBO(69, 223, 224, 1.0),
+                                        color: Colors.white
+                                        /* Color.fromRGBO(69, 223, 224, 1.0) */,
                                       )),
                                 ),
                               ),
@@ -503,92 +580,218 @@ class AddMoreKidsState extends State<AddMoreKids>
                                     height: deviceHeight > 500
                                         ? (deviceHeight * 0.5) * (45 / 381)
                                         : (deviceHeight * 0.85) * (45 / 381),
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(
+                                              160, 163, 168, 0.16),
+                                          blurRadius:
+                                              6.0, // has the effect of softening the shadow
+                                          spreadRadius:
+                                              0, // has the effect of extending the shadow
+                                          offset: Offset(
+                                            0.0, // horizontal, move right 10
+                                            3.0, // vertical, move down 10
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     child: AspectRatio(
                                         aspectRatio: 222 / 45,
-                                        child: TextFormField(
-                                          enabled: false,
-                                          maxLines: 1,
-                                          inputFormatters: [
-                                            WhitelistingTextInputFormatter
-                                                .digitsOnly,
-                                            BlacklistingTextInputFormatter(
-                                                new RegExp('[0]')),
-                                          ],
-                                          cursorColor: Color.fromRGBO(
-                                              248, 226, 55, 1.00),
-                                          decoration:
-                                              new InputDecoration /* .collapsed */ (
-                                            hintText: /* null */ /* Provider
+                                        child: Consumer<DataProvider>(
+                                            builder: (context, provider,
+                                                    child) =>
+                                                TextFormField(
+                                                  enabled: false,
+                                                  maxLines: 1,
+                                                  inputFormatters: [
+                                                    WhitelistingTextInputFormatter
+                                                        .digitsOnly,
+                                                    BlacklistingTextInputFormatter(
+                                                        new RegExp('[0]')),
+                                                  ],
+                                                  cursorColor: Color.fromRGBO(
+                                                      248, 226, 55, 1.00),
+                                                  decoration: widget
+                                                              .popUpMode ==
+                                                          'createProfile'
+                                                      ? new InputDecoration /* .collapsed */ (
+                                                          hintText: /* null */ /* Provider
                                                             .of<DataProvider>(
                                                                 context,
                                                                 listen: false)
                                                         .addkidAge == */
-                                                _addKidsAge == null
-                                                    ? 'Select Your Age...'
-                                                    : /* Provider.of<DataProvider>(
+                                                              _addKidsAge ==
+                                                                      null
+                                                                  ? 'Select kid\'s Age...'
+                                                                  : /* Provider.of<DataProvider>(
                                                             context,
                                                             listen: false)
                                                         .addkidAge */
-                                                    _addKidsAge.toString() +
-                                                        ' years old',
-                                            hintStyle: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    132, 134, 148, 1.0)),
-                                            contentPadding:
-                                                EdgeInsets.only(left: 15),
-                                            filled: true,
-                                            fillColor: Color.fromRGBO(
-                                                238, 239, 243, 1.0),
-                                            focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        textfieldRoundEdge)),
-                                                borderSide: BorderSide(
-                                                    width: 1,
-                                                    color: Colors
-                                                        .transparent /* Color.fromRGBO(
+                                                                  _addKidsAge
+                                                                          .toString() +
+                                                                      ' years old',
+                                                          hintStyle: TextStyle(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      132,
+                                                                      134,
+                                                                      148,
+                                                                      1.0)),
+                                                          contentPadding:
+                                                              EdgeInsets.only(
+                                                                  left: 15),
+                                                          filled: true,
+                                                          fillColor: Colors
+                                                              .white /* Color.fromRGBO(
+                                                238, 239, 243, 1.0) */
+                                                          ,
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              textfieldRoundEdge)),
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              1,
+                                                                          color:
+                                                                              Colors.transparent /* Color.fromRGBO(
                                                           170, 170, 170, 0.14) */
-                                                    )),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                      textfieldRoundEdge)),
-                                              borderSide: const BorderSide(
-                                                  color: Colors
-                                                      .transparent /* Color.fromRGBO(
+                                                                          )),
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        textfieldRoundEdge)),
+                                                            borderSide:
+                                                                const BorderSide(
+                                                                    color: Colors
+                                                                        .transparent /* Color.fromRGBO(
                                                         170, 170, 170, 0.14) */
-                                                  ,
-                                                  width: 0.0),
-                                            ),
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                      textfieldRoundEdge)),
-                                              borderSide: const BorderSide(
-                                                  color: Colors
-                                                      .transparent /* Color.fromRGBO(
+                                                                    ,
+                                                                    width: 0.0),
+                                                          ),
+                                                          disabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        textfieldRoundEdge)),
+                                                            borderSide:
+                                                                const BorderSide(
+                                                                    color: Colors
+                                                                        .transparent /* Color.fromRGBO(
                                                         170, 170, 170, 0.14) */
-                                                  ,
-                                                  width: 0.0),
-                                            ),
-                                            border: new OutlineInputBorder(
-                                                //InputBorder.none,
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        textfieldRoundEdge),
-                                                borderSide: new BorderSide(
-                                                    color: Colors.teal)),
-                                          ),
-                                          //textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize:
-                                                deviceHeight > 500 ? 13 : 11,
-                                            fontFamily: 'NunitoRegular',
-                                            //fontSize: deviceHeight > 500 ? 20 : 16,
-                                            color: Color.fromRGBO(
-                                                132, 134, 148, 1.00),
-                                          ),
-                                        )),
+                                                                    ,
+                                                                    width: 0.0),
+                                                          ),
+                                                          border:
+                                                              new OutlineInputBorder(
+                                                                  //InputBorder.none,
+                                                                  borderRadius:
+                                                                      new BorderRadius
+                                                                              .circular(
+                                                                          textfieldRoundEdge),
+                                                                  borderSide:
+                                                                      new BorderSide(
+                                                                          color:
+                                                                              Colors.teal)),
+                                                        )
+                                                      :
+                                                      //////////////////////////////////// edit profile mode age
+                                                      new InputDecoration /* .collapsed */ (
+                                                          hintText: _addKidsAge ==
+                                                                  null
+                                                              ? provider.kidsAge[
+                                                                      widget
+                                                                          .editWhichKid] +
+                                                                  ' years old'
+                                                              : _addKidsAge
+                                                                      .toString() +
+                                                                  ' years old',
+                                                          hintStyle: TextStyle(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      132,
+                                                                      134,
+                                                                      148,
+                                                                      1.0)),
+                                                          contentPadding:
+                                                              EdgeInsets.only(
+                                                                  left: 15),
+                                                          filled: true,
+                                                          fillColor: Colors
+                                                              .white /* Color.fromRGBO(
+                                                238, 239, 243, 1.0) */
+                                                          ,
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              textfieldRoundEdge)),
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              1,
+                                                                          color:
+                                                                              Colors.transparent /* Color.fromRGBO(
+                                                          170, 170, 170, 0.14) */
+                                                                          )),
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        textfieldRoundEdge)),
+                                                            borderSide:
+                                                                const BorderSide(
+                                                                    color: Colors
+                                                                        .transparent /* Color.fromRGBO(
+                                                        170, 170, 170, 0.14) */
+                                                                    ,
+                                                                    width: 0.0),
+                                                          ),
+                                                          disabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        textfieldRoundEdge)),
+                                                            borderSide:
+                                                                const BorderSide(
+                                                                    color: Colors
+                                                                        .transparent /* Color.fromRGBO(
+                                                        170, 170, 170, 0.14) */
+                                                                    ,
+                                                                    width: 0.0),
+                                                          ),
+                                                          border:
+                                                              new OutlineInputBorder(
+                                                                  //InputBorder.none,
+                                                                  borderRadius:
+                                                                      new BorderRadius
+                                                                              .circular(
+                                                                          textfieldRoundEdge),
+                                                                  borderSide:
+                                                                      new BorderSide(
+                                                                          color:
+                                                                              Colors.teal)),
+                                                        ),
+                                                  //textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: deviceHeight > 500
+                                                        ? 13
+                                                        : 11,
+                                                    fontFamily: 'NunitoRegular',
+                                                    //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                    color: Color.fromRGBO(
+                                                        132, 134, 148, 1.00),
+                                                  ),
+                                                ))),
                                   ),
                                   ////////////////////////////////////  Age select Icon
                                   Positioned.fill(
@@ -664,7 +867,13 @@ class AddMoreKidsState extends State<AddMoreKids>
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
-                                    color: Color.fromRGBO(244, 244, 248, 1.0),
+                                    border: Border.all(
+                                        width: deviceHeight > 500 ? 3 : 3,
+                                        color: Color.fromRGBO(248, 226, 55,
+                                            1.0) //                   <--- border width here
+                                        ),
+                                    color: Colors
+                                        .white /* Color.fromRGBO(244, 244, 248, 1.0) */,
                                   ),
                                   height: deviceHeight > 500
                                       ? (deviceHeight * 0.5) * (54 / 381)
@@ -689,7 +898,7 @@ class AddMoreKidsState extends State<AddMoreKids>
                                             fontFamily: 'NunitoBold',
                                             //fontSize: deviceHeight > 500 ? 20 : 16,
                                             color: Color.fromRGBO(
-                                                160, 163, 168, 1.00),
+                                                248, 226, 55, 1.0),
                                           ),
                                         ),
                                       ),
@@ -713,6 +922,20 @@ class AddMoreKidsState extends State<AddMoreKids>
                               !_buttonSwitch
                                   ? Container(
                                       decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(
+                                                160, 163, 168, 0.16),
+                                            blurRadius:
+                                                6.0, // has the effect of softening the shadow
+                                            spreadRadius:
+                                                0, // has the effect of extending the shadow
+                                            offset: Offset(
+                                              0.0, // horizontal, move right 10
+                                              3.0, // vertical, move down 10
+                                            ),
+                                          ),
+                                        ],
                                         borderRadius: BorderRadius.circular(30),
                                         color:
                                             Color.fromRGBO(244, 244, 248, 1.0),
@@ -738,16 +961,60 @@ class AddMoreKidsState extends State<AddMoreKids>
                                                   () => setState(() =>
                                                       _perventMultipleTab =
                                                           true));
-                                              await _addKids();
+                                              if (widget.popUpMode ==
+                                                  'createProfile') {
+                                                await _addKids();
+                                              } else {
+                                                var editInputAge;
+                                                var editInputName;
+
+                                                if (_addKidsAge == null) {
+                                                  editInputAge =
+                                                      Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .kidsAge[
+                                                          widget.editWhichKid];
+                                                } else {
+                                                  editInputAge = _addKidsAge;
+                                                }
+                                                if (_textControllerName.text ==
+                                                    '') {
+                                                  editInputName =
+                                                      Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .kidsName[
+                                                          widget.editWhichKid];
+                                                } else {
+                                                  editInputName =
+                                                      _textControllerName.text;
+                                                }
+                                                await Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .saveEditKidsProfile(
+                                                        whichKids:
+                                                            widget.editWhichKid,
+                                                        kidsAgeInput:
+                                                            editInputAge.toString(),
+                                                        kidsNameInput:
+                                                            editInputName,kidsAvatarInput:Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false).cacheEditKidsProfileAvatar,kidsThemeInput:Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false).cacheEditKidsProfileTheme  );
+                                              }
+
                                               Navigator.pop(context);
                                               /////////////////////////////////// prevent flickering when dismiss dialog
                                               Future.delayed(
                                                   const Duration(
                                                       milliseconds: 250), () {
-                                                Provider.of<DataProvider>(
+                                                widget.popUpMode=='createProfile'? Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .resetAddKids();
+                                                    .resetAddKids():null;
                                               });
                                             }
                                           : null,
@@ -756,15 +1023,16 @@ class AddMoreKidsState extends State<AddMoreKids>
                                           borderRadius:
                                               BorderRadius.circular(30),
                                           color:
-                                              Color.fromRGBO(69, 223, 224, 1.0),
+                                              Color.fromRGBO(248, 226, 55, 1.0)
+                                          /* Color.fromRGBO(69, 223, 224, 1.0) */,
                                           boxShadow: [
                                             BoxShadow(
                                               color: Color.fromRGBO(
-                                                  69, 223, 224, 0.40),
+                                                  160, 163, 168, 0.16),
                                               blurRadius:
-                                                  10.0, // has the effect of softening the shadow
+                                                  6.0, // has the effect of softening the shadow
                                               spreadRadius:
-                                                  -1, // has the effect of extending the shadow
+                                                  0, // has the effect of extending the shadow
                                               offset: Offset(
                                                 0.0, // horizontal, move right 10
                                                 3.0, // vertical, move down 10
@@ -788,26 +1056,71 @@ class AddMoreKidsState extends State<AddMoreKids>
                                   child: GestureDetector(
                                     onTap: _perventMultipleTab
                                         ? () async {
-                                            setState(() {
-                                              _perventMultipleTab = false;
-                                            });
+                                              setState(() {
+                                                _perventMultipleTab = false;
+                                              });
 
-                                            Timer(
-                                                Duration(seconds: 1),
-                                                () => setState(() =>
-                                                    _perventMultipleTab =
-                                                        true));
-                                            await _addKids();
-                                            Navigator.pop(context);
-                                            /////////////////////////////////// prevent flickering when dismiss dialog
-                                            Future.delayed(
-                                                const Duration(
-                                                    milliseconds: 250), () {
-                                              Provider.of<DataProvider>(context,
-                                                      listen: false)
-                                                  .resetAddKids();
-                                            });
-                                          }
+                                              Timer(
+                                                  Duration(seconds: 1),
+                                                  () => setState(() =>
+                                                      _perventMultipleTab =
+                                                          true));
+                                              if (widget.popUpMode ==
+                                                  'createProfile') {
+                                                await _addKids();
+                                              } else {
+                                                var editInputAge;
+                                                var editInputName;
+
+                                                if (_addKidsAge == null) {
+                                                  editInputAge =
+                                                      Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .kidsAge[
+                                                          widget.editWhichKid];
+                                                } else {
+                                                  editInputAge = _addKidsAge;
+                                                }
+                                                if (_textControllerName.text ==
+                                                    '') {
+                                                  editInputName =
+                                                      Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .kidsName[
+                                                          widget.editWhichKid];
+                                                } else {
+                                                  editInputName =
+                                                      _textControllerName.text;
+                                                }
+                                                await Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .saveEditKidsProfile(
+                                                        whichKids:
+                                                            widget.editWhichKid,
+                                                        kidsAgeInput:
+                                                            editInputAge,
+                                                        kidsNameInput:
+                                                            editInputName,kidsAvatarInput:Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false).cacheEditKidsProfileAvatar,kidsThemeInput:Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false).cacheEditKidsProfileTheme  );
+                                              }
+
+                                              Navigator.pop(context);
+                                              /////////////////////////////////// prevent flickering when dismiss dialog
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 250), () {
+                                                widget.popUpMode=='createProfile'? Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .resetAddKids():null;
+                                              });
+                                            }
                                         : null,
                                     child: Container(
                                       height: deviceHeight > 500
@@ -816,7 +1129,9 @@ class AddMoreKidsState extends State<AddMoreKids>
                                       child: FittedBox(
                                         fit: BoxFit.fitHeight,
                                         child: Text(
-                                          'Create Profile',
+                                          widget.popUpMode == 'createProfile'
+                                              ? 'Create Profile'
+                                              : 'Save',
                                           style: TextStyle(
                                             fontFamily: 'NunitoBold',
                                             //fontSize: deviceHeight > 500 ? 20 : 16,

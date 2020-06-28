@@ -137,7 +137,7 @@ class AnimatedProgressBar extends AnimatedWidget {
                 style: TextStyle(
                     fontFamily: 'NunitoBold',
                     //fontSize: 21,
-                    color: Colors.white)),
+                    color: (animation.value * widget.maxValue).toInt().toString() !='0'? Colors.white: Color.fromRGBO(238, 239, 243, 1.0),)),
           ),
         ),
       );

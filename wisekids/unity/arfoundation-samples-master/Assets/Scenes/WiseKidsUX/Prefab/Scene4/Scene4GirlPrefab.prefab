@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &3604333280917325517
 Transform:
@@ -123,16 +123,51 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -2554518511676811036, guid: fc802caa38f0c7f4fa53107b42ba86b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: fc802caa38f0c7f4fa53107b42ba86b8,
         type: 3}
       propertyPath: m_Name
       value: scene4
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fc802caa38f0c7f4fa53107b42ba86b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -502876898551377506, guid: fc802caa38f0c7f4fa53107b42ba86b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183587114559722798, guid: fc802caa38f0c7f4fa53107b42ba86b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752337573077463034, guid: fc802caa38f0c7f4fa53107b42ba86b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2328759271874647754, guid: fc802caa38f0c7f4fa53107b42ba86b8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 28536f2cff02d2a459eaac73cc472f24, type: 2}
+    - target: {fileID: 2594735326087456684, guid: fc802caa38f0c7f4fa53107b42ba86b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4226567850784014793, guid: fc802caa38f0c7f4fa53107b42ba86b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6250805027482162387, guid: fc802caa38f0c7f4fa53107b42ba86b8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

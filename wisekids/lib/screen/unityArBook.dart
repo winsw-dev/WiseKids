@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -10,20 +11,21 @@ import '../widget/slide_popup_dialog_read.dart' as readDialog;
 import '../widget/slide_popup_dialog_arInteractive.dart' as arInteractiveDialog;
 
 import 'home.dart';
+import './stickerCollected.dart';
 
 class UnityARBook extends StatefulWidget {
   @override
   _UnityARBookState createState() => _UnityARBookState();
 }
 
-class CustomPopupMenu {
+/* class CustomPopupMenu {
   CustomPopupMenu({this.title, this.scene});
 
   String title;
   int scene;
-}
+} */
 
-List<CustomPopupMenu> choices = <CustomPopupMenu>[
+/* List<CustomPopupMenu> choices = <CustomPopupMenu>[
   CustomPopupMenu(title: 'AR World Map', scene: 0),
   CustomPopupMenu(title: 'Face Mesh', scene: 1),
   CustomPopupMenu(title: 'Check Support', scene: 2),
@@ -42,18 +44,43 @@ List<CustomPopupMenu> choices = <CustomPopupMenu>[
   CustomPopupMenu(title: 'Toggle Plane Detection', scene: 15),
   CustomPopupMenu(title: 'Scale', scene: 16),
   CustomPopupMenu(title: 'Simple AR', scene: 17),
-];
+]; */
 
 class _UnityARBookState extends State<UnityARBook> {
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
   UnityWidgetController _unityWidgetController;
-  double _sliderValue = 0.0;
+  //double _sliderValue = 0.0;
 
-  void _showVocabDialog() {
-    readDialog.showSlideDialog(
+  ///////////// disable debuging in release mode
+  bool debugingMode = !bool.fromEnvironment("dart.vm.product");
+  bool objectPlaced = !bool.fromEnvironment("dart.vm.product");
+  /////////////////////////////////
+
+  bool _perventMultipleTab = true;
+
+  //////////////////////////////////// read time
+  var watch = Stopwatch();
+
+  void _showFinishReadDialog() {
+    ///////////////////////////// go home
+    /* Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Home(),
+      ),
+    ); */
+    //////////////////////////// show read Dialog
+    /* readDialog.showSlideDialog(
       context: context,
       child: Container(),
+    ); */
+    //////////////////////////// collected Sticker page
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StickerCollected(),
+      ),
     );
   }
 
@@ -64,7 +91,7 @@ class _UnityARBookState extends State<UnityARBook> {
     );
   }
 
-  CustomPopupMenu _selectedChoices = choices[0];
+  /* CustomPopupMenu _selectedChoices = choices[0];
 
   void _select(CustomPopupMenu choice) {
     setState(() {
@@ -78,12 +105,12 @@ class _UnityARBookState extends State<UnityARBook> {
       'LoadGameScene',
       choice.scene.toString(),
     );
-  }
+  } */
 
-  bool objectPlaced = true;
   int page = 1;
   var subtitleText = '';
   void subtite() {
+    /// use switch case with content level
     if (page == 1) {
       Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
           'Todd likes to eat dessert. Candy is his favourite.');
@@ -140,6 +167,7 @@ class _UnityARBookState extends State<UnityARBook> {
   @override
   void initState() {
     Provider.of<DataProvider>(context, listen: false).resetSubtitleState();
+
     super.initState();
   }
 
@@ -150,6 +178,9 @@ class _UnityARBookState extends State<UnityARBook> {
 
     Provider.of<DataProvider>(context, listen: false).subtitleData();
 
+    ///////////////////// start count read timer
+    !watch.isRunning ? watch.start() : null;
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -158,26 +189,30 @@ class _UnityARBookState extends State<UnityARBook> {
             Container(
               color: Colors.black,
             ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                    'w' +
-                        deviceWidth.toString() +
-                        ' * h' +
-                        deviceHeight.toString(),
-                    style: TextStyle(
-                        fontFamily: 'NunitoBold',
-                        fontSize: 35,
-                        color: Colors.white)),
-              ),
-            ),
+            debugingMode
+                ? Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                          'w' +
+                              deviceWidth.toString() +
+                              ' * h' +
+                              deviceHeight.toString(),
+                          style: TextStyle(
+                              fontFamily: 'NunitoBold',
+                              fontSize: 35,
+                              color: Colors.white)),
+                    ),
+                  )
+                : Container(),
 
-            /* UnityWidget(
-              onUnityViewCreated: onUnityCreated,
-              isARScene: true,
-              onUnityMessage: onUnityMessage,
-            ), */
+            !debugingMode
+                ? UnityWidget(
+                    onUnityViewCreated: onUnityCreated,
+                    isARScene: true,
+                    onUnityMessage: onUnityMessage,
+                  )
+                : Container(),
 
             //////////////////////////////////////////////////
             /* Positioned.fill(
@@ -213,12 +248,18 @@ class _UnityARBookState extends State<UnityARBook> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: GestureDetector(
-                  onTap: () {
-                    //reloadSession();
-                    Navigator.pop(
-                      context,
-                    );
-                  },
+                  onTap: _perventMultipleTab
+                      ? () async {
+                          !debugingMode ? reloadSession() : null;
+                          setState(() {
+                            _perventMultipleTab = false;
+                          });
+
+                          Timer(Duration(seconds: 1),
+                              () => setState(() => _perventMultipleTab = true));
+                          Navigator.pop(context);
+                        }
+                      : null,
                   child: Container(
                     margin: EdgeInsets.only(
                       top: deviceHeight > 500
@@ -241,19 +282,37 @@ class _UnityARBookState extends State<UnityARBook> {
                 ? Positioned.fill(
                     child: Align(
                       alignment: Alignment.topRight,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: deviceHeight > 500
-                              ? deviceWidth * 0.02
-                              : deviceWidth * 0.02,
-                          right: deviceHeight > 500
-                              ? deviceWidth * 0.02
-                              : deviceWidth * 0.02,
+                      child: GestureDetector(
+                        onTap: () {
+                          print('tab3D! Send Char == ' +
+                              Provider.of<DataProvider>(context, listen: false)
+                                  .avatar[Provider.of<DataProvider>(context,
+                                      listen: false)
+                                  .currentKids]);
+                          //////////////////// send selected character message to unity
+                          _unityWidgetController.postMessage(
+                            'AR Session Origin',
+                            'MainCharacterSelected',
+                            Provider.of<DataProvider>(context, listen: false)
+                                .avatar[Provider.of<DataProvider>(context,
+                                    listen: false)
+                                .currentKids],
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: deviceHeight > 500
+                                ? deviceWidth * 0.02
+                                : deviceWidth * 0.02,
+                            right: deviceHeight > 500
+                                ? deviceWidth * 0.02
+                                : deviceWidth * 0.02,
+                          ),
+                          height: deviceHeight > 500
+                              ? deviceHeight * 0.104
+                              : deviceHeight * 0.17,
+                          child: Image.asset('assets/images/arUI/3dBtn.png'),
                         ),
-                        height: deviceHeight > 500
-                            ? deviceHeight * 0.104
-                            : deviceHeight * 0.17,
-                        child: Image.asset('assets/images/arUI/3dBtn.png'),
                       ),
                     ),
                   )
@@ -304,58 +363,15 @@ class _UnityARBookState extends State<UnityARBook> {
                                     right: deviceHeight > 500
                                         ? deviceHeight * (290 / 1024) * 0.2
                                         : deviceHeight * (290 / 1024) * 0.06),
-                                /* child: FittedBox(
-                                  fit: BoxFit.contain, */
                                 child: Consumer<DataProvider>(
                                   builder: (context, provider, child) => Wrap(
                                       alignment: WrapAlignment.center,
                                       runAlignment: WrapAlignment.center,
-                                      //runSpacing: 0,
-                                      children: provider
-                                          .subtitleItems /* <Widget>[
-                                    SubtitleSpeakable(),
-                                    ////////////////////////////////////////////////
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color:
-                                            Color.fromRGBO(69, 223, 224, 0.0),
-                                      ),
-                                      padding: EdgeInsets.all(
-                                        deviceHeight > 500
-                                            ? deviceHeight * (140 / 1024) * 0.03
-                                            : deviceHeight *
-                                                (290 / 1024) *
-                                                0.03,
-                                      ),
-                                      child: Text(
-                                        'word',
-                                        style: TextStyle(
-                                            fontFamily: 'NunitoBold',
-                                            /* fontSize: 25, */
-                                            color: Color.fromRGBO(
-                                                112, 112, 112, 1.00)),
-                                      ),
-                                    ),
-                                    
-
-                                    
-                                    /*  Text(
-                                        subtitleText,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontFamily: 'NunitoBold',
-                                            /* fontSize: 25, */
-                                            color: Color.fromRGBO(
-                                                112, 112, 112, 1.00)),
-                                      ), */
-                                  ], */
-                                      ),
+                                      children: provider.subtitleItems),
                                 ),
-                                /*  ), */
                               ),
                             ),
-                            /* Spacer(), */
+
                             //////////////////////// forward Btn
                             objectPlaced
                                 ? GestureDetector(
@@ -395,26 +411,36 @@ class _UnityARBookState extends State<UnityARBook> {
 
   void forwardPage() {
     if (objectPlaced) {
-      if (page == 16) {
-        _showVocabDialog();
-      }
+      print('page == ' + page.toString());
+
       setState(() {
-        if (page < 16) {
+        if (page <= 16) {
           page++;
         }
       });
+      ////////////////////////// finished reading
+      if (page > 16) {
+        _showFinishReadDialog();
+        Provider.of<DataProvider>(context, listen: false)
+            .finishedReading(watch.elapsed.inSeconds, 'book1');
+        !bool.fromEnvironment("dart.vm.product")
+            ? print('readedTime == ' + watch.elapsed.inSeconds.toString())
+            : null;
+      }
       subtite();
-      if (page == 4 ||
+      if (page == 3 ||
+          page == 5 ||
           page == 6 ||
-          page == 7 ||
-          page == 12 ||
-          page == 14 ||
+          page == 11 ||
+          page == 13 ||
           page == 16) {
-        /*  _unityWidgetController.postMessage(
-          'pageController',
-          'forwardScene',
-          '',
-        ); */
+        !debugingMode
+            ? _unityWidgetController.postMessage(
+                'pageController',
+                'forwardScene',
+                '',
+              )
+            : null;
       }
     }
   }
@@ -427,17 +453,19 @@ class _UnityARBookState extends State<UnityARBook> {
         }
       });
       subtite();
-      if (page == 13 ||
-          page == 11 ||
-          page == 6 ||
+      if (page == 2 ||
+          page == 4 ||
           page == 5 ||
-          page == 3 ||
+          page == 10 ||
+          page == 12 ||
           page == 15) {
-        /*  _unityWidgetController.postMessage(
-          'pageController',
-          'backwardScene',
-          '',
-        ); */
+        !debugingMode
+            ? _unityWidgetController.postMessage(
+                'pageController',
+                'backwardScene',
+                '',
+              )
+            : null;
       }
     }
   }
@@ -455,6 +483,13 @@ class _UnityARBookState extends State<UnityARBook> {
   // Callback that connects the created controller to the unity controller
   void onUnityCreated(controller) {
     this._unityWidgetController = controller;
+    //////////////////// send selected character message to unity
+    _unityWidgetController.postMessage(
+      'AR Session Origin',
+      'MainCharacterSelected',
+      Provider.of<DataProvider>(context, listen: false).avatar[
+          Provider.of<DataProvider>(context, listen: false).currentKids],
+    );
   }
 }
 

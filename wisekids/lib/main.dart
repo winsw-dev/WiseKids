@@ -17,33 +17,43 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import './screen/home.dart';
+import './provider/timerProvider.dart';
 
 /////////////////////////// Device Preview
-void main() => runApp(
-      DevicePreview(
-          /* style: DevicePreviewStyle(
+void main() {
+  final timerService = TimerService();
+  return runApp(
+    DevicePreview(
+        /* style: DevicePreviewStyle(
             toolBar: DevicePreviewToolBarStyle.light(),
             background: BoxDecoration(color: const Color(0xFFFF0000)),
           ), */
 
-          enabled: !const bool.fromEnvironment(
-              "dart.vm.product"), // disable device preview in release mode [const bool.fromEnvironment("dart.vm.product")] will return "true" in release mode
-          builder: (context) => MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                    create: (context) => DataProvider.instance(),
-                  ),
-                  /*  ChangeNotifierProvider.value(
+        enabled: !const bool.fromEnvironment(
+            "dart.vm.product"), // disable device preview in release mode [const bool.fromEnvironment("dart.vm.product")] will return "true" in release mode
+        builder: (context) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider(
+                  create: (context) => DataProvider.instance(),
+                ),
+                /*  ChangeNotifierProvider.value(
                     value: UserAuthentication.instance(),
                   ), */
-                ],
-                child: Phoenix(child: MyApp()),
-              )),
-    );
+              ],
+              child: Phoenix(
+                child: TimerServiceProvider(
+                  // provide timer service to all widgets of your app
+                  service: timerService,
+                  child: MyApp(),
+                ),
+              ),
+            )),
+  );
+}
 
-/*  void main() => runApp(
+/* void main() => runApp(
   ChangeNotifierProvider(
-      create: (context) => DataProvider(),
+      create: (context) => DataProvider.instance(),
       child: MyApp(),
     ),
   
@@ -184,6 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       //////////////////////////////////////////////////// restore user data ex. name email age etc.
                       await Provider.of<DataProvider>(context, listen: false)
                           .restoreUserData(result);
+
                       /* Provider.of<DataProvider>(context, listen: false)
                           .chooseTheme(result["kids1Name"]); */
                       Navigator.pushReplacement(
@@ -203,12 +214,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    services.SystemChrome.setEnabledSystemUIOverlays([]);
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
 
     /// initialize device size into provider
     Provider.of<DataProvider>(context, listen: false)
         .getDeviceSize(deviceHeight, deviceWidth);
+    
+    /// Start app used timer
+    var timerService = TimerService.of(context);
+    timerService.start();
 
     return Scaffold(
       body: Stack(

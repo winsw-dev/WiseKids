@@ -19,7 +19,7 @@ import '../widget/exerciseScoreBarWidget.dart';
 /// `backgroundColor` Color of dialog background. Defaults to Theme.of(context).canvasColor.
 Future<T> showSlideDialog<T>({
   @required BuildContext context,
-  @required int book,
+  @required String book,
   @required int totalTimeRead,
   @required Map firstExerciseScore,
   @required Map secondExerciseScore,
@@ -78,7 +78,7 @@ class SlideDialogKidsStatistic extends StatefulWidget {
       @required this.thirdExerciseScore,
       @required this.kidsReview})
       : super(key: key);
-  final int book;
+  final String book;
   final int totalTimeRead;
   final Map firstExerciseScore;
   final Map secondExerciseScore;
@@ -207,7 +207,7 @@ class _SlideDialogKidsStatisticState extends State<SlideDialogKidsStatistic> {
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                               child: Image.asset(
-                                                  'assets/images/kidsProfile/Book/book' +
+                                                  'assets/images/kidsProfile/Book/' +
                                                       widget.book.toString() +
                                                       '.png'),
                                             ),
@@ -673,12 +673,19 @@ class _SlideDialogKidsStatisticState extends State<SlideDialogKidsStatistic> {
                                                               224,
                                                               1.0)))),
                                               /////////////////////////////// Emoji
-                                              Container(
-                                                  height: 20,
-                                                  child: FittedBox(
-                                                      fit: BoxFit.fitHeight,
-                                                      child: Text(
-                                                          widget.kidsReview))),
+                                              widget.kidsReview != ''? Container(
+                                              height: 20,
+                                              
+                                              child: FittedBox(
+                                                  fit: BoxFit.fitHeight,
+                                                  child:
+                                                      Text(widget.kidsReview))):Container(
+                                              height: 20,
+                                               child: FittedBox(
+                                                  fit: BoxFit.fitHeight,
+                                                  child:
+                                                      Text('-'))
+                                              ),
                                             ],
                                           ),
                                         ),

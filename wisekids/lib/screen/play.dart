@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/dataProvider.dart';
 import './enterBook.dart';
-//import '../widget/slide_popup_dialog_play.dart' as playDialog; //// ori
+import '../widget/slide_popup_dialog_play.dart' as playDialog; //// ori
 //import '../widget/slide_popup_dialog_read.dart' as playDialog; /// test read dialog
-import '../widget/slide_popup_dialog_arInteractive.dart' as playDialog;
+//import '../widget/slide_popup_dialog_arInteractive.dart' as playDialog; /// test arInteractive dialog
 
 /// test arInteractive dialog
 import 'home.dart';
@@ -19,6 +21,8 @@ class _PlayState extends State<Play> {
       context: context,
       child: Container(),
     );
+
+    
   }
 
   ////////////////////////////////////////////////
@@ -70,6 +74,7 @@ class _PlayState extends State<Play> {
           context: context,
           child: Container(),
         );
+        Provider.of<DataProvider>(context, listen: false).finishedPlay();
       });
     }
   }

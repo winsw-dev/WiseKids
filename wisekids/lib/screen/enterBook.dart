@@ -8,15 +8,19 @@ import 'package:flare_flutter/flare_controls.dart';
 
 import 'package:flare_flutter/flare_actor.dart';
 
-import '../widget/slide_popup_dialog_read.dart' as readDialog;
+import '../widget/slide_popup_dialog_warning.dart' as warningDialog;
 import './play.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'home.dart';
 import 'unityArBook.dart';
+import '../screen/stickerCollected.dart';
 
 class EnterBook extends StatefulWidget {
+  final int pickedBook;
+  EnterBook({@required this.pickedBook});
+
   @override
   _EnterBookState createState() => _EnterBookState();
 }
@@ -29,8 +33,19 @@ class _EnterBookState extends State<EnterBook> {
     'assets/images/enterBook/enterBookTheme4.png',
     'assets/images/enterBook/enterBookTheme5.png',
   ];
-  Image bookImage; // it doesn't help flashing image problem in this scenario 
-  @override // it doesn't help flashing image problem in this scenario 
+
+  List<String> bookCoverImage = [
+    'assets/images/enterBook/book2.png',
+    'assets/images/enterBook/book3.png',
+    'assets/images/enterBook/book4.png',
+    'assets/images/enterBook/book5.png',
+    'assets/images/enterBook/book6.png',
+    'assets/images/enterBook/book7.png',
+    'assets/images/enterBook/book1.png',
+  ];
+
+  Image bookImage; // it doesn't help flashing image problem in this scenario
+  @override // it doesn't help flashing image problem in this scenario
   void initState() {
     super.initState();
 
@@ -40,7 +55,7 @@ class _EnterBookState extends State<EnterBook> {
     );
   }
 
-  @override  // it doesn't help flashing image problem in this scenario 
+  @override // it doesn't help flashing image problem in this scenario
   void didChangeDependencies() {
     super.didChangeDependencies();
     precacheImage(bookImage.image, context);
@@ -48,8 +63,8 @@ class _EnterBookState extends State<EnterBook> {
 
   var fadeInDuration = 100;
 
-  void _showVocabDialog() {
-    readDialog.showSlideDialog(
+  void _showWarningDialog() {
+    warningDialog.showSlideDialog(
       context: context,
       child: Container(),
     );
@@ -108,18 +123,22 @@ class _EnterBookState extends State<EnterBook> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                widget.pickedBook == 6 ? Container() : Spacer(),
                 Spacer(),
                 ///////////////////////////// Book Pic
                 Hero(
-                  tag: 'book6',
+                  tag: 'book' + widget.pickedBook.toString(),
                   child: Container(
                       height: deviceHeight > 500
                           ? deviceHeight * 0.66
                           : deviceHeight * 0.75,
                       child: AspectRatio(
                         aspectRatio: 1251 / 1620,
-                        child:
-                            bookImage /* Image.asset(
+                        child: Image.asset(
+                          bookCoverImage[widget.pickedBook],
+                          fit: BoxFit.contain,
+                        )
+                        /* Image.asset(
                       'assets/images/enterBook/book1.png',
                       //fit: BoxFit.fitHeight,
                     ) */
@@ -128,89 +147,41 @@ class _EnterBookState extends State<EnterBook> {
                 ),
 
                 /////////////////////////////////// Column Btn
-
+                Spacer(),
                 Container(
-                  margin: EdgeInsets.only(
+                  /*  margin: EdgeInsets.only(
                       left: deviceHeight > 500
                           ? deviceWidth * (119 / 1024)
-                          : deviceWidth * (119 / 1024)),
+                          : deviceWidth * (119 / 1024)), */
                   /*  height: deviceHeight > 500
                       ? deviceHeight * 0.66
                       : deviceHeight * 0.66, */
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      /////////////////// read Btn
-                      GestureDetector(
-                        onTap: () {
-                          ////////////////////////////////////////////////// Navigate to AR
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UnityARBook(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: deviceHeight > 500
-                              ? deviceHeight * 0.121
-                              : deviceHeight * 0.2,
-                          child: AspectRatio(
-                            aspectRatio: 216 / 93,
-                            child: Stack(
-                              children: <Widget>[
-                                AspectRatio(
-                                  aspectRatio: 216 / 93,
-                                  child: SvgPicture.asset(
-                                    'assets/images/enterBook/readBtn.svg',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                ////////////////////// Text Read
-                                Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                      height: deviceHeight > 500
-                                          ? deviceHeight * 0.121
-                                          : deviceHeight * 0.2,
-                                      child: FractionallySizedBox(
-                                        heightFactor: 0.46,
-                                        child: FittedBox(
-                                          fit: BoxFit.fitHeight,
-                                          child: Text(
-                                            'Read',
-                                            style: TextStyle(
-                                                fontFamily: 'NunitoExtraBold',
-                                                fontSize: deviceHeight > 500
-                                                    ? 30
-                                                    : 15,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      /////////////////// spacer
-                      SizedBox(
-                          height: deviceHeight > 500
-                              ? deviceHeight * 0.055
-                              : deviceHeight * 0.08),
-                      /////////////////// play Btn
+                  child: widget.pickedBook == 6
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            /////////////////// read Btn
+                            GestureDetector(
+                              ////// debug StickerCollected page
+                              onLongPress:
+                                  !bool.fromEnvironment("dart.vm.product")
+                                      ? () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StickerCollected(),
+                                            ),
+                                          );
+                                        }
+                                      : null,
 
-                      1 + 1 == 2
-                          ? GestureDetector(
                               onTap: () {
+                                ////////////////////////////////////////////////// Navigate to AR
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Play(),
+                                    builder: (context) => UnityARBook(),
                                   ),
                                 );
                               },
@@ -225,11 +196,11 @@ class _EnterBookState extends State<EnterBook> {
                                       AspectRatio(
                                         aspectRatio: 216 / 93,
                                         child: SvgPicture.asset(
-                                          'assets/images/enterBook/playBtn.svg',
+                                          'assets/images/enterBook/readBtn.svg',
                                           fit: BoxFit.contain,
                                         ),
                                       ),
-                                      ////////////////////// Text Play
+                                      ////////////////////// Text Read
                                       Positioned.fill(
                                         child: Align(
                                           alignment: Alignment.center,
@@ -242,7 +213,7 @@ class _EnterBookState extends State<EnterBook> {
                                               child: FittedBox(
                                                 fit: BoxFit.fitHeight,
                                                 child: Text(
-                                                  'Play',
+                                                  'Read',
                                                   style: TextStyle(
                                                       fontFamily:
                                                           'NunitoExtraBold',
@@ -261,9 +232,84 @@ class _EnterBookState extends State<EnterBook> {
                                   ),
                                 ),
                               ),
-                            )
-                          :
-                          ///////////////////////////////// Play Btn Disable
+                            ),
+                            /////////////////// spacer
+                            SizedBox(
+                                height: deviceHeight > 500
+                                    ? deviceHeight * 0.055
+                                    : deviceHeight * 0.08),
+                            /////////////////// play Btn
+
+                            Provider.of<DataProvider>(context, listen: false)
+                                        .bookStatistic[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids]['readBook']
+                                        .length >
+                                    0
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              //StickerCollected(),
+                                              Play(),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: deviceHeight > 500
+                                          ? deviceHeight * 0.121
+                                          : deviceHeight * 0.2,
+                                      child: AspectRatio(
+                                        aspectRatio: 216 / 93,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            AspectRatio(
+                                              aspectRatio: 216 / 93,
+                                              child: SvgPicture.asset(
+                                                'assets/images/enterBook/playBtn.svg',
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                            ////////////////////// Text Play
+                                            Positioned.fill(
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Container(
+                                                  height: deviceHeight > 500
+                                                      ? deviceHeight * 0.121
+                                                      : deviceHeight * 0.2,
+                                                  child: FractionallySizedBox(
+                                                    heightFactor: 0.46,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: Text(
+                                                        'Play',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoExtraBold',
+                                                            fontSize:
+                                                                deviceHeight >
+                                                                        500
+                                                                    ? 30
+                                                                    : 15,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container()
+                            /* ///////////////////////////////// Play Btn Disable
                           Container(
                               child: Stack(
                                 children: <Widget>[
@@ -313,11 +359,216 @@ class _EnterBookState extends State<EnterBook> {
                                   )),
                                 ],
                               ),
+                            ), */
+                            ////////////////////////////////////////////////////////////
+                          ],
+                          ////////////////////////////////////////////////////////// Locked Book
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Spacer(),
+                            //////////////////////////////////////////// Balloon
+                            Container(
+                              height: deviceHeight > 500
+                                  ? deviceHeight * 0.121 * (125 / 93)
+                                  : deviceHeight * 0.2 * (125 / 93),
+                              child: Image.asset(
+                                  'assets/images/enterBook/balloon.png'),
                             ),
-                      ////////////////////////////////////////////////////////////
-                    ],
-                  ),
+                            ////////////////////////////////////////////
+                            Container(
+                              height: deviceHeight > 500
+                                  ? deviceHeight * 0.121 * (169 / 93) +
+                                      ((deviceHeight * 0.121) / 2)
+                                  : deviceHeight * 0.2 * (169 / 93) +
+                                      ((deviceHeight * 0.2) / 2),
+                              child: AspectRatio(
+                                aspectRatio: 307 / 215.5,
+                                child: Stack(
+                                  children: <Widget>[
+                                    ////////////////////////////////////// white Box
+                                    Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Container(
+                                          height: deviceHeight > 500
+                                              ? deviceHeight *
+                                                  0.121 *
+                                                  (169 / 93)
+                                              : deviceHeight * 0.2 * (169 / 93),
+                                          decoration: new BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color.fromRGBO(
+                                                    0, 0, 0, 0.16),
+                                                blurRadius:
+                                                    6.0, // has the effect of softening the shadow
+                                                spreadRadius:
+                                                    0, // has the effect of extending the shadow
+                                                offset: Offset(
+                                                  0.0, // horizontal, move right 10
+                                                  3.0, // vertical, move down 10
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          child: AspectRatio(
+                                            aspectRatio: 307 / 169,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                bottom: deviceHeight > 500
+                                                    ? (deviceHeight * 0.121) / 2
+                                                    : (deviceHeight * 0.2) / 2,
+                                                top: deviceHeight > 500
+                                                    ? (deviceHeight * 0.121) *
+                                                        (7 / 93)
+                                                    : (deviceHeight * 0.2) *
+                                                        (7 / 93),
+                                              ),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Spacer(),
+                                                  Container(
+                                                    height: deviceHeight > 500
+                                                        ? (deviceHeight *
+                                                                0.121) *
+                                                            (68 / 93)
+                                                        : (deviceHeight * 0.2) *
+                                                            (68 / 93),
+                                                    child: FittedBox(
+                                                      fit: BoxFit.contain,
+                                                      child: Text(
+                                                        'Use 3 stars\nto unlock this book',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoBold',
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    251,
+                                                                    71,
+                                                                    149,
+                                                                    1.0)),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  //Spacer(),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    //////////////////////////////////////////// Unlock Btn
+                                    Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            _showWarningDialog();
+                                          },
+                                          child: Container(
+                                            height: deviceHeight > 500
+                                                ? deviceHeight * 0.121
+                                                : deviceHeight * 0.2,
+                                            child: AspectRatio(
+                                              aspectRatio: 216 / 93,
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  AspectRatio(
+                                                    aspectRatio: 216 / 93,
+                                                    child: SvgPicture.asset(
+                                                      'assets/images/enterBook/playBtn.svg',
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                  ////////////////////// Text Play
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      ////////////////////////////// Star Icon
+                                                      Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                            right: deviceHeight >
+                                                                    500
+                                                                ? deviceHeight *
+                                                                    0.121 *
+                                                                    (20 / 93)
+                                                                : deviceHeight *
+                                                                    0.2 *
+                                                                    (20 / 93),
+                                                          ),
+                                                          height: deviceHeight >
+                                                                  500
+                                                              ? deviceHeight *
+                                                                  0.121 *
+                                                                  (38 / 93)
+                                                              : deviceHeight *
+                                                                  0.2 *
+                                                                  (38 / 93),
+                                                          child: Image.asset(
+                                                            'assets/images/enterBook/star.png',
+                                                            fit: BoxFit.contain,
+                                                          )),
+                                                      ////////////////////////////// 3 Text
+                                                      Container(
+                                                        height:
+                                                            deviceHeight > 500
+                                                                ? deviceHeight *
+                                                                    0.121
+                                                                : deviceHeight *
+                                                                    0.2,
+                                                        child:
+                                                            FractionallySizedBox(
+                                                          heightFactor: 0.46,
+                                                          child: FittedBox(
+                                                            fit: BoxFit
+                                                                .fitHeight,
+                                                            child: Text(
+                                                              '3',
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'NunitoExtraBold',
+                                                                  fontSize:
+                                                                      deviceHeight >
+                                                                              500
+                                                                          ? 30
+                                                                          : 15,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                          ],
+                        ),
                 ),
+                widget.pickedBook == 6 ? Container() : Spacer(),
                 Spacer(),
               ],
             ),

@@ -5,7 +5,7 @@
     
     <meta-data android:name="unity.splash-mode" android:value="0" />
     <meta-data android:name="unity.splash-enable" android:value="True" />
-    <meta-data android:name="unity.build-id" android:value="72128c00-ed87-4885-83d0-15f45a9f0783" />
+    <meta-data android:name="unity.build-id" android:value="8c832e8c-4798-4c29-a66f-b52fc08c0d7a" />
     <meta-data android:name="unityplayer.SkipPermissionsDialog" android:value="true" />
     <meta-data android:name="com.google.ar.core" android:value="required" />
   </application>
