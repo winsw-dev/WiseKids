@@ -9,19 +9,11 @@ import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 
 class KidsInfo extends StatefulWidget {
-  
-
- 
-
-
   @override
   _KidsInfoState createState() => _KidsInfoState();
 }
 
 class _KidsInfoState extends State<KidsInfo> {
-
-
-  
   bool _buttonSwitch = false;
 
   final scrollController = ScrollController();
@@ -96,6 +88,8 @@ class _KidsInfoState extends State<KidsInfo> {
       bottom: false,
       right: false,
       child: Scaffold(
+        ////////////////////// avoid bottom notch pading
+        resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
             SingleChildScrollView(

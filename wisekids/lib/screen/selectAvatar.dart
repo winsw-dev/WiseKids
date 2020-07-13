@@ -11,10 +11,6 @@ class SelectAvatar extends StatefulWidget {
 }
 
 class _SelectAvatarState extends State<SelectAvatar> {
- 
-
-  
-
   ///////// Device Info
   bool ipad = Device.get().isTablet;
 
@@ -42,7 +38,6 @@ class _SelectAvatarState extends State<SelectAvatar> {
         scaleCatIpad = 40;
         scaleCatIphone = 20;
         print('BoySelected');
-        
       } else if (pickChar == 'girl') {
         scaleBoyIpad = 40;
         scaleBoyIphone = 20;
@@ -51,7 +46,6 @@ class _SelectAvatarState extends State<SelectAvatar> {
         scaleCatIpad = 40;
         scaleCatIphone = 20;
         print('GirlSelected');
-       
       } else if (pickChar == 'cat') {
         scaleBoyIpad = 40;
         scaleBoyIphone = 20;
@@ -60,7 +54,6 @@ class _SelectAvatarState extends State<SelectAvatar> {
         scaleCatIpad = 0;
         scaleCatIphone = 0;
         print('CatSelected');
-       
       }
       buttonSwitch = true;
     });
@@ -76,6 +69,8 @@ class _SelectAvatarState extends State<SelectAvatar> {
       bottom: false,
       right: false,
       child: Scaffold(
+        ////////////////////// avoid bottom notch pading
+        resizeToAvoidBottomPadding: false,
         body: SingleChildScrollView(
           child: Container(
             width: deviceWidth,

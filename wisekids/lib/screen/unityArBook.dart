@@ -75,13 +75,30 @@ class _UnityARBookState extends State<UnityARBook> {
       context: context,
       child: Container(),
     ); */
-    //////////////////////////// collected Sticker page
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => StickerCollected(),
-      ),
-    );
+    if (Provider.of<DataProvider>(context, listen: false)
+            .bookStatistic[Provider.of<DataProvider>(context, listen: false)
+                .currentKids]['book1']['kidsStickerCollection']
+            .length >
+        2) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      );
+      readDialog.showSlideDialog(
+        context: context,
+        child: Container(),
+      );
+    } else {
+      //////////////////////////// collected Sticker page
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => StickerCollected(),
+        ),
+      );
+    }
   }
 
   void _showArInteractiveDialog() {
@@ -110,57 +127,117 @@ class _UnityARBookState extends State<UnityARBook> {
   int page = 1;
   var subtitleText = '';
   void subtite() {
-    /// use switch case with content level
-    if (page == 1) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Todd likes to eat dessert. Candy is his favourite.');
-    } else if (page == 2) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Dad always tells Todd to brush his teeth after eating desserts.');
-    } else if (page == 3) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Todd brushes his teeth twice a day. But Todd has a secret. He often eats candies before his bedtime.');
-    } else if (page == 4) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'One night, Todd sleeps with candy in his mouth. He dreams about the candy town.');
-    } else if (page == 5) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          '"Wow, there are candies everywhere!" said Todd. Todd walks around and eats candies happily.');
-    } else if (page == 6) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Suddenly, Todd feels pain in his mouth. He looks at the mirror and opens his mouth.');
-    } else if (page == 7) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Something is moving in his mouth. "ahh, candy monster" screamed Todd.');
-    } else if (page == 8) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Todd tries to pick them out but he can\'t. Could anyone please help Todd?');
-    } else if (page == 9) {
-      _showArInteractiveDialog();
-      Provider.of<DataProvider>(context, listen: false)
-          .setInputSubtitle('There are ten candy monsters in Todd\'s mouth.');
-    } else if (page == 10) {
-      Provider.of<DataProvider>(context, listen: false)
-          .setInputSubtitle('Candy monsters are gone but his teeth decay.');
-    } else if (page == 11) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Todd wakes up and feels pain in his teeth then he cries.');
-    } else if (page == 12) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Dad comes to see Todd. He sees candy on Todd\'s bed then he knows that Todd secretly eats candies before sleep');
-    } else if (page == 13) {
-      Provider.of<DataProvider>(context, listen: false)
-          .setInputSubtitle('Dad takes Todd to see the dentist.');
-    } else if (page == 14) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'The dentist treats Todd\'s teeth and tells him not to eat dessert too much and brush teeth after eating or twice a day.');
-    } else if (page == 15) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Todd sincerely promises to his dad that he will brush his teeth twice a day and he won\'t eat candy before sleep again.');
-    } else if (page == 16) {
-      Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-          'Todd now have a clean white teeth and never have toothache again');
+    ///////////////////////// if avatar == girl then use her else use he/him/his (if avatar == cat,boy)
+    if (Provider.of<DataProvider>(context, listen: false).avatar[
+            Provider.of<DataProvider>(context, listen: false).currentKids] ==
+        'girl') {
+      ///////////////////////////////////////////// girl avatar use she/her
+      /// use switch case with content level
+      if (page == 1) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd likes to eat dessert. Candy is her favourite.');
+      } else if (page == 2) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Dad always tells Todd to brush her teeth after eating desserts.');
+      } else if (page == 3) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd brushes her teeth twice a day. But Todd has a secret. She often eats candies before her bedtime.');
+      } else if (page == 4) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'One night, Todd sleeps with candy in her mouth. She dreams about the candy town.');
+      } else if (page == 5) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            '"Wow, there are candies everywhere!" said Todd. Todd walks around and eats candies happily.');
+      } else if (page == 6) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Suddenly, Todd feels pain in her mouth. She looks at the mirror and opens her mouth.');
+      } else if (page == 7) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Something is moving in her mouth. "ahh, candy monster" screamed Todd.');
+      } else if (page == 8) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd tries to pick them out but she can\'t. Could anyone please help Todd?');
+      } else if (page == 9) {
+        _showArInteractiveDialog();
+        Provider.of<DataProvider>(context, listen: false)
+            .setInputSubtitle('There are ten candy monsters in Todd\'s mouth.');
+      } else if (page == 10) {
+        Provider.of<DataProvider>(context, listen: false)
+            .setInputSubtitle('Candy monsters are gone but her teeth decay.');
+      } else if (page == 11) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd wakes up and feels pain in her teeth then she cries.');
+      } else if (page == 12) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Dad comes to see Todd. She sees candy on Todd\'s bed then he knows that Todd secretly eats candies before sleep');
+      } else if (page == 13) {
+        Provider.of<DataProvider>(context, listen: false)
+            .setInputSubtitle('Dad takes Todd to see the dentist.');
+      } else if (page == 14) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'The dentist treats Todd\'s teeth and tells her not to eat dessert too much and brush her teeth after eating or twice a day.');
+      } else if (page == 15) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd sincerely promises to her dad that she will brush her teeth twice a day and she won\'t eat candy before sleep again.');
+      } else if (page == 16) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd now have a clean white teeth and never have toothache again');
+      }
+    } else {
+      ///////////////////////////////////////////// boy avatar use he/him/his
+      /// use switch case with content level
+      if (page == 1) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd likes to eat dessert. Candy is his favourite.');
+      } else if (page == 2) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Dad always tells Todd to brush his teeth after eating desserts.');
+      } else if (page == 3) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd brushes his teeth twice a day. But Todd has a secret. He often eats candies before his bedtime.');
+      } else if (page == 4) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'One night, Todd sleeps with candy in his mouth. He dreams about the candy town.');
+      } else if (page == 5) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            '"Wow, there are candies everywhere!" said Todd. Todd walks around and eats candies happily.');
+      } else if (page == 6) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Suddenly, Todd feels pain in his mouth. He looks at the mirror and opens his mouth.');
+      } else if (page == 7) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Something is moving in his mouth. "ahh, candy monster" screamed Todd.');
+      } else if (page == 8) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd tries to pick them out but he can\'t. Could anyone please help Todd?');
+      } else if (page == 9) {
+        _showArInteractiveDialog();
+        Provider.of<DataProvider>(context, listen: false)
+            .setInputSubtitle('There are ten candy monsters in Todd\'s mouth.');
+      } else if (page == 10) {
+        Provider.of<DataProvider>(context, listen: false)
+            .setInputSubtitle('Candy monsters are gone but his teeth decay.');
+      } else if (page == 11) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd wakes up and feels pain in his teeth then he cries.');
+      } else if (page == 12) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Dad comes to see Todd. He sees candy on Todd\'s bed then he knows that Todd secretly eats candies before sleep');
+      } else if (page == 13) {
+        Provider.of<DataProvider>(context, listen: false)
+            .setInputSubtitle('Dad takes Todd to see the dentist.');
+      } else if (page == 14) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'The dentist treats Todd\'s teeth and tells him not to eat dessert too much and brush his teeth after eating or twice a day.');
+      } else if (page == 15) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd sincerely promises to his dad that he will brush his teeth twice a day and he won\'t eat candy before sleep again.');
+      } else if (page == 16) {
+        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+            'Todd now have a clean white teeth and never have toothache again');
+      }
     }
+
     Provider.of<DataProvider>(context, listen: false).subtitleData();
   }
 
@@ -184,6 +261,8 @@ class _UnityARBookState extends State<UnityARBook> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        ////////////////////// avoid bottom notch pading
+        resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
             Container(
@@ -420,9 +499,9 @@ class _UnityARBookState extends State<UnityARBook> {
       });
       ////////////////////////// finished reading
       if (page > 16) {
-        _showFinishReadDialog();
         Provider.of<DataProvider>(context, listen: false)
             .finishedReading(watch.elapsed.inSeconds, 'book1');
+        _showFinishReadDialog();
         !bool.fromEnvironment("dart.vm.product")
             ? print('readedTime == ' + watch.elapsed.inSeconds.toString())
             : null;

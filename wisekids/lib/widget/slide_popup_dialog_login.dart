@@ -125,7 +125,7 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(0),
+      padding: /* MediaQuery.of(context).viewInsets +  */ EdgeInsets.all(0),
       /* MediaQuery.of(context).viewInsets +
           EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
       duration: Duration(milliseconds: 100),
@@ -209,32 +209,32 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                             });
 
                             /* if (Provider.of<DataProvider>(context,
-                                        listen: false)
-                                    .status ==
-                                Status.Unauthenticated) {
-                              setState(() {
-                                _loadingStatusAnimation = 'failure';
+                                          listen: false)
+                                      .status ==
+                                  Status.Unauthenticated) {
+                                setState(() {
+                                  _loadingStatusAnimation = 'failure';
 
-                                _isLoading = false;
-                              });
-                            } */
+                                  _isLoading = false;
+                                });
+                              } */
                             /* Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ParentalConsent(consentDetail: 'Facebook',);
-                                },
-                              ),
-                            ); */
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ParentalConsent(consentDetail: 'Facebook',);
+                                  },
+                                ),
+                              ); */
                           }
                           /* signInWithFacebook().whenComplete(() {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ParentalConsent();
-                                },
-                              ),
-                            );
-                          }); */
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ParentalConsent();
+                                  },
+                                ),
+                              );
+                            }); */
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -356,45 +356,45 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                             });
 
                             /* if (Provider.of<DataProvider>(context,
-                                        listen: false)
-                                    .status ==
-                                Status.Unauthenticated) {
-                              setState(() {
-                                _loadingStatusAnimation = 'failure';
+                                          listen: false)
+                                      .status ==
+                                  Status.Unauthenticated) {
+                                setState(() {
+                                  _loadingStatusAnimation = 'failure';
 
-                                _isLoading = false;
-                              });
-                            } */
+                                  _isLoading = false;
+                                });
+                              } */
 
                             /* Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ParentalConsent(consentDetail: 'Google',);
-                                },
-                              ),
-                            ); */
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ParentalConsent(consentDetail: 'Google',);
+                                  },
+                                ),
+                              ); */
                           }
                           /* if (signInWithGoogle() != null){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ParentalConsent();
-                                },
-                              ),
-                            );
-                          } else{
-                            print('GoogleSignIn Not successful');
-                          } */
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ParentalConsent();
+                                  },
+                                ),
+                              );
+                            } else{
+                              print('GoogleSignIn Not successful');
+                            } */
 
                           /*  signInWithGoogle().whenComplete(() {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ParentalConsent();
-                                },
-                              ),
-                            );
-                          }); */
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return ParentalConsent();
+                                  },
+                                ),
+                              );
+                            }); */
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -585,72 +585,72 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
 
               ///////////////////// Facebook Btn
               /* Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ParentalConsent(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 234),
-                      width: 442,
-                      child: Image.asset('assets/images/loginDialog/face.png'),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ParentalConsent(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 234),
+                        width: 442,
+                        child: Image.asset('assets/images/loginDialog/face.png'),
+                      ),
                     ),
                   ),
-                ),
-              ), */
+                ), */
               ///////////////////// Google Btn
               /* Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ParentalConsent(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 144),
-                      width: 442,
-                      child:
-                          Image.asset('assets/images/loginDialog/google.png'),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ParentalConsent(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 144),
+                        width: 442,
+                        child:
+                            Image.asset('assets/images/loginDialog/google.png'),
+                      ),
                     ),
                   ),
-                ),
-              ), */
+                ), */
               ////////////////////// Guest Mode
               /*  Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      return;
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 92),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: Text(
-                          'Use as Guest',
-                          style: TextStyle(
-                              fontFamily: 'NunitoRegular',
-                              fontSize: deviceHeight > 500 ? 19 : 15,
-                              color: Colors.white),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        return;
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 92),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Text(
+                            'Use as Guest',
+                            style: TextStyle(
+                                fontFamily: 'NunitoRegular',
+                                fontSize: deviceHeight > 500 ? 19 : 15,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ), */
+                ), */
               ////////////////////////////////// Loading
 
               Visibility(
@@ -708,19 +708,19 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                                 .catchError((err) => print(err));
                           }
                           /* else if (Provider.of<DataProvider>(context,
-                                      listen: true)
-                                  .status ==
-                              Status.Unauthenticated) {
-                            Navigator.pop(context);
-                            Fluttertoast.showToast(
-                                msg: "Sign fail, try again later",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 2,
-                                backgroundColor: Colors.black54,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                          } */
+                                        listen: true)
+                                    .status ==
+                                Status.Unauthenticated) {
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                  msg: "Sign fail, try again later",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 2,
+                                  backgroundColor: Colors.black54,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            } */
                         },
                         onError: (err, stack) {
                           print(err);

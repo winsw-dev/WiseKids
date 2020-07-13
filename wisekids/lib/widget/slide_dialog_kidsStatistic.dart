@@ -123,7 +123,7 @@ class _SlideDialogKidsStatisticState extends State<SlideDialogKidsStatistic> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(0),
+      padding: /* MediaQuery.of(context).viewInsets +  */ EdgeInsets.all(0),
       /* MediaQuery.of(context).viewInsets +
           EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
       duration: Duration(milliseconds: 100),
@@ -160,11 +160,10 @@ class _SlideDialogKidsStatisticState extends State<SlideDialogKidsStatistic> {
                           //height: deviceHeight * (425 / 768),
                           child: Padding(
                             padding: EdgeInsets.only(
-                              top: deviceHeight * (38 / 768),
-                              bottom: deviceHeight * (38 / 768),
-                              left: deviceWidth*(40/1024),
-                              right: deviceWidth*(40/1024)
-                            ),
+                                top: deviceHeight * (38 / 768),
+                                bottom: deviceHeight * (38 / 768),
+                                left: deviceWidth * (40 / 1024),
+                                right: deviceWidth * (40 / 1024)),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -238,7 +237,7 @@ class _SlideDialogKidsStatisticState extends State<SlideDialogKidsStatistic> {
                                       child: Wrap(
                                         direction: Axis.vertical,
                                         /* crossAxisAlignment:
-                                                      CrossAxisAlignment.start, */
+                                                        CrossAxisAlignment.start, */
                                         children: <Widget>[
                                           Container(
                                               //margin: EdgeInsets.only(top: 14),
@@ -673,19 +672,18 @@ class _SlideDialogKidsStatisticState extends State<SlideDialogKidsStatistic> {
                                                               224,
                                                               1.0)))),
                                               /////////////////////////////// Emoji
-                                              widget.kidsReview != ''? Container(
-                                              height: 20,
-                                              
-                                              child: FittedBox(
-                                                  fit: BoxFit.fitHeight,
-                                                  child:
-                                                      Text(widget.kidsReview))):Container(
-                                              height: 20,
-                                               child: FittedBox(
-                                                  fit: BoxFit.fitHeight,
-                                                  child:
-                                                      Text('-'))
-                                              ),
+                                              widget.kidsReview != ''
+                                                  ? Container(
+                                                      height: 20,
+                                                      child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Text(widget
+                                                              .kidsReview)))
+                                                  : Container(
+                                                      height: 20,
+                                                      child: FittedBox(
+                                                          fit: BoxFit.fitHeight,
+                                                          child: Text('-'))),
                                             ],
                                           ),
                                         ),

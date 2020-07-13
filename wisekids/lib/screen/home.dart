@@ -164,6 +164,8 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
         WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        ////////////////////// avoid bottom notch pading
+        resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
             Consumer<DataProvider>(

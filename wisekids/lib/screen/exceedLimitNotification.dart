@@ -41,6 +41,8 @@ class _ExceedLimitNotificationState extends State<ExceedLimitNotification> {
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
+          ////////////////////// avoid bottom notch pading
+          resizeToAvoidBottomPadding: false,
           body: SingleChildScrollView(
             child: Container(
               height: deviceHeight,

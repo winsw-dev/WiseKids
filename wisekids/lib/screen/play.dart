@@ -21,8 +21,6 @@ class _PlayState extends State<Play> {
       context: context,
       child: Container(),
     );
-
-    
   }
 
   ////////////////////////////////////////////////
@@ -85,6 +83,8 @@ class _PlayState extends State<Play> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      ////////////////////// avoid bottom notch pading
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           ///////////////////// Bg

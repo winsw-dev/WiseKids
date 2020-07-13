@@ -126,34 +126,44 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
 
   void textVocab() {
     if (textNumberCount == 1) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/one.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/one.mp3'));
       numberVocab = 'ONE !  ';
     } else if (textNumberCount == 2) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/two.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/two.mp3'));
       numberVocab = 'TWO !  ';
     } else if (textNumberCount == 3) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/three.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/three.mp3'));
       numberVocab = 'THREE !  ';
     } else if (textNumberCount == 4) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/four.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/four.mp3'));
       numberVocab = 'FOUR !  ';
     } else if (textNumberCount == 5) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/five.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/five.mp3'));
       numberVocab = 'FIVE !  ';
     } else if (textNumberCount == 6) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/six.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/six.mp3'));
       numberVocab = 'SIX !  ';
     } else if (textNumberCount == 7) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/seven.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/seven.mp3'));
       numberVocab = 'SEVEN !  ';
     } else if (textNumberCount == 8) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/eight.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/eight.mp3'));
       numberVocab = 'EIGHT !  ';
     } else if (textNumberCount == 9) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/nine.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/nine.mp3'));
       numberVocab = 'NINE !  ';
     } else if (textNumberCount == 10) {
-      AssetsAudioPlayer.playAndForget(Audio('assets/ttsAudio/arInteractive/ten.mp3'));
+      AssetsAudioPlayer.playAndForget(
+          Audio('assets/ttsAudio/arInteractive/ten.mp3'));
       numberVocab = 'TEN !  ';
       setState(() {
         animationController = true;
@@ -211,7 +221,7 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
     return WillPopScope(
       onWillPop: () async => false,
       child: AnimatedPadding(
-        padding: MediaQuery.of(context).viewInsets + EdgeInsets.only(top: 0),
+        padding: EdgeInsets.only(top: 0),
         duration: Duration(milliseconds: 100),
         curve: Curves.decelerate,
         child: MediaQuery.removeViewInsets(
@@ -808,47 +818,47 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
               ),
               //////////////////////////// close Btn
               /* Positioned.fill(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(500),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.1),
-                          blurRadius:
-                              10.0, // has the effect of softening the shadow
-                          spreadRadius:
-                              -1, // has the effect of extending the shadow
-                          offset: Offset(
-                            0.0, // horizontal, move right 10
-                            0.0, // vertical, move down 10
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(500),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.1),
+                            blurRadius:
+                                10.0, // has the effect of softening the shadow
+                            spreadRadius:
+                                -1, // has the effect of extending the shadow
+                            offset: Offset(
+                              0.0, // horizontal, move right 10
+                              0.0, // vertical, move down 10
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      margin: EdgeInsets.only(
+                          right: deviceHeight > 500
+                              ? deviceHeight * 0.05
+                              : deviceHeight * 0.05,
+                          top: deviceHeight > 500
+                              ? deviceHeight * 0.05
+                              : deviceHeight * 0.05),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            return;
+                          },
+                          child: Container(
+                            height: deviceHeight > 500
+                                ? deviceWidth * 0.078
+                                : deviceWidth * 0.078,
+                            child: SvgPicture.asset(
+                                'assets/images/vocabulary/closeBtn.svg'),
+                          )),
                     ),
-                    margin: EdgeInsets.only(
-                        right: deviceHeight > 500
-                            ? deviceHeight * 0.05
-                            : deviceHeight * 0.05,
-                        top: deviceHeight > 500
-                            ? deviceHeight * 0.05
-                            : deviceHeight * 0.05),
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          return;
-                        },
-                        child: Container(
-                          height: deviceHeight > 500
-                              ? deviceWidth * 0.078
-                              : deviceWidth * 0.078,
-                          child: SvgPicture.asset(
-                              'assets/images/vocabulary/closeBtn.svg'),
-                        )),
                   ),
-                ),
-              ), */
+                ), */
               ////////////////////////////////////////////////////////////////
             ],
           ),

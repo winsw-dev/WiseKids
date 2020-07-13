@@ -56,6 +56,8 @@ class _KidsProfileState extends State<KidsProfile> {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.00),
       child: Scaffold(
+        ////////////////////// avoid bottom notch pading
+        resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
             ///////////////////////////////// gradient Bg

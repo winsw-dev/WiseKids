@@ -59,6 +59,8 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
 
       /// Lock text Scale Factor
       child: Scaffold(
+        ////////////////////// avoid bottom notch pading
+        resizeToAvoidBottomPadding: false,
         body: Container(
           width: deviceWidth,
           height: deviceHeight,
@@ -124,7 +126,7 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                             height: deviceHeight > 500
                                 ? deviceHeight * (203 / 768)
                                 : deviceHeight * (280 / 495),
-                                width: (deviceHeight * (280 / 495))*(1258/1638),
+                            width: (deviceHeight * (280 / 495)) * (1258 / 1638),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.asset(
@@ -275,36 +277,30 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                       ],
                                     ),
                                     /////////////// Total Score
-                                          Wrap(
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.center,
-                                            children: <Widget>[
-                                              ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          1000),
-                                                  child: Container(
-                                                    height: 18,
-                                                    width: 18,
+                                    Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: <Widget>[
+                                        ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(1000),
+                                            child: Container(
+                                              height: 18,
+                                              width: 18,
+                                              color: Color.fromRGBO(
+                                                  238, 239, 243, 1.0),
+                                            )),
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            child: Text('Total Score',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'NunitoRegular',
+                                                    //fontSize: 21,
                                                     color: Color.fromRGBO(
-                                                        238, 239, 243, 1.0),
-                                                  )),
-                                              Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 10),
-                                                  child: Text('Total Score',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontFamily:
-                                                              'NunitoRegular',
-                                                          //fontSize: 21,
-                                                          color: Color.fromRGBO(
-                                                              80,
-                                                              85,
-                                                              89,
-                                                              1.0)))),
-                                            ],
-                                          ),
+                                                        80, 85, 89, 1.0)))),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
@@ -545,19 +541,18 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                                       color: Color.fromRGBO(
                                                           69, 223, 224, 1.0)))),
                                           /////////////////////////////// Emoji
-                                           widget.kidsReview != ''? Container(
-                                              height: 20,
-                                              
-                                              child: FittedBox(
-                                                  fit: BoxFit.fitHeight,
-                                                  child:
-                                                      Text(widget.kidsReview))):Container(
-                                              height: 20,
-                                               child: FittedBox(
-                                                  fit: BoxFit.fitHeight,
-                                                  child:
-                                                      Text('-'))
-                                              ),
+                                          widget.kidsReview != ''
+                                              ? Container(
+                                                  height: 20,
+                                                  child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: Text(
+                                                          widget.kidsReview)))
+                                              : Container(
+                                                  height: 20,
+                                                  child: FittedBox(
+                                                      fit: BoxFit.fitHeight,
+                                                      child: Text('-'))),
                                         ],
                                       ),
                                     ),

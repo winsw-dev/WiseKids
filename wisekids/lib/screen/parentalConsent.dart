@@ -82,6 +82,8 @@ class _ParentalConsentState extends State<ParentalConsent> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      ////////////////////// avoid bottom notch pading
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           ///////////////////////////////// gradient Bg

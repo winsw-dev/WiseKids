@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
@@ -47,8 +47,22 @@ Future<T> showSlideDialog<T>({
     transitionDuration: transitionDuration,
     transitionBuilder: (context, animation1, animation2, widget) {
       final curvedValue = Curves.easeInOut.transform(animation1.value) - 1.0;
-      return Transform(
+      /* return Transform(
         transform: Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+        child: Opacity(
+          opacity: animation1.value,
+          child: SlideDialogVocab(
+            child: child,
+          ),
+        ),
+      ); */
+      return ScaleTransition(
+        alignment: Alignment.center,
+        scale: CurvedAnimation(
+          parent: animation1,
+          curve: SpringCurve(),
+          reverseCurve: SpringReverseCurve(),
+        ),
         child: Opacity(
           opacity: animation1.value,
           child: SlideDialogVocab(
@@ -58,6 +72,35 @@ Future<T> showSlideDialog<T>({
       );
     },
   );
+}
+
+////////////////////////////////////////////////////////////////
+class SpringCurve extends Curve {
+  const SpringCurve({
+    this.a = 0.22,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
+
+class SpringReverseCurve extends Curve {
+  const SpringReverseCurve({
+    this.a = 0.15,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
 }
 
 //////////////////////////////////////////////////////////////
@@ -164,7 +207,8 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + EdgeInsets.only(top: 0),
+      padding: /* MediaQuery.of(context).viewInsets + */ EdgeInsets
+          .only(top: 0),
       duration: Duration(milliseconds: 100),
       curve: Curves.decelerate,
       child: MediaQuery.removeViewInsets(
@@ -176,8 +220,8 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
         child: Center(
           child: Container(
             /* width: deviceHeight > 500
-                ? deviceWidth * (987 / 1024)
-                : deviceWidth * (987 / 1024), */
+                  ? deviceWidth * (987 / 1024)
+                  : deviceWidth * (987 / 1024), */
             height:
                 deviceHeight > 500 ? deviceHeight * (692 / 768) : deviceHeight,
             child: AspectRatio(
@@ -251,28 +295,31 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                                             'assets/images/vocabulary/VocabStickerCollect.flr',
                                             artboard: 'Tooth',
                                             animation: Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['readBook'].length >0 
-                                                        //////////////////////// lazy to fix
-                                                        /* && Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['book1'][
-                                                        'kidsStickerCollection']
-                                                    .contains('tooth')  */
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .bookStatistic[
+                                                            Provider.of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .currentKids]
+                                                            ['readBook']
+                                                        .length >
+                                                    0
+                                                //////////////////////// lazy to fix
+                                                /* && Provider.of<
+                                                              DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .bookStatistic[
+                                                          Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .currentKids]
+                                                          ['book1'][
+                                                          'kidsStickerCollection']
+                                                      .contains('tooth')  */
                                                 ? toothController
                                                 : 'UnCollected',
                                           ),
@@ -349,28 +396,31 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                                             'assets/images/vocabulary/VocabStickerCollect.flr',
                                             artboard: 'Monster',
                                             animation: Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['readBook'].length >0 
-                                                        //////////////////////// lazy to fix
-                                                        /* && Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['book1'][
-                                                        'kidsStickerCollection']
-                                                    .contains('monster')  */
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .bookStatistic[
+                                                            Provider.of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .currentKids]
+                                                            ['readBook']
+                                                        .length >
+                                                    0
+                                                //////////////////////// lazy to fix
+                                                /* && Provider.of<
+                                                              DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .bookStatistic[
+                                                          Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .currentKids]
+                                                          ['book1'][
+                                                          'kidsStickerCollection']
+                                                      .contains('monster')  */
                                                 ? monsterController
                                                 : 'UnCollected',
                                           ),
@@ -449,28 +499,31 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                                             'assets/images/vocabulary/VocabStickerCollect.flr',
                                             artboard: 'Mirror',
                                             animation: Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['readBook'].length >0 
-                                                        //////////////////////// lazy to fix
-                                                        /* && Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['book1'][
-                                                        'kidsStickerCollection']
-                                                    .contains('mirror')  */
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .bookStatistic[
+                                                            Provider.of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .currentKids]
+                                                            ['readBook']
+                                                        .length >
+                                                    0
+                                                //////////////////////// lazy to fix
+                                                /* && Provider.of<
+                                                              DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .bookStatistic[
+                                                          Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .currentKids]
+                                                          ['book1'][
+                                                          'kidsStickerCollection']
+                                                      .contains('mirror')  */
                                                 ? mirrorController
                                                 : 'UnCollected',
                                           ),
@@ -547,28 +600,31 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                                             'assets/images/vocabulary/VocabStickerCollect.flr',
                                             artboard: 'Candy',
                                             animation: Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['readBook'].length >0 
-                                                        //////////////////////// lazy to fix
-                                                        /* && Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['book1'][
-                                                        'kidsStickerCollection']
-                                                    .contains('candy')  */
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .bookStatistic[
+                                                            Provider.of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .currentKids]
+                                                            ['readBook']
+                                                        .length >
+                                                    0
+                                                //////////////////////// lazy to fix
+                                                /* && Provider.of<
+                                                              DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .bookStatistic[
+                                                          Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .currentKids]
+                                                          ['book1'][
+                                                          'kidsStickerCollection']
+                                                      .contains('candy')  */
                                                 ? candyController
                                                 : 'UnCollected',
                                           ),
@@ -652,28 +708,31 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                                             'assets/images/vocabulary/VocabStickerCollect.flr',
                                             artboard: 'ToothBrush',
                                             animation: Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['readBook'].length >0 
-                                                        //////////////////////// lazy to fix
-                                                        /* && Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .bookStatistic[
-                                                        Provider.of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .currentKids]
-                                                        ['book1'][
-                                                        'kidsStickerCollection']
-                                                    .contains('toothBrush')   */
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .bookStatistic[
+                                                            Provider.of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .currentKids]
+                                                            ['readBook']
+                                                        .length >
+                                                    0
+                                                //////////////////////// lazy to fix
+                                                /* && Provider.of<
+                                                              DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .bookStatistic[
+                                                          Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .currentKids]
+                                                          ['book1'][
+                                                          'kidsStickerCollection']
+                                                      .contains('toothBrush')   */
                                                 ? toothBrushController
                                                 : 'UnCollected',
                                           ),
@@ -793,7 +852,7 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                           SizedBox(
                             width: deviceHeight > 500
                                 ? deviceHeight /*  *
-                                  (692 / 768)  */
+                                    (692 / 768)  */
                                     *
                                     (3014 / 1929) *
                                     (67 / 100)

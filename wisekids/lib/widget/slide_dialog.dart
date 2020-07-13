@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -77,7 +78,7 @@ class _SlideDialogState extends State<SlideDialog> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(0),
+      padding: /* MediaQuery.of(context).viewInsets +  */ EdgeInsets.all(0),
       /* MediaQuery.of(context).viewInsets +
           EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
       duration: Duration(milliseconds: 100),
@@ -113,9 +114,9 @@ class _SlideDialogState extends State<SlideDialog> {
                     children: <Widget>[
                       Container(
                         /* width: deviceHeight > 500
-                            ? deviceWidth * 0.55
-                            : deviceWidth * 0.48,
-                        height: deviceHeight * 0.61, */
+                              ? deviceWidth * 0.55
+                              : deviceWidth * 0.48,
+                          height: deviceHeight * 0.61, */
                         child: Stack(
                           children: <Widget>[
                             /////////////////////////////////////// Theme Bg
@@ -123,7 +124,8 @@ class _SlideDialogState extends State<SlideDialog> {
                               builder: (context, themeProvider, child) =>
                                   Container(
                                 decoration: BoxDecoration(
-                                  color: themeColor(themeProvider.theme[themeProvider.currentKids]),
+                                  color: themeColor(themeProvider
+                                      .theme[themeProvider.currentKids]),
                                   borderRadius: BorderRadius.all(
                                     ///////////////////////////// round corner bottom left,right
                                     Radius.circular(30),
@@ -134,8 +136,9 @@ class _SlideDialogState extends State<SlideDialog> {
                                       topLeft: Radius.circular(31.5),
                                       topRight: Radius.circular(31.5)),
                                   child: Image.asset(
-                                    themePopupBg[
-                                        themeProvider.theme[themeProvider.currentKids]-1],
+                                    themePopupBg[themeProvider
+                                            .theme[themeProvider.currentKids] -
+                                        1],
                                     gaplessPlayback: true,
                                   ),
                                 ),
@@ -143,26 +146,26 @@ class _SlideDialogState extends State<SlideDialog> {
                             ),
                             /////////////////////////////////////// White Bg
                             /* Positioned.fill(
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.all(
-                                      ///////////////////////////// round corner bottom left,right
-                                      Radius.circular(30),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      borderRadius: BorderRadius.all(
+                                        ///////////////////////////// round corner bottom left,right
+                                        Radius.circular(30),
+                                      ),
                                     ),
+                                    height: 271,
                                   ),
-                                  height: 271,
                                 ),
-                              ),
-                            ), */
+                              ), */
 
                             /////////////////////////////////////// Cloud
                             Container(
                               /* width: deviceHeight > 500
-                                  ? deviceWidth * 0.55
-                                  : deviceWidth * 0.4, */
+                                    ? deviceWidth * 0.55
+                                    : deviceWidth * 0.4, */
                               margin: EdgeInsets.only(
                                   top: deviceHeight > 500
                                       ? (deviceHeight * 0.61) * 0.31
@@ -221,9 +224,9 @@ class _SlideDialogState extends State<SlideDialog> {
                                       ? deviceWidth * 0.55
                                       : deviceWidth * 0.47,
                                   /* height: deviceHeight > 500
-                                      ? deviceHeight * 0.255
-                                      : (deviceHeight - (deviceHeight * 0.2)) *
-                                          0.45, */
+                                        ? deviceHeight * 0.255
+                                        : (deviceHeight - (deviceHeight * 0.2)) *
+                                            0.45, */
 
                                   margin: EdgeInsets.only(
                                       top: deviceHeight > 500
@@ -278,7 +281,9 @@ class _SlideDialogState extends State<SlideDialog> {
                                                   BoxShadow(
                                                     ///////////////////////// Shadow color
                                                     color: shadowColor[theme
-                                                        .theme[theme.currentKids]-1],
+                                                                .theme[
+                                                            theme.currentKids] -
+                                                        1],
                                                     blurRadius:
                                                         15.0, // has the effect of softening the shadow
                                                     spreadRadius:
@@ -325,7 +330,7 @@ class _SlideDialogState extends State<SlideDialog> {
                                                 0.02),
                                     child: SvgPicture.asset(
                                       selectYourThemeSvg[
-                                          theme.theme[theme.currentKids]-1],
+                                          theme.theme[theme.currentKids] - 1],
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),
@@ -360,16 +365,18 @@ class _SlideDialogState extends State<SlideDialog> {
                                         children: <Widget>[
                                           ///////////////////////////////// choose theme1
                                           GestureDetector(
-                                            onTap: () =>/* {
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) { */
+                                            onTap: () =>
+                                                /* {
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) { */
                                                 // Add Your Code here.
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
                                                     .chooseTheme(1)
-                                              /* });
-                                            } */,
+                                            /* });
+                                              } */
+                                            ,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -385,15 +392,17 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           //////////////////////////////// choose theme2
                                           GestureDetector(
-                                            onTap: () =>/* {
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) { */
+                                            onTap: () =>
+                                                /* {
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
                                                     .chooseTheme(2)
-                                             /*  });
-                                            } */,
+                                            /*  });
+                                              } */
+                                            ,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -409,15 +418,17 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           //////////////////////////////// choose theme3
                                           GestureDetector(
-                                            onTap: () =>/* {
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) { */
+                                            onTap: () =>
+                                                /* {
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
                                                     .chooseTheme(3)
-                                              /* });
-                                            } */,
+                                            /* });
+                                              } */
+                                            ,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -433,15 +444,17 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           /////////////////////////////// choose theme4
                                           GestureDetector(
-                                            onTap: () =>/* {
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) { */
+                                            onTap: () =>
+                                                /* {
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
                                                     .chooseTheme(4)
-                                             /*  });
-                                            } */,
+                                            /*  });
+                                              } */
+                                            ,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -457,15 +470,17 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           /////////////////////////////// choose theme5
                                           GestureDetector(
-                                            onTap: () =>/* {
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback((_) { */
+                                            onTap: () =>
+                                                /* {
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) { */
                                                 Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
                                                     .chooseTheme(5)
-                                             /*  });
-                                            } */,
+                                            /*  });
+                                              } */
+                                            ,
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>

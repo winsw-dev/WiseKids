@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flare_flutter/flare_actor.dart';
-
+import 'dart:math';
 import '../screen/home.dart';
 import 'package:provider/provider.dart';
 import '../screen/play.dart';
@@ -46,8 +46,23 @@ Future<T> showSlideDialog<T>({
     transitionDuration: transitionDuration,
     transitionBuilder: (context, animation1, animation2, widget) {
       final curvedValue = Curves.easeInOut.transform(animation1.value) - 1.0;
-      return Transform(
+      /* return Transform(
         transform: Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+        child: Opacity(
+          opacity: animation1.value,
+          child: SlideDialogDeleteKidsProfile(
+            deleteWhichKid: deleteWhichKid,
+            child: child,
+          ),
+        ),
+      ); */
+      return ScaleTransition(
+        alignment: Alignment.center,
+        scale: CurvedAnimation(
+          parent: animation1,
+          curve: SpringCurve(),
+          reverseCurve: SpringReverseCurve(),
+        ),
         child: Opacity(
           opacity: animation1.value,
           child: SlideDialogDeleteKidsProfile(
@@ -60,6 +75,33 @@ Future<T> showSlideDialog<T>({
   );
 }
 
+class SpringCurve extends Curve {
+  const SpringCurve({
+    this.a = 0.22,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
+
+class SpringReverseCurve extends Curve {
+  const SpringReverseCurve({
+    this.a = 0.15,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -96,7 +138,7 @@ class _SlideDialogDeleteKidsProfileState
     return WillPopScope(
       onWillPop: () async => false,
       child: AnimatedPadding(
-        padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(0),
+        padding: EdgeInsets.all(0),
         /* MediaQuery.of(context).viewInsets +
             EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
         duration: Duration(milliseconds: 100),
@@ -108,6 +150,8 @@ class _SlideDialogDeleteKidsProfileState
           removeBottom: true,
           context: context,
           child: Scaffold(
+            ////////////////////// avoid bottom notch pading
+            resizeToAvoidBottomPadding: false,
             backgroundColor: Colors.transparent,
             body: Stack(
               children: <Widget>[

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
+import 'dart:math';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 
@@ -20,35 +20,105 @@ Future<T> showSlideDialog<T>({
 }) {
   assert(context != null);
   assert(child != null);
-
+  final deviceHeight = MediaQuery.of(context).size.height;
   return showGeneralDialog(
-    context: context,
-    pageBuilder: (context, animation1, animation2) {},
-    barrierColor: barrierColor ?? Colors.black.withOpacity(0.7),
-    barrierDismissible: true,
-    barrierLabel: "Dismiss",
-    transitionDuration: transitionDuration,
-    transitionBuilder: (context, animation1, animation2, widget) {
-      final curvedValue = Curves.easeInOut.transform(animation1.value) - 1.0;
-      return Transform(
+      context: context,
+      pageBuilder: (context, animation1, animation2) {},
+      barrierColor: barrierColor ?? Colors.black.withOpacity(0.7),
+      barrierDismissible: true,
+      barrierLabel: "Dismiss",
+      transitionDuration: transitionDuration,
+      transitionBuilder:
+          /*  (context, animation1, animation2, widget) {
+      final curvedValue = Curves.easeInOut.transform(animation1.value) - 1.0; */
+          /* return Transform(
         transform: Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
         child: Opacity(
           opacity: animation1.value,
-          child: SelectAvatarAddKidsDialog(popUpMode: popUpMode,editWhichKid: editWhichKid,
+          child: SelectAvatarAddKidsDialog(
+            popUpMode: popUpMode,
+            editWhichKid: editWhichKid,
             child: child,
-            
             backgroundColor: backgroundColor ?? Theme.of(context).canvasColor,
           ),
         ),
-      );
-    },
-  );
+      ); */
+          deviceHeight < 500
+              //////////////////////////////////////////////// phone version bounce animation
+              ? (context, animation1, animation2, widget) {
+                  final curvedValue =
+                      Curves.easeInOut.transform(animation1.value) - 1.0;
+                  //final curvedValue = SpringCurve().transform(animation1.value) - 1;
+
+                  return Transform(
+                    transform:
+                        Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+                    child: Opacity(
+                      opacity: animation1.value,
+                      child: SelectAvatarAddKidsDialog(
+                        popUpMode: popUpMode,
+                        editWhichKid: editWhichKid,
+                        child: child,
+                        backgroundColor:
+                            backgroundColor ?? Theme.of(context).canvasColor,
+                      ),
+                    ),
+                  );
+                }
+              : (context, animation1, animation2, widget) {
+                  return ScaleTransition(
+                    alignment: Alignment.center,
+                    scale: CurvedAnimation(
+                      parent: animation1,
+                      curve: SpringCurve(),
+                      reverseCurve: SpringReverseCurve(),
+                    ),
+                    child: Opacity(
+                      opacity: animation1.value,
+                      child: SelectAvatarAddKidsDialog(
+                        popUpMode: popUpMode,
+                        editWhichKid: editWhichKid,
+                        child: child,
+                        backgroundColor:
+                            backgroundColor ?? Theme.of(context).canvasColor,
+                      ),
+                    ),
+                  );
+                });
 }
 
+////////////////////////////////////////////////////////////////
+
+class SpringCurve extends Curve {
+  const SpringCurve({
+    this.a = 0.22,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
+
+class SpringReverseCurve extends Curve {
+  const SpringReverseCurve({
+    this.a = 0.15,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
-
 
 class SelectAvatarAddKidsDialog extends StatefulWidget {
   final int editWhichKid;
@@ -56,14 +126,15 @@ class SelectAvatarAddKidsDialog extends StatefulWidget {
   final Widget child;
   final Color backgroundColor;
 
-  SelectAvatarAddKidsDialog({
-    @required this.child,
-    @required this.backgroundColor,
-    @required this.popUpMode, this.editWhichKid
-  });
+  SelectAvatarAddKidsDialog(
+      {@required this.child,
+      @required this.backgroundColor,
+      @required this.popUpMode,
+      this.editWhichKid});
 
   @override
-  _SelectAvatarAddKidsDialogState createState() => _SelectAvatarAddKidsDialogState();
+  _SelectAvatarAddKidsDialogState createState() =>
+      _SelectAvatarAddKidsDialogState();
 }
 
 class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
@@ -117,12 +188,10 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
     }
   }
 
- 
-
   ///////////////////////////////////////////// use this override to prevent [ setState() called after dispose() ] error!!
   @override
-   void setState(fn) {
-    if(mounted){
+  void setState(fn) {
+    if (mounted) {
       super.setState(fn);
     }
   }
@@ -130,12 +199,11 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
 
   @override
   Widget build(BuildContext context) {
-
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets ,
+      padding: /* MediaQuery.of(context).viewInsets */ EdgeInsets.all(0),
       /* MediaQuery.of(context).viewInsets +
           EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
       duration: Duration(milliseconds: 100),
@@ -193,7 +261,7 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                       topRight: Radius.circular(31.5)),
                                   child: Image.asset(
                                     themePopupBg[
-                                        themeProvider.addkidsTheme-1],
+                                        themeProvider.addkidsTheme - 1],
                                     gaplessPlayback: true,
                                   ),
                                 ),
@@ -299,14 +367,18 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                         overscroll.disallowGlow();
                                       },
                                       child: new Swiper(
-                                        index:widget.popUpMode=='createProfile'? Provider.of<DataProvider>(
-                                                context,
-                                                listen: false)
-                                            .selectAvatarSwiperIndexAddKids():Provider.of<DataProvider>(
-                                                context,
-                                                listen: false).selectAvatarSwiperIndexEditKids(Provider.of<DataProvider>(
-                                                context,
-                                                listen: false).cacheEditKidsProfileAvatar),
+                                        index: widget.popUpMode ==
+                                                'createProfile'
+                                            ? Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .selectAvatarSwiperIndexAddKids()
+                                            : Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .selectAvatarSwiperIndexEditKids(
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .cacheEditKidsProfileAvatar),
                                         loop: false,
                                         controller: _avatarSwipeController,
                                         onTap: (int index) {
@@ -321,19 +393,25 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                                 animation: true);
                                           }
                                         },
-                                        onIndexChanged:widget.popUpMode=='createProfile'?  (int index) {
-                                          setState(() {
-                                            Provider.of<DataProvider>(context,
-                                                    listen: false)
-                                                .selectAvatarSwiperAddKids(index);
-                                          });
-                                        }:(int index) {
-                                          Provider.of<DataProvider>(context,
-                                                    listen: false)
-                                                .editProfileAvatar(widget.editWhichKid, index);
-
-
-                                        },
+                                        onIndexChanged:
+                                            widget.popUpMode == 'createProfile'
+                                                ? (int index) {
+                                                    setState(() {
+                                                      Provider.of<DataProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .selectAvatarSwiperAddKids(
+                                                              index);
+                                                    });
+                                                  }
+                                                : (int index) {
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .editProfileAvatar(
+                                                            widget.editWhichKid,
+                                                            index);
+                                                  },
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Consumer<DataProvider>(
@@ -345,8 +423,8 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                     ///////////////////////// Shadow color
-                                                    color: shadowColor[theme
-                                                        .addkidsTheme-1],
+                                                    color: shadowColor[
+                                                        theme.addkidsTheme - 1],
                                                     blurRadius:
                                                         15.0, // has the effect of softening the shadow
                                                     spreadRadius:
@@ -393,7 +471,7 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                                 0.02),
                                     child: SvgPicture.asset(
                                       selectYourThemeSvg[
-                                          theme.addkidsTheme-1],
+                                          theme.addkidsTheme - 1],
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),
@@ -428,25 +506,36 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                         children: <Widget>[
                                           ///////////////////////////////// choose theme1
                                           GestureDetector(
-                                            onTap: widget.popUpMode=='createProfile'? () => /* {
+                                            onTap: widget.popUpMode ==
+                                                    'createProfile'
+                                                ? () =>
+                                                    /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                // Add Your Code here.
-                                                Provider.of<DataProvider>(
+                                                    // Add Your Code here.
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(
+                                                            1) //;
+                                                /* });
+                                            } */
+                                                : () => Provider.of<
+                                                            DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseThemeAddKids(1)//;
-                                              /* });
-                                            } */:() => Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(1),
+                                                    .chooseThemeEditKidsProfile(
+                                                        1),
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
                                                   SelectThemeWidget(
-                                                visible: themeProvider
-                                                    .cacheEditKidsTheme1Visibility,
+                                                visible: widget.popUpMode ==
+                                                        'createProfile'
+                                                    ? themeProvider
+                                                        .addkidsTheme1Visibility
+                                                    : themeProvider
+                                                        .cacheEditKidsTheme1Visibility,
                                                 themePath:
                                                     'assets/images/themePopup/theme1Preview.png',
                                                 deviceHeight: deviceHeight,
@@ -456,24 +545,34 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           ),
                                           //////////////////////////////// choose theme2
                                           GestureDetector(
-                                            onTap: widget.popUpMode=='createProfile'? () =>/*{
+                                            onTap: widget.popUpMode ==
+                                                    'createProfile'
+                                                ? () =>
+                                                    /*{
                                                WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(2)
+                                                /* });
+                                            } */
+                                                : () => Provider.of<
+                                                            DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseThemeAddKids(2)
-                                              /* });
-                                            } */:() =>Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(2),
+                                                    .chooseThemeEditKidsProfile(
+                                                        2),
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
                                                   SelectThemeWidget(
-                                                visible: themeProvider
-                                                    .cacheEditKidsTheme2Visibility,
+                                                visible: widget.popUpMode ==
+                                                        'createProfile'
+                                                    ? themeProvider
+                                                        .addkidsTheme2Visibility
+                                                    : themeProvider
+                                                        .cacheEditKidsTheme2Visibility,
                                                 themePath:
                                                     'assets/images/themePopup/theme2Preview.png',
                                                 deviceHeight: deviceHeight,
@@ -483,24 +582,34 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           ),
                                           //////////////////////////////// choose theme3
                                           GestureDetector(
-                                            onTap:widget.popUpMode=='createProfile'? () =>/* {
+                                            onTap: widget.popUpMode ==
+                                                    'createProfile'
+                                                ? () =>
+                                                    /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(3)
+                                                /* });
+                                            } */
+                                                : () => Provider.of<
+                                                            DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseThemeAddKids(3)
-                                              /* });
-                                            } */:() =>Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(3),
+                                                    .chooseThemeEditKidsProfile(
+                                                        3),
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
                                                   SelectThemeWidget(
-                                                visible: themeProvider
-                                                    .cacheEditKidsTheme3Visibility,
+                                                visible: widget.popUpMode ==
+                                                        'createProfile'
+                                                    ? themeProvider
+                                                        .addkidsTheme3Visibility
+                                                    : themeProvider
+                                                        .cacheEditKidsTheme3Visibility,
                                                 themePath:
                                                     'assets/images/themePopup/theme3Preview.png',
                                                 deviceHeight: deviceHeight,
@@ -510,24 +619,34 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           ),
                                           /////////////////////////////// choose theme4
                                           GestureDetector(
-                                            onTap:widget.popUpMode=="createProfile"? () =>/* {
+                                            onTap: widget.popUpMode ==
+                                                    "createProfile"
+                                                ? () =>
+                                                    /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(4)
+                                                /*  });
+                                            } */
+                                                : () => Provider.of<
+                                                            DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseThemeAddKids(4)
-                                             /*  });
-                                            } */:() =>Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(4),
+                                                    .chooseThemeEditKidsProfile(
+                                                        4),
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
                                                   SelectThemeWidget(
-                                                visible: themeProvider
-                                                    .cacheEditKidsTheme4Visibility,
+                                                visible: widget.popUpMode ==
+                                                        'createProfile'
+                                                    ? themeProvider
+                                                        .addkidsTheme4Visibility
+                                                    : themeProvider
+                                                        .cacheEditKidsTheme4Visibility,
                                                 themePath:
                                                     'assets/images/themePopup/theme4Preview.png',
                                                 deviceHeight: deviceHeight,
@@ -537,24 +656,34 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           ),
                                           /////////////////////////////// choose theme5
                                           GestureDetector(
-                                            onTap:widget.popUpMode=='createProfile'? () =>/* {
+                                            onTap: widget.popUpMode ==
+                                                    'createProfile'
+                                                ? () =>
+                                                    /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
+                                                    Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(5)
+                                                /* });
+                                            } */
+                                                : () => Provider.of<
+                                                            DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .chooseThemeAddKids(5)
-                                              /* });
-                                            } */:() => Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(5),
+                                                    .chooseThemeEditKidsProfile(
+                                                        5),
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
                                                   SelectThemeWidget(
-                                                visible: themeProvider
-                                                    .cacheEditKidsTheme5Visibility,
+                                                visible: widget.popUpMode ==
+                                                        'createProfile'
+                                                    ? themeProvider
+                                                        .addkidsTheme5Visibility
+                                                    : themeProvider
+                                                        .cacheEditKidsTheme5Visibility,
                                                 themePath:
                                                     'assets/images/themePopup/theme5Preview.png',
                                                 deviceHeight: deviceHeight,

@@ -51,12 +51,12 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
 
   @override
   Widget build(BuildContext context) {
-
-    
     final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      ////////////////////// avoid bottom notch pading
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           ///////////////////////////////// gradient Bg
@@ -526,7 +526,7 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                       starCount: 5,
                                       allowHalfRating: false,
                                       spacing: 2.0,
-                                      onRated:  (value) {
+                                      onRated: (value) {
                                         setState(() {
                                           rating = value;
                                         });

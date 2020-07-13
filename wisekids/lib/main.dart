@@ -221,12 +221,13 @@ class _MyHomePageState extends State<MyHomePage> {
     /// initialize device size into provider
     Provider.of<DataProvider>(context, listen: false)
         .getDeviceSize(deviceHeight, deviceWidth);
-    
+
     /// Start app used timer
     var timerService = TimerService.of(context);
     timerService.start();
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           Container(

@@ -69,22 +69,47 @@ class _StickerCollectedState extends State<StickerCollected> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        ////////////////////// avoid bottom notch pading
+        resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
             ////////////////////////// BG
-            Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [
-                    0.1,
-                    1.0
-                  ],
-                      colors: [
-                    Color.fromRGBO(188, 53, 235, 1.0),
-                    Color.fromRGBO(251, 71, 149, 1.0),
-                  ])),
+            GestureDetector(
+              onTap: _perventMultipleTab
+                  ? () {
+                      setState(() {
+                        _perventMultipleTab = false;
+                      });
+
+                      Timer(Duration(seconds: 1),
+                          () => setState(() => _perventMultipleTab = true));
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(),
+                        ),
+                      );
+                      readDialog.showSlideDialog(
+                        context: context,
+                        child: Container(),
+                      );
+                    }
+                  : null,
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: [
+                      0.1,
+                      1.0
+                    ],
+                        colors: [
+                      Color.fromRGBO(188, 53, 235, 1.0),
+                      Color.fromRGBO(251, 71, 149, 1.0),
+                    ])),
+              ),
             ),
             ////////////////////////////////////////////////////////////////////// CongratSign
             Positioned.fill(

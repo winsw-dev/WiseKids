@@ -269,6 +269,7 @@ flutter:
     - assets/images/enterBook/enterBookTheme3.png
     - assets/images/enterBook/enterBookTheme4.png
     - assets/images/enterBook/enterBookTheme5.png
+    - assets/images/enterBook/EnterBookBtn.flr
 
     - assets/animation/wink.flr
 
@@ -409,7 +410,8 @@ flutter:
     - assets/animation/Firework.flr
     - assets/animation/star.flr
     - assets/animation/loading.flr
-
+    - assets/animation/btnAnimation.flr
+    - assets/animation/3star.flr
 
 
     ##################################  AR Interactive

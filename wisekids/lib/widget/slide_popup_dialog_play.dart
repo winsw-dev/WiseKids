@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flare_flutter/flare_actor.dart';
-
+import 'dart:math';
 import '../screen/home.dart';
 import 'package:provider/provider.dart';
 import '../screen/play.dart';
@@ -44,8 +44,22 @@ Future<T> showSlideDialog<T>({
     transitionDuration: transitionDuration,
     transitionBuilder: (context, animation1, animation2, widget) {
       final curvedValue = Curves.easeInOut.transform(animation1.value) - 1.0;
-      return Transform(
+      /* return Transform(
         transform: Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+        child: Opacity(
+          opacity: animation1.value,
+          child: SlideDialogPlay(
+            child: child,
+          ),
+        ),
+      ); */
+      return ScaleTransition(
+        alignment: Alignment.center,
+        scale: CurvedAnimation(
+          parent: animation1,
+          curve: SpringCurve(),
+          reverseCurve: SpringReverseCurve(),
+        ),
         child: Opacity(
           opacity: animation1.value,
           child: SlideDialogPlay(
@@ -55,6 +69,35 @@ Future<T> showSlideDialog<T>({
       );
     },
   );
+}
+
+///////////////////////////////////////////////////////////////
+class SpringCurve extends Curve {
+  const SpringCurve({
+    this.a = 0.22,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
+
+class SpringReverseCurve extends Curve {
+  const SpringReverseCurve({
+    this.a = 0.15,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
 }
 
 /////////////////////////////////////////////////////////////////
@@ -83,8 +126,6 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
     }
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -93,7 +134,7 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
     return WillPopScope(
       onWillPop: () async => false,
       child: AnimatedPadding(
-        padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(0),
+        padding: /*  MediaQuery.of(context).viewInsets + */ EdgeInsets.all(0),
         /* MediaQuery.of(context).viewInsets +
             EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
         duration: Duration(milliseconds: 100),
@@ -105,6 +146,8 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
           removeBottom: true,
           context: context,
           child: Scaffold(
+            ////////////////////// avoid bottom notch pading
+            resizeToAvoidBottomPadding: false,
             backgroundColor: Colors.transparent,
             body: Stack(
               children: <Widget>[
@@ -155,89 +198,30 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                   )),
                             ),
                           ),
-                          ///////////////////////////////////////////////// Close Btn
-                          Positioned.fill(
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: GestureDetector(
-                                onTap: _perventMultipleTab
-                                    ? () {
-                                        setState(() {
-                                          _perventMultipleTab = false;
-                                        });
 
-                                        Timer(
-                                            Duration(seconds: 1),
-                                            () => setState(() =>
-                                                _perventMultipleTab = true));
-
-                                        Navigator.pop(context);
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Home(),
-                                          ),
-                                        );
-                                      }
-                                    : null,
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                    top: deviceHeight > 500
-                                        ? deviceHeight *
-                                            (317 / 768) *
-                                            (60 / 317)
-                                        : deviceHeight *
-                                            (276 / 414) *
-                                            (55 / 276),
-                                    left: deviceHeight > 500
-                                        ? deviceHeight *
-                                            (317 / 768) *
-                                            (512 / 317) *
-                                            (480 / 512)
-                                        : deviceHeight *
-                                            (276 / 414) *
-                                            (446 / 276) *
-                                            (418.4 / 446),
-                                  ),
-                                  child: Container(
-                                    height: deviceHeight > 500
-                                        ? deviceHeight *
-                                            (317 / 768) *
-                                            (60 / 317)
-                                        : deviceHeight *
-                                            (276 / 414) *
-                                            (49 / 276),
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: SvgPicture.asset(
-                                          'assets/images/readDialog/closeBtn.svg'),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
                           //////////////////////////////////////////////// 3 Star Icon
                           Positioned.fill(
                             child: Align(
                               alignment: Alignment.topCenter,
                               child: Container(
-                                  margin: EdgeInsets.only(
-                                    top: deviceHeight > 500
-                                        ? deviceHeight *
-                                            (317 / 768) *
-                                            (98 / 317)
-                                        : deviceHeight *
-                                            (276 / 414) *
-                                            (86 / 276),
-                                  ),
-                                  height: deviceHeight > 500
-                                      ? deviceHeight * (317 / 768) * (99 / 317)
-                                      : deviceHeight * (276 / 414) * (86 / 276),
-                                  child: Image.asset(
+                                margin: EdgeInsets.only(
+                                  top: deviceHeight > 500
+                                      ? deviceHeight * (317 / 768) * (80 / 317)
+                                      : deviceHeight * (276 / 414) * (70 / 276),
+                                ),
+                                height: deviceHeight > 500
+                                    ? deviceHeight * (317 / 768) * (140 / 317)
+                                    : deviceHeight * (276 / 414) * (130 / 276),
+                                child: FlareActor(
+                                  "assets/animation/3star.flr",
+                                  artboard: '3star',
+                                  animation: 'animation',
+                                  fit: BoxFit.contain,
+                                ), /* Image.asset(
                                     'assets/images/readDialog/3star.png',
-                                    fit: BoxFit.contain,
-                                  )),
+                                    fit: BoxFit.contain, 
+                                  )*/
+                              ),
                             ),
                           ),
                           ///////////////////////////////////////////////// You're really improving Text
@@ -252,7 +236,7 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                             (219 / 317)
                                         : deviceHeight *
                                             (276 / 414) *
-                                            (191 / 276),
+                                            (200 / 276),
                                   ),
                                   height: deviceHeight > 500
                                       ? deviceHeight * (317 / 768) * (34 / 317)
@@ -280,7 +264,7 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                             (275 / 317)
                                         : deviceHeight *
                                             (276 / 414) *
-                                            (240 / 276),
+                                            (245 / 276),
                                   ),
                                   child: Stack(
                                     children: <Widget>[
@@ -394,12 +378,21 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                       top: deviceHeight > 500
                                           ? deviceHeight *
                                               (317 / 768) *
-                                              (342 / 317)
+                                              (330 / 317)
                                           : deviceHeight *
                                               (276 / 414) *
-                                              (297 / 276),
+                                              (287 / 276),
                                     ),
-                                    child: Row(
+                                    child: Container(
+                                      height: deviceHeight > 500
+                                          ? deviceHeight * (121 / 768)
+                                          : deviceHeight * (170 / 768),
+                                      child: FlareActor(
+                                          "assets/animation/btnAnimation.flr",
+                                          artboard: 'PlayAgainBtn',
+                                          animation: 'animation'),
+                                    ),
+                                    /* Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
@@ -446,12 +439,72 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                           ],
                                         ),
                                       ],
-                                    ),
+                                    ), */
                                   ),
                                 )),
                           ),
+                          ///////////////////////////////////////////////// Close Btn
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: GestureDetector(
+                                onTap: _perventMultipleTab
+                                    ? () {
+                                        setState(() {
+                                          _perventMultipleTab = false;
+                                        });
 
-                         
+                                        Timer(
+                                            Duration(seconds: 1),
+                                            () => setState(() =>
+                                                _perventMultipleTab = true));
+
+                                        Navigator.pop(context);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Home(),
+                                          ),
+                                        );
+                                      }
+                                    : null,
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                    top: deviceHeight > 500
+                                        ? deviceHeight *
+                                            (317 / 768) *
+                                            (60 / 317)
+                                        : deviceHeight *
+                                            (276 / 414) *
+                                            (55 / 276),
+                                    left: deviceHeight > 500
+                                        ? deviceHeight *
+                                            (317 / 768) *
+                                            (512 / 317) *
+                                            (480 / 512)
+                                        : deviceHeight *
+                                            (276 / 414) *
+                                            (446 / 276) *
+                                            (418.4 / 446),
+                                  ),
+                                  child: Container(
+                                    height: deviceHeight > 500
+                                        ? deviceHeight *
+                                            (317 / 768) *
+                                            (60 / 317)
+                                        : deviceHeight *
+                                            (276 / 414) *
+                                            (49 / 276),
+                                    child: AspectRatio(
+                                      aspectRatio: 1,
+                                      child: SvgPicture.asset(
+                                          'assets/images/readDialog/closeBtn.svg'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

@@ -134,7 +134,7 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(0),
+      padding: EdgeInsets.all(0),
       /* MediaQuery.of(context).viewInsets +
           EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
       duration: Duration(milliseconds: 100),
@@ -215,7 +215,7 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                             : 0,
                       ),
                       /* height:deviceHeight>500?
-                          (deviceHeight - (deviceHeight * 0.25)) * (100 / 572):(deviceHeight - (deviceHeight * 0.25)) * (130 / 572), */
+                            (deviceHeight - (deviceHeight * 0.25)) * (100 / 572):(deviceHeight - (deviceHeight * 0.25)) * (130 / 572), */
                       width: deviceHeight > 500
                           ? deviceWidth * 0.55 * (510 / 590)
                           : deviceWidth * 0.47 * (560 / 590),
@@ -471,7 +471,7 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                         ],
                       ),
                       /* height:deviceHeight>500?
-                          (deviceHeight - (deviceHeight * 0.25)) * (100 / 572):(deviceHeight - (deviceHeight * 0.25)) * (130 / 572), */
+                            (deviceHeight - (deviceHeight * 0.25)) * (100 / 572):(deviceHeight - (deviceHeight * 0.25)) * (130 / 572), */
                       width: deviceHeight > 500
                           ? deviceWidth * 0.55 * (490 / 590)
                           : deviceWidth * 0.47 * (520 / 590),
@@ -617,72 +617,72 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
 
               ///////////////////// Facebook Btn
               /* Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ParentalConsent(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 234),
-                      width: 442,
-                      child: Image.asset('assets/images/loginDialog/face.png'),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ParentalConsent(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 234),
+                        width: 442,
+                        child: Image.asset('assets/images/loginDialog/face.png'),
+                      ),
                     ),
                   ),
-                ),
-              ), */
+                ), */
               ///////////////////// Google Btn
               /* Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ParentalConsent(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 144),
-                      width: 442,
-                      child:
-                          Image.asset('assets/images/loginDialog/google.png'),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ParentalConsent(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 144),
+                        width: 442,
+                        child:
+                            Image.asset('assets/images/loginDialog/google.png'),
+                      ),
                     ),
                   ),
-                ),
-              ), */
+                ), */
               ////////////////////// Guest Mode
               /*  Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                      return;
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 92),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: Text(
-                          'Use as Guest',
-                          style: TextStyle(
-                              fontFamily: 'NunitoRegular',
-                              fontSize: deviceHeight > 500 ? 19 : 15,
-                              color: Colors.white),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        return;
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 92),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Text(
+                            'Use as Guest',
+                            style: TextStyle(
+                                fontFamily: 'NunitoRegular',
+                                fontSize: deviceHeight > 500 ? 19 : 15,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ), */
+                ), */
               ////////////////////////////////// Loading
 
               Visibility(
@@ -740,19 +740,19 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                                 .catchError((err) => print(err));
                           }
                           /* else if (Provider.of<DataProvider>(context,
-                                      listen: true)
-                                  .status ==
-                              Status.Unauthenticated) {
-                            Navigator.pop(context);
-                            Fluttertoast.showToast(
-                                msg: "Sign fail, try again later",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 2,
-                                backgroundColor: Colors.black54,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                          } */
+                                        listen: true)
+                                    .status ==
+                                Status.Unauthenticated) {
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                  msg: "Sign fail, try again later",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 2,
+                                  backgroundColor: Colors.black54,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            } */
                         },
                         onError: (err, stack) {
                           print(err);

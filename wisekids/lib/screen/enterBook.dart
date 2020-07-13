@@ -76,6 +76,8 @@ class _EnterBookState extends State<EnterBook> {
     final deviceHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      ////////////////////// avoid bottom notch pading
+      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           //////////////////////////////////////  Enter Book Theme Bg
@@ -124,6 +126,7 @@ class _EnterBookState extends State<EnterBook> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 widget.pickedBook == 6 ? Container() : Spacer(),
+                Spacer(),
                 Spacer(),
                 ///////////////////////////// Book Pic
                 Hero(
@@ -187,11 +190,16 @@ class _EnterBookState extends State<EnterBook> {
                               },
                               child: Container(
                                 height: deviceHeight > 500
-                                    ? deviceHeight * 0.121
-                                    : deviceHeight * 0.2,
+                                    ? deviceHeight * (121 / 768)
+                                    : deviceHeight * (170 / 768),
                                 child: AspectRatio(
-                                  aspectRatio: 216 / 93,
-                                  child: Stack(
+                                  aspectRatio: 268 / 121,
+                                  child: FlareActor(
+                                      "assets/animation/btnAnimation.flr",
+                                      artboard: 'ReadBtn',
+                                      animation: 'animation'),
+
+                                  /*  Stack(
                                     children: <Widget>[
                                       AspectRatio(
                                         aspectRatio: 216 / 93,
@@ -229,15 +237,17 @@ class _EnterBookState extends State<EnterBook> {
                                         ),
                                       ),
                                     ],
-                                  ),
+                                  ), */
                                 ),
                               ),
                             ),
                             /////////////////// spacer
                             SizedBox(
                                 height: deviceHeight > 500
-                                    ? deviceHeight * 0.055
-                                    : deviceHeight * 0.08),
+                                    ? deviceHeight * 0.055 -
+                                        (deviceHeight * 28 / 768)
+                                    : deviceHeight * 0.08 -
+                                        (deviceHeight * 28 / 768)),
                             /////////////////// play Btn
 
                             Provider.of<DataProvider>(context, listen: false)
@@ -260,6 +270,15 @@ class _EnterBookState extends State<EnterBook> {
                                     },
                                     child: Container(
                                       height: deviceHeight > 500
+                                          ? deviceHeight * (121 / 768)
+                                          : deviceHeight * (170 / 768),
+                                      child: AspectRatio(
+                                        aspectRatio: 268 / 121,
+                                        child: FlareActor(
+                                            "assets/animation/btnAnimation.flr",
+                                            artboard: 'PlayBtn',
+                                            animation: 'animation'),
+                                        /* height: deviceHeight > 500
                                           ? deviceHeight * 0.121
                                           : deviceHeight * 0.2,
                                       child: AspectRatio(
@@ -304,7 +323,7 @@ class _EnterBookState extends State<EnterBook> {
                                               ),
                                             ),
                                           ],
-                                        ),
+                                        ),*/
                                       ),
                                     ),
                                   )
@@ -477,15 +496,22 @@ class _EnterBookState extends State<EnterBook> {
                                           },
                                           child: Container(
                                             height: deviceHeight > 500
+                                                ? deviceHeight * (121 / 768)
+                                                : deviceHeight * (170 / 768),
+                                            /* height: deviceHeight > 500
                                                 ? deviceHeight * 0.121
-                                                : deviceHeight * 0.2,
+                                                : deviceHeight * 0.2, */
                                             child: AspectRatio(
                                               aspectRatio: 216 / 93,
-                                              child: Stack(
+                                              child: FlareActor(
+                                                  "assets/animation/btnAnimation.flr",
+                                                  artboard: 'UnlockBookBtn',
+                                                  animation: 'animation'),
+                                              /* Stack(
                                                 children: <Widget>[
                                                   AspectRatio(
                                                     aspectRatio: 216 / 93,
-                                                    child: SvgPicture.asset(
+                                                    child: SvgPicture.asset(as
                                                       'assets/images/enterBook/playBtn.svg',
                                                       fit: BoxFit.contain,
                                                     ),
@@ -554,7 +580,7 @@ class _EnterBookState extends State<EnterBook> {
                                                     ],
                                                   ),
                                                 ],
-                                              ),
+                                              ), */
                                             ),
                                           ),
                                         ),
@@ -569,6 +595,7 @@ class _EnterBookState extends State<EnterBook> {
                         ),
                 ),
                 widget.pickedBook == 6 ? Container() : Spacer(),
+                Spacer(),
                 Spacer(),
               ],
             ),

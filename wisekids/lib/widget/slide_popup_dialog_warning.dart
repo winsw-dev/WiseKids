@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -44,8 +44,22 @@ Future<T> showSlideDialog<T>({
     transitionDuration: transitionDuration,
     transitionBuilder: (context, animation1, animation2, widget) {
       final curvedValue = Curves.easeInOut.transform(animation1.value) - 1.0;
-      return Transform(
+      /* return Transform(
         transform: Matrix4.translationValues(0.0, curvedValue * -300, 0.0),
+        child: Opacity(
+          opacity: animation1.value,
+          child: SlideDialogWarning(
+            child: child,
+          ),
+        ),
+      ); */
+      return ScaleTransition(
+        alignment: Alignment.center,
+        scale: CurvedAnimation(
+          parent: animation1,
+          curve: SpringCurve(),
+          reverseCurve: SpringReverseCurve(),
+        ),
         child: Opacity(
           opacity: animation1.value,
           child: SlideDialogWarning(
@@ -57,6 +71,34 @@ Future<T> showSlideDialog<T>({
   );
 }
 
+///////////////////////////////////////////////////////////////
+class SpringCurve extends Curve {
+  const SpringCurve({
+    this.a = 0.22,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
+
+class SpringReverseCurve extends Curve {
+  const SpringReverseCurve({
+    this.a = 0.15,
+    this.w = 6.5,
+  });
+  final double a;
+  final double w;
+
+  @override
+  double transformInternal(double t) {
+    return -(pow(e, -t / a) * cos(t * w)) + 1;
+  }
+}
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -91,7 +133,7 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
     return WillPopScope(
       onWillPop: () async => false,
       child: AnimatedPadding(
-        padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(0),
+        padding: /* MediaQuery.of(context).viewInsets + */ EdgeInsets.all(0),
         /* MediaQuery.of(context).viewInsets +
             EdgeInsets.only(top: deviceHeight / 3.0 + _currentPosition), */
         duration: Duration(milliseconds: 100),
@@ -103,6 +145,8 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
           removeBottom: true,
           context: context,
           child: Scaffold(
+            ////////////////////// avoid bottom notch pading
+            resizeToAvoidBottomPadding: false,
             backgroundColor: Colors.transparent,
             body: Stack(
               children: <Widget>[
@@ -165,15 +209,21 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                     height: deviceHeight > 500
                                         ? deviceHeight *
                                             (317 / 768) *
-                                            (60 / 317)
+                                            (62 / 317)
                                         : deviceHeight *
                                             (276 / 414) *
-                                            (49 / 276),
+                                            (55 / 276),
                                     child: AspectRatio(
+                                      aspectRatio: 76 / 79,
+                                      child: FlareActor(
+                                          "assets/animation/btnAnimation.flr",
+                                          artboard: 'CloseBtn',
+                                          animation: 'animation'),
+                                    ), /* AspectRatio(
                                       aspectRatio: 1,
                                       child: SvgPicture.asset(
                                           'assets/images/readDialog/closeBtn.svg'),
-                                    ),
+                                    ), */
                                   ),
                                 ),
                               ),
@@ -230,20 +280,21 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                         )),
                                     ////////////////////////////////////////// article text
                                     Container(
-                                      margin: EdgeInsets.only(left:deviceHeight > 500
-                                        ? deviceHeight *
-                                            (317 / 768) *
-                                            (16 / 317)
-                                        : deviceHeight *
-                                            (276 / 414) *
-                                            (13 / 276),
-                                            right:deviceHeight > 500
-                                        ? deviceHeight *
-                                            (317 / 768) *
-                                            (16 / 317)
-                                        : deviceHeight *
-                                            (276 / 414) *
-                                            (13 / 276)),
+                                        margin: EdgeInsets.only(
+                                            left: deviceHeight > 500
+                                                ? deviceHeight *
+                                                    (317 / 768) *
+                                                    (16 / 317)
+                                                : deviceHeight *
+                                                    (276 / 414) *
+                                                    (13 / 276),
+                                            right: deviceHeight > 500
+                                                ? deviceHeight *
+                                                    (317 / 768) *
+                                                    (16 / 317)
+                                                : deviceHeight *
+                                                    (276 / 414) *
+                                                    (13 / 276)),
                                         height: deviceHeight > 500
                                             ? deviceHeight *
                                                 (368 / 768) *
@@ -253,24 +304,35 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                                 (320 / 414) *
                                                 (309 / 368) *
                                                 (68 / 317),
-                                        child: AspectRatio(aspectRatio: 452/68,
-                                                                                  child: FittedBox(
+                                        child: AspectRatio(
+                                          aspectRatio: 452 / 68,
+                                          child: FittedBox(
                                             fit: BoxFit.contain,
-                                            child:
-                                            Provider.of<DataProvider>(context, listen: false).kidsStar[Provider.of<DataProvider>(context, listen: false).currentKids] <6?
-                                             Text(
-                                              'You don\'t have enough stars.\nCollect more stars from books you have.',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'NunitoSemiBold',
-                                                  color: Colors.white),
-                                            ):Text(
-                                              'Book content is not avaliable now.',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'NunitoSemiBold',
-                                                  color: Colors.white),
-                                            ),
+                                            child: Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .kidsStar[Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .currentKids] <
+                                                    6
+                                                ? Text(
+                                                    'You don\'t have enough stars.\nCollect more stars from books you have.',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NunitoSemiBold',
+                                                        color: Colors.white),
+                                                  )
+                                                : Text(
+                                                    'Book content is not avaliable now.',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NunitoSemiBold',
+                                                        color: Colors.white),
+                                                  ),
                                           ),
                                         )),
                                     ///////////////////////////////////////
@@ -281,7 +343,7 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                           ),
 
                           /////////////////////////////////////////////////////////////////////////////
-                          ////////////////////////////////////////////////////// Play again Btn
+                          ////////////////////////////////////////////////////// okay btn
                           Positioned.fill(
                             child: Align(
                                 alignment: Alignment.bottomCenter,
@@ -301,6 +363,15 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                         }
                                       : null,
                                   child: Container(
+                                    height: deviceHeight > 500
+                                        ? deviceHeight * (121 / 768)
+                                        : deviceHeight * (170 / 768),
+                                    child: FlareActor(
+                                        "assets/animation/btnAnimation.flr",
+                                        artboard: 'OkayBtn',
+                                        animation: 'animation'),
+                                  ),
+                                  /* Container(
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -349,7 +420,7 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  ), */
                                 )),
                           ),
                         ],
