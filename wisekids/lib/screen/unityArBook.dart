@@ -75,11 +75,12 @@ class _UnityARBookState extends State<UnityARBook> {
       context: context,
       child: Container(),
     ); */
+
     if (Provider.of<DataProvider>(context, listen: false)
             .bookStatistic[Provider.of<DataProvider>(context, listen: false)
-                .currentKids]['book1']['kidsStickerCollection']
+                .currentKids]['readBook']
             .length >
-        2) {
+        0) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -499,9 +500,10 @@ class _UnityARBookState extends State<UnityARBook> {
       });
       ////////////////////////// finished reading
       if (page > 16) {
+        _showFinishReadDialog();
         Provider.of<DataProvider>(context, listen: false)
             .finishedReading(watch.elapsed.inSeconds, 'book1');
-        _showFinishReadDialog();
+
         !bool.fromEnvironment("dart.vm.product")
             ? print('readedTime == ' + watch.elapsed.inSeconds.toString())
             : null;
