@@ -15,6 +15,7 @@ import '../widget/slide_popup_dialog.dart' as slideDialog;
 import '../widget/slide_popup_dialog_vocab.dart' as vocabDialog;
 import '../widget/slide_popup_dialog_login.dart' as loginDialog;
 import '../widget/slide_popup_dialog_contentLevel.dart' as contentLevelDialog;
+import '../widget/slide_popup_dialog_warning.dart' as warningDialog;
 
 import '../widget/selectkids_popup_dialog.dart' as selectKidsDialog;
 
@@ -144,6 +145,13 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
 
   void _showVocabDialog() {
     vocabDialog.showSlideDialog(
+      context: context,
+      child: Container(),
+    );
+  }
+
+  void _showWarningDialog() {
+    warningDialog.showSlideDialog(
       context: context,
       child: Container(),
     );
@@ -753,23 +761,31 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
                         /* margin: EdgeInsets.only(
                             left: 12, right: 12, bottom: 10, top: 10), */
                         //padding: EdgeInsets.only(bottom: 20),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EnterBook(
-                                  pickedBook: index,
+                        child: index == 6
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EnterBook(
+                                        pickedBook: index,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Hero(
+                                  tag: 'book' + index.toString(),
+                                  child: FlareActor(bookShelf[index],
+                                      animation: 'bookAnimation'),
                                 ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  _showWarningDialog();
+                                },
+                                child: FlareActor(bookShelf[index],
+                                    animation: 'bookAnimation'),
                               ),
-                            );
-                          },
-                          child: Hero(
-                            tag: 'book' + index.toString(),
-                            child: FlareActor(bookShelf[index],
-                                animation: 'bookAnimation'),
-                          ),
-                        ),
                       );
                     },
                     itemCount: 7,

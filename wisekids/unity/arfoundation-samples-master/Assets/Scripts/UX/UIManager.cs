@@ -92,13 +92,19 @@ public class UIManager : MonoBehaviour
     {
 
         raycastManager = FindObjectOfType<ARRaycastManager>();
+        /// disable placementIndicator for automatic ar placement
+        placementIndicator.SetActive(false);
     }
 
     void Update()
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f; // FPS log info
+        ///// Manually tab to place ar content (if uncomment mean use PlacementIndicator)         
+        //UpdatePlacementIndicator();
+
         UpdatePlacementPose();
-        UpdatePlacementIndicator();
+        /// disable placementIndicator for automatic ar placement
+        placementIndicator.SetActive(false);
 
     }
 
@@ -120,21 +126,21 @@ public class UIManager : MonoBehaviour
 
     void FrameChanged(ARCameraFrameEventArgs args)
     {
-        if (PlanesFound() && m_ShowingMoveDevice )
+        if (PlanesFound() && m_ShowingMoveDevice)
         {
             if (moveDeviceAnimation)
                 moveDeviceAnimation.SetTrigger(k_FadeOffAnim);
-
-            if (tapToPlaceAnimation)
-                tapToPlaceAnimation.SetTrigger(k_FadeOnAnim);
-
+            ///// Manually tab to place ar content
+            /* if (tapToPlaceAnimation)
+                 tapToPlaceAnimation.SetTrigger(k_FadeOnAnim);
+*/
             m_ShowingTapToPlace = true;
             m_ShowingMoveDevice = false;
         }
 
         if (resetArGuildAnim) { ResetGuildAnimation(); }
 
-        if (!m_ShowingMoveDevice && !m_ShowingTapToPlace && PlaceMultipleObjectsOnPlane.objectPlaced ) { tapToPlaceAnimation.SetTrigger(k_FadeOffAnim); }
+        if (!m_ShowingMoveDevice && !m_ShowingTapToPlace && PlaceMultipleObjectsOnPlane.objectPlaced) { tapToPlaceAnimation.SetTrigger(k_FadeOffAnim); }
 
 
     }
@@ -144,6 +150,7 @@ public class UIManager : MonoBehaviour
         //PlaceMultipleObjectsOnPlane.onPlacedObject -= PlacedObject;
         m_ShowingTapToPlace = false;
         m_ShowingMoveDevice = true;
+        ///// Manually tab to place ar content
         //moveDeviceAnimation.SetTrigger(k_FadeOffAnim);
         if (moveDeviceAnimation)
             moveDeviceAnimation.SetTrigger(k_FadeOnAnim);
@@ -164,7 +171,7 @@ public class UIManager : MonoBehaviour
 
     void PlacedObject()
     {
-        
+
         if (m_ShowingTapToPlace)
         {
             //if (tapToPlaceAnimation)
@@ -202,6 +209,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdatePlacementIndicator()
     {
+
         if (placementPoseIsValid)
         {
             placementIndicator.SetActive(true);

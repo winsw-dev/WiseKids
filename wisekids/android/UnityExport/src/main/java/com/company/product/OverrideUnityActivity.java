@@ -1,3 +1,4 @@
+package com.company.product;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 

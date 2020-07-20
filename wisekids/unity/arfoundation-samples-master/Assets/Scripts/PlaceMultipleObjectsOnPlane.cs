@@ -39,7 +39,7 @@ public class PlaceMultipleObjectsOnPlane : MonoBehaviour
         get { return m_scene1CatPrefab; }
         set { m_scene1CatPrefab = value; }
     }
-    
+
 
 
 
@@ -79,38 +79,38 @@ public class PlaceMultipleObjectsOnPlane : MonoBehaviour
     public static Vector3 placedPosition;
     public static Quaternion placedRotation;
 
-  
+
     void Awake()
     {
-        
-        
+
+
 
     }
 
     private void Start()
     {
-       /*m_RaycastManager = GetComponent<ARRaycastManager>();
-        if (selectedMainCharecter == "Boy")
-        {
-            placeObject = m_scene1BoyPrefab;
+        m_RaycastManager = GetComponent<ARRaycastManager>();
+         if (selectedMainCharecter == "Boy")
+         {
+             placeObject = m_scene1BoyPrefab;
 
-        }
-        else if (selectedMainCharecter == "Girl")
-        {
-            placeObject = m_scene1GirlPrefab;
+         }
+         else if (selectedMainCharecter == "Girl")
+         {
+             placeObject = m_scene1GirlPrefab;
 
-        }
-        else if (selectedMainCharecter == "Cat")
-        {
-            placeObject = m_scene1CatPrefab;
+         }
+         else if (selectedMainCharecter == "Cat")
+         {
+             placeObject = m_scene1CatPrefab;
 
-        }*/
+         }
     }
 
     void Update()
     {
-
-        if (Input.touchCount > 0 && !objectPlaced)
+        /////////////////////////////////////////////// Manually tab to place ar content
+        /*if (Input.touchCount > 0 && !objectPlaced)
         {
             Touch touch = Input.GetTouch(0);
 
@@ -131,14 +131,36 @@ public class PlaceMultipleObjectsOnPlane : MonoBehaviour
                     }
                 }
             }
+        }*/
+        /////////////////////////////////////////////// Automatic place object when plane has detected
+        if (!objectPlaced)
+        {
+            Vector2 centerScreen = new Vector2(Screen.width / 2, Screen.height / 2);
+
+            if (m_RaycastManager.Raycast(centerScreen, s_Hits, TrackableType.PlaneWithinPolygon))
+            {
+
+                Pose hitPose = s_Hits[0].pose;
+                placedPosition = UIManager.placementPose.position;
+                placedRotation = UIManager.placementPose.rotation;
+                spawnedObject = Instantiate(placeObject, UIManager.placementPose.position, UIManager.placementPose.rotation);
+                objectPlaced = true;
+                UnityMessageManager.Instance.SendMessageToFlutter("Placed object");
+                if (onPlacedObject != null)
+                {
+                    onPlacedObject();
+                }
+            }
+
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
 
 
 
-void MainCharacterSelected(String messageFromFlutter)
-{
+    void MainCharacterSelected(String messageFromFlutter)
+    {
         selectedMainCharecter = messageFromFlutter;
 
         m_RaycastManager = GetComponent<ARRaycastManager>();

@@ -832,46 +832,60 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                     ),
                   ),
                   //////////////////////////////////////// Next & Back Navigate Btn
-                  Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          ////////////////////// Back Btn
+                  //// hide navigat Btn if only have 1 book
+                  Provider.of<DataProvider>(context, listen: false)
+                              .bookStatistic[Provider.of<DataProvider>(context,
+                                      listen: false)
+                                  .currentKids]['readBook']
+                              .length >
+                          1
+                      ? Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ////////////////////// Back Btn
 
-                          Container(
-                            height: deviceHeight > 500
-                                ? deviceHeight * (692 / 768) * (80 / 692)
-                                : deviceHeight * (692 / 768) * (100 / 692),
-                            child: Image.asset(
-                              'assets/images/vocabulary/back.png',
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(
-                            width: deviceHeight > 500
-                                ? deviceHeight /*  *
+                                Container(
+                                  height: deviceHeight > 500
+                                      ? deviceHeight * (692 / 768) * (80 / 692)
+                                      : deviceHeight *
+                                          (692 / 768) *
+                                          (100 / 692),
+                                  child: Image.asset(
+                                    'assets/images/vocabulary/back.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: deviceHeight > 500
+                                      ? deviceHeight /*  *
                                     (692 / 768)  */
-                                    *
-                                    (3014 / 1929) *
-                                    (67 / 100)
-                                : deviceHeight * (3014 / 1929) * (76 / 100),
-                          ),
-                          //////////////////////// Next Btn
-                          Container(
-                            height: deviceHeight > 500
-                                ? deviceHeight * (692 / 768) * (80 / 692)
-                                : deviceHeight * (692 / 768) * (100 / 692),
-                            child: Image.asset(
-                              'assets/images/vocabulary/next.png',
-                              fit: BoxFit.contain,
+                                          *
+                                          (3014 / 1929) *
+                                          (67 / 100)
+                                      : deviceHeight *
+                                          (3014 / 1929) *
+                                          (76 / 100),
+                                ),
+                                //////////////////////// Next Btn
+                                Container(
+                                  height: deviceHeight > 500
+                                      ? deviceHeight * (692 / 768) * (80 / 692)
+                                      : deviceHeight *
+                                          (692 / 768) *
+                                          (100 / 692),
+                                  child: Image.asset(
+                                    'assets/images/vocabulary/next.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                          ),
+                        )
+                      : Container(),
                 ],
               ),
             ),

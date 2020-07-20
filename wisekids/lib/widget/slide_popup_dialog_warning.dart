@@ -326,7 +326,7 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                                         color: Colors.white),
                                                   )
                                                 : Text(
-                                                    'Book content is not avaliable now.',
+                                                    'New book content is coming soon!',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         fontFamily:
