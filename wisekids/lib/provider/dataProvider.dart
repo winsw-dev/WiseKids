@@ -1483,7 +1483,31 @@ class DataProvider extends ChangeNotifier {
   }
 
   resetSubtitleState() {
-    _inputSubtitle = 'Todd likes to eat dessert. Candy is his favourite.';
+    if (avatar[currentKids] == 'girl') {
+      if (kidsContentLevel[currentKids] == 1) {
+        _inputSubtitle = 'Todd likes candy.';
+      } else if (kidsContentLevel[currentKids] == 2) {
+        _inputSubtitle = 'Todd likes to eat dessert everyday.';
+      } else if (kidsContentLevel[currentKids] == 3) {
+        _inputSubtitle =
+            'Todd likes to eat dessert everyday. Candy was her favourite.';
+      } else if (kidsContentLevel[currentKids] == 4) {
+        _inputSubtitle =
+            'There was a little girl named Todd, she likes to eat dessert everyday. Candy was one of her favourites.';
+      }
+    } else {
+      if (kidsContentLevel[currentKids] == 1) {
+        _inputSubtitle = 'Todd likes candy.';
+      } else if (kidsContentLevel[currentKids] == 2) {
+        _inputSubtitle = 'Todd likes to eat dessert everyday.';
+      } else if (kidsContentLevel[currentKids] == 3) {
+        _inputSubtitle =
+            'Todd likes to eat dessert everyday. Candy was his favourite.';
+      } else if (kidsContentLevel[currentKids] == 4) {
+        _inputSubtitle =
+            'There was a little boy named Todd, he likes to eat dessert everyday. Candy was one of his favourites.';
+      }
+    }
   }
 
   subtitleData() {
