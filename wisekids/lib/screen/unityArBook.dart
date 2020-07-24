@@ -210,7 +210,7 @@ class _UnityARBookState extends State<UnityARBook> {
               'Todd brushed her teeth twice a day and she won\'t eat candy before sleep again.');
         } else if (page == 24) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Todd has clean white teeth and never has a toothache again.');
+              'Todd now has clean white teeth and never has a toothache again.');
         }
       }
 
@@ -304,7 +304,7 @@ class _UnityARBookState extends State<UnityARBook> {
             .setInputSubtitle('There are ten candy monsters in Todd\'s mouth.');
       } else if (page == 10) {
         Provider.of<DataProvider>(context, listen: false)
-            .setInputSubtitle('Candy monsters are gone but her teeth decay.');
+            .setInputSubtitle('Candy monsters are gone but her teeth decayed.');
       } else if (page == 11) {
         Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
             'Todd wakes up and feels pain in her teeth then she cries.');
@@ -322,7 +322,7 @@ class _UnityARBookState extends State<UnityARBook> {
             'Todd sincerely promises to her dad that she will brush her teeth twice a day and she won\'t eat candy before sleep again.');
       } else if (page == 16) {
         Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Todd now have a clean white teeth and never have toothache again');
+            'Todd now has a clean white teeth and never has toothache again');
       }
 
       //// Content Level == Hard
@@ -473,7 +473,7 @@ class _UnityARBookState extends State<UnityARBook> {
               'Todd brushed his teeth twice a day and he won\'t eat candy before sleep again.');
         } else if (page == 24) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Todd has clean white teeth and never has a toothache again.');
+              'Todd now has clean white teeth and never has a toothache again.');
         }
       }
 
@@ -570,7 +570,7 @@ class _UnityARBookState extends State<UnityARBook> {
               'There are ten candy monsters in Todd\'s mouth.');
         } else if (page == 10) {
           Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Candy monsters are gone but his teeth decay.');
+              .setInputSubtitle('Candy monsters are gone but his teeth decayed.');
         } else if (page == 11) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'Todd wakes up and feels pain in his teeth then he cries.');
@@ -588,7 +588,7 @@ class _UnityARBookState extends State<UnityARBook> {
               'Todd sincerely promises to his dad that he will brush his teeth twice a day and he won\'t eat candy before sleep again.');
         } else if (page == 16) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Todd now have a clean white teeth and never have toothache again');
+              'Todd now has a clean white teeth and never has toothache again');
         }
       }
 
@@ -772,9 +772,9 @@ class _UnityARBookState extends State<UnityARBook> {
                           : deviceWidth * 0.02,
                     ),
                     height: deviceHeight > 500
-                        ? deviceHeight * 0.104
+                        ? deviceHeight * (80/768)
                         : deviceHeight * 0.17,
-                    child: Image.asset('assets/images/enterBook/homeBtn.png'),
+                    child: Image.asset('assets/images/enterBook/homeBtn.png',fit: BoxFit.contain,),
                   ),
                 ),
               ),
@@ -819,6 +819,27 @@ class _UnityARBookState extends State<UnityARBook> {
                     ),
                   )
                 : Container(),
+
+
+            //////////////////////// VoiceOver Btn
+            Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child:Container(
+                          margin: EdgeInsets.only(
+                            bottom: deviceHeight > 500
+                            ? deviceHeight * (140 / 1024) + deviceWidth * 0.015
+                            : deviceHeight * (290 / 1024)+ deviceWidth * 0.015,
+                            right: deviceHeight > 500
+                                ? deviceWidth * 0.02
+                                : deviceWidth * 0.02,
+                          ),
+                          height: deviceHeight > 500
+                              ? deviceHeight * (60/768)
+                              : deviceHeight * 0.15,
+                          child: Image.asset('assets/images/arUI/soundButton.png'),
+                        ),),),
+
 
             //////////////////////// Subtitle Row
             objectPlaced
@@ -1166,7 +1187,7 @@ class SubtitleSpeakable extends StatelessWidget {
 
                           ////////////////// play sound and auto dispose
                           AssetsAudioPlayer.playAndForget(Audio(
-                              'assets/ttsAudio/candyMonster/level1/' +
+                              'assets/ttsAudio/candyMonster/' +
                                   word.toLowerCase().replaceAll(
                                       new RegExp(r'(?:_|[^\w\s])+'), '') +
                                   '.mp3'));

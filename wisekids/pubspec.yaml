@@ -318,6 +318,8 @@ flutter:
     - assets/images/arUI/button_book_back.png
     - assets/images/arUI/button_book_forward.png
     - assets/images/arUI/3dBtn.png
+    - assets/images/arUI/soundButton.png
+    - assets/images/arUI/soundOnButton.png
 
 
     ########### Play
@@ -412,6 +414,7 @@ flutter:
     - assets/animation/loading.flr
     - assets/animation/btnAnimation.flr
     - assets/animation/3star.flr
+    - assets/animation/Home_Btn.flr
 
 
     ##################################  AR Interactive
@@ -445,7 +448,7 @@ flutter:
 
     ################################### TTS Candy Monster
     ########## Level1
-    - assets/ttsAudio/candyMonster/level1/
+    - assets/ttsAudio/candyMonster/
     ########## arInteractive
     - assets/ttsAudio/arInteractive/
 
