@@ -6,7 +6,7 @@ import 'package:wisekids/screen/enterBook.dart';
 import 'dart:async';
 import 'dart:math';
 import '../screen/home.dart';
-
+import '../provider/audioProvider.dart';
 import 'package:provider/provider.dart';
 import '../screen/play.dart';
 import '../provider/dataProvider.dart';
@@ -394,9 +394,31 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                     () => setState(() =>
                                                         _perventMultipleTab =
                                                             true));
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playSoundEffect(
+                                                        "click2", 1.0);
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .pauseBgMusic();
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playPlayTheme();
 
                                                 Navigator.pop(context);
-                                                Navigator.pushReplacement(
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EnterBook(
+                                                      pickedBook: 6,
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
@@ -477,9 +499,18 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                     () => setState(() =>
                                                         _perventMultipleTab =
                                                             true));
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playSoundEffect(
+                                                        "select", 1.0);
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playCandyMonsterTheme();
 
                                                 Navigator.pop(context);
-                                                Navigator.pushReplacement(
+                                                Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
@@ -584,6 +615,9 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                             Duration(seconds: 1),
                                             () => setState(() =>
                                                 _perventMultipleTab = true));
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .playSoundEffect("click3", 1.0);
 
                                         Navigator.pop(context);
                                         /* Navigator.pushReplacement(

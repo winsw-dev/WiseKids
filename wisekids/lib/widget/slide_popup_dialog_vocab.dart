@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import '../provider/audioProvider.dart';
 
 /// Display slide dialog.
 ///
@@ -816,6 +817,9 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                                         Duration(seconds: 1),
                                         () => setState(
                                             () => _perventMultipleTab = true));
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click3", 1.0);
                                     Navigator.pop(context);
                                   }
                                 : null,

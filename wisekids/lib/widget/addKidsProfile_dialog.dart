@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'dart:math';
+import '../provider/audioProvider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -172,11 +173,27 @@ class AddMoreKidsState extends State<AddMoreKids>
           NumberPickerColumn(
             begin: 1,
             end: 9,
-            suffix: Text(" years old"),
+            suffix: Provider.of<DataProvider>(context, listen: false)
+                        .parentAreaLanguage ==
+                    "TH"
+                ? Text(
+                    " ขวบ",
+                  )
+                : Text(" years old"),
           ),
         ]),
         textScaleFactor: 1,
         itemExtent: 50,
+        confirmText: Provider.of<DataProvider>(context, listen: false)
+                    .parentAreaLanguage ==
+                "TH"
+            ? 'ตกลง'
+            : 'confirm',
+        cancelText: Provider.of<DataProvider>(context, listen: false)
+                    .parentAreaLanguage ==
+                "TH"
+            ? 'ยกเลิก'
+            : 'cancel',
         confirmTextStyle: TextStyle(
           color: Color.fromRGBO(69, 223, 224, 1.0),
           fontSize: 18,
@@ -261,9 +278,16 @@ class AddMoreKidsState extends State<AddMoreKids>
                     children: <Widget>[
                       /////////////////////////////// Create New User Text
                       Container(
-                        height: deviceHeight > 500
-                            ? (deviceHeight * 0.5) * 0.1
-                            : (deviceHeight * 0.85) * 0.1,
+                        height:
+                            Provider.of<DataProvider>(context, listen: false)
+                                        .parentAreaLanguage ==
+                                    "TH"
+                                ? deviceHeight > 500
+                                    ? (deviceHeight * 0.5) * 0.115
+                                    : (deviceHeight * 0.85) * 0.115
+                                : deviceHeight > 500
+                                    ? (deviceHeight * 0.5) * 0.1
+                                    : (deviceHeight * 0.85) * 0.1,
                         margin: EdgeInsets.only(
                             left: deviceHeight > 500
                                 ? (deviceHeight * 0.5) * (52 / 381)
@@ -274,22 +298,41 @@ class AddMoreKidsState extends State<AddMoreKids>
                             bottom: deviceHeight > 500
                                 ? (deviceHeight * 0.5) * (20 / 381)
                                 : (deviceHeight * 0.85) * (20 / 381)),
-                        child: FittedBox(
-                          fit: BoxFit.fitHeight,
-                          child: widget.popUpMode == 'createProfile'
-                              ? Text('Create New Profile',
-                                  style: TextStyle(
-                                    fontFamily: 'NunitoExtraBold',
-                                    color: Colors
-                                        .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
-                                  ))
-                              : Text('Edit Profile',
-                                  style: TextStyle(
-                                    fontFamily: 'NunitoExtraBold',
-                                    color: Colors
-                                        .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
-                                  )),
-                        ),
+                        child: Provider.of<DataProvider>(context, listen: false)
+                                    .parentAreaLanguage ==
+                                "TH"
+                            ? FittedBox(
+                                fit: BoxFit.fitHeight,
+                                child: widget.popUpMode == 'createProfile'
+                                    ? Text('สร้างโปรไฟล์ใหม่',
+                                        style: TextStyle(
+                                          fontFamily: 'PromptSemiBold',
+                                          color: Colors
+                                              .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        ))
+                                    : Text('แก้ไขโปรไฟล์',
+                                        style: TextStyle(
+                                          fontFamily: 'PromptSemiBold',
+                                          color: Colors
+                                              .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        )),
+                              )
+                            : FittedBox(
+                                fit: BoxFit.fitHeight,
+                                child: widget.popUpMode == 'createProfile'
+                                    ? Text('Create New Profile',
+                                        style: TextStyle(
+                                          fontFamily: 'NunitoExtraBold',
+                                          color: Colors
+                                              .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        ))
+                                    : Text('Edit Profile',
+                                        style: TextStyle(
+                                          fontFamily: 'NunitoExtraBold',
+                                          color: Colors
+                                              .white /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        )),
+                              ),
                       ),
                       Spacer(),
                       //////////////////////////////////////////// Close Btn
@@ -304,6 +347,9 @@ class AddMoreKidsState extends State<AddMoreKids>
                                     Duration(seconds: 1),
                                     () => setState(
                                         () => _perventMultipleTab = true));
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("click3", 1.0);
 
                                 Navigator.pop(context);
 
@@ -344,6 +390,9 @@ class AddMoreKidsState extends State<AddMoreKids>
                       GestureDetector(
                         onTap: widget.popUpMode == 'createProfile'
                             ? () {
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("select", 1.0);
                                 /* Provider.of<DataProvider>(context,
                                                     listen: false)
                                                 .initEditKidsProfileCacheVar(widget.editWhichKid); */
@@ -498,13 +547,24 @@ class AddMoreKidsState extends State<AddMoreKids>
                                   : (deviceHeight * 0.85) * (27 / 381),
                               child: FittedBox(
                                 fit: BoxFit.fitHeight,
-                                child: Text('Kid\'s Name ',
-                                    style: TextStyle(
-                                      fontFamily: 'NunitoRegular',
-                                      //fontSize: deviceHeight > 500 ? 20 : 16,
-                                      color: Colors.white
-                                      /* Color.fromRGBO(69, 223, 224, 1.0) */,
-                                    )),
+                                child: Provider.of<DataProvider>(context,
+                                                listen: false)
+                                            .parentAreaLanguage ==
+                                        "TH"
+                                    ? Text('ชื่อเล่น',
+                                        style: TextStyle(
+                                          fontFamily: 'PromptLight',
+                                          //fontSize: deviceHeight > 500 ? 20 : 16,
+                                          color: Colors.white
+                                          /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        ))
+                                    : Text('Kid\'s Name ',
+                                        style: TextStyle(
+                                          fontFamily: 'NunitoRegular',
+                                          //fontSize: deviceHeight > 500 ? 20 : 16,
+                                          color: Colors.white
+                                          /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        )),
                               ),
                             ),
                             //////////////////////////// Kids name textfield
@@ -551,13 +611,27 @@ class AddMoreKidsState extends State<AddMoreKids>
                                       new InputDecoration /* .collapsed */ (
                                     hintText: /* null */ widget.popUpMode ==
                                             'createProfile'
-                                        ? 'Type Kid\'s Name...'
+                                        ? Provider.of<DataProvider>(context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? 'กรอกชื่อเล่น'
+                                            : 'Type Kid\'s Name...'
                                         : Provider.of<DataProvider>(context,
                                                 listen: false)
                                             .kidsName[widget.editWhichKid],
-                                    hintStyle: TextStyle(
-                                        color:
-                                            Color.fromRGBO(132, 134, 148, 1.0)),
+                                    hintStyle: Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .parentAreaLanguage ==
+                                            "TH"
+                                        ? TextStyle(
+                                            fontFamily: 'PromptLight',
+                                            color: Color.fromRGBO(
+                                                132, 134, 148, 1.0))
+                                        : TextStyle(
+                                            color: Color.fromRGBO(
+                                                132, 134, 148, 1.0)),
                                     contentPadding: EdgeInsets.only(left: 15),
                                     filled: true,
                                     fillColor: Colors.white
@@ -607,13 +681,24 @@ class AddMoreKidsState extends State<AddMoreKids>
                                   : (deviceHeight * 0.85) * (27 / 381),
                               child: FittedBox(
                                 fit: BoxFit.fitHeight,
-                                child: Text('Kid\'s Age ',
-                                    style: TextStyle(
-                                      fontFamily: 'NunitoRegular',
-                                      //fontSize: deviceHeight > 500 ? 20 : 16,
-                                      color: Colors.white
-                                      /* Color.fromRGBO(69, 223, 224, 1.0) */,
-                                    )),
+                                child: Provider.of<DataProvider>(context,
+                                                listen: false)
+                                            .parentAreaLanguage ==
+                                        "TH"
+                                    ? Text('อายุ',
+                                        style: TextStyle(
+                                          fontFamily: 'PromptLight',
+                                          //fontSize: deviceHeight > 500 ? 20 : 16,
+                                          color: Colors.white
+                                          /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        ))
+                                    : Text('Kid\'s Age ',
+                                        style: TextStyle(
+                                          fontFamily: 'NunitoRegular',
+                                          //fontSize: deviceHeight > 500 ? 20 : 16,
+                                          color: Colors.white
+                                          /* Color.fromRGBO(69, 223, 224, 1.0) */,
+                                        )),
                               ),
                             ),
 
@@ -668,7 +753,11 @@ class AddMoreKidsState extends State<AddMoreKids>
                                                                 listen: false)
                                                         .addkidAge == */
                                                             _addKidsAge == null
-                                                                ? 'Select kid\'s Age...'
+                                                                ? Provider.of<DataProvider>(context, listen: false)
+                                                                            .parentAreaLanguage ==
+                                                                        "TH"
+                                                                    ? 'เลือกอายุ'
+                                                                    : 'Select kid\'s Age...'
                                                                 : /* Provider.of<DataProvider>(
                                                             context,
                                                             listen: false)
@@ -676,13 +765,28 @@ class AddMoreKidsState extends State<AddMoreKids>
                                                                 _addKidsAge
                                                                         .toString() +
                                                                     ' years old',
-                                                        hintStyle: TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    132,
-                                                                    134,
-                                                                    148,
-                                                                    1.0)),
+                                                        hintStyle: Provider.of<DataProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .parentAreaLanguage ==
+                                                                "TH"
+                                                            ? TextStyle(
+                                                                fontFamily:
+                                                                    'PromptLight',
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        132,
+                                                                        134,
+                                                                        148,
+                                                                        1.0))
+                                                            : TextStyle(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        132,
+                                                                        134,
+                                                                        148,
+                                                                        1.0)),
                                                         contentPadding:
                                                             EdgeInsets.only(
                                                                 left: 15),
@@ -848,6 +952,9 @@ class AddMoreKidsState extends State<AddMoreKids>
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
                                     showPickerModal(context);
                                   },
                                   child: Container(
@@ -890,6 +997,9 @@ class AddMoreKidsState extends State<AddMoreKids>
                                       Duration(seconds: 1),
                                       () => setState(
                                           () => _perventMultipleTab = true));
+                                  Provider.of<AudioProvider>(context,
+                                          listen: false)
+                                      .playSoundEffect("click3", 1.0);
 
                                   Navigator.pop(context);
                                   /////////////////////////////////// prevent flickering when dismiss dialog
@@ -927,19 +1037,32 @@ class AddMoreKidsState extends State<AddMoreKids>
                                   alignment: Alignment.center,
                                   child: Container(
                                     height: deviceHeight > 500
-                                        ? (deviceHeight * 0.5) * (26 / 381)
-                                        : (deviceHeight * 0.85) * (26 / 381),
+                                        ? (deviceHeight * 0.5) * (30 / 381)
+                                        : (deviceHeight * 0.85) * (30 / 381),
                                     child: FittedBox(
                                       fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        'Cancel',
-                                        style: TextStyle(
-                                          fontFamily: 'NunitoBold',
-                                          //fontSize: deviceHeight > 500 ? 20 : 16,
-                                          color:
-                                              Color.fromRGBO(248, 226, 55, 1.0),
-                                        ),
-                                      ),
+                                      child: Provider.of<DataProvider>(context,
+                                                      listen: false)
+                                                  .parentAreaLanguage ==
+                                              "TH"
+                                          ? Text(
+                                              'ยกเลิก',
+                                              style: TextStyle(
+                                                fontFamily: 'PromptMedium',
+                                                //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                color: Color.fromRGBO(
+                                                    248, 226, 55, 1.0),
+                                              ),
+                                            )
+                                          : Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                fontFamily: 'NunitoBold',
+                                                //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                color: Color.fromRGBO(
+                                                    248, 226, 55, 1.0),
+                                              ),
+                                            ),
                                     ),
                                   ),
                                 ),
@@ -999,6 +1122,9 @@ class AddMoreKidsState extends State<AddMoreKids>
                                                 () => setState(() =>
                                                     _perventMultipleTab =
                                                         true));
+                                            Provider.of<AudioProvider>(context,
+                                                    listen: false)
+                                                .playSoundEffect("click2", 1.0);
                                             if (widget.popUpMode ==
                                                 'createProfile') {
                                               await _addKids();
@@ -1098,97 +1224,130 @@ class AddMoreKidsState extends State<AddMoreKids>
                               child: Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
-                                  onTap: _perventMultipleTab
-                                      ? () async {
-                                          setState(() {
-                                            _perventMultipleTab = false;
-                                          });
+                                  onTap: _buttonSwitch
+                                      ? _perventMultipleTab
+                                          ? () async {
+                                              setState(() {
+                                                _perventMultipleTab = false;
+                                              });
 
-                                          Timer(
-                                              Duration(seconds: 1),
-                                              () => setState(() =>
-                                                  _perventMultipleTab = true));
-                                          if (widget.popUpMode ==
-                                              'createProfile') {
-                                            await _addKids();
-                                          } else {
-                                            var editInputAge;
-                                            var editInputName;
-
-                                            if (_addKidsAge == null) {
-                                              editInputAge = Provider.of<
-                                                          DataProvider>(context,
+                                              Timer(
+                                                  Duration(seconds: 1),
+                                                  () => setState(() =>
+                                                      _perventMultipleTab =
+                                                          true));
+                                              Provider.of<AudioProvider>(
+                                                      context,
                                                       listen: false)
-                                                  .kidsAge[widget.editWhichKid];
-                                            } else {
-                                              editInputAge = _addKidsAge;
-                                            }
-                                            if (_textControllerName.text ==
-                                                '') {
-                                              editInputName =
-                                                  Provider.of<DataProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .kidsName[
-                                                      widget.editWhichKid];
-                                            } else {
-                                              editInputName =
-                                                  _textControllerName.text;
-                                            }
-                                            await Provider.of<DataProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .saveEditKidsProfile(
-                                                    whichKids:
-                                                        widget.editWhichKid,
-                                                    kidsAgeInput: editInputAge,
-                                                    kidsNameInput:
-                                                        editInputName,
-                                                    kidsAvatarInput: Provider
-                                                            .of<DataProvider>(
-                                                                context,
-                                                                listen: false)
-                                                        .cacheEditKidsProfileAvatar,
-                                                    kidsThemeInput: Provider.of<
-                                                                DataProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .cacheEditKidsProfileTheme);
-                                          }
+                                                  .playSoundEffect(
+                                                      "click2", 1.0);
+                                              if (widget.popUpMode ==
+                                                  'createProfile') {
+                                                await _addKids();
+                                              } else {
+                                                var editInputAge;
+                                                var editInputName;
 
-                                          Navigator.pop(context);
-                                          /////////////////////////////////// prevent flickering when dismiss dialog
-                                          Future.delayed(
-                                              const Duration(milliseconds: 250),
-                                              () {
-                                            widget.popUpMode == 'createProfile'
-                                                ? Provider.of<DataProvider>(
+                                                if (_addKidsAge == null) {
+                                                  editInputAge =
+                                                      Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .kidsAge[
+                                                          widget.editWhichKid];
+                                                } else {
+                                                  editInputAge = _addKidsAge;
+                                                }
+                                                if (_textControllerName.text ==
+                                                    '') {
+                                                  editInputName =
+                                                      Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .kidsName[
+                                                          widget.editWhichKid];
+                                                } else {
+                                                  editInputName =
+                                                      _textControllerName.text;
+                                                }
+                                                await Provider.of<DataProvider>(
                                                         context,
                                                         listen: false)
-                                                    .resetAddKids()
-                                                : null;
-                                          });
-                                        }
+                                                    .saveEditKidsProfile(
+                                                        whichKids:
+                                                            widget.editWhichKid,
+                                                        kidsAgeInput:
+                                                            editInputAge,
+                                                        kidsNameInput:
+                                                            editInputName,
+                                                        kidsAvatarInput: Provider
+                                                                .of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                            .cacheEditKidsProfileAvatar,
+                                                        kidsThemeInput: Provider
+                                                                .of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                            .cacheEditKidsProfileTheme);
+                                              }
+
+                                              Navigator.pop(context);
+                                              /////////////////////////////////// prevent flickering when dismiss dialog
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 250), () {
+                                                widget.popUpMode ==
+                                                        'createProfile'
+                                                    ? Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .resetAddKids()
+                                                    : null;
+                                              });
+                                            }
+                                          : null
                                       : null,
                                   child: Container(
                                     height: deviceHeight > 500
-                                        ? (deviceHeight * 0.5) * (26 / 381)
-                                        : (deviceHeight * 0.85) * (26 / 381),
+                                        ? (deviceHeight * 0.5) * (30 / 381)
+                                        : (deviceHeight * 0.85) * (30 / 381),
                                     child: FittedBox(
                                       fit: BoxFit.fitHeight,
-                                      child: Text(
-                                        widget.popUpMode == 'createProfile'
-                                            ? 'Create Profile'
-                                            : 'Save',
-                                        style: TextStyle(
-                                          fontFamily: 'NunitoBold',
-                                          //fontSize: deviceHeight > 500 ? 20 : 16,
-                                          color: !_buttonSwitch
-                                              ? Color.fromRGBO(
-                                                  209, 212, 217, 1.00)
-                                              : Colors.white,
-                                        ),
-                                      ),
+                                      child: Provider.of<DataProvider>(context,
+                                                      listen: false)
+                                                  .parentAreaLanguage ==
+                                              'TH'
+                                          ? Text(
+                                              widget.popUpMode ==
+                                                      'createProfile'
+                                                  ? 'สร้างโปรไฟล์'
+                                                  : 'บันทึก',
+                                              style: TextStyle(
+                                                fontFamily: 'PromptMedium',
+                                                //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                color: !_buttonSwitch
+                                                    ? Color.fromRGBO(
+                                                        209, 212, 217, 1.00)
+                                                    : Colors.white,
+                                              ),
+                                            )
+                                          : Text(
+                                              widget.popUpMode ==
+                                                      'createProfile'
+                                                  ? 'Create Profile'
+                                                  : 'Save',
+                                              style: TextStyle(
+                                                fontFamily: 'NunitoBold',
+                                                //fontSize: deviceHeight > 500 ? 20 : 16,
+                                                color: !_buttonSwitch
+                                                    ? Color.fromRGBO(
+                                                        209, 212, 217, 1.00)
+                                                    : Colors.white,
+                                              ),
+                                            ),
                                     ),
                                   ),
                                 ),

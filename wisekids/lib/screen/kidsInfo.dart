@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' as services;
 import 'selectAvatar.dart' as selectAvatarPage;
 import './finishSelectAvatar.dart';
+import '../provider/audioProvider.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
@@ -939,6 +940,11 @@ class _KidsInfoState extends State<KidsInfo> {
                                                   borderRadius:
                                                       BorderRadius.circular(50),
                                                   onTap: () {
+                                                    Provider.of<AudioProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .playSoundEffect(
+                                                            "click2", 1.0);
                                                     Provider.of<DataProvider>(
                                                             context,
                                                             listen: false)
@@ -977,6 +983,19 @@ class _KidsInfoState extends State<KidsInfo> {
                                               alignment: Alignment.center,
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  Provider.of<AudioProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .playSoundEffect(
+                                                          "click2", 1.0);
+                                                  Provider.of<AudioProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .pauseBgMusic();
+                                                  Provider.of<AudioProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .playCongratTheme();
                                                   Provider.of<DataProvider>(
                                                           context,
                                                           listen: false)
@@ -1037,6 +1056,8 @@ class _KidsInfoState extends State<KidsInfo> {
                 alignment: Alignment.topLeft,
                 child: GestureDetector(
                   onTap: () {
+                    Provider.of<AudioProvider>(context, listen: false)
+                        .playSoundEffect("click3", 1.0);
                     Navigator.pop(
                       context,
                       /* MaterialPageRoute(

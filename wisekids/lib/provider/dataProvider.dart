@@ -16,6 +16,7 @@ import '../screen/kidsProfile.dart';
 import '../widget/slide_dialog_kidsStatistic.dart' as kidsStatistic;
 import '../widget/kidsStatisticPhoneSize.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../provider/audioProvider.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -32,6 +33,7 @@ class DataProvider extends ChangeNotifier {
   /// use to create function showAddKids Dialog that required context in provider
   //////////////////
 
+  String _parentAreaLanguage = "TH";
   int _appOpen;
   bool _appReviewed = false;
 
@@ -131,6 +133,7 @@ class DataProvider extends ChangeNotifier {
   bool _allowTab = true;
 
   ///////////////// An unmodifiable view
+  String get parentAreaLanguage => _parentAreaLanguage;
   double get deviceHeight => _deviceHeight;
   double get deviceWidth => _deviceWidth;
   BuildContext get kidsProfileContext => _kidsProfileContext;
@@ -481,6 +484,9 @@ class DataProvider extends ChangeNotifier {
         //////////////////////////////////// Kids Profile
         GestureDetector(
           onTap: () {
+            Provider.of<AudioProvider>(_parentalKidsCenterContext,
+                    listen: false)
+                .playSoundEffect("select", 1.0);
             Navigator.of(_parentalKidsCenterContext).push(
               MaterialPageRoute(
                 builder: (context) {
@@ -562,7 +568,12 @@ class DataProvider extends ChangeNotifier {
         .add(///////////////////////////////////// Add more kids Btn
             _avatar.length < _kidsLimit
                 ? GestureDetector(
-                    onTap: _showAddMoreKisDialog,
+                    onTap: () {
+                      Provider.of<AudioProvider>(_parentalKidsCenterContext,
+                              listen: false)
+                          .playSoundEffect("select", 1.0);
+                      _showAddMoreKisDialog();
+                    },
                     child: Container(
                       margin: EdgeInsets.only(top: 10, bottom: 16, right: 16),
                       child: AspectRatio(
@@ -1172,6 +1183,8 @@ class DataProvider extends ChangeNotifier {
           ),
           child: GestureDetector(
             onTap: () {
+              Provider.of<AudioProvider>(context, listen: false)
+                  .playSoundEffect("click3", 1.0);
               print('Choosen kids: ' + _kidsName[i]);
               _currentKids = i;
               chooseTheme(_theme[_currentKids]);
@@ -1231,6 +1244,9 @@ class DataProvider extends ChangeNotifier {
       ////////////////////////////////////////////////////////////// Paretal Area
       GestureDetector(
         onTap: () {
+          Provider.of<AudioProvider>(context, listen: false)
+              .playSoundEffect("select", 1.0);
+
           /////////////////////////////// if consented skip to parentCenter
           if (_userAcceptConsent) {
             Navigator.pop(context);
@@ -1307,6 +1323,9 @@ class DataProvider extends ChangeNotifier {
           GestureDetector(
             onTap: _deviceHeight > 500
                 ? () {
+                    Provider.of<AudioProvider>(_kidsProfileContext,
+                            listen: false)
+                        .playSoundEffect("select", 1.0);
                     kidsStatistic.showSlideDialog(
                       context: _kidsProfileContext,
                       book: i,
@@ -1326,6 +1345,9 @@ class DataProvider extends ChangeNotifier {
                     );
                   }
                 : () {
+                    Provider.of<AudioProvider>(_kidsProfileContext,
+                            listen: false)
+                        .playSoundEffect("select", 1.0);
                     Navigator.of(_kidsProfileContext).push(
                       MaterialPageRoute(
                         builder: (context) {
@@ -1372,7 +1394,7 @@ class DataProvider extends ChangeNotifier {
                 height: deviceHeight > 500
                     ? deviceHeight * (203 / 768)
                     : deviceHeight * (250 / 495),
-                width: (deviceHeight * (250 / 495)) * (1258 / 1638),
+                //width: (deviceHeight * (250 / 495)) * (1258 / 1638),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(

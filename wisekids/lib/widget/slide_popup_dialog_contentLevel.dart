@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flare_loading/flare_loading.dart';
+import '../provider/audioProvider.dart';
 
 import '../screen/parentalConsent.dart';
 
@@ -122,10 +123,10 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
   ];
 
   List<String> textContentPreview = [
-    'There were monster candies \non his hair.',
-    'There were monster candies \non his hair. and so what?',
-    'There were monster candies \non his hair. There were monster \ncandies',
-    'There were monster candies \non his hair. and so what do you mean?\nThere were monster candies\nThere were monster candies',
+    'Todd likes candy and dessert.',
+    'Todd likes to eat dessert everyday.\nDad always told Todd to \nbrush his teeth.',
+    'Todd brushes his teeth twice a day.\n But Todd has a secret.\n He often eats candies before \nhis bedtime.',
+    'One night Todd was sleeping\n in his bed with candy \nin his mouth, he dreamed that \nhe went to play in the candy land.',
   ];
 
   @override
@@ -230,6 +231,9 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                                 ///////////////////////// level 1
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
                                     provider.chooseContentLevel(1);
                                   },
                                   child: Stack(
@@ -285,6 +289,9 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                                 ///////////////////////// level 2
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
                                     provider.chooseContentLevel(2);
                                   },
                                   child: Stack(
@@ -340,6 +347,9 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                                 ///////////////////////// level 3
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
                                     provider.chooseContentLevel(3);
                                   },
                                   child: Stack(
@@ -395,6 +405,9 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                                 ///////////////////////// level 4
                                 GestureDetector(
                                   onTap: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
                                     provider.chooseContentLevel(4);
                                   },
                                   child: Stack(
@@ -556,6 +569,9 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                                           Duration(seconds: 1),
                                           () => setState(() =>
                                               _perventMultipleTab = true));
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .playSoundEffect("click2", 1.0);
                                       Navigator.pop(context);
                                     }
                                   : null,
@@ -587,6 +603,8 @@ class _SlideDialogContentLevelState extends State<SlideDialogContentLevel> {
                                   Duration(seconds: 1),
                                   () => setState(
                                       () => _perventMultipleTab = true));
+                              Provider.of<AudioProvider>(context, listen: false)
+                                  .playSoundEffect("click3", 1.0);
                               Navigator.pop(context);
                             }
                           : null,

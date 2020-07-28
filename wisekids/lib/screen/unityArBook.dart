@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
 
 import '../widget/slide_popup_dialog_read.dart' as readDialog;
 import '../widget/slide_popup_dialog_arInteractive.dart' as arInteractiveDialog;
@@ -62,7 +63,7 @@ class _UnityARBookState extends State<UnityARBook> {
   //////////////////////////////////// read time
   var watch = Stopwatch();
 
-  void _showFinishReadDialog() {
+  void _showFinishReadDialog() async {
     ///////////////////////////// go home
     /* Navigator.pushReplacement(
       context,
@@ -75,12 +76,16 @@ class _UnityARBookState extends State<UnityARBook> {
       context: context,
       child: Container(),
     ); */
-
+    Provider.of<AudioProvider>(context, listen: false).stopCandyMonsterTheme();
     if (Provider.of<DataProvider>(context, listen: false)
             .bookStatistic[Provider.of<DataProvider>(context, listen: false)
                 .currentKids]['readBook']
             .length >
         0) {
+      reloadSession();
+      Provider.of<AudioProvider>(context, listen: false)
+          .playSoundEffect("achievement1", 0.5);
+      Provider.of<AudioProvider>(context, listen: false).resumeBgMusic();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -93,6 +98,9 @@ class _UnityARBookState extends State<UnityARBook> {
       );
     } else {
       //////////////////////////// collected Sticker page
+      reloadSession();
+      Provider.of<AudioProvider>(context, listen: false).playCongratTheme2();
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -103,6 +111,8 @@ class _UnityARBookState extends State<UnityARBook> {
   }
 
   void _showArInteractiveDialog() {
+    Provider.of<AudioProvider>(context, listen: false)
+        .playSoundEffect("Select", 1.0);
     arInteractiveDialog.showSlideDialog(
       context: context,
       child: Container(),
@@ -210,7 +220,7 @@ class _UnityARBookState extends State<UnityARBook> {
               'Todd brushed her teeth twice a day and she won\'t eat candy before sleep again.');
         } else if (page == 24) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Todd has clean white teeth and never has a toothache again.');
+              'Todd now has clean white teeth and never has a toothache again.');
         }
       }
 
@@ -274,55 +284,59 @@ class _UnityARBookState extends State<UnityARBook> {
       }
 
       //// Content Level == Normal
-      if (page == 1) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Todd likes to eat dessert. Candy is her favourite.');
-      } else if (page == 2) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Dad always tells Todd to brush her teeth after eating desserts.');
-      } else if (page == 3) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Todd brushes her teeth twice a day. But Todd has a secret. She often eats candies before her bedtime.');
-      } else if (page == 4) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'One night, Todd sleeps with candy in her mouth. She dreams about the candy town.');
-      } else if (page == 5) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            '"Wow, there are candies everywhere!" said Todd. Todd walks around and eats candies happily.');
-      } else if (page == 6) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Suddenly, Todd feels pain in her mouth. She looks at the mirror and opens her mouth.');
-      } else if (page == 7) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Something is moving in her mouth. "ahh, candy monster" screamed Todd.');
-      } else if (page == 8) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Todd tries to pick them out but she can\'t. Could anyone please help Todd?');
-      } else if (page == 9) {
-        _showArInteractiveDialog();
-        Provider.of<DataProvider>(context, listen: false)
-            .setInputSubtitle('There are ten candy monsters in Todd\'s mouth.');
-      } else if (page == 10) {
-        Provider.of<DataProvider>(context, listen: false)
-            .setInputSubtitle('Candy monsters are gone but her teeth decay.');
-      } else if (page == 11) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Todd wakes up and feels pain in her teeth then she cries.');
-      } else if (page == 12) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Dad comes to see Todd. He sees candy on Todd\'s bed then he knows that Todd secretly eats candies before sleep');
-      } else if (page == 13) {
-        Provider.of<DataProvider>(context, listen: false)
-            .setInputSubtitle('Dad takes Todd to see the dentist.');
-      } else if (page == 14) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'The dentist treats Todd\'s teeth and tells her not to eat dessert too much and brush her teeth after eating or twice a day.');
-      } else if (page == 15) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Todd sincerely promises to her dad that she will brush her teeth twice a day and she won\'t eat candy before sleep again.');
-      } else if (page == 16) {
-        Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-            'Todd now have a clean white teeth and never have toothache again');
+      if (Provider.of<DataProvider>(context, listen: false).kidsContentLevel[
+              Provider.of<DataProvider>(context, listen: false).currentKids] ==
+          3) {
+        if (page == 1) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Todd likes to eat dessert. Candy is her favourite.');
+        } else if (page == 2) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Dad always tells Todd to brush her teeth after eating desserts.');
+        } else if (page == 3) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Todd brushes her teeth twice a day. But Todd has a secret. She often eats candies before her bedtime.');
+        } else if (page == 4) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'One night, Todd sleeps with candy in her mouth. She dreams about the candy town.');
+        } else if (page == 5) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              '"Wow, there are candies everywhere!" said Todd. Todd walks around and eats candies happily.');
+        } else if (page == 6) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Suddenly, Todd feels pain in her mouth. She looks at the mirror and opens her mouth.');
+        } else if (page == 7) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Something is moving in her mouth. "ahh, candy monster" screamed Todd.');
+        } else if (page == 8) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Todd tries to pick them out but she can\'t. Could anyone please help Todd?');
+        } else if (page == 9) {
+          _showArInteractiveDialog();
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'There are ten candy monsters in Todd\'s mouth.');
+        } else if (page == 10) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Candy monsters are gone but her teeth decayed.');
+        } else if (page == 11) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Todd wakes up and feels pain in her teeth then she cries.');
+        } else if (page == 12) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Dad comes to see Todd. He sees candy on Todd\'s bed then he knows that Todd secretly eats candies before sleep');
+        } else if (page == 13) {
+          Provider.of<DataProvider>(context, listen: false)
+              .setInputSubtitle('Dad takes Todd to see the dentist.');
+        } else if (page == 14) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'The dentist treats Todd\'s teeth and tells her not to eat dessert too much and brush her teeth after eating or twice a day.');
+        } else if (page == 15) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Todd sincerely promises to her dad that she will brush her teeth twice a day and she won\'t eat candy before sleep again.');
+        } else if (page == 16) {
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Todd now has a clean white teeth and never has toothache again');
+        }
       }
 
       //// Content Level == Hard
@@ -473,7 +487,7 @@ class _UnityARBookState extends State<UnityARBook> {
               'Todd brushed his teeth twice a day and he won\'t eat candy before sleep again.');
         } else if (page == 24) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Todd has clean white teeth and never has a toothache again.');
+              'Todd now has clean white teeth and never has a toothache again.');
         }
       }
 
@@ -569,8 +583,8 @@ class _UnityARBookState extends State<UnityARBook> {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'There are ten candy monsters in Todd\'s mouth.');
         } else if (page == 10) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Candy monsters are gone but his teeth decay.');
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Candy monsters are gone but his teeth decayed.');
         } else if (page == 11) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'Todd wakes up and feels pain in his teeth then he cries.');
@@ -588,7 +602,7 @@ class _UnityARBookState extends State<UnityARBook> {
               'Todd sincerely promises to his dad that he will brush his teeth twice a day and he won\'t eat candy before sleep again.');
         } else if (page == 16) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Todd now have a clean white teeth and never have toothache again');
+              'Todd now has a clean white teeth and never has toothache again');
         }
       }
 
@@ -682,7 +696,9 @@ class _UnityARBookState extends State<UnityARBook> {
     !watch.isRunning ? watch.start() : null;
 
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        return false;
+      },
       child: Scaffold(
         ////////////////////// avoid bottom notch pading
         resizeToAvoidBottomPadding: false,
@@ -759,6 +775,8 @@ class _UnityARBookState extends State<UnityARBook> {
 
                           Timer(Duration(seconds: 1),
                               () => setState(() => _perventMultipleTab = true));
+                          Provider.of<AudioProvider>(context, listen: false)
+                              .playSoundEffect("click3", 1.0);
                           Navigator.pop(context);
                         }
                       : null,
@@ -786,7 +804,7 @@ class _UnityARBookState extends State<UnityARBook> {
                       alignment: Alignment.topRight,
                       child: GestureDetector(
                         onTap: () {
-                          print('tab3D! Send Char == ' +
+                          /*   print('tab3D! Send Char == ' +
                               Provider.of<DataProvider>(context, listen: false)
                                   .avatar[Provider.of<DataProvider>(context,
                                       listen: false)
@@ -799,7 +817,7 @@ class _UnityARBookState extends State<UnityARBook> {
                                 .avatar[Provider.of<DataProvider>(context,
                                     listen: false)
                                 .currentKids],
-                          );
+                          ); */
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -820,6 +838,27 @@ class _UnityARBookState extends State<UnityARBook> {
                   )
                 : Container(),
 
+            //////////////////////// VoiceOver Btn
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                  margin: EdgeInsets.only(
+                    bottom: deviceHeight > 500
+                        ? deviceHeight * (140 / 1024) + deviceWidth * 0.015
+                        : deviceHeight * (290 / 1024) + deviceWidth * 0.015,
+                    right: deviceHeight > 500
+                        ? deviceWidth * 0.02
+                        : deviceWidth * 0.02,
+                  ),
+                  height: deviceHeight > 500
+                      ? deviceHeight * (60 / 768)
+                      : deviceHeight * 0.15,
+                  child: Image.asset('assets/images/arUI/soundButton.png'),
+                ),
+              ),
+            ),
+
             //////////////////////// Subtitle Row
             objectPlaced
                 ? Positioned.fill(
@@ -836,7 +875,12 @@ class _UnityARBookState extends State<UnityARBook> {
                             //////////////////////// back Btn
                             objectPlaced
                                 ? GestureDetector(
-                                    onTap: backwardPage,
+                                    onTap: () {
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .playSoundEffect("select", 1.0);
+                                      backwardPage();
+                                    },
                                     child: Container(
                                       height: deviceHeight > 500
                                           ? deviceHeight * (140 / 1024) * 0.8
@@ -877,7 +921,12 @@ class _UnityARBookState extends State<UnityARBook> {
                             //////////////////////// forward Btn
                             objectPlaced
                                 ? GestureDetector(
-                                    onTap: forwardPage,
+                                    onTap: () {
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .playSoundEffect("select", 1.0);
+                                      forwardPage();
+                                    },
                                     child: Container(
                                       height: deviceHeight > 500
                                           ? deviceHeight * (140 / 1024) * 0.8
@@ -900,11 +949,11 @@ class _UnityARBookState extends State<UnityARBook> {
     );
   }
 
-  void reloadSession() {
+  void reloadSession() async {
     objectPlaced = false;
     page = 1;
     subtitleText = '';
-    _unityWidgetController.postMessage(
+    await _unityWidgetController.postMessage(
       'SessionReset',
       'ReloadSession',
       '',

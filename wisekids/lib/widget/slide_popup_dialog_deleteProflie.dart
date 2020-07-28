@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../screen/play.dart';
 import '../provider/dataProvider.dart';
 import '../screen/parentalKidsCenter.dart';
+import '../provider/audioProvider.dart';
 
 /// Display slide dialog.
 ///
@@ -186,6 +187,9 @@ class _SlideDialogDeleteKidsProfileState
                                             Duration(seconds: 1),
                                             () => setState(() =>
                                                 _perventMultipleTab = true));
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .playSoundEffect("click3", 1.0);
                                         Navigator.pop(context);
                                       }
                                     : null,
@@ -249,13 +253,27 @@ class _SlideDialogDeleteKidsProfileState
                                                 (34 / 253),
                                         child: FittedBox(
                                           fit: BoxFit.contain,
-                                          child: Text(
-                                            'Do you want to delete profile ?',
-                                            style: TextStyle(
-                                                fontFamily: 'NunitoSemiBold',
-                                                color: Color.fromRGBO(
-                                                    80, 85, 89, 1.0)),
-                                          ),
+                                          child: Provider.of<DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .parentAreaLanguage ==
+                                                  "TH"
+                                              ? Text(
+                                                  'คุณต้องการลบโปรไฟล์นี้หรือไม่ ?',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'PromptMedium',
+                                                      color: Color.fromRGBO(
+                                                          80, 85, 89, 1.0)),
+                                                )
+                                              : Text(
+                                                  'Do you want to delete profile ?',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'NunitoSemiBold',
+                                                      color: Color.fromRGBO(
+                                                          80, 85, 89, 1.0)),
+                                                ),
                                         ),
                                       ),
                                       //////////////////////////////////////////////
@@ -275,13 +293,26 @@ class _SlideDialogDeleteKidsProfileState
                                                 (24 / 253),
                                         child: FittedBox(
                                           fit: BoxFit.contain,
-                                          child: Text(
-                                            'All information will be deleted.',
-                                            style: TextStyle(
-                                                fontFamily: 'NunitoRegular',
-                                                color: Color.fromRGBO(
-                                                    80, 85, 89, 1.0)),
-                                          ),
+                                          child: Provider.of<DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .parentAreaLanguage ==
+                                                  "TH"
+                                              ? Text(
+                                                  'ข้อมูลทั้งหมดจะถูกลบถาวร',
+                                                  style: TextStyle(
+                                                      fontFamily: 'PromptLight',
+                                                      color: Color.fromRGBO(
+                                                          80, 85, 89, 1.0)),
+                                                )
+                                              : Text(
+                                                  'All information will be deleted.',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'NunitoRegular',
+                                                      color: Color.fromRGBO(
+                                                          80, 85, 89, 1.0)),
+                                                ),
                                         ),
                                       ),
                                       //////////////////////////////////////////////
@@ -309,6 +340,11 @@ class _SlideDialogDeleteKidsProfileState
                                                           () => setState(() =>
                                                               _perventMultipleTab =
                                                                   true));
+                                                      Provider.of<AudioProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .playSoundEffect(
+                                                              "select", 1.0);
                                                       Navigator.pop(context);
                                                     }
                                                   : null,
@@ -357,24 +393,50 @@ class _SlideDialogDeleteKidsProfileState
                                                       alignment:
                                                           Alignment.center,
                                                       child: Container(
-                                                        height: deviceHeight >
-                                                                500
-                                                            ? (deviceHeight *
-                                                                    0.5) *
-                                                                (26 / 381)
-                                                            : (deviceHeight *
-                                                                    0.85) *
-                                                                (30 / 381),
+                                                        height: Provider.of<DataProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .parentAreaLanguage ==
+                                                                "TH"
+                                                            ? deviceHeight > 500
+                                                                ? (deviceHeight *
+                                                                        0.5) *
+                                                                    (30 / 381)
+                                                                : (deviceHeight *
+                                                                        0.85) *
+                                                                    (32 / 381)
+                                                            : deviceHeight > 500
+                                                                ? (deviceHeight *
+                                                                        0.5) *
+                                                                    (26 / 381)
+                                                                : (deviceHeight *
+                                                                        0.85) *
+                                                                    (30 / 381),
                                                         child: FittedBox(
                                                           fit: BoxFit.contain,
-                                                          child: Text(
-                                                            'No',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'NunitoBold',
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
+                                                          child: Provider.of<DataProvider>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .parentAreaLanguage ==
+                                                                  "TH"
+                                                              ? Text(
+                                                                  'ยกเลิก',
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'PromptMedium',
+                                                                      color: Colors
+                                                                          .white),
+                                                                )
+                                                              : Text(
+                                                                  'No',
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'NunitoBold',
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
                                                         ),
                                                       ),
                                                     ),
@@ -397,6 +459,11 @@ class _SlideDialogDeleteKidsProfileState
                                                           () => setState(() =>
                                                               _perventMultipleTab =
                                                                   true));
+                                                      Provider.of<AudioProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .playSoundEffect(
+                                                              "click2", 1.0);
 
                                                       Navigator.pop(context);
                                                       Navigator.pop(context);
@@ -460,24 +527,50 @@ class _SlideDialogDeleteKidsProfileState
                                                       alignment:
                                                           Alignment.center,
                                                       child: Container(
-                                                        height: deviceHeight >
-                                                                500
-                                                            ? (deviceHeight *
-                                                                    0.5) *
-                                                                (26 / 381)
-                                                            : (deviceHeight *
-                                                                    0.85) *
-                                                                (30 / 381),
+                                                        height: Provider.of<DataProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .parentAreaLanguage ==
+                                                                "TH"
+                                                            ? deviceHeight > 500
+                                                                ? (deviceHeight *
+                                                                        0.5) *
+                                                                    (30 / 381)
+                                                                : (deviceHeight *
+                                                                        0.85) *
+                                                                    (32 / 381)
+                                                            : deviceHeight > 500
+                                                                ? (deviceHeight *
+                                                                        0.5) *
+                                                                    (26 / 381)
+                                                                : (deviceHeight *
+                                                                        0.85) *
+                                                                    (30 / 381),
                                                         child: FittedBox(
                                                           fit: BoxFit.contain,
-                                                          child: Text(
-                                                            'Yes',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'NunitoBold',
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
+                                                          child: Provider.of<DataProvider>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .parentAreaLanguage ==
+                                                                  "TH"
+                                                              ? Text(
+                                                                  'ลบบัญชี',
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'PromptMedium',
+                                                                      color: Colors
+                                                                          .white),
+                                                                )
+                                                              : Text(
+                                                                  'Yes',
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'NunitoBold',
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
                                                         ),
                                                       ),
                                                     ),

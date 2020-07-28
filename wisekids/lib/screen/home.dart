@@ -6,6 +6,7 @@ import 'package:flare_flutter/flare_cache.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/services.dart' as services;
 import './exceedLimitNotification.dart';
+import '../provider/audioProvider.dart';
 
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -260,7 +261,11 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
                         children: <Widget>[
                           /////////////////////////////////////////////////// Profile overall
                           GestureDetector(
-                            onTap: _showThemeDialog,
+                            onTap: () {
+                              Provider.of<AudioProvider>(context, listen: false)
+                                  .playSoundEffect("select", 1.0);
+                              _showThemeDialog();
+                            },
                             child: Consumer<DataProvider>(
                               builder: (context, theme, child) => Container(
                                 width: deviceWidth * 0.13,
@@ -372,7 +377,11 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
                     ),
                     //////////////////////////////////////// Vocabbulary
                     GestureDetector(
-                      onTap: _showVocabDialog,
+                      onTap: () {
+                        Provider.of<AudioProvider>(context, listen: false)
+                            .playSoundEffect("select", 1.0);
+                        _showVocabDialog();
+                      },
                       child: Container(
                         margin: EdgeInsets.only(
                             top: deviceHeight * 0.026 +
@@ -399,7 +408,11 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
                     Provider.of<DataProvider>(context, listen: true).status ==
                             Status.Authenticated
                         ? GestureDetector(
-                            onTap: _showContentLevelDialog,
+                            onTap: () {
+                              Provider.of<AudioProvider>(context, listen: false)
+                                  .playSoundEffect("select", 1.0);
+                              _showContentLevelDialog();
+                            },
                             child: Container(
                               height: deviceHeight > 500
                                   ? deviceWidth * 0.075
@@ -470,12 +483,18 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
                                   .status ==
                               Status.Authenticated
                           ? () {
+                              Provider.of<AudioProvider>(context, listen: false)
+                                  .playSoundEffect("select", 1.0);
                               selectKidsDialog.showSlideDialog(
                                 child: FunkyOverlay(),
                                 context: context,
                               );
                             }
-                          : _showLoginDialog,
+                          : () {
+                              Provider.of<AudioProvider>(context, listen: false)
+                                  .playSoundEffect("select", 1.0);
+                              _showLoginDialog();
+                            },
                       child: Container(
                         height: deviceHeight > 500
                             ? deviceWidth * 0.075
@@ -764,6 +783,12 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
                         child: index == 6
                             ? GestureDetector(
                                 onTap: () {
+                                  Provider.of<AudioProvider>(context,
+                                          listen: false)
+                                      .playSoundEffect("select", 1.0);
+                                  Provider.of<AudioProvider>(context,
+                                          listen: false)
+                                      .playCandyMonsterTheme();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -781,6 +806,10 @@ class _HomeState extends State<Home> with AfterLayoutMixin<Home> {
                               )
                             : GestureDetector(
                                 onTap: () {
+                                  Provider.of<AudioProvider>(context,
+                                          listen: false)
+                                      .playSoundEffect(
+                                          "confirmationDownward", 1.0);
                                   _showWarningDialog();
                                 },
                                 child: FlareActor(bookShelf[index],

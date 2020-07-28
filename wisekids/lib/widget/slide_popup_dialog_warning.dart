@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
+import '../provider/audioProvider.dart';
 import '../screen/home.dart';
 import 'package:provider/provider.dart';
 import '../screen/play.dart';
@@ -200,6 +201,9 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                             Duration(seconds: 1),
                                             () => setState(() =>
                                                 _perventMultipleTab = true));
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .playSoundEffect("click3", 1.0);
 
                                         Navigator.pop(context);
                                       }
@@ -326,7 +330,7 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                                         color: Colors.white),
                                                   )
                                                 : Text(
-                                                    'New book content is coming soon!',
+                                                    'New content is coming soon!',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         fontFamily:
@@ -358,6 +362,9 @@ class _SlideDialogWarningState extends State<SlideDialogWarning> {
                                               Duration(seconds: 1),
                                               () => setState(() =>
                                                   _perventMultipleTab = true));
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .playSoundEffect("click2", 1.0);
 
                                           Navigator.pop(context);
                                         }

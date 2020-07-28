@@ -6,6 +6,8 @@ import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_cache.dart';
 import 'package:flare_flutter/flare_controls.dart';
 
+import '../provider/audioProvider.dart';
+
 import 'package:flare_flutter/flare_actor.dart';
 
 import '../widget/slide_popup_dialog_warning.dart' as warningDialog;
@@ -48,6 +50,8 @@ class _EnterBookState extends State<EnterBook> {
   @override // it doesn't help flashing image problem in this scenario
   void initState() {
     super.initState();
+
+    Provider.of<AudioProvider>(context, listen: false).pauseBgMusic();
 
     bookImage = Image.asset(
       'assets/images/enterBook/book1.png',
@@ -180,6 +184,15 @@ class _EnterBookState extends State<EnterBook> {
                                       : null,
 
                               onTap: () {
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .stopCandyMonsterTheme();
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("click2", 1.0);
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playCandyMonsterTheme();
                                 ////////////////////////////////////////////////// Navigate to AR
                                 Navigator.push(
                                   context,
@@ -259,6 +272,15 @@ class _EnterBookState extends State<EnterBook> {
                                     0
                                 ? GestureDetector(
                                     onTap: () {
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .stopCandyMonsterTheme();
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .playSoundEffect("click2", 1.0);
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .playPlayTheme();
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -492,6 +514,11 @@ class _EnterBookState extends State<EnterBook> {
                                         alignment: Alignment.bottomCenter,
                                         child: GestureDetector(
                                           onTap: () {
+                                            Provider.of<AudioProvider>(context,
+                                                    listen: false)
+                                                .playSoundEffect(
+                                                    "confirmationDownward",
+                                                    1.0);
                                             _showWarningDialog();
                                           },
                                           child: Container(
@@ -750,6 +777,13 @@ class _EnterBookState extends State<EnterBook> {
           ////////////////////////////////////// Go Home Btn
           GestureDetector(
             onTap: () {
+              Provider.of<AudioProvider>(context, listen: false)
+                  .playSoundEffect("click3", 1.0);
+              Provider.of<AudioProvider>(context, listen: false)
+                  .stopCandyMonsterTheme();
+              Provider.of<AudioProvider>(context, listen: false)
+                  .resumeBgMusic();
+
               Navigator.pop(
                 context,
                 MaterialPageRoute(

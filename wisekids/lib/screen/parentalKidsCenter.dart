@@ -7,6 +7,7 @@ import './kidsProfile.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
 import 'home.dart';
 import '../widget/addKidsProfile_dialog.dart' as addMoreKidsDialog;
 
@@ -97,6 +98,8 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                         //////////////////////////////// Back Home Btn
                         GestureDetector(
                           onTap: () {
+                            Provider.of<AudioProvider>(context, listen: false)
+                                .playSoundEffect("click3", 1.0);
                             Navigator.pop(
                               context,
                               MaterialPageRoute(
@@ -112,11 +115,24 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                 ? deviceWidth * 0.015
                                 : deviceWidth * 0.025),
                             child: AspectRatio(
-                              aspectRatio: 82 / 29,
-                              child: SvgPicture.asset(
-                                'assets/images/parentalKidsCenter/homeBtn.svg',
-                                fit: BoxFit.fitHeight,
-                              ),
+                              aspectRatio: Provider.of<DataProvider>(context,
+                                              listen: false)
+                                          .parentAreaLanguage ==
+                                      "TH"
+                                  ? 90 / 29
+                                  : 82 / 29,
+                              child: Provider.of<DataProvider>(context,
+                                              listen: false)
+                                          .parentAreaLanguage ==
+                                      "TH"
+                                  ? SvgPicture.asset(
+                                      'assets/images/parentalKidsCenter/homeBtnTH.svg',
+                                      fit: BoxFit.fitHeight,
+                                    )
+                                  : SvgPicture.asset(
+                                      'assets/images/parentalKidsCenter/homeBtn.svg',
+                                      fit: BoxFit.fitHeight,
+                                    ),
                             ),
                           ),
                         ),
@@ -124,7 +140,12 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                         Spacer(),
                         deviceHeight > 500
                             ? GestureDetector(
-                                onTap: signOut,
+                                onTap: () {
+                                  Provider.of<AudioProvider>(context,
+                                          listen: false)
+                                      .playSoundEffect("click3", 1.0);
+                                  signOut();
+                                },
                                 child: Container(
                                   height: deviceHeight > 500
                                       ? deviceHeight * 0.93 * 0.08
@@ -138,10 +159,18 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                           : deviceWidth * 0.025),
                                   child: AspectRatio(
                                     aspectRatio: 153 / 54,
-                                    child: SvgPicture.asset(
-                                      'assets/images/parentalKidsCenter/Signout.svg',
-                                      fit: BoxFit.fitHeight,
-                                    ),
+                                    child: Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .parentAreaLanguage ==
+                                            "TH"
+                                        ? SvgPicture.asset(
+                                            'assets/images/parentalKidsCenter/SignoutTH.svg',
+                                            fit: BoxFit.fitHeight,
+                                          )
+                                        : SvgPicture.asset(
+                                            'assets/images/parentalKidsCenter/Signout.svg',
+                                            fit: BoxFit.fitHeight,
+                                          ),
                                   ),
                                 ),
                               )
@@ -259,7 +288,14 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                         ////////////////////////////////////////// Sign Out Btn Phone size
                                         deviceHeight < 500
                                             ? GestureDetector(
-                                                onTap: signOut,
+                                                onTap: () {
+                                                  Provider.of<AudioProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .playSoundEffect(
+                                                          "click3", 1.0);
+                                                  signOut();
+                                                },
                                                 child: Container(
                                                   height: deviceHeight > 500
                                                       ? deviceHeight *
@@ -268,10 +304,22 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                                       : 54,
                                                   child: AspectRatio(
                                                     aspectRatio: 153 / 54,
-                                                    child: SvgPicture.asset(
-                                                      'assets/images/parentalKidsCenter/Signout.svg',
-                                                      fit: BoxFit.fitHeight,
-                                                    ),
+                                                    child: Provider.of<DataProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .parentAreaLanguage ==
+                                                            "TH"
+                                                        ? SvgPicture.asset(
+                                                            'assets/images/parentalKidsCenter/SignoutTH.svg',
+                                                            fit: BoxFit
+                                                                .fitHeight,
+                                                          )
+                                                        : SvgPicture.asset(
+                                                            'assets/images/parentalKidsCenter/Signout.svg',
+                                                            fit: BoxFit
+                                                                .fitHeight,
+                                                          ),
                                                   ),
                                                 ),
                                               )
@@ -297,14 +345,27 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                               : 25),
                                       child: FittedBox(
                                         fit: BoxFit.fitHeight,
-                                        child: Text(
-                                          'My Kids',
-                                          style: TextStyle(
-                                              fontFamily: 'NunitoBold',
-                                              //fontSize: 19,
-                                              color: Color.fromRGBO(
-                                                  69, 223, 224, 1.00)),
-                                        ),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                'TH'
+                                            ? Text(
+                                                'บัญชีของฉัน',
+                                                style: TextStyle(
+                                                    fontFamily: 'PromptMedium',
+                                                    //fontSize: 19,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.00)),
+                                              )
+                                            : Text(
+                                                'My Kids',
+                                                style: TextStyle(
+                                                    fontFamily: 'NunitoBold',
+                                                    //fontSize: 19,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.00)),
+                                              ),
                                       ),
                                     ),
                                     ////////////////// Kids Profile
@@ -492,14 +553,27 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                               0.11,
                                       child: FittedBox(
                                         fit: BoxFit.fitHeight,
-                                        child: Text(
-                                          'Let us know what you think about Wisekids!',
-                                          style: TextStyle(
-                                              fontFamily: 'NunitoBold',
-                                              //fontSize: 19,
-                                              color: Color.fromRGBO(
-                                                  69, 223, 224, 1.00)),
-                                        ),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? Text(
+                                                'บอกพวกเราหน่อยคุณคิดยังไงกับ Wisekids!',
+                                                style: TextStyle(
+                                                    fontFamily: 'PromptMedium',
+                                                    //fontSize: 19,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.00)),
+                                              )
+                                            : Text(
+                                                'Let us know what you think about Wisekids!',
+                                                style: TextStyle(
+                                                    fontFamily: 'NunitoBold',
+                                                    //fontSize: 19,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.00)),
+                                              ),
                                       ),
                                     ),
                                   ],
@@ -551,13 +625,29 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                               heightFactor: 0.5,
                                               child: FittedBox(
                                                 fit: BoxFit.fitHeight,
-                                                child: Text(
-                                                  'Leave a Review',
-                                                  style: TextStyle(
-                                                      fontFamily: 'NunitoBold',
-                                                      //fontSize: 19,
-                                                      color: Colors.white),
-                                                ),
+                                                child: Provider.of<DataProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .parentAreaLanguage ==
+                                                        "TH"
+                                                    ? Text(
+                                                        'ให้คะแนนรีวิว',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'PromptMedium',
+                                                            //fontSize: 19,
+                                                            color:
+                                                                Colors.white),
+                                                      )
+                                                    : Text(
+                                                        'Leave a Review',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'NunitoBold',
+                                                            //fontSize: 19,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
                                               ),
                                             ),
                                           )),
