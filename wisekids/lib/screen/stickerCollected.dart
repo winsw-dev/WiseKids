@@ -90,8 +90,10 @@ class _StickerCollectedState extends State<StickerCollected> {
                           .stopCongratTheme2();
                       Provider.of<AudioProvider>(context, listen: false)
                           .playSoundEffect("achievement1", 0.8);
-                      Provider.of<AudioProvider>(context, listen: false)
-                          .resumeBgMusic();
+                      /* Future.delayed(Duration(milliseconds: 5000), () {
+                        Provider.of<AudioProvider>(context, listen: false)
+                            .resumeBgMusic();
+                      }); */
 
                       Navigator.pushReplacement(
                         context,
@@ -185,9 +187,12 @@ class _StickerCollectedState extends State<StickerCollected> {
                                       Provider.of<AudioProvider>(context,
                                               listen: false)
                                           .playSoundEffect("achievement1", 0.8);
-                                      Provider.of<AudioProvider>(context,
-                                              listen: false)
-                                          .resumeBgMusic();
+                                      /*  Future.delayed(
+                                          Duration(milliseconds: 5000), () {
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .resumeBgMusic();
+                                      }); */
 
                                       Navigator.pushReplacement(
                                         context,
@@ -335,8 +340,10 @@ class _StickerCollectedState extends State<StickerCollected> {
                           .stopCongratTheme2();
                       Provider.of<AudioProvider>(context, listen: false)
                           .playSoundEffect("achievement1", 0.8);
-                      Provider.of<AudioProvider>(context, listen: false)
-                          .resumeBgMusic();
+                      /* Future.delayed(Duration(milliseconds: 5000), () {
+                        Provider.of<AudioProvider>(context, listen: false)
+                            .resumeBgMusic();
+                      }); */
 
                       Navigator.pushReplacement(
                         context,

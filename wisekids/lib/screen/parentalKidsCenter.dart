@@ -144,6 +144,9 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                   Provider.of<AudioProvider>(context,
                                           listen: false)
                                       .playSoundEffect("click3", 1.0);
+                                      Provider.of<AudioProvider>(context,
+                                          listen: false)
+                                      .stopBgMusic();
                                   signOut();
                                 },
                                 child: Container(
@@ -561,7 +564,7 @@ class _ParentalKidsCenterState extends State<ParentalKidsCenter> {
                                             ? Text(
                                                 'บอกพวกเราหน่อยคุณคิดยังไงกับ Wisekids!',
                                                 style: TextStyle(
-                                                    fontFamily: 'PromptMedium',
+                                                    fontFamily: 'PromptRegular',
                                                     //fontSize: 19,
                                                     color: Color.fromRGBO(
                                                         69, 223, 224, 1.00)),

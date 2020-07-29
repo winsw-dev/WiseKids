@@ -787,6 +787,7 @@ class _ParentalConsentState extends State<ParentalConsent> {
                                                 value: check1,
                                                 onChanged: (bool val) {
                                                   setState(() {
+                                                    acceptBtn = true;
                                                     check1 = val;
                                                   });
                                                 }),

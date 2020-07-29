@@ -189,6 +189,8 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
           Provider.of<AudioProvider>(context, listen: false)
               .playSoundEffect("click3", 1.0);
           Navigator.pop(context);
+          Provider.of<DataProvider>(context, listen: false)
+              .speakAfterPlayInteractive();
         });
       });
     }

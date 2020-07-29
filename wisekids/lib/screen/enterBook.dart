@@ -190,9 +190,9 @@ class _EnterBookState extends State<EnterBook> {
                                 Provider.of<AudioProvider>(context,
                                         listen: false)
                                     .playSoundEffect("click2", 1.0);
-                                Provider.of<AudioProvider>(context,
+                                /* Provider.of<AudioProvider>(context,
                                         listen: false)
-                                    .playCandyMonsterTheme();
+                                    .playCandyMonsterTheme(); */
                                 ////////////////////////////////////////////////// Navigate to AR
                                 Navigator.push(
                                   context,
@@ -278,9 +278,9 @@ class _EnterBookState extends State<EnterBook> {
                                       Provider.of<AudioProvider>(context,
                                               listen: false)
                                           .playSoundEffect("click2", 1.0);
-                                      Provider.of<AudioProvider>(context,
+                                      /* Provider.of<AudioProvider>(context,
                                               listen: false)
-                                          .playPlayTheme();
+                                          .playPlayTheme(); */
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

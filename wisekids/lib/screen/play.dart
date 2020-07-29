@@ -104,8 +104,8 @@ class _PlayState extends State<Play> {
             onTap: () {
               Provider.of<AudioProvider>(context, listen: false)
                   .playSoundEffect("click3", 1.0);
-              Provider.of<AudioProvider>(context, listen: false)
-                  .stopPlayTheme();
+              /* Provider.of<AudioProvider>(context, listen: false)
+                  .stopPlayTheme(); */
               Provider.of<AudioProvider>(context, listen: false)
                   .playCandyMonsterTheme();
               Navigator.pop(

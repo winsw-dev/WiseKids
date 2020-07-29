@@ -525,7 +525,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                 inputFormatters: [
                                                                   BlacklistingTextInputFormatter(
                                                                       new RegExp(
-                                                                          '[.,0123456789@":;?><()_=/!-*-+#%^& ]')),
+                                                                          '[.,0123456789@":;?><()_=/!-*-+#%^& กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรฤลฦวศษสหฬอฮฯะัาำิีึืฺุู฿ภมยรฤลฦวศษสหฬอฮฯ๐๑๒๓๔๕๖๗๘๙๚๛]')),
                                                                 ], //blacklist character
                                                                 textInputAction:
                                                                     TextInputAction
@@ -744,7 +744,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                             ], //blacklist & whitelist char
                                                             keyboardType:
                                                                 TextInputType
-                                                                    .text,
+                                                                    .number,
                                                             textInputAction:
                                                                 TextInputAction
                                                                     .done,
@@ -776,9 +776,9 @@ class _KidsInfoState extends State<KidsInfo> {
                                                             decoration:
                                                                 InputDecoration
                                                                     /* .collapsed */ (
-                                                                        contentPadding: EdgeInsets.symmetric(
+                                                                        /* contentPadding: EdgeInsets.symmetric(///////////////////////  
                                                                             vertical:
-                                                                                -20),
+                                                                                -20), */
                                                                         isDense:
                                                                             true,
                                                                         border: InputBorder

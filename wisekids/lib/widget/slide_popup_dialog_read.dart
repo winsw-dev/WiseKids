@@ -399,14 +399,14 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                         listen: false)
                                                     .playSoundEffect(
                                                         "click2", 1.0);
-                                                Provider.of<AudioProvider>(
+                                                /* Provider.of<AudioProvider>(
                                                         context,
                                                         listen: false)
                                                     .pauseBgMusic();
                                                 Provider.of<AudioProvider>(
                                                         context,
                                                         listen: false)
-                                                    .playPlayTheme();
+                                                    .playPlayTheme(); */
 
                                                 Navigator.pop(context);
                                                 Navigator.push(
@@ -618,6 +618,9 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                         Provider.of<AudioProvider>(context,
                                                 listen: false)
                                             .playSoundEffect("click3", 1.0);
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .resumeBgMusic();
 
                                         Navigator.pop(context);
                                         /* Navigator.pushReplacement(

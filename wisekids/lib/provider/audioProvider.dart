@@ -27,7 +27,7 @@ class AudioProvider extends ChangeNotifier {
   ////////////////////////////////////////////// BG Music
   Future playBgMusic() async {
     _advancedPlayer =
-        await _audioCache.loop('sound/background.mp3', volume: 0.10);
+        await _audioCache.loop('sound/background.mp3', volume: 0.05);
   }
 
   Future pauseBgMusic() async {
@@ -36,6 +36,10 @@ class AudioProvider extends ChangeNotifier {
 
   Future resumeBgMusic() async {
     await _advancedPlayer.resume();
+  }
+
+  Future stopBgMusic() async {
+    await _advancedPlayer.stop();
   }
 
   /////////////////////////////////////////////// Candy Monster Theme

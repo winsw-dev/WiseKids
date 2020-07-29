@@ -73,6 +73,8 @@ dependencies:
 
   after_layout: ^1.0.7+2
 
+  flutter_tts: ^1.2.6
+
   image_sequence_animator:   
     git:
       url: https://github.com/sarawin008/flutter-image-sequence-animator.git 

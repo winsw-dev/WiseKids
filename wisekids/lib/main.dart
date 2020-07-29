@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import './screen/selectAvatar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
-
+import './provider/ttsProvider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 //import 'with_arkit_screen.dart';
 import 'dart:async';
@@ -40,6 +40,8 @@ void main() {
                 ),
                 ChangeNotifierProvider<AudioProvider>(
                     create: (_) => AudioProvider()),
+                ChangeNotifierProvider<TTSProvider>(
+                    create: (_) => TTSProvider()),
                 /*  ChangeNotifierProvider.value(
                     value: UserAuthentication.instance(),
                   ), */
