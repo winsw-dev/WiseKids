@@ -17,8 +17,8 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
-    Provider.of<AudioProvider>(context, listen: false)
-        .playSoundEffect("gameWin", 1.0);
+    /*Provider.of<AudioProvider>(context, listen: false)
+        .playSoundEffect("gameWin", 1.0);*/
 
     return WillPopScope(
       onWillPop: () async => false,
