@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../provider/dataProvider.dart';
 import '../screen/kidsProfile.dart';
 import '../widget/exerciseScoreBarWidget.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
@@ -139,14 +141,28 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                         ///////////////////////////////// total time read
                         Container(
                             margin: EdgeInsets.only(top: 14),
-                            child: Text(
-                                widget.totalTimeRead.toString() +
-                                    ' minutes in total',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontFamily: 'NunitoRegular',
-                                    //fontSize: 21,
-                                    color: Color.fromRGBO(80, 85, 89, 1.0)))),
+                            child: Provider.of<DataProvider>(context,
+                                            listen: false)
+                                        .parentAreaLanguage ==
+                                    "TH"
+                                ? Text(
+                                    'อ่านทั้งหมด ' +
+                                        widget.totalTimeRead.toString() +
+                                        ' นาที',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontFamily: 'PromptRegular',
+                                        //fontSize: 21,
+                                        color: Color.fromRGBO(80, 85, 89, 1.0)))
+                                : Text(
+                                    widget.totalTimeRead.toString() +
+                                        ' minutes in total',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontFamily: 'NunitoRegular',
+                                        //fontSize: 21,
+                                        color:
+                                            Color.fromRGBO(80, 85, 89, 1.0)))),
                       ],
                     ),
                     /* Spacer(), */
@@ -183,30 +199,55 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                     //////////////////////////////////////////////////////// Book's Lesson
                                     Container(
                                         margin: EdgeInsets.only(top: 5),
-                                        child: Text('Lessons',
-                                            style: TextStyle(
-                                                fontSize: 21,
-                                                fontFamily: 'NunitoBold',
-                                                //fontSize: 21,
-                                                color: Color.fromRGBO(
-                                                    69, 223, 224, 1.0)))),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? Text('เนื้อหาที่เรียนรู้',
+                                                style: TextStyle(
+                                                    fontSize: 21,
+                                                    fontFamily: 'PromptMedium',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.0)))
+                                            : Text('Lessons',
+                                                style: TextStyle(
+                                                    fontSize: 21,
+                                                    fontFamily: 'NunitoBold',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.0)))),
 
                                     //////////////////////////////////////////////////////// Lesson Details
                                     Container(
                                         margin: EdgeInsets.only(
                                             top: 10, bottom: 10),
-                                        child: Text(
-                                            'Counting Number\nNew Vocabularies',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily: 'NunitoRegular',
-                                                //fontSize: 21,
-                                                color: Color.fromRGBO(
-                                                    80, 85, 89, 1.0)))),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? Text(
+                                                'การนับเลข 1-10\nคำศัพท์ใหม่เกี่ยวกับฟัน',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'PromptLight',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))
+                                            : Text(
+                                                'Counting Number\nNew Vocabularies',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'NunitoRegular',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))),
                                     //////////////////////////////////////////////////////// EF (Exclusive Functions)
                                     Container(
                                         //margin: EdgeInsets.only(top: 14),
-                                        child: Text('Exclusive Function',
+                                        child: Text('Exclusive Function (EF)',
                                             style: TextStyle(
                                                 fontSize: 21,
                                                 fontFamily: 'NunitoBold',
@@ -217,17 +258,30 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                     Container(
                                         margin: EdgeInsets.only(
                                             top: 10, bottom: 20),
-                                        child: Text(
-                                            'Working Memory\nInhibition\nSelf-Monitoring',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily: 'NunitoRegular',
-                                                //fontSize: 21,
-                                                color: Color.fromRGBO(
-                                                    80, 85, 89, 1.0)))),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? Text(
+                                                '- ทักษะการประเมินตัวเอง\n- ทักษะการคิดไตร่ตรอง\n- ทักษะความจำที่นำมาใช้งาน\n- ทักษะการใส่ใจจดจ่อ',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'PromptLight',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))
+                                            : Text(
+                                                'Working Memory\nInhibition\nSelf-Monitoring',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'NunitoRegular',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))),
                                     //////////////////////////////////////////////////////// Answer Conditions
                                     /////////////// Incorrect
-                                    Wrap(
+                                    /*  Wrap(
                                       crossAxisAlignment:
                                           WrapCrossAlignment.center,
                                       children: <Widget>[
@@ -250,7 +304,7 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                                     color: Color.fromRGBO(
                                                         80, 85, 89, 1.0)))),
                                       ],
-                                    ),
+                                    ), */
                                     /////////////// Correct
                                     Wrap(
                                       crossAxisAlignment:
@@ -267,13 +321,27 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                             )),
                                         Container(
                                             margin: EdgeInsets.only(left: 10),
-                                            child: Text('Correct Answers',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontFamily: 'NunitoRegular',
-                                                    //fontSize: 21,
-                                                    color: Color.fromRGBO(
-                                                        80, 85, 89, 1.0)))),
+                                            child: Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .parentAreaLanguage ==
+                                                    "TH"
+                                                ? Text('คะแนนที่ตอบถูก',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily:
+                                                            'PromptLight',
+                                                        //fontSize: 21,
+                                                        color: Color.fromRGBO(
+                                                            80, 85, 89, 1.0)))
+                                                : Text('Correct Answers',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily:
+                                                            'NunitoRegular',
+                                                        //fontSize: 21,
+                                                        color: Color.fromRGBO(
+                                                            80, 85, 89, 1.0)))),
                                       ],
                                     ),
                                     /////////////// Total Score
@@ -292,13 +360,27 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                             )),
                                         Container(
                                             margin: EdgeInsets.only(left: 10),
-                                            child: Text('Total Score',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontFamily: 'NunitoRegular',
-                                                    //fontSize: 21,
-                                                    color: Color.fromRGBO(
-                                                        80, 85, 89, 1.0)))),
+                                            child: Provider.of<DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .parentAreaLanguage ==
+                                                    "TH"
+                                                ? Text('คะแนนทั้งหมด',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily:
+                                                            'PromptLight',
+                                                        //fontSize: 21,
+                                                        color: Color.fromRGBO(
+                                                            80, 85, 89, 1.0)))
+                                                : Text('Total Score',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily:
+                                                            'NunitoRegular',
+                                                        //fontSize: 21,
+                                                        color: Color.fromRGBO(
+                                                            80, 85, 89, 1.0)))),
                                       ],
                                     ),
                                   ],
@@ -314,14 +396,27 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                   children: <Widget>[
                                     //////////////////////////////////////////////////////// The last three time exercise score
                                     Container(
-                                        child: Text(
-                                            'Last 3 times exercise score',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily: 'NunitoBold',
-                                                //fontSize: 21,
-                                                color: Color.fromRGBO(
-                                                    69, 223, 224, 1.0)))),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? Text(
+                                                'คะแนนที่ทำได้ 3 ครั้งล่าสุด',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'PromptMedium',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.0)))
+                                            : Text(
+                                                'Last 3 times exercise score',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'NunitoBold',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        69, 223, 224, 1.0)))),
                                     ////////////////////////////////////// last 3 times Btn
 
                                     Padding(
@@ -475,13 +570,25 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                     ////////////////////////////////// 1st Exercise text
                                     Container(
                                         //margin: EdgeInsets.only(left: 10),
-                                        child: Text('Counting Number',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily: 'NunitoRegular',
-                                                //fontSize: 21,
-                                                color: Color.fromRGBO(
-                                                    80, 85, 89, 1.0)))),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? Text('เกมนับตัวเลข',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'PromptLight',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))
+                                            : Text('Counting Number',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'NunitoRegular',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))),
                                     ///////////////////////////////// 1st Exercise score bar
                                     Container(
                                       margin:
@@ -501,13 +608,25 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                     ////////////////////////////////// 2nd Exercise text
                                     Container(
                                         //margin: EdgeInsets.only(left: 10),
-                                        child: Text('Counting Number',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily: 'NunitoRegular',
-                                                //fontSize: 21,
-                                                color: Color.fromRGBO(
-                                                    80, 85, 89, 1.0)))),
+                                        child: Provider.of<DataProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .parentAreaLanguage ==
+                                                "TH"
+                                            ? Text('เกมจับคู่คำศัพท์',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'PromptLight',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))
+                                            : Text('Vocabulary matching',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'NunitoRegular',
+                                                    //fontSize: 21,
+                                                    color: Color.fromRGBO(
+                                                        80, 85, 89, 1.0)))),
                                     ///////////////////////////////// 2nd Exercise score bar
                                     Container(
                                       margin:
@@ -525,7 +644,7 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                       ),
                                     ),
                                     ////////////////////////////////// Kids Book review
-                                    Padding(
+                                    /* Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 20),
                                       child: Wrap(
@@ -555,7 +674,7 @@ class _KidsStatisticPhoneSizeState extends State<KidsStatisticPhoneSize> {
                                                       child: Text('-'))),
                                         ],
                                       ),
-                                    ),
+                                    ), */
                                   ],
                                 ),
                               ),

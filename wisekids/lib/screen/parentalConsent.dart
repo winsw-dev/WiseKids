@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
 
 import 'home.dart';
 
@@ -128,6 +129,8 @@ class _ParentalConsentState extends State<ParentalConsent> {
                         ignoring: _ignorePointer,
                         child: GestureDetector(
                           onTap: () {
+                            Provider.of<AudioProvider>(context, listen: false)
+                                .playSoundEffect("click3", 1.0);
                             Navigator.pop(
                               context,
                               /* MaterialPageRoute(
@@ -700,8 +703,16 @@ class _ParentalConsentState extends State<ParentalConsent> {
                                                                   child:
                                                                       GestureDetector(
                                                                     /////////////////////////////////////// record user accepted consent to database
-                                                                    onTap:
-                                                                        _acceptBtn,
+                                                                    onTap: () {
+                                                                      Provider.of<AudioProvider>(
+                                                                              context,
+                                                                              listen:
+                                                                                  false)
+                                                                          .playSoundEffect(
+                                                                              "click2",
+                                                                              1.0);
+                                                                      _acceptBtn();
+                                                                    },
                                                                     child:
                                                                         Stack(
                                                                       children: <
@@ -776,6 +787,7 @@ class _ParentalConsentState extends State<ParentalConsent> {
                                                 value: check1,
                                                 onChanged: (bool val) {
                                                   setState(() {
+                                                    acceptBtn = true;
                                                     check1 = val;
                                                   });
                                                 }),
@@ -906,7 +918,12 @@ class _ParentalConsentState extends State<ParentalConsent> {
                             ignoring: _ignorePointer,
                             child: GestureDetector(
                               /////////////////////////////////////// record user accepted consent to database
-                              onTap: _acceptBtn,
+                              onTap: () {
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("click2", 1.0);
+                                _acceptBtn();
+                              },
                               child: Stack(
                                 children: <Widget>[
                                   Container(

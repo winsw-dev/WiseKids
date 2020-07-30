@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:flare_flutter/flare_actor.dart';
+import '../provider/audioProvider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -185,7 +186,11 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
       });
       Future.delayed(Duration(milliseconds: 3000), () {
         setState(() {
+          Provider.of<AudioProvider>(context, listen: false)
+              .playSoundEffect("click3", 1.0);
           Navigator.pop(context);
+          Provider.of<DataProvider>(context, listen: false)
+              .speakAfterPlayInteractive();
         });
       });
     }

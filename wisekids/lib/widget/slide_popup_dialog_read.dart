@@ -6,7 +6,7 @@ import 'package:wisekids/screen/enterBook.dart';
 import 'dart:async';
 import 'dart:math';
 import '../screen/home.dart';
-
+import '../provider/audioProvider.dart';
 import 'package:provider/provider.dart';
 import '../screen/play.dart';
 import '../provider/dataProvider.dart';
@@ -381,88 +381,7 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Spacer(),
-                                      ////////////////////////////////////////////////////// Play Btn
-                                      GestureDetector(
-                                        onTap: _perventMultipleTab
-                                            ? () {
-                                                setState(() {
-                                                  _perventMultipleTab = false;
-                                                });
-
-                                                Timer(
-                                                    Duration(seconds: 1),
-                                                    () => setState(() =>
-                                                        _perventMultipleTab =
-                                                            true));
-
-                                                Navigator.pop(context);
-                                                Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Play(),
-                                                  ),
-                                                );
-                                              }
-                                            : null,
-                                        child: Container(
-                                          height: deviceHeight > 500
-                                              ? deviceHeight * (115 / 768)
-                                              : deviceHeight * (170 / 768),
-                                          child: AspectRatio(
-                                            aspectRatio: 268 / 121,
-                                            child: FlareActor(
-                                                "assets/animation/btnAnimation.flr",
-                                                artboard: 'PlayBtn',
-                                                animation: 'animation'),
-                                          ),
-                                        ),
-                                        /* Stack(
-                                        children: <Widget>[
-                                          /////////////////////// Btn BG
-                                          Container(
-                                            height: deviceHeight > 500
-                                                ? deviceHeight *
-                                                    (317 / 768) *
-                                                    (93 / 317)
-                                                : deviceHeight *
-                                                    (276 / 414) *
-                                                    (82 / 276),
-                                            child: AspectRatio(
-                                              aspectRatio: 216 / 93,
-                                              child: SvgPicture.asset(
-                                                'assets/images/enterBook/playBtn.svg',
-                                              ),
-                                            ),
-                                          ),
-                                          /////////////////////// Play Text
-                                          Positioned.fill(
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Container(
-                                                height: deviceHeight > 500
-                                                    ? deviceHeight *
-                                                        (317 / 768) *
-                                                        (41 / 317)
-                                                    : deviceHeight *
-                                                        (276 / 414) *
-                                                        (37 / 276),
-                                                child: FittedBox(
-                                                  fit: BoxFit.fitHeight,
-                                                  child: Text(
-                                                    'Play',
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'NunitoExtraBold',
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ), */
-                                      ),
+                                      
                                       //Spacer(),
                                       ////////////////////////////////////////////////////// Read again
                                       GestureDetector(
@@ -477,9 +396,22 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                     () => setState(() =>
                                                         _perventMultipleTab =
                                                             true));
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .stopSoundEffect();
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playSoundEffect(
+                                                        "select", 1.0);
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playCandyMonsterTheme();
 
                                                 Navigator.pop(context);
-                                                Navigator.pushReplacement(
+                                                Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
@@ -549,6 +481,114 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                         ],
                                       ), */
                                       ),
+                                      ////////////////////////////////////////////////////// Play Btn
+                                      GestureDetector(
+                                        onTap: _perventMultipleTab
+                                            ? () {
+                                                setState(() {
+                                                  _perventMultipleTab = false;
+                                                });
+
+                                                Timer(
+                                                    Duration(seconds: 1),
+                                                    () => setState(() =>
+                                                        _perventMultipleTab =
+                                                            true));
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .stopSoundEffect();
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playSoundEffect(
+                                                        "click2", 1.0);
+                                                /* Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .pauseBgMusic();
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .playPlayTheme(); */
+
+                                                Navigator.pop(context);
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EnterBook(
+                                                      pickedBook: 6,
+                                                    ),
+                                                  ),
+                                                );
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Play(),
+                                                  ),
+                                                );
+                                              }
+                                            : null,
+                                        child: Container(
+                                          height: deviceHeight > 500
+                                              ? deviceHeight * (115 / 768)
+                                              : deviceHeight * (170 / 768),
+                                          child: AspectRatio(
+                                            aspectRatio: 268 / 121,
+                                            child: FlareActor(
+                                                "assets/animation/btnAnimation.flr",
+                                                artboard: 'PlayBtn',
+                                                animation: 'animation'),
+                                          ),
+                                        ),
+                                        /* Stack(
+                                        children: <Widget>[
+                                          /////////////////////// Btn BG
+                                          Container(
+                                            height: deviceHeight > 500
+                                                ? deviceHeight *
+                                                    (317 / 768) *
+                                                    (93 / 317)
+                                                : deviceHeight *
+                                                    (276 / 414) *
+                                                    (82 / 276),
+                                            child: AspectRatio(
+                                              aspectRatio: 216 / 93,
+                                              child: SvgPicture.asset(
+                                                'assets/images/enterBook/playBtn.svg',
+                                              ),
+                                            ),
+                                          ),
+                                          /////////////////////// Play Text
+                                          Positioned.fill(
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Container(
+                                                height: deviceHeight > 500
+                                                    ? deviceHeight *
+                                                        (317 / 768) *
+                                                        (41 / 317)
+                                                    : deviceHeight *
+                                                        (276 / 414) *
+                                                        (37 / 276),
+                                                child: FittedBox(
+                                                  fit: BoxFit.fitHeight,
+                                                  child: Text(
+                                                    'Play',
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'NunitoExtraBold',
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ), */
+                                      ),
                                       Spacer(),
                                       /////////////////////////////////////////////////////////////
                                     ],
@@ -584,6 +624,15 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                             Duration(seconds: 1),
                                             () => setState(() =>
                                                 _perventMultipleTab = true));
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .stopSoundEffect();
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .playSoundEffect("click3", 1.0);
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .resumeBgMusic();
 
                                         Navigator.pop(context);
                                         /* Navigator.pushReplacement(

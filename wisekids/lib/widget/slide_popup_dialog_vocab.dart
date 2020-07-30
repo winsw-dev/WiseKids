@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import '../provider/audioProvider.dart';
+import '../provider/ttsProvider.dart';
 
 /// Display slide dialog.
 ///
@@ -119,6 +121,18 @@ class SlideDialogVocab extends StatefulWidget {
 }
 
 class _SlideDialogVocabState extends State<SlideDialogVocab> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<TTSProvider>(context, listen: false).initTts();
+   
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Provider.of<TTSProvider>(context, listen: false).disposeTTS();
+  }
   //var _initialPosition = 0.0;
   //var _currentPosition = 0.0;
 
@@ -134,12 +148,13 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
   void chooseSticker(String choosen) {
     print('clicked Sticker: $choosen');
     ////////////////// play sound and auto dispose
-    AssetsAudioPlayer.playAndForget(Audio(
+    Provider.of<TTSProvider>(context, listen: false).speak(choosen);
+    /* AssetsAudioPlayer.playAndForget(Audio(
         'assets/ttsAudio/candyMonster/level1/' +
             choosen
                 .toLowerCase()
                 .replaceAll(new RegExp(r'(?:_|[^\w\s])+'), '') +
-            '.mp3'));
+            '.mp3')); */
     ////////////////////////
     setState(() {
       if (choosen == 'tooth') {
@@ -816,6 +831,9 @@ class _SlideDialogVocabState extends State<SlideDialogVocab> {
                                         Duration(seconds: 1),
                                         () => setState(
                                             () => _perventMultipleTab = true));
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click3", 1.0);
                                     Navigator.pop(context);
                                   }
                                 : null,

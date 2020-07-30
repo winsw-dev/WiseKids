@@ -6,6 +6,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
 
 Future<T> showSlideDialog<T>({
   @required BuildContext context,
@@ -315,6 +316,9 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                               Duration(seconds: 1),
                                               () => setState(() =>
                                                   _perventMultipleTab = true));
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .playSoundEffect("click3", 1.0);
                                           Navigator.pop(context);
                                         }
                                       : null,
@@ -396,6 +400,11 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                         onIndexChanged:
                                             widget.popUpMode == 'createProfile'
                                                 ? (int index) {
+                                                    Provider.of<AudioProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .playSoundEffect(
+                                                            "switch", 0.3);
                                                     setState(() {
                                                       Provider.of<DataProvider>(
                                                               context,
@@ -508,24 +517,38 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           GestureDetector(
                                             onTap: widget.popUpMode ==
                                                     'createProfile'
-                                                ? () =>
+                                                ? ()
                                                     /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
                                                     // Add Your Code here.
-                                                    Provider.of<DataProvider>(
+                                                    {
+                                                    Provider.of<AudioProvider>(
                                                             context,
                                                             listen: false)
-                                                        .chooseThemeAddKids(
-                                                            1) //;
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(1);
+                                                  }
+                                                //;
                                                 /* });
                                             } */
-                                                : () => Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(
-                                                        1),
+                                                : () {
+                                                    Provider.of<AudioProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(1);
+                                                  },
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -547,22 +570,36 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           GestureDetector(
                                             onTap: widget.popUpMode ==
                                                     'createProfile'
-                                                ? () =>
+                                                ? ()
                                                     /*{
                                                WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                    Provider.of<DataProvider>(
+                                                    {
+                                                    Provider.of<AudioProvider>(
                                                             context,
                                                             listen: false)
-                                                        .chooseThemeAddKids(2)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(2);
+                                                  }
                                                 /* });
                                             } */
-                                                : () => Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(
-                                                        2),
+                                                : () {
+                                                    Provider.of<AudioProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(2);
+                                                  },
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -584,22 +621,36 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           GestureDetector(
                                             onTap: widget.popUpMode ==
                                                     'createProfile'
-                                                ? () =>
+                                                ? ()
                                                     /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                    Provider.of<DataProvider>(
+                                                    {
+                                                    Provider.of<AudioProvider>(
                                                             context,
                                                             listen: false)
-                                                        .chooseThemeAddKids(3)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(3);
+                                                  }
                                                 /* });
                                             } */
-                                                : () => Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(
-                                                        3),
+                                                : () {
+                                                    Provider.of<AudioProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(3);
+                                                  },
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -621,22 +672,36 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           GestureDetector(
                                             onTap: widget.popUpMode ==
                                                     "createProfile"
-                                                ? () =>
+                                                ? ()
                                                     /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                    Provider.of<DataProvider>(
+                                                    {
+                                                    Provider.of<AudioProvider>(
                                                             context,
                                                             listen: false)
-                                                        .chooseThemeAddKids(4)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(4);
+                                                  }
                                                 /*  });
                                             } */
-                                                : () => Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(
-                                                        4),
+                                                : () {
+                                                    Provider.of<AudioProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(4);
+                                                  },
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>
@@ -658,22 +723,36 @@ class _SelectAvatarAddKidsDialogState extends State<SelectAvatarAddKidsDialog> {
                                           GestureDetector(
                                             onTap: widget.popUpMode ==
                                                     'createProfile'
-                                                ? () =>
+                                                ? ()
                                                     /* {
                                               WidgetsBinding.instance
                                                   .addPostFrameCallback((_) { */
-                                                    Provider.of<DataProvider>(
+                                                    {
+                                                    Provider.of<AudioProvider>(
                                                             context,
                                                             listen: false)
-                                                        .chooseThemeAddKids(5)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(5);
+                                                  }
                                                 /* });
                                             } */
-                                                : () => Provider.of<
-                                                            DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseThemeEditKidsProfile(
-                                                        5),
+                                                : () {
+                                                    Provider.of<AudioProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .playSoundEffect(
+                                                            "btnClick", 1.0);
+                                                    return Provider.of<
+                                                                DataProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .chooseThemeAddKids(5);
+                                                  },
                                             child: Consumer<DataProvider>(
                                               builder: (context, themeProvider,
                                                       child) =>

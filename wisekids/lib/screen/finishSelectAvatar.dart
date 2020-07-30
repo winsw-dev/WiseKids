@@ -4,6 +4,7 @@ import 'package:flare_flutter/flare_actor.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
 import 'home.dart';
 
 class FinishSelectAvatar extends StatefulWidget {
@@ -16,6 +17,8 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
+    Provider.of<AudioProvider>(context, listen: false)
+        .playSoundEffect("gameWin", 1.0);
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -161,6 +164,12 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
                     highlightColor: Color.fromRGBO(255, 255, 255, 0.05),
                     splashColor: Color.fromRGBO(255, 255, 255, 0.2),
                     onTap: () {
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .playSoundEffect("click3", 1.0);
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .stopCongratTheme();
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .resumeBgMusic();
                       Provider.of<DataProvider>(context, listen: false)
                           .saveDataToSharedPreferences();
                       Navigator.pushReplacement(

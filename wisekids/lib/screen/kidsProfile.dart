@@ -7,6 +7,7 @@ import '../widget/slide_popup_dialog_deleteProflie.dart' as deleteProfile;
 import '../widget/slide_dialog_kidsStatistic.dart' as kidsStatistic;
 import 'parentalKidsCenter.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
 
 class KidsProfile extends StatefulWidget {
   final int kids;
@@ -98,6 +99,8 @@ class _KidsProfileState extends State<KidsProfile> {
                           //////////////////////////////// Back to parent area Btn
                           GestureDetector(
                             onTap: () {
+                              Provider.of<AudioProvider>(context, listen: false)
+                                  .playSoundEffect("click3", 1.0);
                               Navigator.pop(
                                 context,
                                 MaterialPageRoute(
@@ -261,96 +264,150 @@ class _KidsProfileState extends State<KidsProfile> {
                                 ),
                                 ///////////////////////////////////////// Time read today
                                 Container(
-                                    height: deviceHeight > 500
-                                        ? deviceHeight *
-                                            (130 / 768) *
-                                            (24 / 130)
-                                        : deviceHeight * 0.4 * (24 / 130),
+                                    height: Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .parentAreaLanguage ==
+                                            "TH"
+                                        ? deviceHeight > 500
+                                            ? deviceHeight *
+                                                (130 / 768) *
+                                                (25 / 130)
+                                            : deviceHeight * 0.4 * (22 / 130)
+                                        : deviceHeight > 500
+                                            ? deviceHeight *
+                                                (130 / 768) *
+                                                (24 / 130)
+                                            : deviceHeight * 0.4 * (24 / 130),
                                     //margin: EdgeInsets.only(top: 14),
                                     child: FittedBox(
                                       fit: BoxFit.contain,
-                                      child: Text(
-                                          Provider.of<DataProvider>(context,
-                                                      listen: false)
-                                                  .kidsReadingTime[
-                                                      Provider.of<DataProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .currentKids]
-                                                  .toString() +
-                                              ' mins today',
-                                          style: TextStyle(
-                                              fontFamily: 'NunitoSemiBold',
-                                              //fontSize: 21,
-                                              color: Color.fromRGBO(
-                                                  69, 222, 223, 1.0))),
+                                      child: Provider.of<DataProvider>(context, listen: false)
+                                                  .parentAreaLanguage ==
+                                              "TH"
+                                          ? Text(
+                                              'วันนี้อ่านแล้ว ' +
+                                                  Provider.of<DataProvider>(context, listen: false)
+                                                      .kidsReadingTime[
+                                                          Provider.of<DataProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .currentKids]
+                                                      .toString() +
+                                                  ' นาที',
+                                              style: TextStyle(
+                                                  fontFamily: 'PromptMedium',
+                                                  //fontSize: 21,
+                                                  color: Color.fromRGBO(
+                                                      69, 222, 223, 1.0)))
+                                          : Text(
+                                              Provider.of<DataProvider>(context,
+                                                          listen: false)
+                                                      .kidsReadingTime[Provider.of<DataProvider>(context, listen: false).currentKids]
+                                                      .toString() +
+                                                  ' mins today',
+                                              style: TextStyle(
+                                                  fontFamily: 'NunitoSemiBold',
+                                                  //fontSize: 21,
+                                                  color: Color.fromRGBO(69, 222, 223, 1.0))),
                                     )),
-
-                                /////////////////////////////////////// Edit Profile
-                                GestureDetector(
-                                  onTap: _showEditProfileDialog,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      top: deviceHeight > 500
-                                          ? deviceHeight *
-                                              (130 / 768) *
-                                              (15 / 130)
-                                          : deviceHeight * 0.35 * (15 / 130),
-                                    ),
-                                    height: deviceHeight > 500
-                                        ? deviceHeight *
-                                            (130 / 768) *
-                                            (30 / 130)
-                                        : deviceHeight * 0.35 * (30 / 130),
-                                    child: AspectRatio(
-                                      aspectRatio: 154 / 30,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Container(
-                                            child: Image.asset(
-                                              'assets/images/kidsProfile/editProfile.png',
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                /////////////////////////////////////// Delete Profile
-                                Provider.of<DataProvider>(context,
-                                                listen: false)
-                                            .avatar
-                                            .length >
-                                        1
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          _showDeleteProfileDialog();
-                                        },
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                            top: deviceHeight > 500
-                                                ? deviceHeight *
-                                                    (130 / 768) *
-                                                    (15 / 130)
-                                                : deviceHeight *
-                                                    0.35 *
-                                                    (15 / 130),
-                                          ),
-                                          height: deviceHeight > 500
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    /////////////////////////////////////// Edit Profile
+                                    GestureDetector(
+                                      onTap: () {
+                                        Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
+                                        _showEditProfileDialog();
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                          top: deviceHeight > 500
                                               ? deviceHeight *
                                                   (130 / 768) *
-                                                  (30 / 130)
+                                                  (15 / 130)
                                               : deviceHeight *
                                                   0.35 *
-                                                  (30 / 130),
-                                          child: Image.asset(
-                                            'assets/images/kidsProfile/deleteProfile.png',
-                                            fit: BoxFit.contain,
+                                                  (15 / 130),
+                                        ),
+                                        height: deviceHeight > 500
+                                            ? deviceHeight *
+                                                (130 / 768) *
+                                                (30 / 130)
+                                            : deviceHeight * 0.35 * (30 / 130),
+                                        child: AspectRatio(
+                                          aspectRatio: 154 / 30,
+                                          child: Row(
+                                            children: <Widget>[
+                                              Container(
+                                                child: Provider.of<DataProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .parentAreaLanguage ==
+                                                        "TH"
+                                                    ? Image.asset(
+                                                        'assets/images/kidsProfile/editProfileTH.png',
+                                                        fit: BoxFit.contain,
+                                                      )
+                                                    : Image.asset(
+                                                        'assets/images/kidsProfile/editProfile.png',
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      )
-                                    : Container(),
+                                      ),
+                                    ),
+                                    /////////////////////////////////////// Delete Profile
+                                    Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .avatar
+                                                .length >
+                                            1
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("confirmationDownward", 1.0);
+                                              _showDeleteProfileDialog();
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(
+                                                top: deviceHeight > 500
+                                                    ? deviceHeight *
+                                                        (130 / 768) *
+                                                        (15 / 130)
+                                                    : deviceHeight *
+                                                        0.35 *
+                                                        (15 / 130),
+                                              ),
+                                              height: deviceHeight > 500
+                                                  ? deviceHeight *
+                                                      (130 / 768) *
+                                                      (30 / 130)
+                                                  : deviceHeight *
+                                                      0.35 *
+                                                      (30 / 130),
+                                              child: Provider.of<DataProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .parentAreaLanguage ==
+                                                      "TH"
+                                                  ? Image.asset(
+                                                      'assets/images/kidsProfile/deleteProfileTH.png',
+                                                      fit: BoxFit.contain,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/kidsProfile/deleteProfile.png',
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ],
+                                )
                               ],
                             ),
                             Spacer(),
@@ -371,9 +428,12 @@ class _KidsProfileState extends State<KidsProfile> {
                                           height: deviceHeight > 500
                                               ? deviceHeight * (238 / 768)
                                               : deviceHeight * (290 / 459),
+                                          width: deviceHeight > 500
+                                              ? deviceWidth * (645 / 1024)
+                                              : deviceWidth * (630 / 1024),
                                           margin: EdgeInsets.only(
                                               top: deviceHeight > 500
-                                                  ? (deviceHeight / 2) -
+                                                  ? /* (deviceHeight / 2) -
                                                       (deviceHeight * 0.04) -
                                                       ((deviceHeight *
                                                               0.93 *
@@ -383,10 +443,18 @@ class _KidsProfileState extends State<KidsProfile> {
                                                               2)) -
                                                       (deviceHeight *
                                                           (238 / 768) /
-                                                          2)
+                                                          2) */
+                                                  0
                                                   : deviceHeight * 0.03),
-                                          child: Image.asset(
-                                              'assets/images/kidsProfile/noHistory.png'),
+                                          child: Provider.of<DataProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .parentAreaLanguage ==
+                                                  "TH"
+                                              ? Image.asset(
+                                                  'assets/images/kidsProfile/noHistoryTH.png')
+                                              : Image.asset(
+                                                  'assets/images/kidsProfile/noHistory.png'),
                                         )
                                       :
                                       ////////////////////// have reading history

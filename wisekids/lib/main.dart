@@ -6,12 +6,14 @@ import 'package:provider/provider.dart';
 import './screen/selectAvatar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
+import './provider/ttsProvider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 //import 'with_arkit_screen.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './provider/dataProvider.dart';
+import './provider/audioProvider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,6 +38,10 @@ void main() {
                 ChangeNotifierProvider(
                   create: (context) => DataProvider.instance(),
                 ),
+                ChangeNotifierProvider<AudioProvider>(
+                    create: (_) => AudioProvider()),
+                ChangeNotifierProvider<TTSProvider>(
+                    create: (_) => TTSProvider()),
                 /*  ChangeNotifierProvider.value(
                     value: UserAuthentication.instance(),
                   ), */
@@ -79,6 +85,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'WiseKids',
       theme: ThemeData(
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+          },
+        ),
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
@@ -119,7 +131,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  AudioCache audioCache = AudioCache();
+  final backgroundMusicPlayer = AudioPlayer();
+  //AudioCache audioCache = AudioCache();
 
   ////////////////////////////// Function to check how many time wisekids has been opened
   openAppCount() async {
@@ -150,7 +163,11 @@ class _MyHomePageState extends State<MyHomePage> {
     openAppCount();
 
     Future.delayed(Duration(seconds: 2), () async {
-      //audioCache.loop('sound/background.mp3'); ////// BG sound
+      ////// BG sound
+      //backgroundMusicPlayer.setReleaseMode(ReleaseMode.LOOP);
+      //backgroundMusicPlayer.play('sound/background.mp3', volume: 0.5);
+      Provider.of<AudioProvider>(context, listen: false).playBgMusic();
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
       FirebaseAuth.instance
           .currentUser()

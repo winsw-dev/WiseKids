@@ -7,6 +7,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/material.dart';
+import '../provider/audioProvider.dart';
 
 import 'package:image_sequence_animator/image_sequence_animator.dart';
 import '../widget/slide_popup_dialog_read.dart' as readDialog;
@@ -83,6 +84,16 @@ class _StickerCollectedState extends State<StickerCollected> {
 
                       Timer(Duration(seconds: 1),
                           () => setState(() => _perventMultipleTab = true));
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .playSoundEffect("click3", 1.0);
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .stopCongratTheme2();
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .playSoundEffect("achievement1", 0.8);
+                      /* Future.delayed(Duration(milliseconds: 5000), () {
+                        Provider.of<AudioProvider>(context, listen: false)
+                            .resumeBgMusic();
+                      }); */
 
                       Navigator.pushReplacement(
                         context,
@@ -167,6 +178,21 @@ class _StickerCollectedState extends State<StickerCollected> {
                                           Duration(seconds: 1),
                                           () => setState(() =>
                                               _perventMultipleTab = true));
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .playSoundEffect("click3", 1.0);
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .stopCongratTheme2();
+                                      Provider.of<AudioProvider>(context,
+                                              listen: false)
+                                          .playSoundEffect("achievement1", 0.8);
+                                      /*  Future.delayed(
+                                          Duration(milliseconds: 5000), () {
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .resumeBgMusic();
+                                      }); */
 
                                       Navigator.pushReplacement(
                                         context,
@@ -308,6 +334,16 @@ class _StickerCollectedState extends State<StickerCollected> {
 
                       Timer(Duration(seconds: 1),
                           () => setState(() => _perventMultipleTab = true));
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .playSoundEffect("click3", 1.0);
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .stopCongratTheme2();
+                      Provider.of<AudioProvider>(context, listen: false)
+                          .playSoundEffect("achievement1", 0.8);
+                      /* Future.delayed(Duration(milliseconds: 5000), () {
+                        Provider.of<AudioProvider>(context, listen: false)
+                            .resumeBgMusic();
+                      }); */
 
                       Navigator.pushReplacement(
                         context,

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import '../provider/audioProvider.dart';
 
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
@@ -192,6 +193,9 @@ class _SlideDialogState extends State<SlideDialog> {
                                               Duration(seconds: 1),
                                               () => setState(() =>
                                                   _perventMultipleTab = true));
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .playSoundEffect("click3", 1.0);
                                           Navigator.pop(context);
                                         }
                                       : null,
@@ -264,6 +268,9 @@ class _SlideDialogState extends State<SlideDialog> {
                                         },
                                         onIndexChanged: (int index) {
                                           setState(() {
+                                            Provider.of<AudioProvider>(context,
+                                                    listen: false)
+                                                .playSoundEffect("switch", 0.3);
                                             Provider.of<DataProvider>(context,
                                                     listen: false)
                                                 .selectAvatarSwiper(index);
@@ -365,15 +372,22 @@ class _SlideDialogState extends State<SlideDialog> {
                                         children: <Widget>[
                                           ///////////////////////////////// choose theme1
                                           GestureDetector(
-                                            onTap: () =>
-                                                /* {
+                                            onTap: () {
+                                              Provider.of<AudioProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .playSoundEffect(
+                                                      "btnClick", 1.0);
+                                              return Provider.of<DataProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .chooseTheme(1);
+                                            }
+                                            /* {
                                                 WidgetsBinding.instance
                                                     .addPostFrameCallback((_) { */
-                                                // Add Your Code here.
-                                                Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseTheme(1)
+                                            // Add Your Code here.
+
                                             /* });
                                               } */
                                             ,
@@ -392,15 +406,23 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           //////////////////////////////// choose theme2
                                           GestureDetector(
-                                            onTap: () =>
-                                                /* {
+                                            onTap: () {
+                                              Provider.of<AudioProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .playSoundEffect(
+                                                      "btnClick", 1.0);
+                                              return Provider.of<DataProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .chooseTheme(2);
+                                            }
+                                            /* {
                                                 WidgetsBinding.instance
                                                     .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseTheme(2)
-                                            /*  });
+                                            // Add Your Code here.
+
+                                            /* });
                                               } */
                                             ,
                                             child: Consumer<DataProvider>(
@@ -418,14 +440,22 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           //////////////////////////////// choose theme3
                                           GestureDetector(
-                                            onTap: () =>
-                                                /* {
+                                            onTap: () {
+                                              Provider.of<AudioProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .playSoundEffect(
+                                                      "btnClick", 1.0);
+                                              return Provider.of<DataProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .chooseTheme(3);
+                                            }
+                                            /* {
                                                 WidgetsBinding.instance
                                                     .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseTheme(3)
+                                            // Add Your Code here.
+
                                             /* });
                                               } */
                                             ,
@@ -444,15 +474,23 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           /////////////////////////////// choose theme4
                                           GestureDetector(
-                                            onTap: () =>
-                                                /* {
+                                            onTap: () {
+                                              Provider.of<AudioProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .playSoundEffect(
+                                                      "btnClick", 1.0);
+                                              return Provider.of<DataProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .chooseTheme(4);
+                                            }
+                                            /* {
                                                 WidgetsBinding.instance
                                                     .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseTheme(4)
-                                            /*  });
+                                            // Add Your Code here.
+
+                                            /* });
                                               } */
                                             ,
                                             child: Consumer<DataProvider>(
@@ -470,15 +508,23 @@ class _SlideDialogState extends State<SlideDialog> {
                                           ),
                                           /////////////////////////////// choose theme5
                                           GestureDetector(
-                                            onTap: () =>
-                                                /* {
+                                            onTap: () {
+                                              Provider.of<AudioProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .playSoundEffect(
+                                                      "btnClick", 1.0);
+                                              return Provider.of<DataProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .chooseTheme(5);
+                                            }
+                                            /* {
                                                 WidgetsBinding.instance
                                                     .addPostFrameCallback((_) { */
-                                                Provider.of<DataProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .chooseTheme(5)
-                                            /*  });
+                                            // Add Your Code here.
+
+                                            /* });
                                               } */
                                             ,
                                             child: Consumer<DataProvider>(

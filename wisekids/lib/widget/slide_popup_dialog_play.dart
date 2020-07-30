@@ -9,6 +9,7 @@ import '../screen/home.dart';
 import 'package:provider/provider.dart';
 import '../screen/play.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
 
 /// Display slide dialog.
 ///
@@ -103,7 +104,6 @@ class SpringReverseCurve extends Curve {
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
-
 class SlideDialogPlay extends StatefulWidget {
   final Widget child;
 
@@ -377,14 +377,29 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                               Duration(seconds: 1),
                                               () => setState(() =>
                                                   _perventMultipleTab = true));
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .stopSoundEffect();
+
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .playSoundEffect("click3", 1.0);
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .stopPlayTheme();
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .playCandyMonsterTheme();
 
                                           Navigator.pop(context);
-                                          Navigator.pushReplacement(
+                                          Navigator.pop(context);
+
+                                          /* Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => Play(),
                                             ),
-                                          );
+                                          ); */
                                         }
                                       : null,
                                   child: Container(
@@ -451,7 +466,6 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                   /* )), */
                                 ),
                                 /////////////////////////////// home Btn
-
                                 GestureDetector(
                                   onTap: _perventMultipleTab
                                       ? () {
@@ -465,6 +479,18 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                                   _perventMultipleTab = true));
 
                                           Navigator.pop(context);
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .stopSoundEffect();
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .playSoundEffect("click3", 1.0);
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .stopPlayTheme();
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .resumeBgMusic();
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
@@ -478,13 +504,15 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                         ? deviceHeight * (121 / 768)
                                         : deviceHeight * (170 / 768),
                                     child: AspectRatio(
-                                        aspectRatio: 1,
-                                        child: /* Image.asset(
-                                            'assets/images/enterBook/homeBtn.png')  */FlareActor(
-                                          "assets/animation/Home_Btn.flr",
-                                          artboard: 'HomeBtn',
-                                          animation: 'animation'),
-                                        ),
+                                      aspectRatio: 1,
+                                      child:
+                                          /* Image.asset(
+                                            'assets/images/enterBook/homeBtn.png')  */
+                                          FlareActor(
+                                              "assets/animation/Home_Btn.flr",
+                                              artboard: 'HomeBtn',
+                                              animation: 'animation'),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -505,8 +533,20 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                             Duration(seconds: 1),
                                             () => setState(() =>
                                                 _perventMultipleTab = true));
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .stopSoundEffect();
 
                                         Navigator.pop(context);
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .playSoundEffect("click3", 1.0);
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .stopPlayTheme();
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .resumeBgMusic();
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(

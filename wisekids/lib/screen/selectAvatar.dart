@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:provider/provider.dart';
+import '../provider/audioProvider.dart';
 import '../provider/dataProvider.dart';
 import './kidsInfo.dart';
 
@@ -228,6 +229,13 @@ class _SelectAvatarState extends State<SelectAvatar> {
                           alignment: Alignment.bottomLeft,
                           child: GestureDetector(
                             onTap: () {
+                              /////////////////////////////// play select sound
+                              if (selectedAvatar != 'boy') {
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("select", 1.0);
+                              }
+
                               selectChar('boy');
                             },
                             child: Container(
@@ -265,6 +273,12 @@ class _SelectAvatarState extends State<SelectAvatar> {
                           alignment: Alignment.bottomCenter,
                           child: GestureDetector(
                             onTap: () {
+                              /////////////////////////////// play select sound
+                              if (selectedAvatar != 'girl') {
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("select", 1.0);
+                              }
                               selectChar('girl');
                             },
                             child: Container(
@@ -299,6 +313,12 @@ class _SelectAvatarState extends State<SelectAvatar> {
                           alignment: Alignment.bottomRight,
                           child: GestureDetector(
                             onTap: () {
+                              /////////////////////////////// play select sound
+                              if (selectedAvatar != 'cat') {
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("select", 1.0);
+                              }
                               selectChar('cat');
                             },
                             child: Container(
@@ -416,6 +436,9 @@ class _SelectAvatarState extends State<SelectAvatar> {
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(50),
                                   onTap: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click2", 1.0);
                                     Provider.of<DataProvider>(context,
                                             listen: false)
                                         .selectAvatar(selectedAvatar);
@@ -450,6 +473,9 @@ class _SelectAvatarState extends State<SelectAvatar> {
                               alignment: Alignment.center,
                               child: GestureDetector(
                                 onTap: () {
+                                  Provider.of<AudioProvider>(context,
+                                          listen: false)
+                                      .playSoundEffect("click2", 1.0);
                                   Provider.of<DataProvider>(context,
                                           listen: false)
                                       .selectAvatar(selectedAvatar);

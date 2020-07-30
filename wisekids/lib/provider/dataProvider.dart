@@ -16,6 +16,8 @@ import '../screen/kidsProfile.dart';
 import '../widget/slide_dialog_kidsStatistic.dart' as kidsStatistic;
 import '../widget/kidsStatisticPhoneSize.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../provider/audioProvider.dart';
+import '../provider/ttsProvider.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -26,12 +28,14 @@ class DataProvider extends ChangeNotifier {
   BuildContext _parentalKidsCenterContext;
   BuildContext _selectKidsPopupContext;
   BuildContext _kidsProfileContext;
+  BuildContext _unityArBookContext;
   double _deviceHeight;
   double _deviceWidth;
 
   /// use to create function showAddKids Dialog that required context in provider
   //////////////////
 
+  String _parentAreaLanguage = "TH";
   int _appOpen;
   bool _appReviewed = false;
 
@@ -64,6 +68,8 @@ class DataProvider extends ChangeNotifier {
       'amountRead': [0]
     }
   }; */
+  ///////////////// TTS
+  bool _ttsSwitch = true;
 
   ///////////////// Current kids select by user
   int _currentKids = 0;
@@ -131,9 +137,12 @@ class DataProvider extends ChangeNotifier {
   bool _allowTab = true;
 
   ///////////////// An unmodifiable view
+  bool get ttsSwitch => _ttsSwitch;
+  String get parentAreaLanguage => _parentAreaLanguage;
   double get deviceHeight => _deviceHeight;
   double get deviceWidth => _deviceWidth;
   BuildContext get kidsProfileContext => _kidsProfileContext;
+  BuildContext get unityArBookContext => _unityArBookContext;
   List<Widget> get kidsProfileReadBookWidget => _kidsProfileReadBookWidget;
   BuildContext get selectKidsPopupContext => _selectKidsPopupContext;
   List<Widget> get selectKidsPopupWidget => _selectKidsPopupWidget;
@@ -481,6 +490,9 @@ class DataProvider extends ChangeNotifier {
         //////////////////////////////////// Kids Profile
         GestureDetector(
           onTap: () {
+            Provider.of<AudioProvider>(_parentalKidsCenterContext,
+                    listen: false)
+                .playSoundEffect("select", 1.0);
             Navigator.of(_parentalKidsCenterContext).push(
               MaterialPageRoute(
                 builder: (context) {
@@ -562,7 +574,12 @@ class DataProvider extends ChangeNotifier {
         .add(///////////////////////////////////// Add more kids Btn
             _avatar.length < _kidsLimit
                 ? GestureDetector(
-                    onTap: _showAddMoreKisDialog,
+                    onTap: () {
+                      Provider.of<AudioProvider>(_parentalKidsCenterContext,
+                              listen: false)
+                          .playSoundEffect("select", 1.0);
+                      _showAddMoreKisDialog();
+                    },
                     child: Container(
                       margin: EdgeInsets.only(top: 10, bottom: 16, right: 16),
                       child: AspectRatio(
@@ -1172,6 +1189,8 @@ class DataProvider extends ChangeNotifier {
           ),
           child: GestureDetector(
             onTap: () {
+              Provider.of<AudioProvider>(context, listen: false)
+                  .playSoundEffect("click3", 1.0);
               print('Choosen kids: ' + _kidsName[i]);
               _currentKids = i;
               chooseTheme(_theme[_currentKids]);
@@ -1231,6 +1250,9 @@ class DataProvider extends ChangeNotifier {
       ////////////////////////////////////////////////////////////// Paretal Area
       GestureDetector(
         onTap: () {
+          Provider.of<AudioProvider>(context, listen: false)
+              .playSoundEffect("select", 1.0);
+
           /////////////////////////////// if consented skip to parentCenter
           if (_userAcceptConsent) {
             Navigator.pop(context);
@@ -1307,6 +1329,9 @@ class DataProvider extends ChangeNotifier {
           GestureDetector(
             onTap: _deviceHeight > 500
                 ? () {
+                    Provider.of<AudioProvider>(_kidsProfileContext,
+                            listen: false)
+                        .playSoundEffect("select", 1.0);
                     kidsStatistic.showSlideDialog(
                       context: _kidsProfileContext,
                       book: i,
@@ -1326,6 +1351,9 @@ class DataProvider extends ChangeNotifier {
                     );
                   }
                 : () {
+                    Provider.of<AudioProvider>(_kidsProfileContext,
+                            listen: false)
+                        .playSoundEffect("select", 1.0);
                     Navigator.of(_kidsProfileContext).push(
                       MaterialPageRoute(
                         builder: (context) {
@@ -1372,7 +1400,7 @@ class DataProvider extends ChangeNotifier {
                 height: deviceHeight > 500
                     ? deviceHeight * (203 / 768)
                     : deviceHeight * (250 / 495),
-                width: (deviceHeight * (250 / 495)) * (1258 / 1638),
+                //width: (deviceHeight * (250 / 495)) * (1258 / 1638),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
@@ -1477,35 +1505,117 @@ class DataProvider extends ChangeNotifier {
   ///////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////
 
+  getUnityARBookContext(BuildContext context) {
+    _unityArBookContext = context;
+  }
+
   //////////////////////////////////////////// UnityARPage Subtitle Logic
-  setInputSubtitle(String subtitle) {
+  setInputSubtitle(String subtitle, bool speak) {
     _inputSubtitle = subtitle;
+    if (_ttsSwitch) {
+      if (speak) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+              .speak(subtitle);
+        });
+      }
+    }
+  }
+
+  speakAfterPlayInteractive() {
+    if (_kidsContentLevel[_currentKids] == 1) {
+      Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+          .speak('There were ten candy monsters in $kidsName\'s mouth.');
+    } else if (_kidsContentLevel[_currentKids] == 2) {
+      Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+          .speak('There were ten candy monsters in $kidsName\'s mouth.');
+    } else if (_kidsContentLevel[_currentKids] == 3) {
+      Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+          .speak('There are ten candy monsters in $kidsName\'s mouth.');
+    } else if (_kidsContentLevel[_currentKids] == 4) {
+      Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
+          '$kidsName found that there were ten candy monsters in $kidsName\'s mouth.');
+    }
+  }
+
+  void toggleTtsSwitch() {
+    _ttsSwitch = !_ttsSwitch;
+    notifyListeners();
   }
 
   resetSubtitleState() {
+    String _name = _kidsName[_currentKids];
     if (avatar[currentKids] == 'girl') {
       if (kidsContentLevel[currentKids] == 1) {
-        _inputSubtitle = 'Todd likes candy.';
+        _inputSubtitle = '$_name likes candy.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+                .speak('$_name likes candy.');
+          });
+        }
       } else if (kidsContentLevel[currentKids] == 2) {
-        _inputSubtitle = 'Todd likes to eat dessert everyday.';
+        _inputSubtitle = '$_name likes to eat dessert everyday.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+                .speak('$_name likes to eat dessert everyday.');
+          });
+        }
       } else if (kidsContentLevel[currentKids] == 3) {
         _inputSubtitle =
-            'Todd likes to eat dessert everyday. Candy was her favourite.';
+            '$_name likes to eat dessert everyday. Candy was her favourite.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
+                '$_name likes to eat dessert everyday. Candy was her favourite.');
+          });
+        }
       } else if (kidsContentLevel[currentKids] == 4) {
         _inputSubtitle =
-            'There was a little girl named Todd, she likes to eat dessert everyday. Candy was one of her favourites.';
+            'There was a little girl named $_name, she likes to eat dessert everyday. Candy was one of her favourites.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
+                'There was a little girl named $_name, she likes to eat dessert everyday. Candy was one of her favourites.');
+          });
+        }
       }
     } else {
       if (kidsContentLevel[currentKids] == 1) {
-        _inputSubtitle = 'Todd likes candy.';
+        _inputSubtitle = '$_name likes candy.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+                .speak('$_name likes candy.');
+          });
+        }
       } else if (kidsContentLevel[currentKids] == 2) {
-        _inputSubtitle = 'Todd likes to eat dessert everyday.';
+        _inputSubtitle = '$_name likes to eat dessert everyday.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+                .speak('$_name likes to eat dessert everyday.');
+          });
+        }
       } else if (kidsContentLevel[currentKids] == 3) {
         _inputSubtitle =
-            'Todd likes to eat dessert everyday. Candy was his favourite.';
+            '$_name likes to eat dessert everyday. Candy was his favourite.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
+                '$_name likes to eat dessert everyday. Candy was his favourite.');
+          });
+        }
       } else if (kidsContentLevel[currentKids] == 4) {
         _inputSubtitle =
-            'There was a little boy named Todd, he likes to eat dessert everyday. Candy was one of his favourites.';
+            'There was a little boy named $_name, he likes to eat dessert everyday. Candy was one of his favourites.';
+        if (_ttsSwitch) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
+                'There was a little boy named $_name, he likes to eat dessert everyday. Candy was one of his favourites.');
+          });
+        }
       }
     }
   }

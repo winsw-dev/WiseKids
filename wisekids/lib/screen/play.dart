@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
+import '../provider/audioProvider.dart';
+import '../provider/ttsProvider.dart';
 import './enterBook.dart';
 import '../widget/slide_popup_dialog_play.dart' as playDialog; //// ori
 //import '../widget/slide_popup_dialog_read.dart' as playDialog; /// test read dialog
@@ -55,10 +57,17 @@ class _PlayState extends State<Play> {
   @override
   void initState() {
     super.initState();
+    Provider.of<TTSProvider>(context, listen: false).initTts();
     //positionToothbrush = Offset(60, 175);
     positionCandy = Offset(843, 175);
     toothBrush = Offset(60, 483);
     mirror = Offset(843, 483);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Provider.of<TTSProvider>(context, listen: false).disposeTTS();
   }
 
   void correctAllSticker() {
@@ -68,6 +77,8 @@ class _PlayState extends State<Play> {
         toothBrushAccepted &&
         candyAccepted == true) {
       Future.delayed(Duration(milliseconds: 500), () {
+        Provider.of<AudioProvider>(context, listen: false)
+            .playSoundEffect("achievement1", 0.5);
         playDialog.showSlideDialog(
           context: context,
           child: Container(),
@@ -99,11 +110,14 @@ class _PlayState extends State<Play> {
           ///////////////////// Back Btn
           GestureDetector(
             onTap: () {
+              Provider.of<AudioProvider>(context, listen: false)
+                  .playSoundEffect("click3", 1.0);
+              /* Provider.of<AudioProvider>(context, listen: false)
+                  .stopPlayTheme(); */
+              Provider.of<AudioProvider>(context, listen: false)
+                  .playCandyMonsterTheme();
               Navigator.pop(
                 context,
-                /* MaterialPageRoute(
-                  builder: (context) => EnterBook(),
-                ), */
               );
             },
             child: Container(
@@ -166,6 +180,16 @@ class _PlayState extends State<Play> {
                               AbsorbPointer(
                                 absorbing: toothBrushAccepted,
                                 child: Draggable(
+                                  onDragEnd: (details) {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click3", 1.0);
+                                  },
+                                  onDragStarted: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
+                                  },
                                   data: 'toothBrush',
                                   feedback: Container(
                                     alignment: Alignment.center,
@@ -246,6 +270,16 @@ class _PlayState extends State<Play> {
                               AbsorbPointer(
                                 absorbing: candyAccepted,
                                 child: Draggable(
+                                  onDragEnd: (details) {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click3", 1.0);
+                                  },
+                                  onDragStarted: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
+                                  },
                                   data: 'candy',
                                   feedback: Container(
                                     alignment: Alignment.center,
@@ -328,6 +362,16 @@ class _PlayState extends State<Play> {
                               AbsorbPointer(
                                 absorbing: monsterAccepted,
                                 child: Draggable(
+                                  onDragEnd: (details) {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click3", 1.0);
+                                  },
+                                  onDragStarted: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
+                                  },
                                   data: 'monster',
                                   feedback: Container(
                                     margin: EdgeInsets.only(
@@ -434,6 +478,16 @@ class _PlayState extends State<Play> {
                               AbsorbPointer(
                                 absorbing: toothAccepted,
                                 child: Draggable(
+                                  onDragEnd: (details) {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click3", 1.0);
+                                  },
+                                  onDragStarted: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
+                                  },
                                   data: 'tooth',
                                   feedback: Container(
                                     alignment: Alignment.center,
@@ -516,6 +570,16 @@ class _PlayState extends State<Play> {
                               AbsorbPointer(
                                 absorbing: mirrorAccepted,
                                 child: Draggable(
+                                  onDragEnd: (details) {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("click3", 1.0);
+                                  },
+                                  onDragStarted: () {
+                                    Provider.of<AudioProvider>(context,
+                                            listen: false)
+                                        .playSoundEffect("select", 1.0);
+                                  },
                                   data: 'mirror',
                                   feedback: Container(
                                     alignment: Alignment.center,
@@ -800,6 +864,11 @@ class _PlayState extends State<Play> {
                             return data == 'tooth';
                           },
                           onAccept: (data) {
+                            Provider.of<AudioProvider>(context, listen: false)
+                                .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('tooth');
+
                             setState(() {
                               toothAccepted = true;
                               print('Tooth Accepted');
@@ -850,6 +919,10 @@ class _PlayState extends State<Play> {
                             return data == 'toothBrush';
                           },
                           onAccept: (data) {
+                            Provider.of<AudioProvider>(context, listen: false)
+                                .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('toothBrush');
                             setState(() {
                               toothBrushAccepted = true;
                               print('toothbrush Accepted');
@@ -892,6 +965,10 @@ class _PlayState extends State<Play> {
                             return data == 'candy';
                           },
                           onAccept: (data) {
+                            Provider.of<AudioProvider>(context, listen: false)
+                                .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('candy');
                             setState(() {
                               candyAccepted = true;
                               print('Candy Accepted');
@@ -934,6 +1011,10 @@ class _PlayState extends State<Play> {
                             return data == 'monster';
                           },
                           onAccept: (data) {
+                            Provider.of<AudioProvider>(context, listen: false)
+                                .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('monster');
                             setState(() {
                               monsterAccepted = true;
                               print('Monster Accepted');
@@ -977,6 +1058,10 @@ class _PlayState extends State<Play> {
                             return data == 'mirror';
                           },
                           onAccept: (data) {
+                            Provider.of<AudioProvider>(context, listen: false)
+                                .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('mirror');
                             setState(() {
                               mirrorAccepted = true;
                               print('Mirror Accepted');

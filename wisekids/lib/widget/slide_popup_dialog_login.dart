@@ -9,6 +9,7 @@ import 'package:flare_loading/flare_loading.dart';
 
 import '../screen/parentalConsent.dart';
 
+import '../provider/audioProvider.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -187,6 +188,8 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                       ignoring: _loadingVisible,
                       child: GestureDetector(
                         onTap: () async {
+                          Provider.of<AudioProvider>(context, listen: false)
+                              .playSoundEffect("click2", 1.0);
                           setState(() {
                             _loadingVisible = true;
 
@@ -334,6 +337,8 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                       ignoring: _loadingVisible,
                       child: GestureDetector(
                         onTap: () async {
+                          Provider.of<AudioProvider>(context, listen: false)
+                              .playSoundEffect("click2", 1.0);
                           setState(() {
                             _loadingVisible = true;
 
@@ -505,6 +510,9 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                                     Duration(seconds: 1),
                                     () => setState(
                                         () => _perventMultipleTab = true));
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("click3", 1.0);
                                 Navigator.pop(context);
                               }
                             : null,
@@ -555,6 +563,8 @@ class _SlideDialogLoginState extends State<SlideDialogLogin> {
                                   Duration(seconds: 1),
                                   () => setState(
                                       () => _perventMultipleTab = true));
+                              Provider.of<AudioProvider>(context, listen: false)
+                                  .playSoundEffect("click3", 1.0);
                               Navigator.pop(context);
                             }
                           : null,
