@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import '../provider/audioProvider.dart';
+import '../provider/ttsProvider.dart';
 import './enterBook.dart';
 import '../widget/slide_popup_dialog_play.dart' as playDialog; //// ori
 //import '../widget/slide_popup_dialog_read.dart' as playDialog; /// test read dialog
@@ -56,10 +57,17 @@ class _PlayState extends State<Play> {
   @override
   void initState() {
     super.initState();
+    Provider.of<TTSProvider>(context, listen: false).initTts();
     //positionToothbrush = Offset(60, 175);
     positionCandy = Offset(843, 175);
     toothBrush = Offset(60, 483);
     mirror = Offset(843, 483);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Provider.of<TTSProvider>(context, listen: false).disposeTTS();
   }
 
   void correctAllSticker() {
@@ -858,6 +866,8 @@ class _PlayState extends State<Play> {
                           onAccept: (data) {
                             Provider.of<AudioProvider>(context, listen: false)
                                 .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('tooth');
 
                             setState(() {
                               toothAccepted = true;
@@ -911,6 +921,8 @@ class _PlayState extends State<Play> {
                           onAccept: (data) {
                             Provider.of<AudioProvider>(context, listen: false)
                                 .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('toothBrush');
                             setState(() {
                               toothBrushAccepted = true;
                               print('toothbrush Accepted');
@@ -955,6 +967,8 @@ class _PlayState extends State<Play> {
                           onAccept: (data) {
                             Provider.of<AudioProvider>(context, listen: false)
                                 .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('candy');
                             setState(() {
                               candyAccepted = true;
                               print('Candy Accepted');
@@ -999,6 +1013,8 @@ class _PlayState extends State<Play> {
                           onAccept: (data) {
                             Provider.of<AudioProvider>(context, listen: false)
                                 .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('monster');
                             setState(() {
                               monsterAccepted = true;
                               print('Monster Accepted');
@@ -1044,6 +1060,8 @@ class _PlayState extends State<Play> {
                           onAccept: (data) {
                             Provider.of<AudioProvider>(context, listen: false)
                                 .playSoundEffect("matchCorrect", 0.5);
+                            Provider.of<TTSProvider>(context, listen: false)
+                                .speak('mirror');
                             setState(() {
                               mirrorAccepted = true;
                               print('Mirror Accepted');

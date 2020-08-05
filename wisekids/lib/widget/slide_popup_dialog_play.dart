@@ -377,6 +377,9 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                               Duration(seconds: 1),
                                               () => setState(() =>
                                                   _perventMultipleTab = true));
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
+                                              .stopSoundEffect();
 
                                           Provider.of<AudioProvider>(context,
                                                   listen: false)
@@ -478,6 +481,9 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                           Navigator.pop(context);
                                           Provider.of<AudioProvider>(context,
                                                   listen: false)
+                                              .stopSoundEffect();
+                                          Provider.of<AudioProvider>(context,
+                                                  listen: false)
                                               .playSoundEffect("click3", 1.0);
                                           Provider.of<AudioProvider>(context,
                                                   listen: false)
@@ -527,6 +533,9 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                             Duration(seconds: 1),
                                             () => setState(() =>
                                                 _perventMultipleTab = true));
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .stopSoundEffect();
 
                                         Navigator.pop(context);
                                         Provider.of<AudioProvider>(context,

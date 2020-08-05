@@ -459,7 +459,7 @@ flutter:
 
     ################################### TTS Candy Monster
     ########## Level1
-    - assets/ttsAudio/candyMonster/level1/
+    #- assets/ttsAudio/candyMonster/level1/
     ########## arInteractive
     - assets/ttsAudio/arInteractive/
 

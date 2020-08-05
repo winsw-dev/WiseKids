@@ -102,8 +102,15 @@ class AudioProvider extends ChangeNotifier {
     } else if (soundEffect == "btnClick") {
       volume = 0.4;
     }
-    await _audioCacheSoundEffect.play('sound/' + soundEffect + '.mp3',
-        mode: PlayerMode.LOW_LATENCY, volume: volume);
+    _advancedPlayerSoundEffect = await _audioCacheSoundEffect.play(
+        'sound/' + soundEffect + '.mp3',
+        mode: PlayerMode.LOW_LATENCY,
+        volume: volume);
+    _audioCacheSoundEffect.clearCache();
+  }
+
+  Future stopSoundEffect() async {
+    await _advancedPlayerSoundEffect.stop();
     _audioCacheSoundEffect.clearCache();
   }
 }

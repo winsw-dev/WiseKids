@@ -397,6 +397,10 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                 Provider.of<AudioProvider>(
                                                         context,
                                                         listen: false)
+                                                    .stopSoundEffect();
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
                                                     .playSoundEffect(
                                                         "click2", 1.0);
                                                 /* Provider.of<AudioProvider>(
@@ -499,6 +503,10 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                                     () => setState(() =>
                                                         _perventMultipleTab =
                                                             true));
+                                                Provider.of<AudioProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .stopSoundEffect();
                                                 Provider.of<AudioProvider>(
                                                         context,
                                                         listen: false)
@@ -615,6 +623,9 @@ class _SlideDialogReadState extends State<SlideDialogRead> {
                                             Duration(seconds: 1),
                                             () => setState(() =>
                                                 _perventMultipleTab = true));
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .stopSoundEffect();
                                         Provider.of<AudioProvider>(context,
                                                 listen: false)
                                             .playSoundEffect("click3", 1.0);
