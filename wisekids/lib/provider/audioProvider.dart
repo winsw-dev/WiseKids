@@ -56,7 +56,7 @@ class AudioProvider extends ChangeNotifier {
   /////////////////////////////////////////////// Congrat Theme
   Future playCongratTheme() async {
     _advancedPlayerCongrat =
-        await _audioCacheCongrat.loop('sound/gasPedal.mp3', volume: 0.20);
+        await _audioCacheCongrat.loop('sound/cubicZFinishSelectAvatar.mp3', volume: 0.20);
   }
 
   Future stopCongratTheme() async {
@@ -101,6 +101,8 @@ class AudioProvider extends ChangeNotifier {
       volume = 0.1;
     } else if (soundEffect == "btnClick") {
       volume = 0.4;
+    }else if (soundEffect == "matchCorrect") {
+      volume = 0.2;
     }
     _advancedPlayerSoundEffect = await _audioCacheSoundEffect.play(
         'sound/' + soundEffect + '.mp3',

@@ -1108,7 +1108,7 @@ class _UnityARBookState extends State<UnityARBook> {
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
           1) {
         if (page == 3 ||
-            page == 7 ||
+            page == 6 ||
             page == 8 ||
             page == 15 ||
             page == 19 ||
@@ -1191,7 +1191,7 @@ class _UnityARBookState extends State<UnityARBook> {
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
           1) {
         if (page == 2 ||
-            page == 6 ||
+            page == 5 ||
             page == 7 ||
             page == 14 ||
             page == 18 ||

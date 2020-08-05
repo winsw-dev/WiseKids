@@ -48,6 +48,7 @@ class TTSProvider extends ChangeNotifier {
   }
 
   Future speak(String wordToSpeech) async {
+    stop();
     await flutterTts.setLanguage(language);
     await flutterTts.setVolume(volume);
     await flutterTts.setSpeechRate(rate);

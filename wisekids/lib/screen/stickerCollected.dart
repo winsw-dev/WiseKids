@@ -14,6 +14,7 @@ import '../widget/slide_popup_dialog_read.dart' as readDialog;
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import './home.dart';
+import '../provider/ttsProvider.dart';
 
 class StickerCollected extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _StickerCollectedState extends State<StickerCollected> {
 
   @override
   void initState() {
+    Provider.of<TTSProvider>(context, listen: false).stop();
     /////////////////////// delay 3.5 second before gestureDetector can tap to exit this page
     Future.delayed(const Duration(milliseconds: 3500), () {
       setState(() {
