@@ -1523,18 +1523,19 @@ class DataProvider extends ChangeNotifier {
   }
 
   speakAfterPlayInteractive() {
+    String kids = _kidsName[_currentKids];
     if (_kidsContentLevel[_currentKids] == 1) {
       Provider.of<TTSProvider>(_unityArBookContext, listen: false)
-          .speak('There were ten candy monsters in $kidsName\'s mouth.');
+          .speak('There were ten candy monsters in $kids\'s mouth.');
     } else if (_kidsContentLevel[_currentKids] == 2) {
       Provider.of<TTSProvider>(_unityArBookContext, listen: false)
-          .speak('There were ten candy monsters in $kidsName\'s mouth.');
+          .speak('There were ten candy monsters in $kids\'s mouth.');
     } else if (_kidsContentLevel[_currentKids] == 3) {
       Provider.of<TTSProvider>(_unityArBookContext, listen: false)
-          .speak('There are ten candy monsters in $kidsName\'s mouth.');
+          .speak('There are ten candy monsters in $kids\'s mouth.');
     } else if (_kidsContentLevel[_currentKids] == 4) {
       Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
-          '$kidsName found that there were ten candy monsters in $kidsName\'s mouth.');
+          '$kids found that there were ten candy monsters in $kids\'s mouth.');
     }
   }
 

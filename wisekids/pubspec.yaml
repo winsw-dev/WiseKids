@@ -426,6 +426,7 @@ flutter:
     - assets/animation/btnAnimation.flr
     - assets/animation/3star.flr
     - assets/animation/Home_Btn.flr
+    - assets/animation/Splash.flr
 
 
     ##################################  AR Interactive

@@ -8,6 +8,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import '../provider/audioProvider.dart';
 
 import 'package:provider/provider.dart';
+import '../provider/ttsProvider.dart';
 
 import '../provider/dataProvider.dart';
 
@@ -127,44 +128,35 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
 
   void textVocab() {
     if (textNumberCount == 1) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/one.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("one");
+
       numberVocab = 'ONE !  ';
     } else if (textNumberCount == 2) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/two.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("two");
       numberVocab = 'TWO !  ';
     } else if (textNumberCount == 3) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/three.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("three");
       numberVocab = 'THREE !  ';
     } else if (textNumberCount == 4) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/four.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("four");
       numberVocab = 'FOUR !  ';
     } else if (textNumberCount == 5) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/five.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("five");
       numberVocab = 'FIVE !  ';
     } else if (textNumberCount == 6) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/six.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("six");
       numberVocab = 'SIX !  ';
     } else if (textNumberCount == 7) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/seven.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("seven");
       numberVocab = 'SEVEN !  ';
     } else if (textNumberCount == 8) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/eight.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("eight");
       numberVocab = 'EIGHT !  ';
     } else if (textNumberCount == 9) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/nine.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("nine");
       numberVocab = 'NINE !  ';
     } else if (textNumberCount == 10) {
-      AssetsAudioPlayer.playAndForget(
-          Audio('assets/ttsAudio/arInteractive/ten.mp3'));
+      Provider.of<TTSProvider>(context, listen: false).speak("ten");
       numberVocab = 'TEN !  ';
       setState(() {
         animationController = true;
@@ -193,6 +185,12 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
               .speakAfterPlayInteractive();
         });
       });
+      Future.delayed(Duration(milliseconds: 650), () {
+        setState(() {
+          fadeTextOpacity = 0.0;
+          //touchLockIndex = 1;
+        });
+      });
     }
 
     textNumberCount++;
@@ -203,9 +201,9 @@ class _SlideDialogArInteractiveState extends State<SlideDialogArInteractive> {
         touchLockIndex = 0;
       });
     });
-    Future.delayed(Duration(milliseconds: 650), () {
+    Future.delayed(Duration(milliseconds: 0), () {
       setState(() {
-        fadeTextOpacity = 0.0;
+        fadeTextOpacity = 1.0;
         touchLockIndex = 1;
       });
     });

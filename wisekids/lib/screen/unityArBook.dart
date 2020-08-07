@@ -125,6 +125,7 @@ class _UnityARBookState extends State<UnityARBook> {
     String kidsName = Provider.of<DataProvider>(context, listen: false)
         .kidsName[Provider.of<DataProvider>(context, listen: false).currentKids]
         .capitalize();
+
     ///////////////////////// if avatar == girl then use her else use he/him/his (if avatar == cat,boy)
     if (Provider.of<DataProvider>(context, listen: false).avatar[
             Provider.of<DataProvider>(context, listen: false).currentKids] ==
@@ -967,7 +968,7 @@ class _UnityARBookState extends State<UnityARBook> {
                       child: Container(
                         //alignment: Alignment.center,
                         height: deviceHeight > 500
-                            ? deviceHeight * (140 / 1024)
+                            ? deviceHeight * (220 / 1024)
                             : deviceHeight * (290 / 1024),
                         color: Color.fromRGBO(255, 255, 255, 0.93),
                         child: Row(
@@ -983,7 +984,7 @@ class _UnityARBookState extends State<UnityARBook> {
                                     },
                                     child: Container(
                                       height: deviceHeight > 500
-                                          ? deviceHeight * (140 / 1024) * 0.8
+                                          ? deviceHeight * (180 / 1024) * 0.8
                                           : deviceHeight * (290 / 1024) * 0.8,
                                       child: Image.asset(
                                           'assets/images/arUI/button_book_back.png'),
@@ -1004,10 +1005,10 @@ class _UnityARBookState extends State<UnityARBook> {
                                         ? deviceHeight * (290 / 1024) * 0.06
                                         : deviceHeight * (290 / 1024) * 0.06,
                                     left: deviceHeight > 500
-                                        ? deviceHeight * (290 / 1024) * 0.2
+                                        ? deviceHeight * (250 / 1024) * 0.2
                                         : deviceHeight * (290 / 1024) * 0.06,
                                     right: deviceHeight > 500
-                                        ? deviceHeight * (290 / 1024) * 0.2
+                                        ? deviceHeight * (250 / 1024) * 0.2
                                         : deviceHeight * (290 / 1024) * 0.06),
                                 child: Consumer<DataProvider>(
                                   builder: (context, provider, child) => Wrap(
@@ -1029,7 +1030,7 @@ class _UnityARBookState extends State<UnityARBook> {
                                     },
                                     child: Container(
                                       height: deviceHeight > 500
-                                          ? deviceHeight * (140 / 1024) * 0.8
+                                          ? deviceHeight * (180 / 1024) * 0.8
                                           : deviceHeight * (290 / 1024) * 0.8,
                                       child: Image.asset(
                                           'assets/images/arUI/button_book_forward.png'),
@@ -1434,7 +1435,7 @@ class SubtitleSpeakable extends StatelessWidget {
                             return 28.0;
                           } // Big tablet
                           else if (deviceWidth < 1100 && deviceWidth > 910) {
-                            return 23.0;
+                            return 30.0;
                           } // normal tablet
                           else if (deviceWidth < 910 && deviceWidth > 800) {
                             return 20.0;

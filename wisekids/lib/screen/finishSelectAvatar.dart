@@ -19,6 +19,21 @@ class _FinishSelectAvatarState extends State<FinishSelectAvatar> {
     final deviceWidth = MediaQuery.of(context).size.width;
     /*Provider.of<AudioProvider>(context, listen: false)
         .playSoundEffect("gameWin", 1.0);*/
+    //////////////////////////////////////////////////////////// auto route to HomePage
+    Future.delayed(Duration(milliseconds: 4000), () {
+      Provider.of<AudioProvider>(context, listen: false)
+          .playSoundEffect("click3", 1.0);
+      Provider.of<AudioProvider>(context, listen: false).stopCongratTheme();
+      Provider.of<AudioProvider>(context, listen: false).resumeBgMusic();
+      Provider.of<DataProvider>(context, listen: false)
+          .saveDataToSharedPreferences();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      );
+    });
 
     return WillPopScope(
       onWillPop: () async => false,

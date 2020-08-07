@@ -21,6 +21,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import './screen/home.dart';
 import './provider/timerProvider.dart';
 
+import 'package:flare_flutter/flare_actor.dart';
+
 /////////////////////////// Device Preview
 void main() {
   final timerService = TimerService();
@@ -162,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     openAppCount();
 
-    Future.delayed(Duration(seconds: 2), () async {
+    Future.delayed(Duration(milliseconds: 2500), () async {
       ////// BG sound
       //backgroundMusicPlayer.setReleaseMode(ReleaseMode.LOOP);
       //backgroundMusicPlayer.play('sound/background.mp3', volume: 0.5);
@@ -274,15 +276,19 @@ class _MyHomePageState extends State<MyHomePage> {
           /////////////////////////////////////////////// Logo
           Positioned.fill(
             child: Align(
-              alignment: Alignment.center,
-              child: Container(
+                alignment: Alignment.center,
+                child: FlareActor(
+                  'assets/animation/Splash.flr',
+                  animation: "animation",
+                )
+                /* Container(
                 width: deviceWidth * 0.34,
                 child: Image.asset(
                   'assets/images/splashScreen/wisekidsLogo.png',
                   fit: BoxFit.fitWidth,
                 ),
-              ),
-            ),
+              ), */
+                ),
           ),
         ],
       ),

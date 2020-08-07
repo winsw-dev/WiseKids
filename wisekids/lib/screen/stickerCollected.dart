@@ -29,7 +29,7 @@ class _StickerCollectedState extends State<StickerCollected> {
   void initState() {
     Provider.of<TTSProvider>(context, listen: false).stop();
     /////////////////////// delay 3.5 second before gestureDetector can tap to exit this page
-    Future.delayed(const Duration(milliseconds: 3500), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       setState(() {
         _perventMultipleTab = true;
       });

@@ -231,8 +231,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                             child: Container(
                                               width: deviceHeight > 500
                                                   ? deviceWidth * (358 / 1024)
-                                                  : deviceWidth *
-                                                      (358 / 1024),
+                                                  : deviceWidth * (358 / 1024),
                                               child: AspectRatio(
                                                 aspectRatio: 358 / 430,
                                                 child: Image.asset(
@@ -294,8 +293,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                             child: Container(
                                               width: deviceHeight > 500
                                                   ? deviceWidth * (358 / 1024)
-                                                  : deviceWidth *
-                                                      (358 / 1024),
+                                                  : deviceWidth * (358 / 1024),
                                               child: AspectRatio(
                                                 aspectRatio: 358 / 430,
                                                 child: Image.asset(
@@ -334,8 +332,7 @@ class _KidsInfoState extends State<KidsInfo> {
                   //////////////////////////// Bubble Speech Frame
                   Container(
                     margin: EdgeInsets.only(
-                      top:
-                          deviceHeight > 500 ? deviceHeight * (216 / 768) : 0,
+                      top: deviceHeight > 500 ? deviceHeight * (216 / 768) : 0,
                       left: deviceHeight > 500
                           ? deviceWidth * (364 / 1024)
                           : deviceWidth * (320 / 1024),
@@ -404,8 +401,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'NunitoBlack',
-                                                          color:
-                                                              Colors.white),
+                                                          color: Colors.white),
                                                     ),
                                                   ),
                                                 ),
@@ -424,8 +420,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                       style: TextStyle(
                                                           fontFamily:
                                                               'NunitoBold',
-                                                          color:
-                                                              Colors.white),
+                                                          color: Colors.white),
                                                     ),
                                                   ),
                                                 ),
@@ -443,11 +438,13 @@ class _KidsInfoState extends State<KidsInfo> {
                                                           alignment: Alignment
                                                               .bottomCenter,
                                                           child: Container(
-                                                            margin: EdgeInsets
-                                                                .only(
+                                                            margin:
+                                                                EdgeInsets.only(
                                                               bottom: deviceHeight >
                                                                       500
-                                                                  ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorTablet) * (217 / 430)) *
+                                                                  ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorTablet) *
+                                                                              (217 /
+                                                                                  430)) *
                                                                           0.3) *
                                                                       0.05
                                                                   : ((((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorPhone) *
@@ -486,8 +483,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                       //////////////////////////// Name input
                                                       Positioned.fill(
                                                         child: Align(
-                                                          alignment: Alignment
-                                                              .center,
+                                                          alignment:
+                                                              Alignment.center,
                                                           child: Container(
                                                             //color: Colors.white,
                                                             /* height: deviceHeight >
@@ -501,8 +498,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                             (217 / 430)) *
                                                                         0.3) *
                                                                     0.25, */
-                                                            margin: EdgeInsets
-                                                                .only(
+                                                            margin:
+                                                                EdgeInsets.only(
                                                               left: deviceHeight >
                                                                       500
                                                                   ? deviceHeight *
@@ -536,7 +533,7 @@ class _KidsInfoState extends State<KidsInfo> {
 
                                                               maxLines: 1,
 
-                                                              //autofocus: true,
+                                                              autofocus: true,
                                                               cursorColor: Color
                                                                   .fromRGBO(
                                                                       248,
@@ -544,8 +541,9 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                       55,
                                                                       1.00),
                                                               cursorRadius:
-                                                                  Radius.circular(
-                                                                      20.0),
+                                                                  Radius
+                                                                      .circular(
+                                                                          20.0),
                                                               cursorWidth: 4,
                                                               decoration:
                                                                   InputDecoration /* .collapsed */ (
@@ -625,17 +623,18 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                     0.006
                                                                 : deviceHeight *
                                                                     0.008,
-                                                            width: deviceHeight >
-                                                                    500
+                                                            width: deviceHeight > 500
                                                                 ? deviceWidth *
                                                                     0.07
                                                                 : deviceWidth *
                                                                     0.07,
-                                                            margin: EdgeInsets
-                                                                .only(
+                                                            margin:
+                                                                EdgeInsets.only(
                                                               bottom: deviceHeight >
                                                                       500
-                                                                  ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorTablet) * (217 / 430)) *
+                                                                  ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorTablet) *
+                                                                              (217 /
+                                                                                  430)) *
                                                                           0.3) *
                                                                       0.17
                                                                   : ((((deviceWidth - (deviceWidth * 0.3) - deviceWidth * (66 / 1024)) * textInsideBubbleScaleFactorPhone) *
@@ -671,12 +670,10 @@ class _KidsInfoState extends State<KidsInfo> {
                                                         //color: Colors.white,
                                                         width: deviceHeight >
                                                                 500
-                                                            ? deviceWidth *
-                                                                0.07
+                                                            ? deviceWidth * 0.07
                                                             : deviceWidth *
                                                                 0.07,
-                                                        margin:
-                                                            EdgeInsets.only(
+                                                        margin: EdgeInsets.only(
                                                           top: deviceHeight >
                                                                   500
                                                               ? ((((deviceWidth - (deviceWidth * 0.357) - deviceWidth * (66 / 1024)) *
@@ -751,8 +748,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                       context,
                                                                   {int
                                                                       currentLength,
-                                                                  int
-                                                                      maxLength,
+                                                                  int maxLength,
                                                                   bool
                                                                       isFocused}) =>
                                                               null,
@@ -781,8 +777,8 @@ class _KidsInfoState extends State<KidsInfo> {
                                                                           .none,
                                                                       hintText:
                                                                           ""), //delete underline
-                                                          textAlign: TextAlign
-                                                              .center,
+                                                          textAlign:
+                                                              TextAlign.center,
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'NunitoBold',
@@ -814,12 +810,10 @@ class _KidsInfoState extends State<KidsInfo> {
                                                           fontFamily:
                                                               'NunitoBold',
                                                           fontSize:
-                                                              deviceHeight >
-                                                                      500
+                                                              deviceHeight > 500
                                                                   ? 50
                                                                   : 35,
-                                                          color:
-                                                              Colors.white),
+                                                          color: Colors.white),
                                                     ),
                                                   ),
                                                 ),
@@ -859,15 +853,13 @@ class _KidsInfoState extends State<KidsInfo> {
                                             child: Ink(
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(
-                                                        500),
+                                                    BorderRadius.circular(500),
                                                 color: Color.fromRGBO(
                                                     237, 237, 243, 1.00),
                                               ),
                                               child: InkWell(
                                                 borderRadius:
-                                                    BorderRadius.circular(
-                                                        500),
+                                                    BorderRadius.circular(500),
                                                 onTap: () {
                                                   print('pressed');
                                                 },
@@ -945,8 +937,7 @@ class _KidsInfoState extends State<KidsInfo> {
                                                           context,
                                                           listen: false)
                                                       .setKisdNameAndAge(
-                                                          inputName,
-                                                          inputAge);
+                                                          inputName, inputAge);
 
                                                   Navigator.pushReplacement(
                                                     context,
@@ -1016,16 +1007,14 @@ class _KidsInfoState extends State<KidsInfo> {
                                                           fontFamily:
                                                               'NunitoExtraBold',
                                                           fontSize:
-                                                              deviceHeight >
-                                                                      500
+                                                              deviceHeight > 500
                                                                   ? 30
                                                                   : 17,
-                                                          color:
-                                                              Color.fromRGBO(
-                                                                  255,
-                                                                  255,
-                                                                  255,
-                                                                  1.00)),
+                                                          color: Color.fromRGBO(
+                                                              255,
+                                                              255,
+                                                              255,
+                                                              1.00)),
                                                     ),
                                                   ),
                                                 ),
@@ -1072,8 +1061,7 @@ class _KidsInfoState extends State<KidsInfo> {
                     height: deviceHeight > 500
                         ? deviceHeight * 0.104
                         : deviceHeight * 0.15,
-                    child:
-                        Image.asset('assets/images/kidsInfo/backButton.png'),
+                    child: Image.asset('assets/images/kidsInfo/backButton.png'),
                   ),
                 ),
               ),
