@@ -135,9 +135,11 @@ class DataProvider extends ChangeNotifier {
   String _inputSubtitle = 'Todd likes to eat dessert. Candy is his favourite.';
   List<Widget> _subtitleItems = [];
   bool _allowTab = true;
+  bool _arMode = true;
 
   ///////////////// An unmodifiable view
   bool get ttsSwitch => _ttsSwitch;
+  bool get arMode => _arMode;
   String get parentAreaLanguage => _parentAreaLanguage;
   double get deviceHeight => _deviceHeight;
   double get deviceWidth => _deviceWidth;
@@ -1539,13 +1541,23 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
+  void toggleArMode() {
+    _arMode = !arMode;
+    notifyListeners();
+  }
+
+  void resetToArMode() {
+    _arMode = true;
+    notifyListeners();
+  }
+
   void toggleTtsSwitch() {
     _ttsSwitch = !_ttsSwitch;
     notifyListeners();
   }
 
   resetSubtitleState() {
-    String _name = _kidsName[_currentKids];
+    String _name = _kidsName[_currentKids].capitalize();
     if (avatar[currentKids] == 'girl') {
       if (kidsContentLevel[currentKids] == 1) {
         _inputSubtitle = '$_name likes candy.';
@@ -1640,7 +1652,7 @@ class DataProvider extends ChangeNotifier {
     // Generate Widget
     for (var word in textDisplayString) {
       _subtitleItems.add(SubtitleSpeakable(
-        word: word,
+        word: word, borderMode: _arMode ? false : true,
         //textSelectedList: provider.textSelected,
         id: wordCount,
       ));

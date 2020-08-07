@@ -279,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment.center,
                 child: FlareActor(
                   'assets/animation/Splash.flr',
-                  animation: "animation",
+                  animation: "animation",fit: BoxFit.fitWidth,
                 )
                 /* Container(
                 width: deviceWidth * 0.34,

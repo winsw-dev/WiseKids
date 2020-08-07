@@ -4,12 +4,14 @@ import 'dart:io' show Platform;
 
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import '../provider/audioProvider.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../provider/ttsProvider.dart';
+import 'package:bordered_text/bordered_text.dart';
 import '../widget/slide_popup_dialog_read.dart' as readDialog;
 import '../widget/slide_popup_dialog_arInteractive.dart' as arInteractiveDialog;
 
@@ -66,6 +68,7 @@ class _UnityARBookState extends State<UnityARBook> {
                 .currentKids]['readBook']
             .length >
         0) {
+           Provider.of<DataProvider>(context, listen: false).resetToArMode();
       reloadSession();
       Provider.of<AudioProvider>(context, listen: false)
           .playSoundEffect("achievement1", 0.5);
@@ -81,6 +84,7 @@ class _UnityARBookState extends State<UnityARBook> {
         child: Container(),
       );
     } else {
+       Provider.of<DataProvider>(context, listen: false).resetToArMode();
       //////////////////////////// collected Sticker page
       reloadSession();
       Provider.of<AudioProvider>(context, listen: false).playCongratTheme2();
@@ -118,8 +122,9 @@ class _UnityARBookState extends State<UnityARBook> {
       choice.scene.toString(),
     );
   } */
-
+  //bool arMode = true;
   int page = 1;
+  int bookModePageIndex = 1;
   var subtitleText = '';
   void subtite() {
     String kidsName = Provider.of<DataProvider>(context, listen: false)
@@ -764,6 +769,7 @@ class _UnityARBookState extends State<UnityARBook> {
   @override
   void dispose() {
     super.dispose();
+    Provider.of<DataProvider>(context, listen: false).resetToArMode();
     Provider.of<TTSProvider>(context, listen: false).disposeTTS();
   }
 
@@ -807,13 +813,105 @@ class _UnityARBookState extends State<UnityARBook> {
                 : Container(),
 
             !debugingMode
-                ? UnityWidget(
-                    onUnityViewCreated: onUnityCreated,
-                    isARScene: true,
-                    onUnityMessage: onUnityMessage,
-                  )
+                ? Consumer<DataProvider>(
+                    builder: (context, provider, child) => Visibility(
+                          visible: provider.arMode,
+                          child: UnityWidget(
+                            onUnityViewCreated: onUnityCreated,
+                            isARScene: true,
+                            onUnityMessage: onUnityMessage,
+                          ),
+                        ))
                 : Container(),
 
+            Consumer<DataProvider>(
+              builder: (context, provider, child) => Visibility(
+                visible: !provider.arMode,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      color: Colors.white,
+                    ),
+                    AbsorbPointer(
+                      ignoringSemantics: true,
+                      child: Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          int bookIndex = index + 1;
+                          return Stack(
+                            children: <Widget>[
+                              //////////////////////////////////// book pic
+                              Positioned.fill(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    'assets/images/arUI/normalBook/Todd$bookIndex.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              //////////////////////////////////// Subtitle
+                              Positioned.fill(
+                                child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Container(
+                                      width: deviceWidth * 0.6,
+                                      margin: EdgeInsets.only(
+                                        top: (() {
+                                          if (deviceWidth > 1100) {
+                                            return deviceHeight > 500
+                                                ? deviceWidth * 0.02
+                                                : deviceWidth * 0.02;
+                                          } // Big tablet
+                                          else if (deviceWidth < 1100 &&
+                                              deviceWidth > 910) {
+                                            return 30.0;
+                                          } // normal tablet
+                                          else if (deviceWidth < 910 &&
+                                              deviceWidth > 800) {
+                                            return 20.0;
+                                          } // phone large
+                                          else if (deviceWidth > 600 &&
+                                              deviceWidth < 800) {
+                                            return 17.0;
+                                          } // phone medium
+                                          else if (deviceWidth < 600) {
+                                            return 14.5;
+                                          } // phone small
+                                        }()),
+
+                                        /* deviceHeight > 500
+                                            ? deviceWidth * 0.02
+                                            : deviceWidth * 0.02, */
+                                      ),
+                                      child: Consumer<DataProvider>(
+                                        builder: (context, provider, child) =>
+                                            Wrap(
+                                                alignment: WrapAlignment.center,
+                                                runAlignment:
+                                                    WrapAlignment.center,
+                                                children:
+                                                    provider.subtitleItems),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          );
+                        },
+                        itemCount: 16,
+                        loop: false,
+                        index: bookModePageIndex-1,
+
+                        //itemWidth: 300.0,
+                        //layout: SwiperLayout.DEFAULT,
+                      ),
+                    ),
+                    /* Center(
+                      child: Image.asset(
+                          'assets/images/arUI/normalBook/Todd1.png')) */
+                  ],
+                ),
+              ),
+            ),
             //////////////////////////////////////////////////
             /* Positioned.fill(
               child: Align(
@@ -850,6 +948,7 @@ class _UnityARBookState extends State<UnityARBook> {
                 child: GestureDetector(
                   onTap: _perventMultipleTab
                       ? () async {
+                        
                           !debugingMode ? reloadSession() : null;
                           setState(() {
                             _perventMultipleTab = false;
@@ -862,6 +961,7 @@ class _UnityARBookState extends State<UnityARBook> {
                           Provider.of<AudioProvider>(context, listen: false)
                               .playCandyMonsterTheme();
                           Navigator.pop(context);
+                          Provider.of<DataProvider>(context, listen: false).resetToArMode();
                         }
                       : null,
                   child: Container(
@@ -905,25 +1005,30 @@ class _UnityARBookState extends State<UnityARBook> {
                                       ? deviceWidth * 0.02
                                       : deviceWidth * 0.02,
                                   right: deviceHeight > 500
-                                      ? deviceWidth * 0.02
-                                      : deviceWidth * 0.02,
+                                      ? deviceWidth * 0.005
+                                      : deviceWidth * 0.005,
                                 ),
                                 height: deviceHeight > 500
                                     ? deviceHeight * 0.104
                                     : deviceHeight * 0.17,
                                 child: provider.ttsSwitch
                                     ? Image.asset(
-                                        'assets/images/arUI/soundOnButton.png')
+                                        'assets/images/arUI/soundButtonMute.png')
                                     : Image.asset(
                                         'assets/images/arUI/soundButton.png'),
                               ),
                             ),
                           ),
-                          //////////////////////// 3d Btn
+                          //////////////////////// traditional book Btn
 
-                          /* GestureDetector(
-                            onTap: () {
-                              /*   print('tab3D! Send Char == ' +
+                          Consumer<DataProvider>(
+                            builder: (context, provider, child) =>
+                                GestureDetector(
+                              onTap: () {
+                                
+                                provider.toggleArMode();
+                                subtite();
+                                /*   print('tab3D! Send Char == ' +
                                   Provider.of<DataProvider>(context, listen: false)
                                       .avatar[Provider.of<DataProvider>(context,
                                           listen: false)
@@ -937,23 +1042,27 @@ class _UnityARBookState extends State<UnityARBook> {
                                         listen: false)
                                     .currentKids],
                               ); */
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                top: deviceHeight > 500
-                                    ? deviceWidth * 0.02
-                                    : deviceWidth * 0.02,
-                                right: deviceHeight > 500
-                                    ? deviceWidth * 0.02
-                                    : deviceWidth * 0.02,
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  top: deviceHeight > 500
+                                      ? deviceWidth * 0.02
+                                      : deviceWidth * 0.02,
+                                  right: deviceHeight > 500
+                                      ? deviceWidth * 0.02
+                                      : deviceWidth * 0.02,
+                                ),
+                                height: deviceHeight > 500
+                                    ? deviceHeight * 0.104
+                                    : deviceHeight * 0.17,
+                                child: provider.arMode
+                                    ? Image.asset(
+                                        'assets/images/arUI/bookButton.png')
+                                    : Image.asset(
+                                        'assets/images/arUI/arButton.png'),
                               ),
-                              height: deviceHeight > 500
-                                  ? deviceHeight * 0.104
-                                  : deviceHeight * 0.17,
-                              child:
-                                  Image.asset('assets/images/arUI/3dBtn.png'),
                             ),
-                          ), */
+                          ),
                         ],
                       ),
                     ),
@@ -965,80 +1074,101 @@ class _UnityARBookState extends State<UnityARBook> {
                 ? Positioned.fill(
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: Container(
-                        //alignment: Alignment.center,
-                        height: deviceHeight > 500
-                            ? deviceHeight * (220 / 1024)
-                            : deviceHeight * (290 / 1024),
-                        color: Color.fromRGBO(255, 255, 255, 0.93),
-                        child: Row(
-                          children: <Widget>[
-                            //////////////////////// back Btn
-                            objectPlaced
-                                ? GestureDetector(
-                                    onTap: () {
-                                      Provider.of<AudioProvider>(context,
-                                              listen: false)
-                                          .playSoundEffect("select", 1.0);
-                                      backwardPage();
-                                    },
-                                    child: Container(
-                                      height: deviceHeight > 500
-                                          ? deviceHeight * (180 / 1024) * 0.8
-                                          : deviceHeight * (290 / 1024) * 0.8,
-                                      child: Image.asset(
-                                          'assets/images/arUI/button_book_back.png'),
-                                    ),
-                                  )
-                                : Container(),
-                            /* Spacer(), */
-                            ///////////////////////////// Subtitle Text
-                            Expanded(
-                              child: Container(
-                                height: double.infinity,
-                                /*width: deviceWidth-((deviceHeight * (140 / 1024) * 0.8 * (149/140))*2), */
-                                padding: EdgeInsets.only(
-                                    top: deviceHeight > 500
-                                        ? deviceHeight * (290 / 1024) * 0.06
-                                        : deviceHeight * (290 / 1024) * 0.06,
-                                    bottom: deviceHeight > 500
-                                        ? deviceHeight * (290 / 1024) * 0.06
-                                        : deviceHeight * (290 / 1024) * 0.06,
-                                    left: deviceHeight > 500
-                                        ? deviceHeight * (250 / 1024) * 0.2
-                                        : deviceHeight * (290 / 1024) * 0.06,
-                                    right: deviceHeight > 500
-                                        ? deviceHeight * (250 / 1024) * 0.2
-                                        : deviceHeight * (290 / 1024) * 0.06),
-                                child: Consumer<DataProvider>(
-                                  builder: (context, provider, child) => Wrap(
-                                      alignment: WrapAlignment.center,
-                                      runAlignment: WrapAlignment.center,
-                                      children: provider.subtitleItems),
+                      child: Consumer<DataProvider>(
+                        builder: (context, provider, child) => Container(
+                          //alignment: Alignment.center,
+                          height: deviceHeight > 500
+                              ? deviceHeight * (220 / 1024)
+                              : deviceHeight * (290 / 1024),
+                          color: provider.arMode
+                              ? Color.fromRGBO(255, 255, 255, 0.93)
+                              : Color.fromRGBO(255, 255, 255, 0.00),
+                          child: Row(
+                            children: <Widget>[
+                              //////////////////////// back Btn
+                              objectPlaced
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .playSoundEffect("select", 1.0);
+                                        backwardPage();
+                                      },
+                                      child: Container(
+                                        height: deviceHeight > 500
+                                            ? deviceHeight * (180 / 1024) * 0.8
+                                            : deviceHeight * (290 / 1024) * 0.8,
+                                        child: Image.asset(
+                                            'assets/images/arUI/button_book_back.png'),
+                                      ),
+                                    )
+                                  : Container(),
+                              /* Spacer(), */
+                              ///////////////////////////// Subtitle Text
+                              Consumer<DataProvider>(
+                                builder: (context, provider, child) => Expanded(
+                                  child: Container(
+                                    height: double.infinity,
+                                    /*width: deviceWidth-((deviceHeight * (140 / 1024) * 0.8 * (149/140))*2), */
+                                    padding: EdgeInsets.only(
+                                        top: deviceHeight > 500
+                                            ? deviceHeight * (290 / 1024) * 0.06
+                                            : deviceHeight *
+                                                (290 / 1024) *
+                                                0.06,
+                                        bottom: deviceHeight > 500
+                                            ? deviceHeight * (290 / 1024) * 0.06
+                                            : deviceHeight *
+                                                (290 / 1024) *
+                                                0.06,
+                                        left: deviceHeight > 500
+                                            ? deviceHeight * (250 / 1024) * 0.2
+                                            : deviceHeight *
+                                                (290 / 1024) *
+                                                0.06,
+                                        right: deviceHeight > 500
+                                            ? deviceHeight * (250 / 1024) * 0.2
+                                            : deviceHeight *
+                                                (290 / 1024) *
+                                                0.06),
+                                    child: provider.arMode
+                                        ? Consumer<DataProvider>(
+                                            builder: (context, provider,
+                                                    child) =>
+                                                Wrap(
+                                                    alignment:
+                                                        WrapAlignment.center,
+                                                    runAlignment:
+                                                        WrapAlignment.center,
+                                                    children:
+                                                        provider.subtitleItems),
+                                          )
+                                        : Container(),
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            //////////////////////// forward Btn
-                            objectPlaced
-                                ? GestureDetector(
-                                    onTap: () {
-                                      Provider.of<AudioProvider>(context,
-                                              listen: false)
-                                          .playSoundEffect("select", 1.0);
-                                      forwardPage();
-                                    },
-                                    child: Container(
-                                      height: deviceHeight > 500
-                                          ? deviceHeight * (180 / 1024) * 0.8
-                                          : deviceHeight * (290 / 1024) * 0.8,
-                                      child: Image.asset(
-                                          'assets/images/arUI/button_book_forward.png'),
-                                    ),
-                                  )
-                                : Container(),
-                            //////////////////////////
-                          ],
+                              //////////////////////// forward Btn
+                              objectPlaced
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        Provider.of<AudioProvider>(context,
+                                                listen: false)
+                                            .playSoundEffect("select", 1.0);
+                                        forwardPage();
+                                      },
+                                      child: Container(
+                                        height: deviceHeight > 500
+                                            ? deviceHeight * (180 / 1024) * 0.8
+                                            : deviceHeight * (290 / 1024) * 0.8,
+                                        child: Image.asset(
+                                            'assets/images/arUI/button_book_forward.png'),
+                                      ),
+                                    )
+                                  : Container(),
+                              //////////////////////////
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -1108,19 +1238,36 @@ class _UnityARBookState extends State<UnityARBook> {
       if (Provider.of<DataProvider>(context, listen: false).kidsContentLevel[
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
           1) {
-        if (page == 3 ||
-            page == 6 ||
-            page == 8 ||
-            page == 15 ||
-            page == 19 ||
-            page == 24) {
-          !debugingMode
-              ? _unityWidgetController.postMessage(
-                  'pageController',
-                  'forwardScene',
-                  '',
-                )
-              : null;
+        if (Provider.of<DataProvider>(context, listen: false).arMode) {
+          if (page == 3 ||
+              page == 6 ||
+              page == 8 ||
+              page == 15 ||
+              page == 19 ||
+              page == 24) {
+            !debugingMode
+                ? _unityWidgetController.postMessage(
+                    'pageController',
+                    'forwardScene',
+                    '',
+                  )
+                : null;
+          }
+        } else if (!Provider.of<DataProvider>(context, listen: false).arMode) {
+          if (page == 3 ||
+              page == 6 ||
+              page == 8 ||
+              page == 15 ||
+              page == 19 ||
+              page == 24) {
+            !debugingMode
+                ? _unityWidgetController.postMessage(
+                    'pageController',
+                    'forwardScene',
+                    '',
+                  )
+                : null;
+          }
         }
       }
       if (Provider.of<DataProvider>(context, listen: false).kidsContentLevel[
@@ -1354,12 +1501,14 @@ class SubtitleSpeakable extends StatelessWidget {
   const SubtitleSpeakable({
     Key key,
     @required this.word,
-
+    @required this.borderMode,
     //@required this.textSelectedList,
     @required this.id,
   }) : super(key: key);
 
   final String word;
+
+  final bool borderMode;
 
   //final List<bool> textSelectedList;
   final int id;
@@ -1375,12 +1524,14 @@ class SubtitleSpeakable extends StatelessWidget {
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 100),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: provider.textSelected[id]
-                      ? Color.fromRGBO(69, 223, 224, 1.0)
-                      : Color.fromRGBO(69, 223, 224, 0.0),
-                ),
+                decoration: provider.arMode
+                    ? BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: provider.textSelected[id]
+                            ? Color.fromRGBO(69, 223, 224, 1.0)
+                            : Color.fromRGBO(69, 223, 224, 0.0),
+                      )
+                    : null,
                 padding: EdgeInsets.all(
                   deviceHeight > 500
                       ? deviceHeight * (140 / 1024) * 0.020
@@ -1426,31 +1577,72 @@ class SubtitleSpeakable extends StatelessWidget {
                           });
                         }
                       : () {},
-                  child: Text(
-                    word,
-                    style: TextStyle(
-                        fontFamily: 'NunitoBold',
-                        fontSize: (() {
-                          if (deviceWidth > 1100) {
-                            return 28.0;
-                          } // Big tablet
-                          else if (deviceWidth < 1100 && deviceWidth > 910) {
-                            return 30.0;
-                          } // normal tablet
-                          else if (deviceWidth < 910 && deviceWidth > 800) {
-                            return 20.0;
-                          } // phone large
-                          else if (deviceWidth > 600 && deviceWidth < 800) {
-                            return 17.0;
-                          } // phone medium
-                          else if (deviceWidth < 600) {
-                            return 14.5;
-                          } // phone small
-                        }()),
-                        color: provider.textSelected[id]
-                            ? Colors.white
-                            : Color.fromRGBO(112, 112, 112, 1.00)),
-                  ),
+                  child: borderMode
+                      ? BorderedText(
+                          strokeColor: provider.textSelected[id]
+                              ? Colors.white
+                              : Colors.white,
+                          strokeWidth: deviceHeight > 500 ? 15.0 : 10.0,
+                          child: Text(
+                            word,
+                            style: TextStyle(
+                              color: provider.textSelected[id]
+                                  ? Color.fromRGBO(69, 223, 224, 1.0)
+                                  : Colors.black,
+                              fontFamily: 'NunitoSemiBold',
+                              fontSize: (() {
+                                if (deviceWidth > 1100) {
+                                  return 28.0;
+                                } // Big tablet
+                                else if (deviceWidth < 1100 &&
+                                    deviceWidth > 910) {
+                                  return 30.0;
+                                } // normal tablet
+                                else if (deviceWidth < 910 &&
+                                    deviceWidth > 800) {
+                                  return 20.0;
+                                } // phone large
+                                else if (deviceWidth > 600 &&
+                                    deviceWidth < 800) {
+                                  return 17.0;
+                                } // phone medium
+                                else if (deviceWidth < 600) {
+                                  return 14.5;
+                                } // phone small
+                              }()),
+                              decoration: TextDecoration.none,
+                              decorationColor: Colors.white,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          word,
+                          style: TextStyle(
+                              fontFamily: 'NunitoBold',
+                              fontSize: (() {
+                                if (deviceWidth > 1100) {
+                                  return 28.0;
+                                } // Big tablet
+                                else if (deviceWidth < 1100 &&
+                                    deviceWidth > 910) {
+                                  return 30.0;
+                                } // normal tablet
+                                else if (deviceWidth < 910 &&
+                                    deviceWidth > 800) {
+                                  return 20.0;
+                                } // phone large
+                                else if (deviceWidth > 600 &&
+                                    deviceWidth < 800) {
+                                  return 17.0;
+                                } // phone medium
+                                else if (deviceWidth < 600) {
+                                  return 14.5;
+                                } // phone small
+                              }()),
+                              color: provider.textSelected[id]
+                                  ? Colors.white
+                                  : Color.fromRGBO(112, 112, 112, 1.00)),
+                        ),
                 ),
               ),
             ));
