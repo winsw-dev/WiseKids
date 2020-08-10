@@ -37,6 +37,7 @@ class _UnityARBookState extends State<UnityARBook> {
   ///////////////////////////////////////////////////////////////////////////////
 
   UnityWidgetController _unityWidgetController;
+  var swipeController = new SwiperController();
   //double _sliderValue = 0.0;
 
   ///////////// disable debuging in release mode
@@ -45,6 +46,7 @@ class _UnityARBookState extends State<UnityARBook> {
   /////////////////////////////////
 
   bool _perventMultipleTab = true;
+  bool _interactiveSwitch = true;
 
   //////////////////////////////////// read time
   var watch = Stopwatch();
@@ -68,7 +70,7 @@ class _UnityARBookState extends State<UnityARBook> {
                 .currentKids]['readBook']
             .length >
         0) {
-           Provider.of<DataProvider>(context, listen: false).resetToArMode();
+      Provider.of<DataProvider>(context, listen: false).resetToArMode();
       reloadSession();
       Provider.of<AudioProvider>(context, listen: false)
           .playSoundEffect("achievement1", 0.5);
@@ -84,7 +86,7 @@ class _UnityARBookState extends State<UnityARBook> {
         child: Container(),
       );
     } else {
-       Provider.of<DataProvider>(context, listen: false).resetToArMode();
+      Provider.of<DataProvider>(context, listen: false).resetToArMode();
       //////////////////////////// collected Sticker page
       reloadSession();
       Provider.of<AudioProvider>(context, listen: false).playCongratTheme2();
@@ -106,6 +108,890 @@ class _UnityARBookState extends State<UnityARBook> {
       child: Container(),
     );
   }
+
+  ///////////////////////////////////////////////////////// book mode pic asset
+
+  /////////////////////////////////////// Boy
+  /////////////////////////////// very easy
+  List<Image> levelVeryEasyBoy = [
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd7.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+  ////////////////////////////// Easy
+  //////////////////////////////
+  List<Image> levelEasyBoy = [
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+  ////////////////////////////// Normal
+  //////////////////////////////
+  List<Image> levelNormalBoy = [
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+
+  ////////////////////////////// Hard
+  //////////////////////////////
+  List<Image> levelHardBoy = [
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd7.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/boy/Todd16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+
+  /////////////////////////////////////// Cat
+  /////////////////////////////// very easy
+  List<Image> levelVeryEasyCat = [
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat7.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+  ////////////////////////////// Easy
+  //////////////////////////////
+  List<Image> levelEasyCat = [
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+  ////////////////////////////// Normal
+  //////////////////////////////
+  List<Image> levelNormalCat = [
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+
+  ////////////////////////////// Hard
+  //////////////////////////////
+  List<Image> levelHardCat = [
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat7.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/cat/Cat16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+
+  /////////////////////////////////////// Girl
+  /////////////////////////////// very easy
+  List<Image> levelVeryEasyGirl = [
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl7.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+  ////////////////////////////// Easy
+  //////////////////////////////
+  List<Image> levelEasyGirl = [
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+  ////////////////////////////// Normal
+  //////////////////////////////
+  List<Image> levelNormalGirl = [
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
+
+  ////////////////////////////// Hard
+  //////////////////////////////
+  List<Image> levelHardGirl = [
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl1.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl2.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl3.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl4.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl5.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl6.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl7.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl8.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl9.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl10.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl11.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl12.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl13.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl14.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl15.png',
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'assets/images/arUI/normalBook/girl/Girl16.png',
+      fit: BoxFit.contain,
+    ),
+  ];
 
   /* CustomPopupMenu _selectedChoices = choices[0];
 
@@ -143,81 +1029,61 @@ class _UnityARBookState extends State<UnityARBook> {
           1) {
         if (page == 1) {
           Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName likes candy.', true);
+              .setInputSubtitle('$kidsName ate candy every day.', true);
         } else if (page == 2) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'Dad told $kidsName to brush her teeth after she ate candy.',
               true);
         } else if (page == 3) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName brushed her teeth.', true);
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              '$kidsName ate candy. And she didn\'t brush her teeth.', true);
         } else if (page == 4) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'But she ate candies before her bedtime.', true);
+              'One night, she dreamed about the candy land.', true);
         } else if (page == 5) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'One night, $kidsName slept with candy in her mouth.', true);
+              '$kidsName walked around the candy land.', true);
         } else if (page == 6) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('She dreamed about the candy land.', true);
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Candy was delicious. She ate candies happily.', true);
         } else if (page == 7) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName walked around and ate candies.', true);
+              'Suddenly, $kidsName felt pain in her mouth.', true);
         } else if (page == 8) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName felt pain in her mouth.', true);
-        } else if (page == 9) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'She looked at the mirror and opened her mouth.', true);
+        } else if (page == 9) {
+          Provider.of<DataProvider>(context, listen: false)
+              .setInputSubtitle('Something moved in her mouth.', true);
         } else if (page == 10) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Something moved in her mouth, $kidsName screamed.', true);
+              '$kidsName tried to pick them out but she couldn\'t. Could anyone please help $kidsName?',
+              true);
         } else if (page == 11) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName tried to pick them out but she couldn\'t.', true);
+              'Ten candy monsters left, but her teeth decayed.', false);
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
         } else if (page == 12) {
           Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Could anyone please help $kidsName?', true);
+              .setInputSubtitle('$kidsName woke up and cried.', true);
         } else if (page == 13) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'There were ten candy monsters in $kidsName\'s mouth.', false);
-          _showArInteractiveDialog();
+              'Dad came to see $kidsName. Dad took her to see the dentist.',
+              true);
         } else if (page == 14) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Candy monsters left, but her teeth decayed.', true);
+              '“Don\'t eat a lot of sweets and brush your teeth twice a day.” said dentist',
+              true);
         } else if (page == 15) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName woke up and felt pain in her teeth then she cried.',
+              '$kidsName promised to brush her teeth twice a day after eating sweets.',
               true);
         } else if (page == 16) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Dad came to see $kidsName.', true);
-        } else if (page == 17) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Dad saw candy on $kidsName\'s bed.', true);
-        } else if (page == 18) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'He knew that $kidsName ate candies before sleep.', true);
-        } else if (page == 19) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Dad took $kidsName to see the dentist.', true);
-        } else if (page == 20) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'The dentist treated $kidsName\'s teeth.', true);
-        } else if (page == 21) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Dentist told her not to eat dessert too much and brushed her teeth after eating twice a day.',
-              true);
-        } else if (page == 22) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName promised to her dad.', true);
-        } else if (page == 23) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName brushed her teeth twice a day and she won\'t eat candy before sleep again.',
-              true);
-        } else if (page == 24) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName now has clean white teeth and never has a toothache again.',
+              '$kidsName has clean white teeth and never has a toothache again.',
               true);
         }
       }
@@ -255,7 +1121,10 @@ class _UnityARBookState extends State<UnityARBook> {
               '$kidsName tried to pick them out but she couldn\'t. Could anyone please help $kidsName?',
               true);
         } else if (page == 9) {
-          _showArInteractiveDialog();
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'There were ten candy monsters in $kidsName\'s mouth.', false);
         } else if (page == 10) {
@@ -326,7 +1195,10 @@ class _UnityARBookState extends State<UnityARBook> {
               '$kidsName tries to pick them out but she can\'t. Could anyone please help $kidsName?',
               true);
         } else if (page == 9) {
-          _showArInteractiveDialog();
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'There are ten candy monsters in $kidsName\'s mouth.', false);
         } else if (page == 10) {
@@ -407,7 +1279,10 @@ class _UnityARBookState extends State<UnityARBook> {
               '$kidsName tried to pick them out with her fingers but she couldn\'t. Could anyone please help $kidsName?',
               true);
         } else if (page == 12) {
-          _showArInteractiveDialog();
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               '$kidsName found that there were ten candy monsters in $kidsName\'s mouth.',
               false);
@@ -453,81 +1328,61 @@ class _UnityARBookState extends State<UnityARBook> {
           1) {
         if (page == 1) {
           Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName likes candy.', true);
+              .setInputSubtitle('$kidsName ate candy every day.', true);
         } else if (page == 2) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'Dad told $kidsName to brush his teeth after he ate candy.',
               true);
         } else if (page == 3) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName brushed his teeth.', true);
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              '$kidsName ate candy. And he didn\'t brush his teeth.', true);
         } else if (page == 4) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('But he ate candies before his bedtime.', true);
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'One night, he dreamed about the candy land.', true);
         } else if (page == 5) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'One night, $kidsName slept with candy in his mouth.', true);
+              '$kidsName walked around the candy land.', true);
         } else if (page == 6) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('He dreamed about the candy land.', true);
+          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
+              'Candy was delicious. He ate candies happily.', true);
         } else if (page == 7) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName walked around and ate candies.', true);
+              'Suddenly, $kidsName felt pain in his mouth.', true);
         } else if (page == 8) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName felt pain in his mouth.', true);
-        } else if (page == 9) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'He looked at the mirror and opened his mouth.', true);
+        } else if (page == 9) {
+          Provider.of<DataProvider>(context, listen: false)
+              .setInputSubtitle('Something moved in his mouth.', true);
         } else if (page == 10) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Something moved in his mouth, $kidsName screamed.', true);
+              '$kidsName tried to pick them out but he couldn\'t. Could anyone please help $kidsName?',
+              true);
         } else if (page == 11) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName tried to pick them out but he couldn\'t.', true);
+              'Ten candy monsters left, but his teeth decayed.', false);
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
         } else if (page == 12) {
           Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Could anyone please help $kidsName?', true);
+              .setInputSubtitle('$kidsName woke up and cried.', true);
         } else if (page == 13) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'There were ten candy monsters in $kidsName\'s mouth.', false);
-          _showArInteractiveDialog();
+              'Dad came to see $kidsName. Dad took he to see the dentist.',
+              true);
         } else if (page == 14) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Candy monsters left, but his teeth decayed.', true);
+              '“Don\'t eat a lot of sweets and brush your teeth twice a day.” said dentist',
+              true);
         } else if (page == 15) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName woke up and felt pain in his teeth then he cried.',
+              '$kidsName promised to brush his teeth twice a day after eating sweets.',
               true);
         } else if (page == 16) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Dad came to see $kidsName.', true);
-        } else if (page == 17) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Dad saw candy on $kidsName\'s bed.', true);
-        } else if (page == 18) {
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'He knew that $kidsName ate candies before sleep.', true);
-        } else if (page == 19) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('Dad took $kidsName to see the dentist.', true);
-        } else if (page == 20) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'The dentist treated $kidsName\'s teeth.', true);
-        } else if (page == 21) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              'Dentist told him not to eat dessert too much and brushed his teeth after eating twice a day.',
-              true);
-        } else if (page == 22) {
-          Provider.of<DataProvider>(context, listen: false)
-              .setInputSubtitle('$kidsName promised to his dad.', true);
-        } else if (page == 23) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName brushed his teeth twice a day and he won\'t eat candy before sleep again.',
-              true);
-        } else if (page == 24) {
-          Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
-              '$kidsName now has clean white teeth and never has a toothache again.',
+              '$kidsName has clean white teeth and never has a toothache again.',
               true);
         }
       }
@@ -565,7 +1420,10 @@ class _UnityARBookState extends State<UnityARBook> {
               '$kidsName tried to pick them out but he couldn\'t. Could anyone please help $kidsName?',
               true);
         } else if (page == 9) {
-          _showArInteractiveDialog();
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'There were ten candy monsters in $kidsName\'s mouth.', false);
         } else if (page == 10) {
@@ -636,7 +1494,10 @@ class _UnityARBookState extends State<UnityARBook> {
               '$kidsName tries to pick them out but he can\'t. Could anyone please help $kidsName?',
               true);
         } else if (page == 9) {
-          _showArInteractiveDialog();
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               'There are ten candy monsters in $kidsName\'s mouth.', false);
         } else if (page == 10) {
@@ -717,7 +1578,10 @@ class _UnityARBookState extends State<UnityARBook> {
               '$kidsName tried to pick them out with his fingers but he couldn\'t. Could anyone please help $kidsName?',
               true);
         } else if (page == 12) {
-          _showArInteractiveDialog();
+          if (_interactiveSwitch) {
+            _showArInteractiveDialog();
+            _interactiveSwitch = false;
+          }
           Provider.of<DataProvider>(context, listen: false).setInputSubtitle(
               '$kidsName found that there were ten candy monsters in $kidsName\'s mouth.',
               false);
@@ -832,78 +1696,470 @@ class _UnityARBookState extends State<UnityARBook> {
                     Container(
                       color: Colors.white,
                     ),
-                    AbsorbPointer(
-                      ignoringSemantics: true,
-                      child: Swiper(
-                        itemBuilder: (BuildContext context, int index) {
-                          int bookIndex = index + 1;
-                          return Stack(
-                            children: <Widget>[
-                              //////////////////////////////////// book pic
-                              Positioned.fill(
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Image.asset(
-                                    'assets/images/arUI/normalBook/Todd$bookIndex.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                              //////////////////////////////////// Subtitle
-                              Positioned.fill(
-                                child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      width: deviceWidth * 0.6,
-                                      margin: EdgeInsets.only(
-                                        top: (() {
-                                          if (deviceWidth > 1100) {
-                                            return deviceHeight > 500
-                                                ? deviceWidth * 0.02
-                                                : deviceWidth * 0.02;
-                                          } // Big tablet
-                                          else if (deviceWidth < 1100 &&
-                                              deviceWidth > 910) {
-                                            return 30.0;
-                                          } // normal tablet
-                                          else if (deviceWidth < 910 &&
-                                              deviceWidth > 800) {
-                                            return 20.0;
-                                          } // phone large
-                                          else if (deviceWidth > 600 &&
-                                              deviceWidth < 800) {
-                                            return 17.0;
-                                          } // phone medium
-                                          else if (deviceWidth < 600) {
-                                            return 14.5;
-                                          } // phone small
-                                        }()),
+                    Swiper(
+                      controller: swipeController,
+                      loop: false,
+                      //index: 1,
 
-                                        /* deviceHeight > 500
-                                            ? deviceWidth * 0.02
-                                            : deviceWidth * 0.02, */
-                                      ),
-                                      child: Consumer<DataProvider>(
-                                        builder: (context, provider, child) =>
-                                            Wrap(
-                                                alignment: WrapAlignment.center,
-                                                runAlignment:
-                                                    WrapAlignment.center,
-                                                children:
-                                                    provider.subtitleItems),
-                                      ),
-                                    )),
-                              ),
-                            ],
-                          );
-                        },
-                        itemCount: 16,
-                        loop: false,
-                        index: bookModePageIndex-1,
+                      /* index: (() {
+                        return page - 1;
+                      }()), */
+                      //pagination: new SwiperPagination(),
+                      onIndexChanged: (index) {
+                        var oldPage = page;
 
-                        //itemWidth: 300.0,
-                        //layout: SwiperLayout.DEFAULT,
-                      ),
+                        setState(() {
+                          page = index + 1;
+                        });
+
+                        subtite();
+                        if (oldPage < page) {
+                          print('nextPage******************');
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              1) {
+                            if (page == 3 ||
+                                page == 5 ||
+                                page == 8 ||
+                                page == 11 ||
+                                page == 13 ||
+                                page == 15) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'forwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              2) {
+                            if (page == 3 ||
+                                page == 5 ||
+                                page == 6 ||
+                                page == 11 ||
+                                page == 14 ||
+                                page == 17) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'forwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              3) {
+                            if (page == 3 ||
+                                page == 5 ||
+                                page == 6 ||
+                                page == 11 ||
+                                page == 13 ||
+                                page == 16) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'forwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              4) {
+                            if (page == 3 ||
+                                page == 5 ||
+                                page == 8 ||
+                                page == 14 ||
+                                page == 16 ||
+                                page == 20) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'forwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+                        } else {
+                          print('backPage******************');
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              1) {
+                            if (page == 2 ||
+                                page == 5 ||
+                                page == 7 ||
+                                page == 14 ||
+                                page == 18 ||
+                                page == 23) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'backwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              2) {
+                            if (page == 2 ||
+                                page == 4 ||
+                                page == 5 ||
+                                page == 10 ||
+                                page == 13 ||
+                                page == 16) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'backwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              3) {
+                            if (page == 2 ||
+                                page == 4 ||
+                                page == 5 ||
+                                page == 10 ||
+                                page == 12 ||
+                                page == 15) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'backwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+                          if (Provider.of<DataProvider>(context, listen: false)
+                                  .kidsContentLevel[Provider.of<DataProvider>(
+                                      context,
+                                      listen: false)
+                                  .currentKids] ==
+                              4) {
+                            if (page == 2 ||
+                                page == 4 ||
+                                page == 7 ||
+                                page == 13 ||
+                                page == 15 ||
+                                page == 19) {
+                              !debugingMode
+                                  ? _unityWidgetController.postMessage(
+                                      'pageController',
+                                      'backwardScene',
+                                      '',
+                                    )
+                                  : null;
+                            }
+                          }
+                        }
+                      },
+                      itemCount: (() {
+                        if (Provider.of<DataProvider>(context, listen: false)
+                                .kidsContentLevel[Provider.of<DataProvider>(
+                                    context,
+                                    listen: false)
+                                .currentKids] ==
+                            1) {
+                          return 16;
+
+                          /// very easy
+                        } else if (Provider.of<DataProvider>(context,
+                                    listen: false)
+                                .kidsContentLevel[Provider.of<DataProvider>(
+                                    context,
+                                    listen: false)
+                                .currentKids] ==
+                            2) {
+                          return 17;
+
+                          /// easy
+                        } else if (Provider.of<DataProvider>(context,
+                                    listen: false)
+                                .kidsContentLevel[Provider.of<DataProvider>(
+                                    context,
+                                    listen: false)
+                                .currentKids] ==
+                            3) {
+                          return 16;
+
+                          /// normal
+                        } else if (Provider.of<DataProvider>(context,
+                                    listen: false)
+                                .kidsContentLevel[Provider.of<DataProvider>(
+                                    context,
+                                    listen: false)
+                                .currentKids] ==
+                            4) {
+                          return 20;
+
+                          /// hard
+                        }
+                      }()),
+                      fade: 0.0,
+                      itemBuilder: (BuildContext context, int index) {
+                        int bookIndex = index + 1;
+                        return Stack(
+                          children: <Widget>[
+                            //////////////////////////////////// book pic
+                            Positioned.fill(
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: (() {
+                                  ////////////////////////////////////// boy
+                                  if (Provider.of<DataProvider>(context,
+                                              listen: false)
+                                          .avatar[Provider.of<DataProvider>(
+                                              context,
+                                              listen: false)
+                                          .currentKids] ==
+                                      'boy') {
+                                    if (Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        1) {
+                                      return levelVeryEasyBoy[index];
+
+                                      /// very easy
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        2) {
+                                      return levelEasyBoy[index];
+
+                                      /// easy
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        3) {
+                                      return levelNormalBoy[index];
+
+                                      /// normal
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        4) {
+                                      return levelHardBoy[index];
+
+                                      /// hard
+                                    }
+                                  }
+                                  ///////////////////////////// girl
+                                  if (Provider.of<DataProvider>(context,
+                                              listen: false)
+                                          .avatar[Provider.of<DataProvider>(
+                                              context,
+                                              listen: false)
+                                          .currentKids] ==
+                                      'girl') {
+                                    if (Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        1) {
+                                      return levelVeryEasyGirl[index];
+
+                                      /// very easy
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        2) {
+                                      return levelEasyGirl[index];
+
+                                      /// easy
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        3) {
+                                      return levelNormalGirl[index];
+
+                                      /// normal
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        4) {
+                                      return levelHardGirl[index];
+
+                                      /// hard
+                                    }
+                                  }
+                                  ///////////////////////////// cat
+                                  if (Provider.of<DataProvider>(context,
+                                              listen: false)
+                                          .avatar[Provider.of<DataProvider>(
+                                              context,
+                                              listen: false)
+                                          .currentKids] ==
+                                      'cat') {
+                                    if (Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        1) {
+                                      return levelVeryEasyCat[index];
+
+                                      /// very easy
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        2) {
+                                      return levelEasyCat[index];
+
+                                      /// easy
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        3) {
+                                      return levelNormalCat[index];
+
+                                      /// normal
+                                    } else if (Provider.of<DataProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .kidsContentLevel[
+                                            Provider.of<DataProvider>(context,
+                                                    listen: false)
+                                                .currentKids] ==
+                                        4) {
+                                      return levelHardCat[index];
+
+                                      /// hard
+                                    }
+                                  }
+                                }()),
+                              ),
+                            ),
+                            //////////////////////////////////// Subtitle
+                            Positioned.fill(
+                              child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    width: deviceWidth * 0.6,
+                                    margin: EdgeInsets.only(
+                                      top: (() {
+                                        if (deviceWidth > 1100) {
+                                          return deviceHeight > 500
+                                              ? deviceWidth * 0.02
+                                              : deviceWidth * 0.04;
+                                        } // Big tablet
+                                        else if (deviceWidth < 1100 &&
+                                            deviceWidth > 910) {
+                                          return deviceHeight > 500
+                                              ? deviceWidth * 0.02
+                                              : deviceWidth * 0.04;
+                                        } // normal tablet
+                                        else if (deviceWidth < 910 &&
+                                            deviceWidth > 800) {
+                                          return deviceHeight > 500
+                                              ? deviceWidth * 0.02
+                                              : deviceWidth * 0.04;
+                                        } // phone large
+                                        else if (deviceWidth > 600 &&
+                                            deviceWidth < 800) {
+                                          return deviceHeight > 500
+                                              ? deviceWidth * 0.02
+                                              : deviceWidth * 0.04;
+                                        } // phone medium
+                                        else if (deviceWidth < 600) {
+                                          return deviceHeight > 500
+                                              ? deviceWidth * 0.02
+                                              : deviceWidth * 0.04;
+                                        } // phone small
+                                      }()),
+
+                                      /* deviceHeight > 500
+                                          ? deviceWidth * 0.02
+                                          : deviceWidth * 0.02, */
+                                    ),
+                                    child: Consumer<DataProvider>(
+                                      builder: (context, provider, child) =>
+                                          Wrap(
+                                              alignment: WrapAlignment.center,
+                                              runAlignment:
+                                                  WrapAlignment.center,
+                                              children: provider.subtitleItems),
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        );
+                      },
+
+                      //itemWidth: 300.0,
+                      //layout: SwiperLayout.DEFAULT,
                     ),
                     /* Center(
                       child: Image.asset(
@@ -948,7 +2204,6 @@ class _UnityARBookState extends State<UnityARBook> {
                 child: GestureDetector(
                   onTap: _perventMultipleTab
                       ? () async {
-                        
                           !debugingMode ? reloadSession() : null;
                           setState(() {
                             _perventMultipleTab = false;
@@ -961,7 +2216,8 @@ class _UnityARBookState extends State<UnityARBook> {
                           Provider.of<AudioProvider>(context, listen: false)
                               .playCandyMonsterTheme();
                           Navigator.pop(context);
-                          Provider.of<DataProvider>(context, listen: false).resetToArMode();
+                          Provider.of<DataProvider>(context, listen: false)
+                              .resetToArMode();
                         }
                       : null,
                   child: Container(
@@ -1024,10 +2280,22 @@ class _UnityARBookState extends State<UnityARBook> {
                           Consumer<DataProvider>(
                             builder: (context, provider, child) =>
                                 GestureDetector(
-                              onTap: () {
-                                
+                              onTap: () async {
+                                Provider.of<AudioProvider>(context,
+                                        listen: false)
+                                    .playSoundEffect("click2", 1.0);
+
                                 provider.toggleArMode();
+                                provider.disableSpeakWhenSwitchModeFunc();
                                 subtite();
+                                await Future.delayed(
+                                    const Duration(milliseconds: 50), () {
+                                  swipeController.move(page - 1,
+                                      animation: false);
+                                });
+
+                                provider.enableSpeakWhenSwitchModeFunc();
+
                                 /*   print('tab3D! Send Char == ' +
                                   Provider.of<DataProvider>(context, listen: false)
                                       .avatar[Provider.of<DataProvider>(context,
@@ -1082,7 +2350,7 @@ class _UnityARBookState extends State<UnityARBook> {
                               : deviceHeight * (290 / 1024),
                           color: provider.arMode
                               ? Color.fromRGBO(255, 255, 255, 0.93)
-                              : Color.fromRGBO(255, 255, 255, 0.00),
+                              : null,
                           child: Row(
                             children: <Widget>[
                               //////////////////////// back Btn
@@ -1200,7 +2468,7 @@ class _UnityARBookState extends State<UnityARBook> {
       if (Provider.of<DataProvider>(context, listen: false).kidsContentLevel[
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
           1) {
-        limitedPageFollowContentLevel = 24;
+        limitedPageFollowContentLevel = 16;
       } else if (Provider.of<DataProvider>(context, listen: false)
                   .kidsContentLevel[
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
@@ -1221,8 +2489,11 @@ class _UnityARBookState extends State<UnityARBook> {
       setState(() {
         if (page <= limitedPageFollowContentLevel) {
           page++;
+          swipeController.next(animation: true);
         }
       });
+      //swipeController.move(page - 1, animation: true);
+
       subtite();
       ////////////////////////// finished reading
       if (page > limitedPageFollowContentLevel) {
@@ -1238,36 +2509,19 @@ class _UnityARBookState extends State<UnityARBook> {
       if (Provider.of<DataProvider>(context, listen: false).kidsContentLevel[
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
           1) {
-        if (Provider.of<DataProvider>(context, listen: false).arMode) {
-          if (page == 3 ||
-              page == 6 ||
-              page == 8 ||
-              page == 15 ||
-              page == 19 ||
-              page == 24) {
-            !debugingMode
-                ? _unityWidgetController.postMessage(
-                    'pageController',
-                    'forwardScene',
-                    '',
-                  )
-                : null;
-          }
-        } else if (!Provider.of<DataProvider>(context, listen: false).arMode) {
-          if (page == 3 ||
-              page == 6 ||
-              page == 8 ||
-              page == 15 ||
-              page == 19 ||
-              page == 24) {
-            !debugingMode
-                ? _unityWidgetController.postMessage(
-                    'pageController',
-                    'forwardScene',
-                    '',
-                  )
-                : null;
-          }
+        if (page == 3 ||
+            page == 5 ||
+            page == 8 ||
+            page == 11 ||
+            page == 13 ||
+            page == 15) {
+          !debugingMode
+              ? _unityWidgetController.postMessage(
+                  'pageController',
+                  'forwardScene',
+                  '',
+                )
+              : null;
         }
       }
       if (Provider.of<DataProvider>(context, listen: false).kidsContentLevel[
@@ -1332,8 +2586,11 @@ class _UnityARBookState extends State<UnityARBook> {
       setState(() {
         if (page > 1) {
           page--;
+          swipeController.previous(animation: true);
         }
       });
+      //swipeController.move(page - 1, animation: true);
+
       subtite();
       if (Provider.of<DataProvider>(context, listen: false).kidsContentLevel[
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
@@ -1428,13 +2685,19 @@ class _UnityARBookState extends State<UnityARBook> {
                   Provider.of<DataProvider>(context, listen: false)
                       .currentKids] ==
               1) {
-            subtitleText = "$kidsName likes candy.";
+            subtitleText = "$kidsName ate candy every day.";
+            Future.delayed(const Duration(milliseconds: 500), () {
+              Provider.of<TTSProvider>(context, listen: false)
+                  .speak(subtitleText);
+            });
           } else if (Provider.of<DataProvider>(context, listen: false)
                       .kidsContentLevel[
                   Provider.of<DataProvider>(context, listen: false)
                       .currentKids] ==
               2) {
             subtitleText = "$kidsName likes to eat dessert everyday.";
+            Provider.of<TTSProvider>(context, listen: false)
+                .speak(subtitleText);
           } else if (Provider.of<DataProvider>(context, listen: false)
                       .kidsContentLevel[
                   Provider.of<DataProvider>(context, listen: false)
@@ -1442,6 +2705,8 @@ class _UnityARBookState extends State<UnityARBook> {
               3) {
             subtitleText =
                 "$kidsName likes to eat dessert. Candy is her favourite.";
+            Provider.of<TTSProvider>(context, listen: false)
+                .speak(subtitleText);
           } else if (Provider.of<DataProvider>(context, listen: false)
                       .kidsContentLevel[
                   Provider.of<DataProvider>(context, listen: false)
@@ -1449,6 +2714,8 @@ class _UnityARBookState extends State<UnityARBook> {
               4) {
             subtitleText =
                 "There was a little girl named $kidsName, she likes to eat dessert everyday. Candy was one of her favourites.";
+            Provider.of<TTSProvider>(context, listen: false)
+                .speak(subtitleText);
           }
         } else {
           if (Provider.of<DataProvider>(context, listen: false)
@@ -1456,13 +2723,17 @@ class _UnityARBookState extends State<UnityARBook> {
                   Provider.of<DataProvider>(context, listen: false)
                       .currentKids] ==
               1) {
-            subtitleText = "$kidsName likes candy.";
+            subtitleText = "$kidsName ate candy every day.";
+            Provider.of<TTSProvider>(context, listen: false)
+                .speak(subtitleText);
           } else if (Provider.of<DataProvider>(context, listen: false)
                       .kidsContentLevel[
                   Provider.of<DataProvider>(context, listen: false)
                       .currentKids] ==
               2) {
             subtitleText = "$kidsName likes to eat dessert everyday.";
+            Provider.of<TTSProvider>(context, listen: false)
+                .speak(subtitleText);
           } else if (Provider.of<DataProvider>(context, listen: false)
                       .kidsContentLevel[
                   Provider.of<DataProvider>(context, listen: false)
@@ -1470,6 +2741,8 @@ class _UnityARBookState extends State<UnityARBook> {
               3) {
             subtitleText =
                 "$kidsName likes to eat dessert. Candy is his favourite.";
+            Provider.of<TTSProvider>(context, listen: false)
+                .speak(subtitleText);
           } else if (Provider.of<DataProvider>(context, listen: false)
                       .kidsContentLevel[
                   Provider.of<DataProvider>(context, listen: false)
@@ -1477,6 +2750,8 @@ class _UnityARBookState extends State<UnityARBook> {
               4) {
             subtitleText =
                 "There was a little boy named $kidsName, he likes to eat dessert everyday. Candy was one of his favourites.";
+            Provider.of<TTSProvider>(context, listen: false)
+                .speak(subtitleText);
           }
         }
       });

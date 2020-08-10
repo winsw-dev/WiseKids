@@ -136,8 +136,10 @@ class DataProvider extends ChangeNotifier {
   List<Widget> _subtitleItems = [];
   bool _allowTab = true;
   bool _arMode = true;
+  bool _disableSpeakWhenSwitchMode = true;
 
   ///////////////// An unmodifiable view
+  bool get disableSpeakWhenSwitchMode => _disableSpeakWhenSwitchMode;
   bool get ttsSwitch => _ttsSwitch;
   bool get arMode => _arMode;
   String get parentAreaLanguage => _parentAreaLanguage;
@@ -1511,15 +1513,28 @@ class DataProvider extends ChangeNotifier {
     _unityArBookContext = context;
   }
 
+  //////////////////////////////////////////////////////////////////////
+  disableSpeakWhenSwitchModeFunc() {
+    _disableSpeakWhenSwitchMode = false;
+    notifyListeners();
+  }
+
+  enableSpeakWhenSwitchModeFunc() {
+    _disableSpeakWhenSwitchMode = true;
+    notifyListeners();
+  }
+
   //////////////////////////////////////////// UnityARPage Subtitle Logic
   setInputSubtitle(String subtitle, bool speak) {
     _inputSubtitle = subtitle;
     if (_ttsSwitch) {
       if (speak) {
-        Future.delayed(const Duration(milliseconds: 100), () {
-          Provider.of<TTSProvider>(_unityArBookContext, listen: false)
-              .speak(subtitle);
-        });
+        if (_disableSpeakWhenSwitchMode) {
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+                .speak(subtitle);
+          });
+        }
       }
     }
   }
@@ -1527,8 +1542,13 @@ class DataProvider extends ChangeNotifier {
   speakAfterPlayInteractive() {
     String kids = _kidsName[_currentKids];
     if (_kidsContentLevel[_currentKids] == 1) {
-      Provider.of<TTSProvider>(_unityArBookContext, listen: false)
-          .speak('There were ten candy monsters in $kids\'s mouth.');
+      if (_avatar[_currentKids] == "girl") {
+        Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+            .speak('Ten candy monsters left, but her teeth decayed.');
+      } else {
+        Provider.of<TTSProvider>(_unityArBookContext, listen: false)
+            .speak('Ten candy monsters left, but his teeth decayed.');
+      }
     } else if (_kidsContentLevel[_currentKids] == 2) {
       Provider.of<TTSProvider>(_unityArBookContext, listen: false)
           .speak('There were ten candy monsters in $kids\'s mouth.');
@@ -1560,75 +1580,75 @@ class DataProvider extends ChangeNotifier {
     String _name = _kidsName[_currentKids].capitalize();
     if (avatar[currentKids] == 'girl') {
       if (kidsContentLevel[currentKids] == 1) {
-        _inputSubtitle = '$_name likes candy.';
-        if (_ttsSwitch) {
+        _inputSubtitle = '$_name ate candy every day.';
+        /* if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false)
-                .speak('$_name likes candy.');
+                .speak('$_name ate candy every day.');
           });
-        }
+        } */
       } else if (kidsContentLevel[currentKids] == 2) {
         _inputSubtitle = '$_name likes to eat dessert everyday.';
-        if (_ttsSwitch) {
+        /* if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false)
                 .speak('$_name likes to eat dessert everyday.');
           });
-        }
+        } */
       } else if (kidsContentLevel[currentKids] == 3) {
         _inputSubtitle =
             '$_name likes to eat dessert everyday. Candy was her favourite.';
-        if (_ttsSwitch) {
+        /*  if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
                 '$_name likes to eat dessert everyday. Candy was her favourite.');
           });
-        }
+        } */
       } else if (kidsContentLevel[currentKids] == 4) {
         _inputSubtitle =
             'There was a little girl named $_name, she likes to eat dessert everyday. Candy was one of her favourites.';
-        if (_ttsSwitch) {
+        /* if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
                 'There was a little girl named $_name, she likes to eat dessert everyday. Candy was one of her favourites.');
           });
-        }
+        } */
       }
     } else {
       if (kidsContentLevel[currentKids] == 1) {
-        _inputSubtitle = '$_name likes candy.';
-        if (_ttsSwitch) {
+        _inputSubtitle = '$_name ate candy every day.';
+        /*  if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false)
-                .speak('$_name likes candy.');
+                .speak('$_name ate candy every day.');
           });
-        }
+        } */
       } else if (kidsContentLevel[currentKids] == 2) {
         _inputSubtitle = '$_name likes to eat dessert everyday.';
-        if (_ttsSwitch) {
+        /* if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false)
                 .speak('$_name likes to eat dessert everyday.');
           });
-        }
+        } */
       } else if (kidsContentLevel[currentKids] == 3) {
         _inputSubtitle =
             '$_name likes to eat dessert everyday. Candy was his favourite.';
-        if (_ttsSwitch) {
+        /*  if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
                 '$_name likes to eat dessert everyday. Candy was his favourite.');
           });
-        }
+        } */
       } else if (kidsContentLevel[currentKids] == 4) {
         _inputSubtitle =
             'There was a little boy named $_name, he likes to eat dessert everyday. Candy was one of his favourites.';
-        if (_ttsSwitch) {
+        /* if (_ttsSwitch) {
           Future.delayed(const Duration(milliseconds: 500), () {
             Provider.of<TTSProvider>(_unityArBookContext, listen: false).speak(
                 'There was a little boy named $_name, he likes to eat dessert everyday. Candy was one of his favourites.');
           });
-        }
+        } */
       }
     }
   }

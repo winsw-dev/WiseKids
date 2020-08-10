@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.0
   flutter_unity_widget:   
     git:
       url: https://github.com/sarawin008/flutter-unity-view-widget.git
@@ -336,7 +336,9 @@ flutter:
     - assets/images/arUI/soundButton.png
     - assets/images/arUI/soundOnButton.png
     - assets/images/arUI/soundButtonMute.png
-    - assets/images/arUI/normalBook/
+    - assets/images/arUI/normalBook/boy/
+    - assets/images/arUI/normalBook/cat/
+    - assets/images/arUI/normalBook/girl/
 
 
     ########### Play
