@@ -1676,7 +1676,7 @@ class _UnityARBookState extends State<UnityARBook> {
                   )
                 : Container(),
 
-            !debugingMode
+            /* !debugingMode
                 ? Consumer<DataProvider>(
                     builder: (context, provider, child) => Visibility(
                           visible: provider.arMode,
@@ -1686,6 +1686,14 @@ class _UnityARBookState extends State<UnityARBook> {
                             onUnityMessage: onUnityMessage,
                           ),
                         ))
+                : Container(), */
+
+                !debugingMode
+                ? UnityWidget(
+                            onUnityViewCreated: onUnityCreated,
+                            isARScene: true,
+                            onUnityMessage: onUnityMessage,
+                          )
                 : Container(),
 
             Consumer<DataProvider>(
@@ -1713,6 +1721,15 @@ class _UnityARBookState extends State<UnityARBook> {
                         });
 
                         subtite();
+
+                        /* !debugingMode
+                            ? _unityWidgetController.postMessage(
+                                'pageController',
+                                'navigateToPage',
+                                page.toString(),
+                              )
+                            : null; */
+
                         if (oldPage < page) {
                           print('nextPage******************');
                           if (Provider.of<DataProvider>(context, listen: false)
@@ -2269,9 +2286,9 @@ class _UnityARBookState extends State<UnityARBook> {
                                     : deviceHeight * 0.17,
                                 child: provider.ttsSwitch
                                     ? Image.asset(
-                                        'assets/images/arUI/soundButtonMute.png')
+                                        'assets/images/arUI/soundButton.png')
                                     : Image.asset(
-                                        'assets/images/arUI/soundButton.png'),
+                                        'assets/images/arUI/soundButtonMute.png'),
                               ),
                             ),
                           ),
