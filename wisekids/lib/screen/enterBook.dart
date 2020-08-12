@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import '../provider/dataProvider.dart';
 import 'home.dart';
 import 'unityArBook.dart';
+import '../widget/slide_popup_dialog_ArLoading.dart' as arLoadingDialog;
 import '../screen/stickerCollected.dart';
 
 class EnterBook extends StatefulWidget {
@@ -69,6 +70,13 @@ class _EnterBookState extends State<EnterBook> {
 
   void _showWarningDialog() {
     warningDialog.showSlideDialog(
+      context: context,
+      child: Container(),
+    );
+  }
+
+  void _showArLoadingDialog() {
+    arLoadingDialog.showSlideDialog(
       context: context,
       child: Container(),
     );
@@ -200,6 +208,7 @@ class _EnterBookState extends State<EnterBook> {
                                     builder: (context) => UnityARBook(),
                                   ),
                                 );
+                                _showArLoadingDialog();
                               },
                               child: Container(
                                 height: deviceHeight > 500

@@ -1688,12 +1688,12 @@ class _UnityARBookState extends State<UnityARBook> {
                         ))
                 : Container(), */
 
-                !debugingMode
+            !debugingMode
                 ? UnityWidget(
-                            onUnityViewCreated: onUnityCreated,
-                            isARScene: true,
-                            onUnityMessage: onUnityMessage,
-                          )
+                    onUnityViewCreated: onUnityCreated,
+                    isARScene: true,
+                    onUnityMessage: onUnityMessage,
+                  )
                 : Container(),
 
             Consumer<DataProvider>(
@@ -1826,11 +1826,11 @@ class _UnityARBookState extends State<UnityARBook> {
                                   .currentKids] ==
                               1) {
                             if (page == 2 ||
-                                page == 5 ||
+                                page == 4 ||
                                 page == 7 ||
-                                page == 14 ||
-                                page == 18 ||
-                                page == 23) {
+                                page == 10 ||
+                                page == 12 ||
+                                page == 14) {
                               !debugingMode
                                   ? _unityWidgetController.postMessage(
                                       'pageController',
@@ -2613,11 +2613,11 @@ class _UnityARBookState extends State<UnityARBook> {
               Provider.of<DataProvider>(context, listen: false).currentKids] ==
           1) {
         if (page == 2 ||
-            page == 5 ||
+            page == 4 ||
             page == 7 ||
-            page == 14 ||
-            page == 18 ||
-            page == 23) {
+            page == 10 ||
+            page == 12 ||
+            page == 14) {
           !debugingMode
               ? _unityWidgetController.postMessage(
                   'pageController',

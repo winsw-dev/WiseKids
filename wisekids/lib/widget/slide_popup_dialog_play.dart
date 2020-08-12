@@ -504,14 +504,10 @@ class _SlideDialogPlayState extends State<SlideDialogPlay> {
                                         ? deviceHeight * (121 / 768)
                                         : deviceHeight * (170 / 768),
                                     child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child:
-                                          /* Image.asset(
-                                            'assets/images/enterBook/homeBtn.png')  */
-                                          FlareActor(
-                                              "assets/animation/Home_Btn.flr",
-                                              artboard: 'HomeBtn',
-                                              animation: 'animation'),
+                                      aspectRatio: 268 / 121,
+                                      child: FlareActor(
+                                          "assets/animation/Home_Btn_Normal.flr",
+                                          animation: 'animation'),
                                     ),
                                   ),
                                 ),
