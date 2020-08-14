@@ -1817,7 +1817,7 @@ class _UnityARBookState extends State<UnityARBook> {
                                   : null;
                             }
                           }
-                        } else {
+                        } else if(oldPage > page){
                           print('backPage******************');
                           if (Provider.of<DataProvider>(context, listen: false)
                                   .kidsContentLevel[Provider.of<DataProvider>(
