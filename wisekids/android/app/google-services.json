@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "614379155695",
+    "firebase_url": "https://wisekids-d03b3.firebaseio.com",
+    "project_id": "wisekids-d03b3",
+    "storage_bucket": "wisekids-d03b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614379155695:android:7158454ae68062f62fab1a",
+        "android_client_info": {
+          "package_name": "com.chookity.wisekids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614379155695-478u9ear5pv1anr76d0399odg0h7tdl7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkalS7wIyGB1eQA0LJB_jIXBrK2pOF2_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614379155695-478u9ear5pv1anr76d0399odg0h7tdl7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
