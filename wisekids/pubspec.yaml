@@ -26,7 +26,7 @@ dependencies:
   flutter_svg: ^0.18.0
   flutter_unity_widget:   
     git:
-      url: https://github.com/sarawin008/flutter-unity-view-widget.git
+      url: https://github.com/winsw-dev/flutter-unity-view-widget.git
   shimmer: ^1.0.1
   audioplayers: ^0.15.1
 
@@ -79,7 +79,7 @@ dependencies:
 
   image_sequence_animator:   
     git:
-      url: https://github.com/sarawin008/flutter-image-sequence-animator.git 
+      url: https://github.com/winsw-dev/flutter-image-sequence-animator.git 
 
   #image_sequence_animator: ^1.0.6
   # The following adds the Cupertino Icons font to your application.
