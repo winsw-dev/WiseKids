@@ -32,6 +32,7 @@ to run the project use flutter 1.20+
 
 ## Screenshots
 <br/>
+<img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/ar.gif" width="600"/>
 <img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/createProfile.png" width="600"/>
 <img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/homeGuestBG5.png" width="600"/>
 <img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/ar.png" width="600"/>
