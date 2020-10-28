@@ -4,7 +4,6 @@ Wisekids is a storytelling application for kids that has applies augmented reali
 
 <br/>
 <img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/cover.jpg" width="600"/>
-<img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/kids.jpg" width="600"/>
 <br/>
 
 ## Main Features
@@ -40,3 +39,4 @@ to run the project use flutter 1.20+
 <img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/kidInfoBookActivity.png" width="600"/>
 <img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/homeLoginBG5.png" width="600"/>
 <img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/Theme.png" width="600"/>
+<img src="https://github.com/winsw-dev/WiseKids/raw/master/readmePics/kids.jpg" width="600"/>
